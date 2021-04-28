@@ -58,7 +58,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int x_map = 0;
 	int y_map = 0;
 
+	int hero1HPnow = 20;
+	int hero1HPmax = 50;
 
+	char name1[] = "ゴンザレス" ;
 
 	int koboHandle = LoadGraph("Debug\\kobo.png");
 
@@ -382,6 +385,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		if (scene == menuMode) {
+			int HPX = 300; int HPY = 50;
+
+			DrawBox(HPX, HPY, HPX + 150, HPY + 340 + 100,
+				GetColor(150, 150, 255), 1);
+
+
+			DrawFormatString(HPX +20, HPY + 20 * 0, GetColor(255, 255, 255), "%s", name1); // 文字を描画する
+			DrawFormatString(HPX +20, HPY + 20 * 1, GetColor(255, 255, 255), "HP %d/%d", hero1HPnow, hero1HPmax); // 文字を描画する
+
+		
+
 			DrawBox(100, 250, 100 + 150, 250 + 40 + 100,
 				GetColor(150, 150, 255), 1);
 
@@ -532,24 +546,42 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		if (scene == itemMode) {
+			int HPX = 300; int HPY = 50;
+
+			DrawBox(HPX, HPY, HPX + 150, HPY + 340 + 100,
+				GetColor(150, 150, 255), 1);
+
+
+			DrawFormatString(HPX + 20, HPY + 20 * 0, GetColor(255, 255, 255), "%s", name1); // 文字を描画する
+			DrawFormatString(HPX + 20, HPY + 20 * 1, GetColor(255, 255, 255), "HP %d/%d", hero1HPnow, hero1HPmax); // 文字を描画する
+
+
+
+
+
+			int itemWindX = 450;
+			int itemWindY = 50;
 
 			// 道具欄の描画
-			DrawBox(350, 50 , 350 + 80+40, 50 + 180,
+			DrawBox(itemWindX, itemWindY, itemWindX + 80+40, itemWindY + 180,
 				GetColor(100, 100, 250), 1);
 
 			// カーソル描画
-			DrawBox(350, 50 + kasol2Target * 40, 350 + 80, 50 + kasol2Target * 40 + 40,
+			DrawBox(itemWindX, itemWindY + kasol2Target * 40, itemWindX + 80, itemWindY + kasol2Target * 40 + 40,
 				GetColor(250, 150, 150), 1);
 
 
-			DrawFormatString(350, 50+40 * 0, GetColor(255, 255, 255), "薬草 %d",yakusouKosuu); // 文字を描画する
-			DrawFormatString(350, 50+40 * 1, GetColor(255, 255, 255), "毒消し薬 %d", dokukesiKosuu); // 文字を描画する
+			DrawFormatString(itemWindX, itemWindY + 40 * 0, GetColor(255, 255, 255), "薬草 %d",yakusouKosuu); // 文字を描画する
+			DrawFormatString(itemWindX, itemWindY + 40 * 1, GetColor(255, 255, 255), "毒消し薬 %d", dokukesiKosuu); // 文字を描画する
+
 
 
 
 			if (CheckHitKey(KEY_INPUT_X) == 1 ) {
+				
+
 				// 道具欄は使わないので、道具欄を黒で塗りつぶすことで非表示にしている。
-				DrawBox(350, 50, 350 + 150, 50 + 180,
+				DrawBox(itemWindX, itemWindY, itemWindX + 150, itemWindY + 180,
 					GetColor(0, 0, 0), 1);
 
 
@@ -588,7 +620,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//}
 
 				// ここに着てないバグ
-				DrawFormatString(350, 250 + 150 -20, GetColor(255, 255, 255), "kkkkkkk"); // 文字を描画する
+				DrawFormatString(itemWindX, 250 + 150 -20, GetColor(255, 255, 255), "kkkkkkk"); // 文字を描画する
 
 
 			}
@@ -598,7 +630,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				DrawFormatString(250, 250 + 150, GetColor(255, 255, 255), "aaa567"); // 文字を描画する
 			}
-			// 移動の終了処理
+			// 実行処理とカウント終了処理
 			if (keyFlagZ == 1 && nyuuryokuMatiZ <= 0) {
 				keyFlagZ = 0;
 				nyuuryokuMatiZ = 30;
@@ -606,6 +638,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (kasol2Target == 0) {
 					if (yakusouKosuu > 0) {
 						yakusouKosuu = yakusouKosuu - 1;
+						hero1HPnow = hero1HPnow + 5;
+
 					}
 					if (yakusouKosuu <= 0) {
 						yakusouKosuu = 0;
