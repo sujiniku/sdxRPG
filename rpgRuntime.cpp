@@ -354,6 +354,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 				}
 
+
+				// モンスター遭遇のエンカウント判定
+				{
+					int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
+
+					int monPosiX = 4; int monPosiY = 3; // マップ上でモンスターのいる座標
+
+
+
+					if (x == monPosiX && y == monPosiY) {
+						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
+							GetColor(0, 0, 0), 1);
+						DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
+					}
+
+					if (!(x == monPosiX && y == monPosiY)) {
+						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
+							GetColor(0, 0, 0), 1);
+						DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "テスト用メッセージ"); // 文字を描画する
+
+					}
+
+					//DrawFormatString(400, 350, GetColor(255, 255, 255), "hhhhモンスターが現れた未実装"); // 文字を描画する
+
+				} // モンスター遭遇処理
+
 			}
 
 			// メニューからの帰り処理のため
@@ -650,6 +676,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (kasol2Target == 1) {
 					if (dokukesiKosuu > 0) {
 						dokukesiKosuu = dokukesiKosuu - 1;
+						hero1HPnow = hero1HPnow + 2;
 					}
 					if (dokukesiKosuu <= 0) {
 						dokukesiKosuu = 0;
