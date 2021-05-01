@@ -103,6 +103,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	int monchipDownHandle = LoadGraph("GameData\\charachip\\enemy_dot.bmp");
+	int blackchipHandle = LoadGraph("GameData\\charachip\\blackchip.bmp");
+
+
+	int blackbackHandle = LoadGraph("GameData\\picture\\blackBigBack.bmp");
+
+
 
 	int charachipUpHandle = LoadGraph("GameData\\charachip\\hero_dot_up.bmp");
 	int charachipDownHandle = LoadGraph("GameData\\charachip\\hero_dot_down.bmp");
@@ -140,6 +146,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+		DrawGraph(0, 0, blackbackHandle, true);
+
+		//DrawGraph(0, 0, blackbackHandle, true);
+
+
 
 		// マップ描画
 		for (x_mapDraw = 0; x_mapDraw <= 9; ++x_mapDraw)
@@ -163,6 +174,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// キャラチップ描画
 		{
+			if (xPosi == monPosiX && yPosi == monPosiY) {
+
+
+				// モンスター画像 クリーン洋
+				DrawGraph(30 * monPosiX , 30 * monPosiY, blackchipHandle, true);
+
+				//DrawGraph(30 * monPosiX + 50, 30 * monPosiY, monchipDownHandle, true);
+
+
+			}
+
+
+
 			// 個別の向きの画像で上書き
 			if (hero1_direction == rightward) {
 				tempHandle = charachipRightHandle;
