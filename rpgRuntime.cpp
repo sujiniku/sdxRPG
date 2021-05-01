@@ -118,7 +118,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int  tempHandle;
 	int destMovable;
 
-	DrawGraph(30 * xPosi, 30 * yPosi, charachipRightHandle, true);
+	DrawGraph(30 * xPosi, 30 * yPosi, charachipRightHandle, false);
 
 
 
@@ -158,17 +158,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			for (y_mapDraw = 0; y_mapDraw <= 6; ++y_mapDraw)
 			{
 				if (map1table[y_mapDraw][x_mapDraw] == 0) {
-					DrawGraph(30 * x_mapDraw, 30 * y_mapDraw, mapchip1Handle, true);
+					DrawGraph(30 * x_mapDraw, 30 * y_mapDraw, mapchip1Handle, false);
 				}
 				if (map1table[y_mapDraw][x_mapDraw] == 1) {
-					DrawGraph(30 * x_mapDraw, 30 * y_mapDraw, mapchip2Handle, true);
+					DrawGraph(30 * x_mapDraw, 30 * y_mapDraw, mapchip2Handle, false);
 				}
 			}
 
 		}
 
 
-		DrawGraph(30 * monPosiX, 30 * monPosiY, monchipDownHandle, true);
+		DrawGraph(30 * monPosiX, 30 * monPosiY, monchipDownHandle, false);
 
 
 
@@ -178,7 +178,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				// モンスター画像 クリーン洋
-				DrawGraph(30 * monPosiX , 30 * monPosiY, blackchipHandle, true);
+				DrawGraph(30 * monPosiX , 30 * monPosiY, blackchipHandle, false);
 
 				//DrawGraph(30 * monPosiX + 50, 30 * monPosiY, monchipDownHandle, true);
 
@@ -193,33 +193,33 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// 前半
 				if (nyuuryokuMatiLR > 20) {
-					DrawGraph(30 * xPosi, 30 * yPosi, tempHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi, tempHandle, false);
 				}
 
 				// 中盤
 				if (nyuuryokuMatiLR <= 20 && nyuuryokuMatiLR > 10) {
-					DrawGraph(30 * xPosi + 10, 30 * yPosi, tempHandle, true);
+					DrawGraph(30 * xPosi + 10, 30 * yPosi, tempHandle, false);
 				}
 
 				// 後半
 				if (nyuuryokuMatiLR <= 10 && nyuuryokuMatiLR >= 1) {
-					DrawGraph(30 * xPosi + 20, 30 * yPosi, tempHandle, true);
+					DrawGraph(30 * xPosi + 20, 30 * yPosi, tempHandle, false);
 				}
 			}
 
 			if (hero1_direction == leftward) {
 
 				if (nyuuryokuMatiLR > 20) {
-					DrawGraph(30 * xPosi, 30 * yPosi, charachipLeftHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi, charachipLeftHandle, false);
 				}
 
 				if (nyuuryokuMatiLR <= 20 && nyuuryokuMatiLR > 10) {
-					DrawGraph(30 * xPosi - 10, 30 * yPosi, charachipLeftHandle, true);
+					DrawGraph(30 * xPosi - 10, 30 * yPosi, charachipLeftHandle, false);
 				}
 
 
 				if (nyuuryokuMatiLR <= 10 && nyuuryokuMatiLR >= 1) {
-					DrawGraph(30 * xPosi - 20, 30 * yPosi, charachipLeftHandle, true);
+					DrawGraph(30 * xPosi - 20, 30 * yPosi, charachipLeftHandle, false);
 				}
 
 			}
@@ -229,16 +229,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (hero1_direction == downward) {
 
 				if (nyuuryokuMatiUD > 20) {
-					DrawGraph(30 * xPosi, 30 * yPosi - 0, charachipDownHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi - 0, charachipDownHandle, false);
 				}
 
 				if (nyuuryokuMatiUD <= 20 && nyuuryokuMatiUD > 10) {
-					DrawGraph(30 * xPosi, 30 * yPosi + 10, charachipDownHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi + 10, charachipDownHandle, false);
 				}
 
 
 				if (nyuuryokuMatiUD <= 10 && nyuuryokuMatiUD >= 1) {
-					DrawGraph(30 * xPosi, 30 * yPosi + 20, charachipDownHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi + 20, charachipDownHandle, false);
 				}
 
 			}
@@ -247,16 +247,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (hero1_direction == upward) {
 
 				if (nyuuryokuMatiUD > 20) {
-					DrawGraph(30 * xPosi, 30 * yPosi + 0, charachipUpHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi + 0, charachipUpHandle, false);
 				}
 
 				if (nyuuryokuMatiUD <= 20 && nyuuryokuMatiUD > 10) {
-					DrawGraph(30 * xPosi, 30 * yPosi - 10, charachipUpHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi - 10, charachipUpHandle, false);
 				}
 
 
 				if (nyuuryokuMatiUD <= 10 && nyuuryokuMatiUD >= 1) {
-					DrawGraph(30 * xPosi, 30 * yPosi - 20, charachipUpHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi - 20, charachipUpHandle, false);
 				}
 
 			}
