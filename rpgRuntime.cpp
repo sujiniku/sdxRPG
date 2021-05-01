@@ -43,6 +43,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+	int monPosiX = 4; int monPosiY = 3; // マップ上でモンスターのいる座標
+
+
+
 	int map1table[10][10] = {
 		{ 1,1,1,1,1,1,1,1,1,1 }, //0 y
 	{ 1,0,0,0,0,0,0,0,0,1 }, //1
@@ -55,18 +59,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-	int x_map = 0;
-	int y_map = 0;
+	int x_mapDraw = 0;
+	int y_mapDraw = 0;
 
 	int hero1HPnow = 20;
 	int hero1HPmax = 50;
 
 	char name1[] = "ゴンザレス" ;
 
-	int koboHandle = LoadGraph("Debug\\kobo.png");
+	int koboHandle = LoadGraph("GameData\\monster_graphic\\kobo.png");
 
-	int x = 2;
-	int y = 2;
+	int xPosi = 2;
+	int yPosi = 2;
 
 
 
@@ -98,7 +102,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int  kasol3Target = 0;
 
 
-
+	int monchipDownHandle = LoadGraph("GameData\\charachip\\enemy_dot.bmp");
 
 	int charachipUpHandle = LoadGraph("GameData\\charachip\\hero_dot_up.bmp");
 	int charachipDownHandle = LoadGraph("GameData\\charachip\\hero_dot_down.bmp");
@@ -108,7 +112,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int  tempHandle;
 	int destMovable;
 
-	DrawGraph(30 * x, 30 * y, charachipRightHandle, true);
+	DrawGraph(30 * xPosi, 30 * yPosi, charachipRightHandle, true);
 
 
 
@@ -138,19 +142,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		// マップ描画
-		for (x_map = 0; x_map <= 9; ++x_map)
+		for (x_mapDraw = 0; x_mapDraw <= 9; ++x_mapDraw)
 		{
-			for (y_map = 0; y_map <= 6; ++y_map)
+			for (y_mapDraw = 0; y_mapDraw <= 6; ++y_mapDraw)
 			{
-				if (map1table[y_map][x_map] == 0) {
-					DrawGraph(30 * x_map, 30 * y_map, mapchip1Handle, true);
+				if (map1table[y_mapDraw][x_mapDraw] == 0) {
+					DrawGraph(30 * x_mapDraw, 30 * y_mapDraw, mapchip1Handle, true);
 				}
-				if (map1table[y_map][x_map] == 1) {
-					DrawGraph(30 * x_map, 30 * y_map, mapchip2Handle, true);
+				if (map1table[y_mapDraw][x_mapDraw] == 1) {
+					DrawGraph(30 * x_mapDraw, 30 * y_mapDraw, mapchip2Handle, true);
 				}
 			}
 
 		}
+
+
+		DrawGraph(30 * monPosiX, 30 * monPosiY, monchipDownHandle, true);
 
 
 
@@ -162,33 +169,33 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// 前半
 				if (nyuuryokuMatiLR > 20) {
-					DrawGraph(30 * x, 30 * y, tempHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi, tempHandle, true);
 				}
 
 				// 中盤
 				if (nyuuryokuMatiLR <= 20 && nyuuryokuMatiLR > 10) {
-					DrawGraph(30 * x + 10, 30 * y, tempHandle, true);
+					DrawGraph(30 * xPosi + 10, 30 * yPosi, tempHandle, true);
 				}
 
 				// 後半
 				if (nyuuryokuMatiLR <= 10 && nyuuryokuMatiLR >= 1) {
-					DrawGraph(30 * x + 20, 30 * y, tempHandle, true);
+					DrawGraph(30 * xPosi + 20, 30 * yPosi, tempHandle, true);
 				}
 			}
 
 			if (hero1_direction == leftward) {
 
 				if (nyuuryokuMatiLR > 20) {
-					DrawGraph(30 * x, 30 * y, charachipLeftHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi, charachipLeftHandle, true);
 				}
 
 				if (nyuuryokuMatiLR <= 20 && nyuuryokuMatiLR > 10) {
-					DrawGraph(30 * x - 10, 30 * y, charachipLeftHandle, true);
+					DrawGraph(30 * xPosi - 10, 30 * yPosi, charachipLeftHandle, true);
 				}
 
 
 				if (nyuuryokuMatiLR <= 10 && nyuuryokuMatiLR >= 1) {
-					DrawGraph(30 * x - 20, 30 * y, charachipLeftHandle, true);
+					DrawGraph(30 * xPosi - 20, 30 * yPosi, charachipLeftHandle, true);
 				}
 
 			}
@@ -198,16 +205,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (hero1_direction == downward) {
 
 				if (nyuuryokuMatiUD > 20) {
-					DrawGraph(30 * x, 30 * y - 0, charachipDownHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi - 0, charachipDownHandle, true);
 				}
 
 				if (nyuuryokuMatiUD <= 20 && nyuuryokuMatiUD > 10) {
-					DrawGraph(30 * x, 30 * y + 10, charachipDownHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi + 10, charachipDownHandle, true);
 				}
 
 
 				if (nyuuryokuMatiUD <= 10 && nyuuryokuMatiUD >= 1) {
-					DrawGraph(30 * x, 30 * y + 20, charachipDownHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi + 20, charachipDownHandle, true);
 				}
 
 			}
@@ -216,16 +223,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (hero1_direction == upward) {
 
 				if (nyuuryokuMatiUD > 20) {
-					DrawGraph(30 * x, 30 * y + 0, charachipUpHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi + 0, charachipUpHandle, true);
 				}
 
 				if (nyuuryokuMatiUD <= 20 && nyuuryokuMatiUD > 10) {
-					DrawGraph(30 * x, 30 * y - 10, charachipUpHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi - 10, charachipUpHandle, true);
 				}
 
 
 				if (nyuuryokuMatiUD <= 10 && nyuuryokuMatiUD >= 1) {
-					DrawGraph(30 * x, 30 * y - 20, charachipUpHandle, true);
+					DrawGraph(30 * xPosi, 30 * yPosi - 20, charachipUpHandle, true);
 				}
 
 			}
@@ -240,8 +247,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				{
 					// 移動先予定地の入場可否の判定
 					if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyFlagRight == 0 && moving == 0) {
-						if (map1table[y][x + 1] == 1) { destMovable = 0; }
-						if (map1table[y][x + 1] == 0) { destMovable = 1; }
+						if (map1table[yPosi][xPosi + 1] == 1) { destMovable = 0; }
+						if (map1table[yPosi][xPosi + 1] == 0) { destMovable = 1; }
 
 						// 入場可能ならフラグ設定
 						if (destMovable == 1) {
@@ -259,7 +266,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (keyFlagRight == 1 && nyuuryokuMatiLR <= 0) {
 						keyFlagRight = 0;
 						nyuuryokuMatiLR = 30;
-						x++;                       // 右へ1マスだけ移動
+						xPosi++;                       // 右へ1マスだけ移動
 						moving = 0;
 					}
 				}
@@ -268,8 +275,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				{
 					// 移動先予定地の入場可否の判定
 					if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyFlagLeft == 0 && moving == 0) {
-						if (map1table[y][x - 1] == 1) { destMovable = 0; }
-						if (map1table[y][x - 1] == 0) { destMovable = 1; }
+						if (map1table[yPosi][xPosi - 1] == 1) { destMovable = 0; }
+						if (map1table[yPosi][xPosi - 1] == 0) { destMovable = 1; }
 
 						// 入場可能ならフラグ設定
 						if (destMovable == 1) {
@@ -287,7 +294,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (keyFlagLeft == 1 && nyuuryokuMatiLR <= 0) {
 						keyFlagLeft = 0;
 						nyuuryokuMatiLR = 30;
-						x--;                       // 左へ1マスだけ移動
+						xPosi--;                       // 左へ1マスだけ移動
 						moving = 0;
 					}
 
@@ -298,8 +305,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				{
 					// 移動先予定地の入場可否の判定
 					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 0 && moving == 0) {
-						if (map1table[y + 1][x] == 1) { destMovable = 0; }
-						if (map1table[y + 1][x] == 0) { destMovable = 1; }
+						if (map1table[yPosi + 1][xPosi] == 1) { destMovable = 0; }
+						if (map1table[yPosi + 1][xPosi] == 0) { destMovable = 1; }
 
 						// 入場可能ならフラグ設定
 						if (destMovable == 1) {
@@ -318,7 +325,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (keyFlagDown == 1 && nyuuryokuMatiUD <= 0) {
 						keyFlagDown = 0;
 						nyuuryokuMatiUD = 30;
-						y++;                       // 下へ1マスだけ移動
+						yPosi++;                       // 下へ1マスだけ移動
 						moving = 0;
 					}
 				}
@@ -328,8 +335,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				{
 					// 移動先予定地の入場可否の判定
 					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 0 && moving == 0) {
-						if (map1table[y - 1][x] == 1) { destMovable = 0; }
-						if (map1table[y - 1][x] == 0) { destMovable = 1; }
+						if (map1table[yPosi - 1][xPosi] == 1) { destMovable = 0; }
+						if (map1table[yPosi - 1][xPosi] == 0) { destMovable = 1; }
 
 						// 入場可能ならフラグ設定
 						if (destMovable == 1) {
@@ -349,7 +356,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (keyFlagUp == 1 && nyuuryokuMatiUD <= 0 && moving == 1) {
 						keyFlagUp = 0;
 						nyuuryokuMatiUD = 30;
-						y--;                       // 上へ1マスだけ移動
+						yPosi--;                       // 上へ1マスだけ移動
 						moving = 0;
 					}
 				}
@@ -359,17 +366,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				{
 					int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
 
-					int monPosiX = 4; int monPosiY = 3; // マップ上でモンスターのいる座標
+					
 
 
 
-					if (x == monPosiX && y == monPosiY) {
+					if (xPosi == monPosiX && yPosi == monPosiY) {
 						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
 							GetColor(0, 0, 0), 1);
 						DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
+
+						// モンスター画像 // デバッグ用
+						DrawGraph(300, 95, koboHandle, true);
 					}
 
-					if (!(x == monPosiX && y == monPosiY)) {
+					if (!(xPosi == monPosiX && yPosi == monPosiY)) {
 						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
 							GetColor(0, 0, 0), 1);
 						DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "テスト用メッセージ"); // 文字を描画する
@@ -405,7 +415,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DrawBox(100, 250, 100 + 150, 250 + 40 + 100,
 				GetColor(150, 150, 255), 1);
 
-			DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", x, y); // 文字を描画する
+			DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
 		} // map モードの終わり
 
@@ -436,7 +446,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			if (CheckHitKey(KEY_INPUT_X) == 0 && keyFlagX == 1 && nyuuryokuMatiX == 0) {
 				keyFlagX = 2; // マップに戻るためのxボタンの入力可能状態
-				DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", x, y); // 文字を描画する
+				DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 				DrawFormatString(100, 250 + 40, GetColor(255, 255, 255), "X受付可能"); // 文字を描画する
 			}
 
@@ -563,7 +573,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				keyFlagX = 0; // 使い終わったのでゼロに戻す 
 				nyuuryokuMatiX = 30;
 
-				DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", x, y); // 文字を描画する
+				DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
 			}
 
@@ -788,8 +798,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 
-		// モンスター画像 // デバッグ用
-		DrawGraph(10 + x, 95 + y, koboHandle, true);
+		
 
 
 		ScreenFlip(); //裏画面を表画面に反映
