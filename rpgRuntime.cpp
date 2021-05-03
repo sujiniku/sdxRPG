@@ -1,5 +1,20 @@
 #include "DxLib.h"
 
+
+
+
+#include <stdio.h> // セーブ用
+#pragma warning(disable:4996) // fopen
+
+
+
+#include <math.h>  // 切り上げ計算で使用
+
+
+
+
+
+
 int Key[256]; // キーが押されているフレーム数を格納する
 
 // キーの入力状態を更新する
@@ -24,7 +39,7 @@ int jumpRyoku1 = 50;
 
 
 
-
+static int selecting_mainmenu = 1;
 
 
 
@@ -91,7 +106,6 @@ int nyuuryokuMatiZ = 30;
 int waitKasol = 30;
 
 
-int kasolTarget = 0;
 int kasol2Target = 0;
 int kasol3Target = 0;
 
@@ -533,7 +547,8 @@ static int mode2_mode_scene = 0;
 
 static int selecting_OP = 1;
 
-static int selecting_mainmenu = 1;
+static int 
+;
 
 
 static int cursol_stop;
@@ -1854,6 +1869,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (mode_scene == MODE_MENU) {
 			int HPX = 300; int HPY = 50;
 
+			// ウィンドウ欄
 			DrawBox(HPX, HPY, HPX + 150, HPY + 340 + 100,
 				GetColor(150, 150, 255), 1);
 
@@ -1897,13 +1913,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			if (keyFlagX == 2) {
-				// ウィンドウ欄
-					DrawBox(100, 250 + kasolTarget * 40, 100 + 80, 250 + kasolTarget * 40 +40,
+				// カーソル
+					DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
 						GetColor(250, 150, 150), 1);
 
 					// コマンド欄
 				DrawFormatString(100+20, 250, GetColor(255, 255, 255), "道具"); // 文字を描画する
-				DrawFormatString(100+20, 250 + 40, GetColor(255, 255, 255), "特技"); // 文字を描画する
+				DrawFormatString(100+20, 250 + 40, GetColor(255, 255, 255), "装備"); // 文字を描画する
 
 
 
@@ -1932,17 +1948,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (keyFlagUp == 1 && waitKasol <= 0) {
 						keyFlagUp = 0;
 						waitKasol = 30;
-						kasolTarget--;                       // 上へ1マスだけ移動
+						selecting_mainmenu--;                       // 上へ1マスだけ移動
 						moving = 0;
 					}
 
 
-					if (kasolTarget < 0) {
-						kasolTarget = 0;
+					if (selecting_mainmenu < 0) {
+						selecting_mainmenu = 0;
 					}
 
-					if (kasolTarget >= 3) {
-						kasolTarget = 3;
+					if (selecting_mainmenu >= 3) {
+						selecting_mainmenu = 3;
 					}
 					moving = 0;
 				}
@@ -1973,17 +1989,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (keyFlagDown == 1 && waitKasol <= 0) {
 						keyFlagDown = 0;
 						waitKasol = 20;
-						kasolTarget++;                       // 下へ1マスだけ移動
+						selecting_mainmenu++;                       // 下へ1マスだけ移動
 						moving = 0;
 					}
 
 
-					if (kasolTarget < 0) {
-						kasolTarget = 0;
+					if (selecting_mainmenu < 1) {
+						selecting_mainmenu = 1;
 					}
 
-					if (kasolTarget >= 3) {
-						kasolTarget = 3;
+					if (selecting_mainmenu >= 3) {
+						selecting_mainmenu = 3;
 					}
 
 					moving = 0;
@@ -1994,18 +2010,179 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				if (CheckHitKey(KEY_INPUT_Z) == 1) {
 
-					if (kasolTarget == 0) {
+					if (selecting_mainmenu == 1) {
 						mode_scene = itemModeMain;
 						DrawFormatString(100 + 170, 250, GetColor(255, 255, 255), "道具を選びました未実装"); // 文字を描画する
 						nyuuryokuMatiZ = 30;
 						keyFlagZ = 0;
 					}
 
-					if (kasolTarget == 1) {
-						mode_scene = skillMode;
-						DrawFormatString(100 + 170, 250, GetColor(255, 255, 255), "特技を選びました未実装"); // 文字を描画する
+					if (selecting_mainmenu == 2) {
+						mode_scene = MODE_EQUIP_MAIN;
+						DrawFormatString(100 + 170, 250, GetColor(255, 255, 255), "装備を選びました未実装"); // 文字を描画する
 						keyFlagZ = 0;
 					}
+
+
+
+
+					if (selecting_mainmenu == 3) {
+						MessageBox(NULL, TEXT("特技を使うためのコマンド（※未実装）。"), TEXT("テスト"), MB_OK);
+
+						// mode_scene = MODE_SKILL_MAIN;
+
+					}
+
+
+					if (selecting_mainmenu == 4) {
+
+						mode_scene = MODE_SAVE_MENU;
+
+
+						// OP画面の設定のセーブ
+						FILE* fp1;
+
+						fp1 = fopen("OPSetting.txt", "w");
+						{
+							fprintf(fp1, "ニューゲームかどうか: %d \n", 2); // 2なら「つづきから」に設定
+						}
+						fclose(fp1);
+
+
+						// セーブするよ
+						// ゲーム内データのセーブ
+						FILE* fp2;
+						{
+							fp2 = fopen("savedata1.txt", "w");
+							if ((fp2 = fopen("savedata1.txt", "w")) == NULL) {
+								MessageBox(NULL, TEXT("セーブが失敗しました。対象ファイルが存在しないようです。"), TEXT("メッセージ"), MB_OK);
+								break;
+							}
+							else {
+								fprintf(fp2, "現在マップ番号: %d \n", where_map);
+								fprintf(fp2, "キャラ位置x座標: %d \n", chara_x);
+								fprintf(fp2, "キャラ位置y座標: %d \n", chara_y);
+
+
+								// heros_def_list[partyNarabijyun[j]].heros_name
+								fprintf(fp2, "パーティ人数: %d \n", partyNinzuDone);
+								for (int temp = 0; temp <= partyNinzuDone - 1; ++temp) {
+									fprintf(fp2, "パーティ %d 人目のID: %d \n", temp + 1, partyNarabijyun[temp]);
+								}
+
+								fprintf(fp2, "控え人数: %d \n", hikaeNinzu);
+								for (int temp = 0; temp <= hikaeNinzu - 1; ++temp) {
+									fprintf(fp2, "控え %d 人目のID: %d \n", temp + 1, hikaeNarabijyun[temp]);
+								}
+
+								// ロードの都合により、HPのforは最大HPのforとは統合しないこと。
+								for (int temp = 0; temp <= partyNinzuDone - 1; ++temp) {
+									fprintf(fp2, "パーティ内キャラ %d 番目の現HP: %d \n", temp + 1, heros_def_list[partyNarabijyun[temp]].heros_hp);
+								}
+
+								for (int temp = 0; temp <= partyNinzuDone - 1; ++temp) {
+									fprintf(fp2, "パーティ内キャラ %d 番目の最大HP: %d \n", temp + 1, heros_def_list[partyNarabijyun[temp]].heros_hp_max);
+								}
+
+
+								for (int temp = 0; temp <= partyNinzuDone - 1; ++temp) {
+									fprintf(fp2, "パーティキャラ %d 番目の武器: %d \n", temp + 1, weapon_def_list[
+										heros_def_list[partyNarabijyun[temp]].heros_weapon1].def_id);
+								}
+
+
+								// 登録仲間のパラメーター。　一部はパーティパラと重複する
+								for (int temp = 0; temp <= tourokuNakama; ++temp) {
+									fprintf(fp2, "登録キャラ %d 番目の現HP: %d \n", temp + 1, heros_def_list[temp].heros_hp);
+								}
+
+								for (int temp = 0; temp <= tourokuNakama; ++temp) {
+									fprintf(fp2, "登録キャラ %d 番目の最大HP: %d \n", temp + 1, heros_def_list[temp].heros_hp_max);
+								}
+
+								for (int temp = 0; temp <= tourokuNakama; ++temp) {
+									fprintf(fp2, "登録キャラ %d 番目の武器: %d \n", temp + 1, weapon_def_list[
+										heros_def_list[temp].heros_weapon1].def_id);
+								}
+
+								for (int temp = 0; temp <= tourokuNakama; ++temp) {
+									fprintf(fp2, "登録キャラ %d 番目の盾: %d \n", temp + 1, shield_def_list[
+										heros_def_list[temp].heros_shield].def_id);
+								}
+
+								for (int temp = 0; temp <= tourokuNakama; ++temp) {
+									fprintf(fp2, "登録キャラ %d 番目の兜: %d \n", temp + 1, helm_def_list[
+										heros_def_list[temp].heros_helm].def_id);
+								}
+
+								for (int temp = 0; temp <= tourokuNakama; ++temp) {
+									fprintf(fp2, "登録キャラ %d 番目の経験値: %d \n", temp + 1, heros_def_list[temp].heros_exp);
+								}
+
+
+								fprintf(fp2, "所持金: %d G\n", your_money);
+
+								char aaa[100];
+
+
+								// アイテム類の所持数
+
+
+								// 使用品の所持数
+								for (int temp = 0; temp <= 3 - 1; ++temp) {
+									//WideCharToMultiByte(CP_ACP, 0, item_def_list[temp].def_name, -1, aaa, sizeof(aaa), NULL, NULL);
+									fprintf(fp2, "%s の個数: %d \n", aaa, item_have_list[temp].have_kosuu);
+								}
+
+								// 装備品の武器の所持数
+								for (int temp = 0; temp <= 3 - 1; ++temp) {
+									//WideCharToMultiByte(CP_ACP, 0, weapon_def_list[temp].def_name, -1, aaa, sizeof(aaa), NULL, NULL);
+									fprintf(fp2, "%s の個数: %d \n", aaa, weapon_have_list[temp].have_kosuu);
+								}
+
+								// 装備品の盾の所持数
+								for (int temp = 0; temp <= 3 - 1; ++temp) {
+									//WideCharToMultiByte(CP_ACP, 0, shield_def_list[temp].def_name, -1, aaa, sizeof(aaa), NULL, NULL);
+									fprintf(fp2, "%s の個数: %d \n", aaa, shield_have_list[temp].have_kosuu);
+								}
+
+
+								// 装備品のカブトの所持数
+								for (int temp = 0; temp <= 3 - 1; ++temp) {
+									//WideCharToMultiByte(CP_ACP, 0, helm_def_list[temp].def_name, -1, aaa, sizeof(aaa), NULL, NULL);
+									fprintf(fp2, "%s の個数: %d \n", aaa, helm_have_list[temp].have_kosuu);
+								}
+
+
+								fclose(fp2);
+							}
+						}
+
+						TimeCount = 0;
+						mode_scene = MODE_saving_Now; // セーブ終了後にタイマーでしばらく表示。
+						// MessageBox(NULL, TEXT("いまここ"), TEXT("メッセージ"), MB_OK);
+
+
+
+					}
+
+
+					if (selecting_mainmenu == 5) {
+						// MessageBox(NULL, TEXT("並び替えをするためのコマンド（※未実装）。"), TEXT("テスト"), MB_OK);
+
+						for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
+							partyNarabijyunBefore[temp] = partyNarabijyun[temp];
+							partyNarabijyunAfter[temp] = partyNarabijyun[temp];
+						}
+
+						whomTargetID1 = 0;
+						mode_scene = MODE_narabikae_select1;
+
+					
+					}
+
+
+
 
 				}
 			}
@@ -2489,6 +2666,192 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+		if (mode_scene == MODE_EQUIP_MAIN) {
+
+
+			// グラフィック関係
+			{
+				// 装備の表示欄
+				// メインモードは装備キャラの選択モードである
+
+				// MainGraFrontMenu();
+
+				//BrushBlue_set();
+
+				//BrushPink_set();
+
+				// Rectangle(hdc, 20 + (selecting_mainmenu - 1) * 100, 20,
+				//	100 + (selecting_mainmenu - 1) * 100, 70);
+
+				int StatsHPbaseX = 130;
+				int StatsHPbaseY = 130;
+				int offsetY = 120;
+
+
+				// 背景の青
+				//SelectObject(hdc, blue_thin_1);
+
+				DrawBox(10, 350, 500, 400,
+					GetColor(150, 150, 255), 1);
+
+				//Rectangle(hdc, 10, 350, 500, 400);
+
+				//SetBkMode(hdc, TRANSPARENT);
+				lstrcpy(mojibuf,
+					TEXT("装備を変更するキャラを選んでください。"));
+				//TextOut(hdc, 15, 350 + 10, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(15, 350 + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				for (int j = 0; j <= partyNinzuDone - 1; ++j) {
+					// 背景の青
+					// SelectObject(hdc, blue_thin_1);
+					//Rectangle(hdc, 10, 100 + offsetY * j, 300,
+					//	200 + offsetY * j);
+
+
+					DrawBox(10, 100 + offsetY * j, 300, 200 + offsetY * j,
+						GetColor(150, 150, 255), 1);
+
+
+					// カーソル
+					if (whomTargetID1 == j) {
+						//BrushPink_set();
+
+						//Rectangle(hdc,
+						//	10 + 10, 100 + 10 + 120 * (whomTargetID1),
+						//	300 - 10, 100 + 70 + 120 * (whomTargetID1));
+
+
+						DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
+							300 - 10, 100 + 70 + 120 * (whomTargetID1),
+							GetColor(255, 150, 150), 1);
+
+
+					}
+
+					//SetBkMode(hdc, TRANSPARENT);
+
+					_stprintf_s(
+						mojibuf, MAX_LENGTH, TEXT("%s"),
+						heros_def_list[partyNarabijyun[j]].heros_name);
+					//TextOut(hdc, StatsHPbaseX,
+					//	StatsHPbaseY - 25 + offsetY * j, mojibuf,
+					//	lstrlen(mojibuf));
+
+
+					DrawFormatString(StatsHPbaseX,
+						StatsHPbaseY - 25 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+					lstrcpy(mojibuf, TEXT("HP"));
+					//TextOut(hdc, StatsHPbaseX, StatsHPbaseY + offsetY * j,
+					//	mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(StatsHPbaseX, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+
+					_stprintf_s(
+						mojibuf, MAX_LENGTH, TEXT("%d"),
+						heros_def_list[partyNarabijyun[j]].heros_hp);
+					//TextOut(hdc, StatsHPbaseX + 30,
+					//	StatsHPbaseY + offsetY * j, mojibuf,
+					//	lstrlen(mojibuf));
+
+					DrawFormatString(StatsHPbaseX + 30,
+						StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+					_stprintf_s(
+						mojibuf, MAX_LENGTH, TEXT("/ %d"),
+						heros_def_list[partyNarabijyun[j]].heros_hp_max);
+					//TextOut(hdc, StatsHPbaseX + 30 * 2,
+					//	StatsHPbaseY + offsetY * j, mojibuf,
+					//	lstrlen(mojibuf));
+
+
+
+					DrawFormatString(StatsHPbaseX + 30 * 2,
+						StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+					_stprintf_s(
+						mojibuf, MAX_LENGTH, TEXT("%d"),
+						heros_def_list[partyNarabijyun[j]].heros_HP0_flag);
+					//TextOut(hdc, StatsHPbaseX,
+					//	StatsHPbaseY + 40 + offsetY * j, mojibuf,
+					//	lstrlen(mojibuf));
+
+
+					DrawFormatString(StatsHPbaseX,
+						StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+
+					if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag ==
+						1) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("戦闘不能"));
+						//TextOut(hdc, StatsHPbaseX,
+						//	StatsHPbaseY + 40 + offsetY * j, mojibuf,
+						//	lstrlen(mojibuf));
+
+						DrawFormatString(StatsHPbaseX,
+							StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+					}
+
+
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
+					//TextOut(hdc, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+				}
+
+				// そのキャラの装備項目の選択がサブモード
+			}// グラフィック関係
+
+
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && key_remain ==1) {
+			
+				key_remain = 0;
+				whomTargetID1 = whomCHARA - 1;
+
+				//mode_scene = MODE_EQUIP_EDIT;
+				beforeselect = 0;
+			
+			}
+
+
+			if (CheckHitKey(KEY_INPUT_X) == 1 ) {
+
+				filterFlag = 0;
+				mode_scene = MODE_MENU;
+
+				nyuuryokuMatiX = 30;
+				key_remain = 0;
+				keyFlagX = 1;
+			}
+
+		} // equip モードの終わり
 
 
 
