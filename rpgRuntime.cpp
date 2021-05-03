@@ -2061,8 +2061,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				GetColor(250, 150, 150), 1);
 
 
-			DrawFormatString(itemWindX, itemWindY + 40 * 0, GetColor(255, 255, 255), "–ò‘ %d",yakusouKosuu); // •¶š‚ğ•`‰æ‚·‚é
-			DrawFormatString(itemWindX, itemWindY + 40 * 1, GetColor(255, 255, 255), "“ÅÁ‚µ–ò %d", dokukesiKosuu); // •¶š‚ğ•`‰æ‚·‚é
+			DrawFormatString(itemWindX, itemWindY + 40 * 0, GetColor(255, 255, 255), "–ò‘ %d", item_have_list[1].have_kosuu); // •¶š‚ğ•`‰æ‚·‚é
+			DrawFormatString(itemWindX, itemWindY + 40 * 1, GetColor(255, 255, 255), "“ÅÁ‚µ–ò %d", item_have_list[2].have_kosuu); // •¶š‚ğ•`‰æ‚·‚é
 
 
 
@@ -2127,14 +2127,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1) {
-				if (kasol2Target==0 && yakusouKosuu >= 1) {
+				if (kasol2Target==0 && item_have_list[1].have_kosuu >= 1) {
 
 					keyFlagZ = 2;
 					nyuuryokuMatiZ = 30;
 					mode_scene = itemModeTarget;
 				}
 
-				if (kasol2Target == 1 && dokukesiKosuu >= 1) {
+				if (kasol2Target == 1 && item_have_list[2].have_kosuu >= 1) {
 
 					keyFlagZ = 2;
 					nyuuryokuMatiZ = 30;
@@ -2447,35 +2447,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+					if (item_have_list[kasol2Target +1].have_kosuu > 0) {
+						item_have_list[kasol2Target + 1].have_kosuu = item_have_list[kasol2Target + 1].have_kosuu - 1;
 
-
-					if (kasol2Target == 0) {
-						if (yakusouKosuu > 0) {
-							yakusouKosuu = yakusouKosuu - 1;
-
-							heros_def_list[kasol3Target].heros_hp = heros_def_list[kasol3Target].heros_hp + 5;
-
-
-						}
-						if (yakusouKosuu <= 0) {
-							yakusouKosuu = 0;
-						}
-
-					}
-
-					if (kasol2Target == 1) {
-						if (dokukesiKosuu > 0) {
-							dokukesiKosuu = dokukesiKosuu - 1;		
+						if (kasol2Target == 0) {
 							
-						
-							heros_def_list[kasol3Target].heros_hp = heros_def_list[kasol3Target].heros_hp + 2;
+							heros_def_list[kasol3Target].heros_hp = heros_def_list[kasol3Target].heros_hp + 5;
+						}
 
+						if (kasol2Target == 1) {
+
+							heros_def_list[kasol3Target].heros_hp = heros_def_list[kasol3Target].heros_hp + 2;
 						}
-						if (dokukesiKosuu <= 0) {
-							dokukesiKosuu = 0;
-						}
+
 
 					}
+					if (item_have_list[kasol2Target + 1].have_kosuu <= 0) {
+						item_have_list[kasol2Target + 1].have_kosuu = 0;
+					}
+
 
 
 
