@@ -134,8 +134,8 @@ enum mode { MODE_OP, MODE_LOAD, MODE_INITIAL, MODE_MAP,
 	MODE_ITEMweapon_MENU, MODE_ITEMweapon_MENU_FRONT, MODE_ITEM_WHOM, MODE_ITEM_WHOM_FRONT, 
 	
 	MODE_EQUIP_MAIN,	MODE_EQUIP_EDIT, MODE_EQUIP_EDIT2,
-	MODE2_EQUIP_HAND, MODE2_EQUIP_SHIELD, MODE2_EQUIP_HELM, MODE2_EQUIP_ARMOR,
 	
+
 	MODE_SAVE_MENU, MODE_saving_Now,
 	
 	MODE_BATTLE_COMMAND, MODE_BATTLE_NOW, MODE_BATTLE_WIN, BATTLE_Agility_proc,
@@ -145,6 +145,23 @@ enum mode { MODE_OP, MODE_LOAD, MODE_INITIAL, MODE_MAP,
 	itemModeMain, itemModeTarget, skillMode,
  };
 enum mode mode_scene = MODE_MAP;
+
+
+
+
+
+
+enum mode2 {
+
+ MODE2_EQUIP_HAND1 ,
+ MODE2_EQUIP_SHIELD ,
+ MODE2_EQUIP_HELM ,
+ MODE2_EQUIP_ARMOR
+};
+enum mode2 mode2_scene = MODE2_EQUIP_HAND1;
+
+
+
 
 
 
@@ -2829,17 +2846,47 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// そのキャラの装備項目の選択がサブモード
 			}// グラフィック関係
 
+			if (keyFlagZ == 0 && nyuuryokuMatiZ > 0) {
+				nyuuryokuMatiZ = nyuuryokuMatiZ - 1;
 
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && key_remain ==1) {
+				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+			}
+
+
+			if (keyFlagZ == 0 && nyuuryokuMatiZ <= 0) {
+				keyFlagZ = 1;
+				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+				// デバッグ用
+				// MessageBox(NULL, TEXT("ここにいる。"), TEXT("キーテスト"), MB_OK);
+
+
+			}
+
+
+
+
+
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1) {
 			
 				key_remain = 0;
 				whomTargetID1 = whomCHARA - 1;
 
-				//mode_scene = MODE_EQUIP_EDIT;
+				mode_scene = MODE_EQUIP_EDIT;
 				beforeselect = 0;
 			
 			}
 
+
+			if (keyFlagX == 0 && nyuuryokuMatiX > 0) {
+				nyuuryokuMatiX = nyuuryokuMatiX - 1;
+				keyFlagX = 1;
+				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+			}
 
 			if (CheckHitKey(KEY_INPUT_X) == 1 ) {
 
@@ -2852,6 +2899,350 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 		} // equip モードの終わり
+
+
+
+
+
+
+
+
+
+
+
+
+		if (mode_scene == MODE_EQUIP_EDIT || mode_scene == MODE_EQUIP_EDIT2) {
+			// 装備の表示欄
+			// メインモードは装備キャラの選択モードである
+			// MessageBox(NULL, TEXT("aaaaココ1"), TEXT("メッセージ"), MB_OK);
+
+
+			//MainGraFrontMenu();
+
+
+
+			// Rectangle(hdc, 20 + (selecting_mainmenu - 1) * 100, 20,
+			//	100 + (selecting_mainmenu - 1) * 100, 70);
+
+			int StatsHPbaseX = 130;
+			int StatsHPbaseY = 130;
+			int offsetY = 120;
+
+
+			// 背景の青
+			//SelectObject(hdc, blue_thin_1);
+			//Rectangle(hdc, 10, 100, 350, 300);
+
+			DrawBox(10, 100, 350, 300,
+				GetColor(150, 150, 255), 1);
+
+
+
+
+			// カーソル
+
+			DrawBox(90, (110 + 20) + 20 * (whatedit), 300 - 10,
+				(110 + 20) + 20 * (1 + whatedit),
+				GetColor(255, 150, 150), 1);
+
+
+
+
+			// 文字
+			// SetBkMode(hdc, TRANSPARENT);
+
+			int soubiYbase = 110; int soubiYper = 20;
+
+			lstrcpy(mojibuf, heros_def_list[partyNarabijyun[whomTargetID1]].heros_name);
+			//TextOut(hdc, 15, soubiYbase + soubiYper * 0, mojibuf,
+			//	lstrlen(mojibuf));
+
+			DrawFormatString(15, soubiYbase + soubiYper * 0,  GetColor(255, 255, 255), mojibuf ); // 文字を描画する
+
+
+
+
+			for (int temp = 1; temp <= 7; temp = temp + 1) {
+
+				if (temp == 1) {
+					lstrcpy(mojibuf1, TEXT("武器"));
+					lstrcpy(mojibuf2, weapon_def_list[
+						heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1].def_name);
+				}
+
+				if (temp == 2) {
+					lstrcpy(mojibuf1, TEXT("盾"));
+					lstrcpy(mojibuf2, shield_def_list[
+						heros_def_list[partyNarabijyun[whomTargetID1]].heros_shield].def_name);
+				}
+
+				if (temp == 3) {
+					lstrcpy(mojibuf1, TEXT("頭"));
+					lstrcpy(mojibuf2, helm_def_list[
+						heros_def_list[partyNarabijyun[whomTargetID1]].heros_helm].def_name);
+				}
+
+				if (temp == 4) {
+					lstrcpy(mojibuf1, TEXT("身体"));
+					lstrcpy(mojibuf2, TEXT("--------"));
+				}
+
+				if (temp == 5) {
+					lstrcpy(mojibuf1, TEXT("腕"));
+					lstrcpy(mojibuf2, TEXT("--------"));
+				}
+
+				if (temp == 6) {
+					lstrcpy(mojibuf1, TEXT("装飾品1"));
+					lstrcpy(mojibuf2, TEXT("--------"));
+				}
+
+
+				if (temp == 7) {
+					lstrcpy(mojibuf1, TEXT("装飾品2"));
+					lstrcpy(mojibuf2, TEXT("--------"));
+				}
+
+
+				//TextOut(hdc, 15, soubiYbase + soubiYper * temp,
+				//	mojibuf1, lstrlen(mojibuf1));
+				DrawFormatString(15, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf1); // 文字を描画する
+
+
+
+				//TextOut(hdc, 90, soubiYbase + soubiYper * temp,
+				//	mojibuf2, lstrlen(mojibuf2));
+				DrawFormatString(90, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf2); // 文字を描画する
+
+
+			}
+
+			int temp = 8;
+			lstrcpy(mojibuf1, TEXT("武器攻撃力"));
+			//TextOut(hdc, 15, soubiYbase + soubiYper * temp,
+			//	mojibuf1, lstrlen(mojibuf1));
+			DrawFormatString(15, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf1); // 文字を描画する
+
+
+			_stprintf_s(mojibuf2, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[whomTargetID1]].heros_bukiKougekiRyoku);
+			//TextOut(hdc, 90 + 50, soubiYbase + soubiYper * temp,
+			//	mojibuf2, lstrlen(mojibuf2));
+
+			DrawFormatString(90 + 50, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf2); // 文字を描画する
+
+
+
+
+			// 背景の青
+			//SelectObject(hdc, blue_thin_1);
+			//Rectangle(hdc, 10, 350, 500, 400);
+			DrawBox(10, 350, 500, 400,
+				GetColor(150, 150, 255), 1);
+
+			lstrcpy(mojibuf, TEXT("変更したい装備を選んでください。"));
+			//TextOut(hdc, 15, 350 + 10, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(15, 350 + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			// whatedit2
+
+
+
+			
+
+
+
+
+
+
+
+			// デバッグ文。装備個数ズレのバグ調査。
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("whatedit2: %d"), whatedit2);
+			//TextOut(hdc, 15, 350 + 10 + 20, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(15, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("iHw2: %d"), itemHairetu[whatedit2]);
+			//TextOut(hdc, 15 + 130, 350 + 10 + 20, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(15 + 130, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("wHL: %d"), weapon_have_list[heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1].have_def_id);
+			// TextOut(hdc, 15 + 130 + 100, 350 + 10 + 20, mojibuf, lstrlen(mojibuf)); 
+			DrawFormatString(15 + 130 + 100, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+			// itemHairetu[whatedit2]         weapon_have_list[heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1].have_kosuu = weapon_have_list[itemHairetu[whatedit2]].have_kosuu + 1;
+
+
+
+			if (mode_scene == MODE_EQUIP_EDIT2) {
+
+				int souWInXsta = 400;
+				int souWInXend = 580;
+
+				// 装備用アイテムのリスト表示
+				// 背景の青
+				//SelectObject(hdc, blue_thin_1);
+				//Rectangle(hdc, souWInXsta, 100, souWInXend, 300);
+				DrawBox(souWInXsta, 100, souWInXend, 300,
+					GetColor(150, 150, 255), 1);
+
+				// カーソル
+				//BrushPink_set(hdc);
+				//Rectangle(hdc, souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
+				//	(110 + 20) + 20 * (1 + whatedit2));
+				DrawBox(souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
+						(110 + 20) + 20 * (1 + whatedit2),
+					GetColor(255, 150, 150), 1);
+
+
+				weapon_have_list[0].have_kosuu = 0;
+
+
+				// 移植中
+				int itemskip = 0;
+				goukeiItem = 0;
+
+				int itemIDcount = 0;
+				int column = 1; // 装備コマンドの武器防具リストは1行なので
+
+				int xcommon;
+				int ycommon;
+
+				// SetBkMode(hdc, TRANSPARENT);
+
+
+				if (mode2_scene == MODE2_EQUIP_HAND1) {
+					for (idTemp = 0; idTemp <= 2; idTemp = idTemp + 1)
+					{
+
+						if (weapon_have_list[idTemp].have_kosuu != 0) {
+
+							xcommon = souWInXsta + 300 * floor((idTemp - itemskip) % column);
+							ycommon = 130 + 20 * floor((idTemp - itemskip) / column);
+
+							// SetBkMode(hdc, TRANSPARENT);
+							lstrcpy(mojibuf, weapon_def_list[idTemp].def_name);
+							// TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
+
+							DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d"), weapon_have_list[idTemp].have_kosuu);
+							// TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
+
+							DrawFormatString(xcommon + 130, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+							goukeiItem = goukeiItem + 1;
+
+							itemHairetu[itemIDcount] = idTemp; // これはボタン操作側で使う
+							itemIDcount = itemIDcount + 1; // これは上コードで使う
+
+						}
+
+						if (weapon_have_list[idTemp].have_kosuu == 0) {
+							itemskip = itemskip + 1;
+
+						}
+					}
+				} // ウェポン
+
+
+				// シールド
+				if (mode2_scene == MODE2_EQUIP_SHIELD) {
+					for (idTemp = 0; idTemp <= 2; idTemp = idTemp + 1)
+					{
+
+						if (shield_have_list[idTemp].have_kosuu != 0) {
+
+							xcommon = souWInXsta + 300 * floor((idTemp - itemskip) % column);
+							ycommon = 130 + 20 * floor((idTemp - itemskip) / column);
+
+							// SetBkMode(hdc, TRANSPARENT);
+							lstrcpy(mojibuf, shield_def_list[idTemp].def_name);
+							// TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
+
+
+							DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d"), shield_have_list[idTemp].have_kosuu);
+							// TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
+
+							DrawFormatString(xcommon + 130, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+							goukeiItem = goukeiItem + 1;
+
+							itemHairetu[itemIDcount] = idTemp; // これはボタン操作側で使う
+							itemIDcount = itemIDcount + 1; // これは上コードで使う
+
+						}
+
+						if (shield_have_list[idTemp].have_kosuu == 0) {
+							itemskip = itemskip + 1;
+
+						}
+					}
+
+				} // シールド
+
+
+				if (mode2_scene == MODE2_EQUIP_HELM) {
+					for (idTemp = 0; idTemp <= 2; idTemp = idTemp + 1)
+					{
+
+						if (helm_have_list[idTemp].have_kosuu != 0) {
+
+							xcommon = souWInXsta + 300 * floor((idTemp - itemskip) % column); // コピペ時、ここを更新
+							ycommon = 130 + 20 * floor((idTemp - itemskip) / column);
+
+							//SetBkMode(hdc, TRANSPARENT);
+							lstrcpy(mojibuf, helm_def_list[idTemp].def_name);  // コピペ時、ここを更新
+							//TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
+
+							DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d"), helm_have_list[idTemp].have_kosuu);  // コピペ時、ここを帰る
+							//TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
+							DrawFormatString(xcommon + 130, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+							goukeiItem = goukeiItem + 1;
+
+							itemHairetu[itemIDcount] = idTemp; // これはボタン操作側で使う
+							itemIDcount = itemIDcount + 1; // これは上コードで使う
+
+						}
+
+						if (helm_have_list[idTemp].have_kosuu == 0) {  // コピペ時、ここを帰る
+							itemskip = itemskip + 1;
+
+						}
+					}
+
+				} // ヘルム
+
+			}
+
+			if (mode_scene == MODE_EQUIP_EDIT2) {
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), weapon_def_list[itemHairetu[whatedit2]].equipPower);
+				//TextOut(hdc, 15 + 300, 350 + 10, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(15 + 300, 350 + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+			}
+		} // end of MODE_EQUIP_ 手～頭
+
 
 
 
