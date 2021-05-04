@@ -1869,7 +1869,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			// if 残り待機がゼロで、さらにXボタンが押されたら、then メニュー画面に遷移
 			if (CheckHitKey(KEY_INPUT_X) == 1 && mode_scene == MODE_MAP && keyFlagX == 0 && nyuuryokuMatiX == 0) {
-				keyFlagX = 1;
+				keyFlagX = 0;
 				mode_scene = MODE_MENU;
 				nyuuryokuMatiX = 30;
 			}
@@ -1907,29 +1907,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", x, y); // 文字を描画する
 
 
-			if (keyFlagX == 1) {
+			if (keyFlagX == 0) {
 
 				DrawFormatString(100, 250 + 40, GetColor(255, 255, 255), "カウント %d", nyuuryokuMatiX); // 文字を描画する
 				nyuuryokuMatiX = nyuuryokuMatiX - 1;
 			}
 
 			if (nyuuryokuMatiX <= 0) {
-
+				keyFlagX = 1;
 				nyuuryokuMatiX = 0;
 
 			}
 
 
 
-			if (CheckHitKey(KEY_INPUT_X) == 0 && keyFlagX == 1 && nyuuryokuMatiX == 0) {
-				keyFlagX = 2; // マップに戻るためのxボタンの入力可能状態
-				DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
-				DrawFormatString(100, 250 + 40, GetColor(255, 255, 255), "X受付可能"); // 文字を描画する
-			}
 
 
-
-			if (keyFlagX == 2) {
+			if (keyFlagX == 1) {
 				// カーソル
 					DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
 						GetColor(250, 150, 150), 1);
@@ -2036,9 +2030,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					if (selecting_mainmenu == 2) {
 						mode_scene = MODE_EQUIP_MAIN;
+						nyuuryokuMatiZ = 30;
+
 						DrawFormatString(100 + 170, 250, GetColor(255, 255, 255), "装備を選びました未実装"); // 文字を描画する
 						keyFlagZ = 0;
-						keyFlagX = 1;
+						keyFlagX = 0;
 
 
 
@@ -2210,10 +2206,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-			if (CheckHitKey(KEY_INPUT_X) == 1 && keyFlagX == 2) {
+			if (CheckHitKey(KEY_INPUT_X) == 1 && keyFlagX == 1) {
 				mode_scene = MODE_MAP;
+
 				keyFlagX = 0; // 使い終わったのでゼロに戻す 
 				nyuuryokuMatiX = 30;
+				keyFlagZ = 0; // 安全のためzもクリア
 
 				DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
@@ -2327,14 +2325,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1) {
 				if (kasol2Target==0 && item_have_list[1].have_kosuu >= 1) {
 
-					keyFlagZ = 2;
+					keyFlagZ = 0;
 					nyuuryokuMatiZ = 30;
 					mode_scene = itemModeTarget;
 				}
 
 				if (kasol2Target == 1 && item_have_list[2].have_kosuu >= 1) {
 
-					keyFlagZ = 2;
+					keyFlagZ = 0;
 					nyuuryokuMatiZ = 30;
 					mode_scene = itemModeTarget;
 				}
@@ -2522,7 +2520,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			if (nyuuryokuMatiX <= 0) {
 				nyuuryokuMatiX = 0;
-
+				keyFlagX = 1;
 				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
 
 
@@ -2621,12 +2619,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				nyuuryokuMatiX = 30;
 			}
 
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 3) {
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1) {
 
 
 				// 実行処理とカウント終了処理
 				
-					keyFlagZ = 2;
+					keyFlagZ = 0;
 					nyuuryokuMatiZ = 30;
 					nyuuryokuMatiX = 0;
 
@@ -2817,12 +2815,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
-
-
-
-					if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag ==
-						1) {
+					if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag == 1) {
 						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("戦闘不能"));
 						//TextOut(hdc, StatsHPbaseX,
 						//	StatsHPbaseY + 40 + offsetY * j, mojibuf,
@@ -2830,9 +2823,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						DrawFormatString(StatsHPbaseX,
 							StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
 
 					}
 
@@ -2842,15 +2832,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-
-
-
 				}
 
 				// そのキャラの装備項目の選択がサブモード
 			}// グラフィック関係
 
-			if (keyFlagZ == 0 && nyuuryokuMatiZ > 0) {
+			if (keyFlagZ == 0 && nyuuryokuMatiZ >= 0) {
 				nyuuryokuMatiZ = nyuuryokuMatiZ - 1;
 
 				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
@@ -2882,7 +2869,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				beforeselect = 0;
 
 				nyuuryokuMatiZ = 30;
-				keyFlagZ == 2;
+				keyFlagZ = 0;
 			}
 
 
@@ -2895,9 +2882,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
-			if (keyFlagX == 1 && nyuuryokuMatiX <= 0) {
+			if (keyFlagX == 0 && nyuuryokuMatiX <= 0) {
 				nyuuryokuMatiX = 0;
-				keyFlagX = 2;
+				keyFlagX = 1;
 				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
 
 
@@ -2906,14 +2893,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-			if (CheckHitKey(KEY_INPUT_X) == 1 && keyFlagX == 2) {
+			if (CheckHitKey(KEY_INPUT_X) == 1 && keyFlagX == 1) {
 
 				filterFlag = 0;
 				mode_scene = MODE_MENU;
 
 				nyuuryokuMatiX = 30;
 				key_remain = 0;
-				keyFlagX = 1;
+				keyFlagX = 0;
 				keyFlagZ = 0;
 			}
 
@@ -2978,22 +2965,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-
-
-
-
-
-
-
-
 		if (mode_scene == MODE_EQUIP_EDIT || mode_scene == MODE_EQUIP_EDIT2) {
 			// 装備の表示欄
 			// メインモードは装備キャラの選択モードである
 			// MessageBox(NULL, TEXT("aaaaココ1"), TEXT("メッセージ"), MB_OK);
 
 
-			//MainGraFrontMenu();
+			// MainGraFrontMenu();
 
 
 
@@ -3124,13 +3102,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-			
-
-
-
-
-
-
 
 			// デバッグ文。装備個数ズレのバグ調査。
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("whatedit2: %d"), whatedit2);
@@ -3151,9 +3122,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-
-
 			if (nyuuryokuMatiZ > 0) {
 				nyuuryokuMatiZ = nyuuryokuMatiZ - 1;
 
@@ -3161,66 +3129,82 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			}
-			if (keyFlagZ == 2 && nyuuryokuMatiZ <= 0) {
+			if (keyFlagZ == 0 && nyuuryokuMatiZ <= 0) {
 
 				nyuuryokuMatiZ = 0;
-				keyFlagZ = 3;
+				keyFlagZ = 1;
+				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+			}
+
+			if (nyuuryokuMatiX > 0) {
+				nyuuryokuMatiX = nyuuryokuMatiX - 1;
+
+				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+			}
+			if (keyFlagX == 0 && nyuuryokuMatiX <= 0) {
+
+				nyuuryokuMatiX = 0;
+				keyFlagX = 1;
 				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
 
 
 			}
 
 
+			// mode_scene == MODE_EQUIP_EDIT
+			{
+				if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1
+					&& mode_scene == MODE_EQUIP_EDIT) {
 
+					keyFlagZ = 0;
+					nyuuryokuMatiZ = 30;
+					// MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
 
+					key_remain = 0;
+					whomTargetID1 = whomCHARA - 1;
+					mode_scene = MODE_EQUIP_EDIT2;
 
+					if (whatedit == 0) {
+						mode2_scene = MODE2_EQUIP_HAND1;
+					}
+					if (whatedit == 1) {
+						mode2_scene = MODE2_EQUIP_SHIELD;
+					}
+					if (whatedit == 2) {
+						mode2_scene = MODE2_EQUIP_HELM;
+					}
 
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 3) {
-
-				nyuuryokuMatiZ = 30;
-				// MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
-
-				key_remain = 0;
-				whomTargetID1 = whomCHARA - 1;
-				mode_scene = MODE_EQUIP_EDIT2;
-
-				if (whatedit == 0) {
-					mode2_scene = MODE2_EQUIP_HAND1;
 				}
-				if (whatedit == 1) {
-					mode2_scene = MODE2_EQUIP_SHIELD;
-				}
-				if (whatedit == 2) {
-					mode2_scene = MODE2_EQUIP_HELM;
-				}
 
+
+				if (CheckHitKey(KEY_INPUT_X) == 1 && keyFlagX == 1 && mode_scene == MODE_EQUIP_EDIT) {
+
+					filterFlag = 0;
+					mode_scene = MODE_EQUIP_MAIN;
+					keyFlagZ = 0;
+
+
+					nyuuryokuMatiX = 30;
+					keyFlagX = 0;
+				}
 
 			}
-
-
-
-			if (CheckHitKey(KEY_INPUT_X) == 1) {
-
-				filterFlag = 0;
-				mode_scene = MODE_EQUIP_MAIN;
-				keyFlagZ == 1;
-				nyuuryokuMatiX = 30;
-				keyFlagX == 0;
-			}
-
-
-
-
-
-
-
-
-
-
-
 
 
 			if (mode_scene == MODE_EQUIP_EDIT2) {
+
+				if (CheckHitKey(KEY_INPUT_X) == 1 ) {
+
+					filterFlag = 0;
+					mode_scene = MODE_EQUIP_EDIT;
+					keyFlagZ = 0;
+					nyuuryokuMatiX = 30;
+					keyFlagX = 0;
+				}
 
 				int souWInXsta = 400;
 				int souWInXend = 580;
@@ -3322,7 +3306,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
 							goukeiItem = goukeiItem + 1;
 
 							itemHairetu[itemIDcount] = idTemp; // これはボタン操作側で使う
@@ -3377,6 +3360,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			}
 
+
 			if (mode_scene == MODE_EQUIP_EDIT2) {
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), weapon_def_list[itemHairetu[whatedit2]].equipPower);
 				//TextOut(hdc, 15 + 300, 350 + 10, mojibuf, lstrlen(mojibuf));
@@ -3384,19 +3368,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				DrawFormatString(15 + 300, 350 + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
-
 			}
 		} // end of MODE_EQUIP_ 手～頭
-
-
-
-
-
-
-
-
-
 
 
 
