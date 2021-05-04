@@ -2038,6 +2038,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						mode_scene = MODE_EQUIP_MAIN;
 						DrawFormatString(100 + 170, 250, GetColor(255, 255, 255), "装備を選びました未実装"); // 文字を描画する
 						keyFlagZ = 0;
+						keyFlagX = 1;
+
+
+
 					}
 
 
@@ -2876,19 +2880,33 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				mode_scene = MODE_EQUIP_EDIT;
 				beforeselect = 0;
-			
+
+				nyuuryokuMatiZ = 30;
+				keyFlagZ == 2;
 			}
 
 
-			if (keyFlagX == 0 && nyuuryokuMatiX > 0) {
+			if (nyuuryokuMatiX > 0) {
 				nyuuryokuMatiX = nyuuryokuMatiX - 1;
-				keyFlagX = 1;
+
 				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
 
 
 			}
 
-			if (CheckHitKey(KEY_INPUT_X) == 1 ) {
+
+			if (keyFlagX == 1 && nyuuryokuMatiX <= 0) {
+				nyuuryokuMatiX = 0;
+				keyFlagX = 2;
+				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+			}
+
+
+
+
+			if (CheckHitKey(KEY_INPUT_X) == 1 && keyFlagX == 2) {
 
 				filterFlag = 0;
 				mode_scene = MODE_MENU;
@@ -2896,7 +2914,65 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				nyuuryokuMatiX = 30;
 				key_remain = 0;
 				keyFlagX = 1;
+				keyFlagZ = 0;
 			}
+
+
+
+
+
+
+
+			if (CheckHitKey(KEY_INPUT_UP) == 1) {
+
+				// MessageBox(NULL, TEXT("上が押されました。"),
+			// TEXT("キーテスト"), MB_OK);
+				whomCHARA = whomCHARA - 1;
+
+				if (whomCHARA > partyNinzuDone) {
+					whomCHARA = partyNinzuDone;
+				}
+				else if (whomCHARA < 1) {
+					whomCHARA = 1;
+				}
+				whomTargetID1 = whomCHARA - 1;
+
+
+				if (whomCHARA != beforeselect) {
+					
+				}
+
+				beforeselect = whomCHARA;
+
+			}
+
+
+
+			if (CheckHitKey(KEY_INPUT_DOWN) == 1) {
+
+				// MessageBox(NULL, TEXT("↓が押されました。"),
+				// TEXT("キーテスト"), MB_OK);
+				whomCHARA = whomCHARA + 1;
+
+				if (whomCHARA >= partyNinzuDone) {
+					whomCHARA = partyNinzuDone;
+				}
+				else if (whomCHARA < 1) {
+					whomCHARA = 1;
+				}
+				whomTargetID1 = whomCHARA - 1;
+
+
+				if (whomCHARA != beforeselect) {
+					
+				}
+
+				beforeselect = whomCHARA;
+			}
+
+
+
+
 
 		} // equip モードの終わり
 
@@ -3071,6 +3147,76 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DrawFormatString(15 + 130 + 100, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 			// itemHairetu[whatedit2]         weapon_have_list[heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1].have_kosuu = weapon_have_list[itemHairetu[whatedit2]].have_kosuu + 1;
+
+
+
+
+
+
+
+			if (nyuuryokuMatiZ > 0) {
+				nyuuryokuMatiZ = nyuuryokuMatiZ - 1;
+
+				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+			}
+			if (keyFlagZ == 2 && nyuuryokuMatiZ <= 0) {
+
+				nyuuryokuMatiZ = 0;
+				keyFlagZ = 3;
+				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+			}
+
+
+
+
+
+
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 3) {
+
+				nyuuryokuMatiZ = 30;
+				// MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
+
+				key_remain = 0;
+				whomTargetID1 = whomCHARA - 1;
+				mode_scene = MODE_EQUIP_EDIT2;
+
+				if (whatedit == 0) {
+					mode2_scene = MODE2_EQUIP_HAND1;
+				}
+				if (whatedit == 1) {
+					mode2_scene = MODE2_EQUIP_SHIELD;
+				}
+				if (whatedit == 2) {
+					mode2_scene = MODE2_EQUIP_HELM;
+				}
+
+
+			}
+
+
+
+			if (CheckHitKey(KEY_INPUT_X) == 1) {
+
+				filterFlag = 0;
+				mode_scene = MODE_EQUIP_MAIN;
+				keyFlagZ == 1;
+				nyuuryokuMatiX = 30;
+				keyFlagX == 0;
+			}
+
+
+
+
+
+
+
+
+
+
 
 
 
