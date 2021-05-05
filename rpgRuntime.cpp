@@ -2272,7 +2272,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				mode_scene = MODE_MENU; 
-				keyFlagX = 1; // égÇ¢èIÇÌÇ¡ÇΩÇÃÇ≈1Ç…ÇµÇ»Ç¢Ç∆ÉoÉO
+				keyFlagX = 0; // 
 				nyuuryokuMatiX = 30;
 
 				waitKasol = 30;
@@ -2291,7 +2291,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 			if (nyuuryokuMatiZ <= 0) {
 				nyuuryokuMatiZ = 0;
-
+				keyFlagZ = 1;
 				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // ï∂éöÇï`âÊÇ∑ÇÈ
 
 
@@ -2305,6 +2305,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			if (nyuuryokuMatiX <= 0) {
 				nyuuryokuMatiX = 0;
+				keyFlagX = 1;
 
 				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // ï∂éöÇï`âÊÇ∑ÇÈ
 
@@ -2348,10 +2349,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				DrawFormatString(250, 250 + 150, GetColor(255, 255, 255), "aaa567"); // ï∂éöÇï`âÊÇ∑ÇÈ
 			}
 
-			if (nyuuryokuMatiZ <= 0 && keyFlagZ == 0) {
-				keyFlagZ = 1;
-				nyuuryokuMatiZ = 0;
-			}
 
 
 
