@@ -2022,7 +2022,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (CheckHitKey(KEY_INPUT_Z) == 1) {
 
 					if (selecting_mainmenu == 1) {
-						mode_scene = itemModeMain;
+						//mode_scene = itemModeMain;
+						mode_scene = MODE_ITEM_TYPE;
 						DrawFormatString(100 + 170, 250, GetColor(255, 255, 255), "道具を選びました未実装"); // 文字を描画する
 						nyuuryokuMatiZ = 30;
 						keyFlagZ = 0;
@@ -2221,7 +2222,433 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		} // menu の終わり
 
 
-		if (mode_scene == itemModeMain) {
+
+
+
+		if (mode_scene == MODE_ITEM_TYPE) {
+			//Rectangle(hbackDC, 20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
+			//	100 + (selecting_mainmenu - 1) * (100 + 10), 70);
+
+			//Rectangle(hbackDC, 10, 10, 610, 80);
+
+			DrawBox(10, 10, 610, 80, GetColor(150, 150, 255), 1);
+
+
+
+			if (mode_scene != MODE_ITEM_TYPE) {
+				//Rectangle(hbackDC, 20 + (selecting_mainmenu - 1) * 100, 20,
+				//	100 + (selecting_mainmenu - 1) * 100, 70);
+				DrawBox(20 + (selecting_mainmenu - 1) * 100, 20,
+					100 + (selecting_mainmenu - 1) * 100, 70, GetColor(255, 150, 150), 1);
+			}
+
+			if (mode_scene == MODE_ITEM_TYPE) {
+				//Rectangle(hbackDC, 20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
+				//	100 + (selecting_mainmenu - 1) * (100 + 10), 70);
+				DrawBox(20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
+					100 + (selecting_mainmenu - 1) * (100 + 10), 70, GetColor(255, 150, 150), 1);
+			}
+
+
+
+			// 道具～セーブ のメニュー欄
+			int	menuComBaseX = 20; int menuComOffsetPerX = 100;
+			int menuComBaseY = 20;
+
+			//SetBkMode(hbackDC, TRANSPARENT);
+
+			for (int j = 0; j <= 4; ++j) {
+
+				// ここに共通する前段階の作業を記述;
+
+				// 非共通;
+				if (j == 0) { lstrcpy(mojibuf, TEXT("道具")); }
+				if (j == 1) { lstrcpy(mojibuf, TEXT("装備")); }
+				if (j == 2) { lstrcpy(mojibuf, TEXT("技能")); }
+				if (j == 3) { lstrcpy(mojibuf, TEXT("セーブ")); }
+				if (j == 4) { lstrcpy(mojibuf, TEXT("並び替え")); }
+
+				// ここに共通する後段階の作業を記述;
+				// TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * j, menuComBaseY, mojibuf, lstrlen(mojibuf));
+
+
+				DrawFormatString(menuComBaseX + menuComOffsetPerX * j, menuComBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+
+
+
+
+			}
+
+
+			/*
+
+
+
+			// partyNarabijyun[0];
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("pn[0]: %d"), partyNarabijyun[0]);
+			//TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 0 + 50, menuComBaseY + 20, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(menuComBaseX + menuComOffsetPerX * 0 + 50, menuComBaseY + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("pn[1]: %d"), partyNarabijyun[1]);
+			//TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 1 + 50, menuComBaseY + 20, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(menuComBaseX + menuComOffsetPerX * 1 + 50, menuComBaseY + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("pn[2]: %d"), partyNarabijyun[2]);
+			//TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 2 + 50, menuComBaseY + 20, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(menuComBaseX + menuComOffsetPerX * 2 + 50, menuComBaseY + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			// heros_def_list[temp].PartyIn
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("paI[0]: %d"), heros_def_list[0].PartyIn);
+			//TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 0 + 50, menuComBaseY + 40, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(menuComBaseX + menuComOffsetPerX * 0 + 50, menuComBaseY + 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("paI[1]: %d"), heros_def_list[1].PartyIn);
+			// TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 1 + 50, menuComBaseY + 40, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(menuComBaseX + menuComOffsetPerX * 1 + 50, menuComBaseY + 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("paI[2]: %d"), heros_def_list[2].PartyIn);
+			// TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 2 + 50, menuComBaseY + 40, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(menuComBaseX + menuComOffsetPerX * 2 + 50, menuComBaseY + 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("paI[3]: %d"), heros_def_list[3].PartyIn);
+			//TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 3 + 50, menuComBaseY + 40, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(menuComBaseX + menuComOffsetPerX * 3 + 50, menuComBaseY + 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+					*/
+
+
+					// 間借り
+
+			if (mode_scene == MODE_ITEM_TYPE) {
+
+				//SetBkMode(hbackDC, TRANSPARENT);
+				for (int j = 0; j <= 2; ++j) {
+
+					// 非共通;
+					if (j == 0) { lstrcpy(mojibuf, TEXT("消耗品")); }
+					if (j == 1) { lstrcpy(mojibuf, TEXT("装備品")); }
+					if (j == 2) { lstrcpy(mojibuf, TEXT("大事なもの")); }
+
+					// ここに共通する後段階の作業を記述;
+					// TextOut(hbackDC, menuComBaseX + (menuComOffsetPerX + 10) * j, menuComBaseY + 20, mojibuf, lstrlen(mojibuf));
+					DrawFormatString(menuComBaseX + (menuComOffsetPerX + 10) * j, menuComBaseY + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				}
+
+			}
+
+
+			if (mode_scene == MODE_MENU || mode_scene == MODE_ITEM_TYPE) {
+
+				/* 所持金の表示欄 */
+				//SelectObject(hbackDC, blue_thin_1);
+
+				//Rectangle(hbackDC, 500, 250,
+				//	600, 350);
+				DrawBox(500, 250, 600, 350, GetColor(150, 150, 255), 1);
+
+				int GoldViewBaseX = 510; int GoldViewBaseY = 260;
+				lstrcpy(mojibuf, TEXT("所持金"));
+				//TextOut(hbackDC, GoldViewBaseX, GoldViewBaseY, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(GoldViewBaseX, GoldViewBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d G"), your_money);
+				//TextOut(hbackDC, GoldViewBaseX, GoldViewBaseY + 40, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(GoldViewBaseX, GoldViewBaseY + 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				// _itot_s(your_money , p,200, 10);
+
+
+				/* キャラのステータス欄 */
+				//Rectangle(hbackDC, 10, 100,		300, 200);
+				DrawBox(10, 100,
+					300, 200, GetColor(150, 150, 255), 1);
+
+
+
+				int StatsHPbaseX = 130; int StatsHPbaseY = 130;
+				int offsetY = 120;
+
+				// partyNarabijyun[3] = 3; partyNarabijyun[j]
+
+				for (int j = 0; j <= partyNinzuDone - 1; ++j) {
+
+					//Rectangle(hbackDC, 10, 100 + offsetY * j,
+						//300, 200 + offsetY * j);
+					DrawBox(10, 100 + offsetY * j,
+						300, 200 + offsetY * j, GetColor(150, 150, 255), 1);
+
+
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[j]].heros_name);
+					//TextOut(hbackDC, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
+					DrawFormatString(StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+					lstrcpy(mojibuf, TEXT("HP"));
+					// TextOut(hbackDC, StatsHPbaseX, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
+					DrawFormatString(StatsHPbaseX, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_hp);
+					//TextOut(hbackDC, StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
+					DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabijyun[j]].heros_hp_max);
+					// TextOut(hbackDC, StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
+					DrawFormatString(StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+					lstrcpy(mojibuf, TEXT("EXP"));
+					//TextOut(hbackDC, StatsHPbaseX, StatsHPbaseY + 20 + offsetY * j, mojibuf, lstrlen(mojibuf));
+					DrawFormatString(StatsHPbaseX, StatsHPbaseY + 20 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_exp);
+					//TextOut(hbackDC, StatsHPbaseX + 30, StatsHPbaseY + 20 + offsetY * j, mojibuf, lstrlen(mojibuf));
+					DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + 20 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+
+
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("PN: %d"), partyNarabijyun[j]);
+					// TextOut(hbackDC, StatsHPbaseX - 50, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
+					DrawFormatString(StatsHPbaseX - 50, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+					if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag != 1) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("DeFla: %d 生きてる"), heros_def_list[partyNarabijyun[j]].heros_HP0_flag);
+						//TextOut(hbackDC, StatsHPbaseX + 0, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
+
+						DrawFormatString(StatsHPbaseX + 0, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+					}
+					if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag == 1) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("戦闘不能"));
+						//TextOut(hbackDC, StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
+
+						DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+					}
+
+
+				}
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
+				//TextOut(hbackDC, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			}
+
+
+
+
+
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1) {
+
+
+				if (selecting_mainmenu == 1) {
+					//MessageBox(NULL, TEXT("消耗品とか。"), TEXT("キーテスト"), MB_OK);
+
+					selecting_item = 1;
+					selecting_item_x = ((selecting_item - 1) % 2) + 1;
+					selecting_item_y = ((selecting_item - 1) / 2) + 1;
+
+					mode_scene = MODE_ITEM_MENU; // MODE_ITEM_MENU;
+
+				}
+
+				//mode_scene = MODE_MAP; 
+
+
+				if (selecting_mainmenu == 2) {
+					// MessageBox(NULL, TEXT("装備品の確認。未実装。装備コマンドとは別"), TEXT("テスト"), MB_OK);
+					selecting_item = 1;
+					selecting_item_x = ((selecting_item - 1) % 2) + 1;
+					selecting_item_y = ((selecting_item - 1) / 2) + 1;
+
+
+					mode_scene = MODE_ITEMweapon_MENU;
+
+
+				}
+
+
+
+				if (selecting_mainmenu == 3) {
+					MessageBox(NULL, TEXT("大事なもの（※未実装）。"), TEXT("テスト"), MB_OK);
+
+					// mode_scene = MODE_SKILL_MAIN;
+
+
+				}
+
+
+			}
+
+
+			if (CheckHitKey(KEY_INPUT_X) == 1 && nyuuryokuMatiX <= 0 && keyFlagX == 1) {
+
+				{
+					key_remain = 0;
+
+					mode_scene = MODE_MENU;
+					keyFlagX = 0;
+					nyuuryokuMatiX = 30;
+				}
+				keyFlagUp = 0;
+
+				keyFlagDown = 0;
+
+				kasol2Target = 0;
+				selecting_mainmenu = 1;
+			}
+
+
+
+
+			// カーソルを上に移動
+			{
+				// 移動先予定地の入場可否の判定
+				if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyFlagUp == 0 && moving == 0) {
+					//if (map1table[y - 1][x] == 1) { destMovable = 0; }
+					//if (map1table[y - 1][x] == 0) { destMovable = 1; }
+
+					// 入場可能ならフラグ設定
+					//if (destMovable == 1) {
+					moving = 1;
+					//hero1_direction = upward;
+					keyFlagUp = 1;
+					waitKasol = 20;
+					//}
+				}
+				// カウント処理
+				if (keyFlagUp == 1 && waitKasol > 0) {
+					waitKasol = waitKasol - 1;
+				}
+				// 移動の終了処理
+				if (keyFlagUp == 1 && waitKasol <= 0) {
+					keyFlagUp = 0;
+					waitKasol = 30;
+					kasol2Target--;                       // 上へ1マスだけ移動
+					moving = 0;
+				}
+
+
+				if (kasol2Target < 0) {
+					kasol2Target = 0;
+				}
+
+				if (kasol2Target >= 3) {
+					kasol2Target = 3;
+				}
+
+				selecting_mainmenu = kasol2Target +1;
+
+			}
+
+
+
+
+			// カーソルを下に移動
+			{
+				// 移動先予定地の入場可否の判定
+				if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyFlagDown == 0 && moving == 0) {
+					//if (map1table[y + 1][x] == 1) { destMovable = 0; }
+					//if (map1table[y + 1][x] == 0) { destMovable = 1; }
+
+					// 入場可能ならフラグ設定
+					//if (destMovable == 1) {
+					moving = 1;
+					//hero1_direction = downward;
+					keyFlagDown = 1;
+					waitKasol = 20;
+					//}
+
+					// MessageBox(NULL, TEXT("装備品の確認。未実装。装備コマンドとは別"), TEXT("テスト"), MB_OK);
+
+
+
+				}
+				// カウント処理
+				if (keyFlagDown == 1 && waitKasol > 0) {
+					waitKasol = waitKasol - 1;
+				}
+
+				// 移動の終了処理
+				if (keyFlagDown == 1 && waitKasol <= 0) {
+					keyFlagDown = 0;
+					waitKasol = 30;
+					kasol2Target++;                       // 下へ1マスだけ移動
+					moving = 0;
+				}
+
+
+				if (kasol2Target < 0) {
+					kasol2Target = 0;
+				}
+
+				if (kasol2Target >= 3) {
+					kasol2Target = 3;
+				}
+
+				selecting_mainmenu = kasol2Target + 1;
+
+
+				
+			}
+
+
+
+
+
+
+
+		} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		if (mode_scene == MODE_ITEM_MENU) {
 			int HPX = 300; int HPY = 50;
 
 			DrawBox(HPX, HPY, HPX + 150, HPY + 340 + 100,
@@ -2612,7 +3039,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				keyFlagX = 0;
 				keyFlagZ = 0; // 戻りで使うので設定
 
-				mode_scene = itemModeMain;
+
+				// mode_scene = itemModeMain; // mode_scene == MODE_ITEM_TYPE
+				mode_scene = MODE_ITEM_TYPE; // mode_scene == MODE_ITEM_TYPE
+
 				nyuuryokuMatiX = 30;
 			}
 
