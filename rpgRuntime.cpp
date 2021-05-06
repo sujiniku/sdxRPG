@@ -103,6 +103,14 @@ int nyuuryokuMatiX = 30;
 int nyuuryokuMatiZ = 30;
 
 
+int nyuuryokuMatiUp = 30;
+int nyuuryokuMatiDown = 30;
+
+
+int nyuuryokuMatiRight = 30;
+int nyuuryokuMatiLeft = 30;
+
+
 int waitKasol = 30;
 
 
@@ -712,6 +720,33 @@ static int keyCount = 0; // 主にキー入力の時間制限に使用
 
 
 
+// アイテムメニューでのカーソル位置の計算用
+void item_select() {
+
+	if (selecting_item < 1) {
+		selecting_item = 1;
+	}
+
+	if (selecting_item > goukeiItem) {
+		selecting_item = goukeiItem;
+	}
+
+	selecting_item_x = ((selecting_item - 1) % 2) + 1;
+	selecting_item_y = ((selecting_item - 1) / 2) + 1;
+
+
+	// 矢印キーの入力前後でカーソルが同じ位置のままだったら、画面を更新しないための処理
+	selecting_itemAfter = selecting_item;
+
+
+	// 矢印キーの入力前後でカーソルが同じ位置のままだったら、画面を更新しない
+	// 画面のチラツキ防止のため
+
+	if (selecting_itemBefore != selecting_itemAfter) {
+		//InvalidateRect(hWnd, NULL, FALSE);
+		//UpdateWindow(hWnd);
+	}
+}
 
 
 
@@ -756,6 +791,128 @@ static struct monsterTairetu_def monsterTairetu_def_list[50];
 int darkFlag = 0;
 
 
+
+void menu_CharaSelectDraw() {
+
+
+	// 画像の読み込み「image2」は変数名。これが背景フィルター。
+	if (filterFlag == 0) {
+
+		//Image image2(L"filter.png");
+
+		// 画像の描画。 ダミー変数 graphics を仲介して描画する必要がある.
+
+		//graphics.DrawImage(&image2, 0, 0, image2.GetWidth(), image2.GetHeight());
+		filterFlag = 1;
+	}
+
+
+
+	// 			mode_scene = MODE_ITEM_WHOM_FRONT;
+
+
+	//MainGraFrontMenu(hdc);
+
+	//BrushBlue_set(hdc);
+
+	//BrushPink_set(hdc);
+
+	// Rectangle(hdc, 20 + (selecting_mainmenu - 1) * 100, 20,
+	//	100 + (selecting_mainmenu - 1) * 100, 70);
+
+
+	int StatsHPbaseX = 130; int StatsHPbaseY = 130;
+	int offsetY = 120;
+
+
+	for (int j = 0; j <= partyNinzuDone - 1; ++j) {
+		// 背景の青
+		//SelectObject(hdc, blue_thin_1);
+		//Rectangle(hdc, 10, 100 + offsetY * j,
+		//	300, 200 + offsetY * j);
+
+		DrawBox(10, 100 + offsetY * j,
+			300, 200 + offsetY * j,
+			GetColor(150, 150, 255), 1);
+
+		if (mode_scene == MODE_ITEM_WHOM) {
+			// カーソル
+			if (whomTargetID1 == j) {
+				//BrushPink_set(hdc);
+
+				//Rectangle(hdc, 10 + 10, 100 + 10 + 120 * (whomTargetID1),
+				//	300 - 10, 100 + 70 + 120 * (whomTargetID1));
+
+				DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
+					300 - 10, 100 + 70 + 120 * (whomTargetID1),
+					GetColor(255, 150, 150), 1);
+
+				//MessageBox(NULL, TEXT("デバッグ。"), TEXT("テスト"), MB_OK);
+
+			}
+		}
+
+
+		//SetBkMode(hdc, TRANSPARENT);
+
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[j]].heros_name);
+		//TextOut(hdc, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
+		DrawFormatString(StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+		lstrcpy(mojibuf, TEXT("HP"));
+		//TextOut(hdc, StatsHPbaseX, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
+
+		DrawFormatString(StatsHPbaseX, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_hp);
+		//TextOut(hdc, StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
+
+		DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabijyun[j]].heros_hp_max);
+		//TextOut(hdc, StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
+
+		DrawFormatString(StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_HP0_flag);
+		// TextOut(hdc, StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
+
+		DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+		if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag == 1) {
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("戦闘不能"));
+			//TextOut(hdc, StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+		}
+
+
+
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
+		//TextOut(hdc, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
+		DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf);
+
+	}
+
+
+
+
+}
 
 
 
@@ -1456,7 +1613,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (temp == 0) {
 			lstrcpy(heros_def_list[temp].heros_name, TEXT("エロス"));
 			heros_def_list[temp].heros_hp = 32; // 20;
-			heros_def_list[temp].heros_hp_max = 25;
+			heros_def_list[temp].heros_hp_max = 125;
 			heros_def_list[temp].heros_agility = 56;
 
 			heros_def_list[temp].heros_exp = 0;
@@ -1634,6 +1791,85 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+
+
+
+
+
+		if (keyFlagUp == 0 && nyuuryokuMatiUp > 0) {
+			nyuuryokuMatiUp = nyuuryokuMatiUp - 1;
+
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+		}
+		if (nyuuryokuMatiUp <= 0) {
+			nyuuryokuMatiUp = 0;
+			keyFlagUp = 1;
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+		}
+
+		if (nyuuryokuMatiDown > 0) {
+			nyuuryokuMatiDown = nyuuryokuMatiDown - 1;
+
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+		}
+
+		if (nyuuryokuMatiDown <= 0) {
+			nyuuryokuMatiDown = 0;
+			keyFlagDown = 1;
+
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+		}
+
+
+
+
+
+		if (keyFlagLeft == 0 && nyuuryokuMatiLeft > 0) {
+			nyuuryokuMatiLeft = nyuuryokuMatiLeft - 1;
+
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+		}
+		if (nyuuryokuMatiLeft <= 0) {
+			nyuuryokuMatiLeft = 0;
+			keyFlagLeft = 1;
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+		}
+
+		if (nyuuryokuMatiRight > 0) {
+			nyuuryokuMatiRight = nyuuryokuMatiRight - 1;
+
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+		}
+
+		if (nyuuryokuMatiRight <= 0) {
+			nyuuryokuMatiRight = 0;
+			keyFlagRight = 1;
+
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+		}
+
+
+
+
+
+
+
+
+
+
+
 		// マップ描画
 		for (x_mapDraw = 0; x_mapDraw <= 9; ++x_mapDraw)
 		{
@@ -1766,7 +2002,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// キャラを右に移動
 				{
 					// 移動先予定地の入場可否の判定
-					if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyFlagRight == 0 && moving == 0) {
+					if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyFlagRight == 1 && moving == 0) {
 						if (map1table[yPosi][xPosi + 1] == 1) { destMovable = 0; }
 						if (map1table[yPosi][xPosi + 1] == 0) { destMovable = 1; }
 
@@ -1774,18 +2010,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (destMovable == 1) {
 							moving = 1;
 							hero1_direction = rightward;
-							keyFlagRight = 1;
+							keyFlagRight = 0;
 							nyuuryokuMatiLR = 30;
 						}
 					}
 					// カウント処理
-					if (keyFlagRight == 1 && nyuuryokuMatiLR > 0) {
+					if (moving == 1 && nyuuryokuMatiLR > 0) {
 						nyuuryokuMatiLR = nyuuryokuMatiLR - 1;
 					}
 					// 移動の終了処理
-					if (keyFlagRight == 1 && nyuuryokuMatiLR <= 0) {
+					if (hero1_direction == rightward && moving == 1 && nyuuryokuMatiLR <= 0) {
 						keyFlagRight = 0;
+						
 						nyuuryokuMatiLR = 30;
+						nyuuryokuMatiLeft = 30;
+						nyuuryokuMatiRight = 30;
+
+
 						xPosi++;                       // 右へ1マスだけ移動
 						moving = 0;
 					}
@@ -1794,7 +2035,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 左に移動
 				{
 					// 移動先予定地の入場可否の判定
-					if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyFlagLeft == 0 && moving == 0) {
+					if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyFlagLeft == 1 && moving == 0) {
 						if (map1table[yPosi][xPosi - 1] == 1) { destMovable = 0; }
 						if (map1table[yPosi][xPosi - 1] == 0) { destMovable = 1; }
 
@@ -1802,18 +2043,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (destMovable == 1) {
 							moving = 1;
 							hero1_direction = leftward;
-							keyFlagLeft = 1;
+							keyFlagLeft = 0;
 							nyuuryokuMatiLR = 30;
 						}
 					}
 					// カウント処理
-					if (keyFlagLeft == 1 && nyuuryokuMatiLR > 0) {
+					if (moving == 1 && nyuuryokuMatiLR > 0) {
 						nyuuryokuMatiLR = nyuuryokuMatiLR - 1;
 					}
 					// 移動の終了処理
-					if (keyFlagLeft == 1 && nyuuryokuMatiLR <= 0) {
+					if (hero1_direction == leftward && moving == 1 && nyuuryokuMatiLR <= 0) {
 						keyFlagLeft = 0;
+
 						nyuuryokuMatiLR = 30;
+						nyuuryokuMatiLeft = 30;
+						nyuuryokuMatiRight = 30;
+
 						xPosi--;                       // 左へ1マスだけ移動
 						moving = 0;
 					}
@@ -1824,7 +2069,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 下に移動
 				{
 					// 移動先予定地の入場可否の判定
-					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 0 && moving == 0) {
+					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1 && moving == 0) {
 						if (map1table[yPosi + 1][xPosi] == 1) { destMovable = 0; }
 						if (map1table[yPosi + 1][xPosi] == 0) { destMovable = 1; }
 
@@ -1832,19 +2077,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (destMovable == 1) {
 							moving = 1;
 							hero1_direction = downward;
-							keyFlagDown = 1;
+							keyFlagDown = 0;
+
+
 							nyuuryokuMatiUD = 30;
+							nyuuryokuMatiUp = 30;
+							nyuuryokuMatiDown = 30;
+
 						}
 					}
 					// カウント処理
 					// keyFlagは別のブロックで流用してるので、必ず moving ==1 が必要
-					if (keyFlagDown == 1 && nyuuryokuMatiUD > 0 && moving == 1) {
+					if (nyuuryokuMatiUD > 0 && moving == 1) {
 						nyuuryokuMatiUD = nyuuryokuMatiUD - 1;
 					}
 					// 移動の終了処理
-					if (keyFlagDown == 1 && nyuuryokuMatiUD <= 0) {
+					if (hero1_direction == downward && nyuuryokuMatiUD <= 0) {
 						keyFlagDown = 0;
+
 						nyuuryokuMatiUD = 30;
+						nyuuryokuMatiUp = 30;
+						nyuuryokuMatiDown = 30;
+
 						yPosi++;                       // 下へ1マスだけ移動
 						moving = 0;
 					}
@@ -1854,7 +2108,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 上に移動
 				{
 					// 移動先予定地の入場可否の判定
-					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 0 && moving == 0) {
+					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1 && moving == 0) {
 						if (map1table[yPosi - 1][xPosi] == 1) { destMovable = 0; }
 						if (map1table[yPosi - 1][xPosi] == 0) { destMovable = 1; }
 
@@ -1862,20 +2116,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (destMovable == 1) {
 							moving = 1;
 							hero1_direction = upward;
-							keyFlagUp = 1;
+							keyFlagUp = 0;
+
 							nyuuryokuMatiUD = 30;
+							nyuuryokuMatiUp = 30;
+							nyuuryokuMatiDown = 30;
+
+
 						}
 					}
 					// カウント処理
 
 					// keyFlagは別のブロックで流用してるので、必ず moving ==1 が必要
-					if (keyFlagUp == 1 && nyuuryokuMatiUD > 0 && moving == 1) {
+					if (nyuuryokuMatiUD > 0 && moving == 1) {
 						nyuuryokuMatiUD = nyuuryokuMatiUD - 1;
 					}
 					// 移動の終了処理
-					if (keyFlagUp == 1 && nyuuryokuMatiUD <= 0 && moving == 1) {
+					if (hero1_direction == upward && nyuuryokuMatiUD <= 0 && moving == 1) {
 						keyFlagUp = 0;
+
 						nyuuryokuMatiUD = 30;
+						nyuuryokuMatiUp = 30;
+						nyuuryokuMatiDown = 30;
+
 						yPosi--;                       // 上へ1マスだけ移動
 						moving = 0;
 					}
@@ -1997,29 +2260,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// カーソルを上に移動
 				{
-					// 移動先予定地の入場可否の判定
-					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 0 && moving == 0) {
-						//if (map1table[y - 1][x] == 1) { destMovable = 0; }
-						//if (map1table[y - 1][x] == 0) { destMovable = 1; }
 
-						// 入場可能ならフラグ設定
-						//if (destMovable == 1) {
-							moving = 1;
-							//hero1_direction = upward;
-							keyFlagUp = 1;
-							waitKasol = 20;
-						//}
-					}
-					// カウント処理
-					if (keyFlagUp == 1 && waitKasol > 0) {
-						waitKasol = waitKasol - 1;
-					}
 					// 移動の終了処理
-					if (keyFlagUp == 1 && waitKasol <= 0) {
+					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1) {
 						keyFlagUp = 0;
-						waitKasol = 30;
+						nyuuryokuMatiUp = 30;
 						selecting_mainmenu--;                       // 上へ1マスだけ移動
-						moving = 0;
+						//moving = 0;
 					}
 
 
@@ -2030,7 +2277,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (selecting_mainmenu >= 3) {
 						selecting_mainmenu = 3;
 					}
-					moving = 0;
+					//moving = 0;
 				}
 
 
@@ -2038,29 +2285,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// カーソルを下に移動
 				{
-					// 移動先予定地の入場可否の判定
-					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 0 && moving == 0) {
-						//if (map1table[y + 1][x] == 1) { destMovable = 0; }
-						//if (map1table[y + 1][x] == 0) { destMovable = 1; }
 
-						// 入場可能ならフラグ設定
-						//if (destMovable == 1) {
-							moving = 1;
-							//hero1_direction = downward;
-							keyFlagDown = 1;
-							waitKasol = 20;
-						//}
-					}
-					// カウント処理
-					if (keyFlagDown == 1 && waitKasol > 0) {
-						waitKasol = waitKasol - 1;
-					}
 					// 移動の終了処理
-					if (keyFlagDown == 1 && waitKasol <= 0) {
+					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
 						keyFlagDown = 0;
-						waitKasol = 20;
+						nyuuryokuMatiDown = 30;
 						selecting_mainmenu++;                       // 下へ1マスだけ移動
-						moving = 0;
+						//moving = 0;
 					}
 
 
@@ -2072,7 +2303,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						selecting_mainmenu = 3;
 					}
 
-					moving = 0;
+					//moving = 0;
 
 
 				}
@@ -2427,90 +2658,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				/* キャラのステータス欄 */
-				//Rectangle(hbackDC, 10, 100,		300, 200);
-				DrawBox(10, 100,
-					300, 200, GetColor(150, 150, 255), 1);
+				menu_CharaSelectDraw();
+					
 
 
-
-				int StatsHPbaseX = 130; int StatsHPbaseY = 130;
-				int offsetY = 120;
-
-				// partyNarabijyun[3] = 3; partyNarabijyun[j]
-
-				for (int j = 0; j <= partyNinzuDone - 1; ++j) {
-
-					//Rectangle(hbackDC, 10, 100 + offsetY * j,
-						//300, 200 + offsetY * j);
-					DrawBox(10, 100 + offsetY * j,
-						300, 200 + offsetY * j, GetColor(150, 150, 255), 1);
-
-
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[j]].heros_name);
-					//TextOut(hbackDC, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
-					DrawFormatString(StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-					lstrcpy(mojibuf, TEXT("HP"));
-					// TextOut(hbackDC, StatsHPbaseX, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
-					DrawFormatString(StatsHPbaseX, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_hp);
-					//TextOut(hbackDC, StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
-					DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabijyun[j]].heros_hp_max);
-					// TextOut(hbackDC, StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
-					DrawFormatString(StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-					lstrcpy(mojibuf, TEXT("EXP"));
-					//TextOut(hbackDC, StatsHPbaseX, StatsHPbaseY + 20 + offsetY * j, mojibuf, lstrlen(mojibuf));
-					DrawFormatString(StatsHPbaseX, StatsHPbaseY + 20 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_exp);
-					//TextOut(hbackDC, StatsHPbaseX + 30, StatsHPbaseY + 20 + offsetY * j, mojibuf, lstrlen(mojibuf));
-					DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + 20 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-
-
-
-
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("PN: %d"), partyNarabijyun[j]);
-					// TextOut(hbackDC, StatsHPbaseX - 50, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
-					DrawFormatString(StatsHPbaseX - 50, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-					if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag != 1) {
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("DeFla: %d 生きてる"), heros_def_list[partyNarabijyun[j]].heros_HP0_flag);
-						//TextOut(hbackDC, StatsHPbaseX + 0, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
-
-						DrawFormatString(StatsHPbaseX + 0, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-
-					}
-					if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag == 1) {
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("戦闘不能"));
-						//TextOut(hbackDC, StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
-
-						DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-
-					}
-
-
-				}
 
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
 				//TextOut(hbackDC, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
@@ -2599,99 +2750,64 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-			// カーソルを上に移動
+			// カーソルを←に移動
 			{
-				// 移動先予定地の入場可否の判定
-				if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyFlagUp == 0 && moving == 0) {
-					//if (map1table[y - 1][x] == 1) { destMovable = 0; }
-					//if (map1table[y - 1][x] == 0) { destMovable = 1; }
-
-					// 入場可能ならフラグ設定
-					//if (destMovable == 1) {
-					moving = 1;
-					//hero1_direction = upward;
-					keyFlagUp = 1;
-					waitKasol = 20;
-					//}
-				}
-				// カウント処理
-				if (keyFlagUp == 1 && waitKasol > 0) {
-					waitKasol = waitKasol - 1;
-				}
-				// 移動の終了処理
-				if (keyFlagUp == 1 && waitKasol <= 0) {
-					keyFlagUp = 0;
-					waitKasol = 30;
-					kasol2Target--;                       // 上へ1マスだけ移動
-					moving = 0;
-				}
-
-
-				if (kasol2Target < 0) {
-					kasol2Target = 0;
-				}
-
-				if (kasol2Target >= 3) {
-					kasol2Target = 3;
-				}
-
-				//selecting_mainmenu = kasol2Target +1;
-
-			}
-
-
-
-
-			// カーソルを下に移動
-			{
-				// 移動先予定地の入場可否の判定
-				if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyFlagDown == 0 && moving == 0) {
-					//if (map1table[y + 1][x] == 1) { destMovable = 0; }
-					//if (map1table[y + 1][x] == 0) { destMovable = 1; }
-
-					// 入場可能ならフラグ設定
-					//if (destMovable == 1) {
-					moving = 1;
-					//hero1_direction = downward;
-					keyFlagDown = 1;
-					waitKasol = 20;
-					//}
-
-					// MessageBox(NULL, TEXT("装備品の確認。未実装。装備コマンドとは別"), TEXT("テスト"), MB_OK);
-
-
-
-				}
-				// カウント処理
-				if (keyFlagDown == 1 && waitKasol > 0) {
-					waitKasol = waitKasol - 1;
-				}
 
 				// 移動の終了処理
-				if (keyFlagDown == 1 && waitKasol <= 0) {
-					keyFlagDown = 0;
-					waitKasol = 30;
-					kasol2Target++;                       // 下へ1マスだけ移動
-					moving = 0;
+				if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyFlagLeft == 1) {
+					keyFlagLeft = 0;
+					nyuuryokuMatiLeft = 30;
+					selecting_mainmenu--;                       // 上へ1マスだけ移動
+					//moving = 0;
 				}
 
 
-				if (kasol2Target < 0) {
-					kasol2Target = 0;
+				if (selecting_mainmenu < 0) {
+					selecting_mainmenu = 0;
 				}
 
-				if (kasol2Target >= 3) {
-					kasol2Target = 3;
+				if (selecting_mainmenu >= 3) {
+					selecting_mainmenu = 3;
 				}
+				//moving = 0;
 
 				//selecting_mainmenu = kasol2Target + 1;
-
-
-				
 			}
 
 
-			selecting_mainmenu = kasol2Target + 1;
+
+
+
+			// カーソルをmigi に移動
+			{
+
+				// 移動の終了処理
+				if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyFlagRight == 1) {
+
+					// MessageBox(NULL, TEXT("大事なもの（※未実装）。"), TEXT("テスト"), MB_OK);
+
+					keyFlagRight = 0;
+					nyuuryokuMatiRight = 30;
+					selecting_mainmenu++;                       // 下へ1マスだけ移動
+					//moving = 0;
+				}
+
+
+				if (selecting_mainmenu < 1) {
+					selecting_mainmenu = 1;
+				}
+
+				if (selecting_mainmenu >= 3) {
+					selecting_mainmenu = 3;
+				}
+
+				//moving = 0;
+
+
+			}
+
+
+			
 
 
 
@@ -2708,6 +2824,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+		 /*
+		
 
 
 
@@ -2896,6 +3014,71 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		}
+
+		 */
+
+
+
+
+
+
+
+		if (mode_scene == MODE_ITEM_WHOM) {
+
+			darkFlag = 1;
+			//MainGraMenu(hdc);
+			darkFlag = 0;
+
+
+			// ここまで、背景フィルターで隠される。
+
+
+
+			// Graphics 型の命令の読み込みのためにダミー変数 graphics を宣言.
+			//Graphics graphics(hdc);
+
+			// 画像の描画。 ダミー変数 graphics を仲介して描画する必要がある.
+			//graphics.DrawImage(&image1, 0, 0, image1.GetWidth(), image1.GetHeight());
+
+
+			// 画像の読み込み「image2」は変数名。これが背景フィルター。
+			if (filterFlag == 0) {
+
+				//Image image2(L"filter.png");
+
+				// 画像の描画。 ダミー変数 graphics を仲介して描画する必要がある.
+
+				//graphics.DrawImage(&image2, 0, 0, image2.GetWidth(), image2.GetHeight());
+				filterFlag = 1;
+			}
+
+
+
+			// 			mode_scene = MODE_ITEM_WHOM_FRONT;
+
+
+			//MainGraFrontMenu(hdc);
+
+			//BrushBlue_set(hdc);
+
+			//BrushPink_set(hdc);
+
+			// Rectangle(hdc, 20 + (selecting_mainmenu - 1) * 100, 20,
+			//	100 + (selecting_mainmenu - 1) * 100, 70);
+
+			menu_CharaSelectDraw() ;
+		}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3134,6 +3317,672 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		}
+
+
+
+
+
+
+
+		if (mode_scene == MODE_ITEM_MENU || mode_scene == MODE_ITEMweapon_MENU) {
+
+			darkFlag = 1;
+			//MainGraMenu(hdc);
+			darkFlag = 0;
+
+
+
+			//BrushBlue_set(hdc);
+			//Rectangle(hdc, 10, 100,
+			//	600, 400);
+
+
+			DrawBox(10, 100,	600, 400,
+				GetColor(150, 150, 255), 1);
+
+
+			// カーソル描画設定
+			int spanY = 30;
+			int Y0 = 120;
+
+			//BrushPink_set(hdc);
+			//Rectangle(hdc, 20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
+			//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
+
+
+			DrawBox(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
+				250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY,
+				GetColor(255, 150, 150), 1);
+
+
+
+
+			//	_stprintf_s(p, MAX_LENGTH, TEXT("%s qqqqqqqqqqq"), heros_def_list[0].heros_name);
+				//	TextOut(hdc, 130, 105, p, lstrlen(p));
+
+
+			goukeiItem = 0;
+
+
+			int column = 2;
+
+			int xcommon;
+			int ycommon;
+
+			// 表示フラグ
+			int ViewFlagItem = 1;
+			int ViewFlagWeapon = 0;
+			int ViewFlagShield = 0;
+			int ViewFlagHelm = 0;
+
+			if (mode_scene == MODE_ITEMweapon_MENU || mode_scene == MODE_ITEM_MENU) {
+
+				// 表示フラグ設定
+				if (mode_scene == MODE_ITEM_MENU) {
+					ViewFlagItem = 1;
+					ViewFlagWeapon = 0;
+					ViewFlagShield = 0;
+					ViewFlagHelm = 0;
+				}
+
+				if (mode_scene == MODE_ITEMweapon_MENU) {
+					ViewFlagItem = 0;
+					ViewFlagWeapon = 1;
+					ViewFlagShield = 1;
+					ViewFlagHelm = 1;
+				}
+			}
+
+
+			int LimintTemp = goukeiItem;
+			goukeiItem = 0;
+
+
+
+			// アイテム配列のクリア。前の残骸が残る場合があるので。
+			itemHairetu[0] = -99;
+
+
+
+			int itemIDcount = 0; // for文の外で使うので、消したらダメ
+			// itemIDcounは goukeiItem と同内容だが、意味合いが違うので残す。
+
+			// 使用品の配列代入
+			if (ViewFlagItem) {
+
+				LimintTemp = goukeiItem;
+
+				for (idTemp = 1; idTemp <= 3; idTemp = idTemp + 1)
+				{
+
+					if (item_have_list[idTemp].have_kosuu != 0) {
+
+						goukeiItem = goukeiItem + 1;
+
+						if (1) {
+							itemHairetu[itemIDcount] = idTemp;
+							itemTypeHairetu[itemIDcount] = siyouType;
+							itemIDcount = itemIDcount + 1;
+						}
+					}
+				} // 使用品の配列代入
+			}
+
+			if (ViewFlagWeapon) {
+
+				LimintTemp = goukeiItem;
+
+
+				// 武器の配列代入
+				for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+				{
+					if (weapon_have_list[idTemp].have_kosuu != 0) {
+
+						goukeiItem = goukeiItem + 1;
+
+						if (1) {
+							itemHairetu[itemIDcount] = idTemp;
+							itemTypeHairetu[itemIDcount] = wepoType;
+							itemIDcount = itemIDcount + 1;
+						}
+					}
+				} // 武器の配列代入
+			}
+
+
+
+			if (ViewFlagShield) {
+
+				LimintTemp = goukeiItem;
+
+				// シールドの配列代入
+				for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+				{
+					if (shield_have_list[idTemp].have_kosuu != 0) {
+						// MessageBox(NULL, TEXT("テストhelm"), TEXT("キーテスト"), MB_OK);
+
+						goukeiItem = goukeiItem + 1;
+
+						if (1) {
+							itemHairetu[itemIDcount] = idTemp;
+							itemTypeHairetu[itemIDcount] = tateType;
+							itemIDcount = itemIDcount + 1;
+						}
+
+					}
+				} // シールド
+			}
+
+
+
+			if (ViewFlagHelm) {
+
+
+				LimintTemp = goukeiItem;
+				// ヘルムの配列代入
+				for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+				{
+					// MessageBox(NULL, TEXT("テスト22"), TEXT("キーテスト"), MB_OK);
+					if (helm_have_list[idTemp].have_kosuu != 0) {
+
+						goukeiItem = goukeiItem + 1;
+
+						if (1) {
+							itemHairetu[itemIDcount] = idTemp;
+							itemTypeHairetu[itemIDcount] = kabutoType;
+							itemIDcount = itemIDcount + 1;
+						}
+
+					}
+				} // かぶとの配列代入
+			}
+
+			itemTypeHairetu[itemIDcount] = -99; // 終了を意味する数。
+
+
+
+			if (1) {
+				for (int temp = 0; temp <= 10; temp = temp + 1) {
+
+
+					int temp2 = temp + pageSyori * 6;
+
+					if (itemTypeHairetu[temp2] == -99) {
+						lstrcpy(mojibuf, TEXT("   "));
+						// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+
+						DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+						break;
+					}
+
+
+					xcommon = 30 + 300 * floor((temp) % column);
+					ycommon = 130 + spanY * floor((temp) / column);
+
+					//SetBkMode(hdc, TRANSPARENT);
+
+					if (itemTypeHairetu[temp2] == siyouType) {
+						lstrcpy(mojibuf, item_def_list[itemHairetu[temp2]].def_name);
+					}
+					if (itemTypeHairetu[temp2] == wepoType) {
+						lstrcpy(mojibuf, weapon_def_list[itemHairetu[temp2]].def_name);
+					}
+					if (itemTypeHairetu[temp2] == tateType) {
+						lstrcpy(mojibuf, shield_def_list[itemHairetu[temp2]].def_name);
+					}
+					if (itemTypeHairetu[temp2] == kabutoType) {
+						lstrcpy(mojibuf, helm_def_list[itemHairetu[temp2]].def_name);
+					}
+
+					//TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf);
+
+
+					// 個数欄の背景クリア用
+					lstrcpy(mojibuf, TEXT("   "));
+					// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+					DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf);
+
+
+					if (itemTypeHairetu[temp2] == siyouType) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), item_have_list[itemHairetu[temp2]].have_kosuu);
+					}
+					if (itemTypeHairetu[temp2] == wepoType) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[itemHairetu[temp2]].have_kosuu);
+					}
+					if (itemTypeHairetu[temp2] == tateType) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), shield_have_list[itemHairetu[temp2]].have_kosuu);
+					}
+					if (itemTypeHairetu[temp2] == kabutoType) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[itemHairetu[temp2]].have_kosuu);
+					}
+
+					// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d mm"), weapon_have_list[temp].have_kosuu);
+					// TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
+					DrawFormatString(xcommon + 130, ycommon, GetColor(255, 255, 255), mojibuf);
+
+				}
+			}
+
+
+
+			/*
+			
+			
+			// デバッグ用モニター
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("itemHairetu[0] %d"), itemHairetu[0]);
+			//TextOut(hdc, 230, 200, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(230, 200, GetColor(255, 255, 255), mojibuf);
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("itemHairetu[1] %d"), itemHairetu[1]);
+			//TextOut(hdc, 230, 230, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(230, 230, GetColor(255, 255, 255), mojibuf);
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("itemHairetu[2] %d"), itemHairetu[2]);
+			TextOut(hdc, 230, 260, mojibuf, lstrlen(mojibuf));
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("whatuse %d"), whatuse);
+			TextOut(hdc, 230, 290, mojibuf, lstrlen(mojibuf));
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("goukeIte %d"), goukeiItem);
+			TextOut(hdc, 230, 290 + 30, mojibuf, lstrlen(mojibuf));
+
+			// デバッグ用
+			lstrcpy(mojibuf, TEXT("sele_item :"));
+			//TextOut(hdc, 430, 200, mojibuf, lstrlen(mojibuf));
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("SI: %d"), selecting_item);
+			TextOut(hdc, 530, 200, mojibuf, lstrlen(mojibuf));
+
+
+			lstrcpy(mojibuf, TEXT("item_x :"));
+			TextOut(hdc, 430, 230, mojibuf, lstrlen(mojibuf));
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), selecting_item_x);
+			TextOut(hdc, 490, 230, mojibuf, lstrlen(mojibuf));
+
+
+			lstrcpy(mojibuf, TEXT("item_y :"));
+			TextOut(hdc, 430, 280, mojibuf, lstrlen(mojibuf));
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), selecting_item_y);
+			TextOut(hdc, 490, 280, mojibuf, lstrlen(mojibuf));
+
+
+
+
+			// アイテム効果の確認用
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[0].heros_name);
+			TextOut(hdc, 400, 300, mojibuf, lstrlen(mojibuf));
+
+
+			lstrcpy(mojibuf, TEXT("HP"));
+			TextOut(hdc, 400, 300 + 30, mojibuf, lstrlen(mojibuf));
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[0].heros_hp);
+			TextOut(hdc, 400 + 30, 300 + 30, mojibuf, lstrlen(mojibuf));
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[0].heros_hp_max);
+			TextOut(hdc, 400 + 60, 300 + 30, mojibuf, lstrlen(mojibuf));
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
+			TextOut(hdc, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
+
+
+
+			*/
+
+
+			itemIDcount = 0;
+		} // end
+
+
+
+
+
+		// こっちはボタン捜査
+		if ((mode_scene == MODE_ITEM_MENU || mode_scene == MODE_ITEMweapon_MENU) && key_remain > 0) {
+
+
+
+
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1) {
+
+				whatuse = itemHairetu[selecting_item - 1]; // 
+
+
+
+				key_remain = 0;
+
+				if (whatuse == -99) {
+					break; // 		
+				}
+
+				if (mode_scene == MODE_ITEM_MENU) {
+					mode_scene = MODE_ITEM_WHOM; // 		
+				}
+
+				nyuuryokuMatiZ = 30;
+				keyFlagZ = 0;
+			}
+
+
+			if (CheckHitKey(KEY_INPUT_X) == 1 && keyFlagX == 1) {
+				//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
+
+				mode_scene = MODE_ITEM_TYPE;
+
+				nyuuryokuMatiX = 30;
+				key_remain = 1;
+				keyFlagX = 0;
+				keyFlagZ = 0;
+			}
+
+
+
+
+
+
+			// カーソルを上に移動
+			{
+				// 移動先予定地の入場可否の判定
+				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1 ) {
+					keyFlagUp = 0;
+
+					nyuuryokuMatiUD = 30;
+					nyuuryokuMatiUp = 30;
+					nyuuryokuMatiDown = 30;
+
+					// 個別の処理
+					if (itemHairetu[1] == -99) {
+						break; // 		
+					}
+					selecting_item = selecting_item - 2;
+
+					item_select();
+					// ここまで処理
+
+					moving = 0;
+				}
+
+
+
+			}
+
+
+
+
+			// カーソルを下に移動
+			{
+				// 移動先予定地の入場可否の判定
+				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
+					keyFlagDown = 0;
+
+					nyuuryokuMatiUD = 30;
+					nyuuryokuMatiUp = 30;
+					nyuuryokuMatiDown = 30;
+
+					// 個別の処理
+
+					if (itemHairetu[1] == -99) {
+						break; // 		
+					}
+					selecting_item = selecting_item + 2;
+
+					item_select();
+					// ここまで処理
+
+					moving = 0;
+				}
+
+
+			}
+
+
+			// キャラを右に移動
+			{
+				// 移動先予定地の入場可否の判定
+				if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyFlagRight == 1) {
+					keyFlagRight = 0;
+
+					nyuuryokuMatiLR = 30;
+					nyuuryokuMatiLeft = 30;
+					nyuuryokuMatiRight = 30;
+
+					//
+					if (itemHairetu[1] == -99) {
+						break; // 		
+					}
+					selecting_item = selecting_item + 1;
+
+					item_select();
+					//
+
+					moving = 0;
+				}
+
+			}
+
+			// 左に移動
+			{
+				// 移動先予定地の入場可否の判定
+				if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyFlagLeft == 1) {
+					keyFlagLeft = 0;
+
+					nyuuryokuMatiLR = 30;
+					nyuuryokuMatiLeft = 30;
+					nyuuryokuMatiRight = 30;
+
+					//
+					if (itemHairetu[1] == -99) {
+						break; // 		
+					}
+					selecting_item = selecting_item - 1;
+
+					item_select();
+					//
+
+					moving = 0;
+				}
+
+
+			}
+
+
+		}
+
+
+
+
+		if (mode_scene == MODE_ITEM_WHOM) {
+
+			int tempVal;
+
+
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && key_remain == 1) {
+
+				//MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
+
+				keyFlagX = 0;
+				keyFlagZ = 0; // 戻りで使うので設定
+
+
+				key_remain = 0;
+				whomTargetID1 = whomCHARA - 1;
+				item_have_list[0].have_kosuu = 0;
+
+				// ここはアイテム使用時の効果
+
+				// 薬草の効果
+				if (whatuse == 1) {
+
+					//MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
+
+					tempVal = partyNarabijyun[whomTargetID1];
+
+					if (heros_def_list[tempVal].heros_hp < heros_def_list[tempVal].heros_hp_max) {
+						if (item_have_list[whatuse].have_kosuu <= 0) {
+							mode_scene = MODE_ITEM_MENU;
+
+							//InvalidateRect(hWnd, NULL, FALSE);
+							//UpdateWindow(hWnd); break;
+						}
+
+						heros_def_list[tempVal].heros_hp = heros_def_list[tempVal].heros_hp + 5;
+
+						if (heros_def_list[tempVal].heros_hp > heros_def_list[tempVal].heros_hp_max) {
+							heros_def_list[tempVal].heros_hp = heros_def_list[tempVal].heros_hp_max;
+						}
+
+						item_have_list[whatuse].have_kosuu = item_have_list[whatuse].have_kosuu - 1;
+
+
+
+					}
+				}
+
+
+				// 毒消しの効果
+				if (whatuse == 2) {
+
+					// MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
+					if (heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp < heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp_max) {
+
+						if (item_have_list[whatuse].have_kosuu <= 0) {
+							mode_scene = MODE_ITEM_MENU;
+
+							//InvalidateRect(hWnd, NULL, FALSE);
+							//UpdateWindow(hWnd);
+							break;
+						}
+
+
+						heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp + 1;
+
+						if (heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp > heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp_max) {
+							heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[whomTargetID1].heros_hp_max;
+						}
+
+						item_have_list[whatuse].have_kosuu = item_have_list[whatuse].have_kosuu - 1;
+
+
+
+					}
+
+				}
+
+
+				// 不死鳥の尾の効果
+				if (whatuse == 3) {
+
+					heros_def_list[partyNarabijyun[whomTargetID1]].heros_HP0_flag = 0;
+
+					heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp + 3;
+
+					//MessageBox(NULL, TEXT("いまココaaaa"), TEXT("メッセージ"), MB_OK);
+
+
+					if (item_have_list[whatuse].have_kosuu <= 0) {
+						mode_scene = MODE_ITEM_MENU;
+
+						//InvalidateRect(hWnd, NULL, FALSE);
+						//UpdateWindow(hWnd); break;
+					}
+
+					if (heros_def_list[whomTargetID1].heros_hp > heros_def_list[whomTargetID1].heros_hp_max) {
+						heros_def_list[whomTargetID1].heros_hp = heros_def_list[whomTargetID1].heros_hp_max;
+					}
+
+					item_have_list[whatuse].have_kosuu = item_have_list[whatuse].have_kosuu - 1;
+
+				}
+
+
+				if (item_have_list[whatuse].have_kosuu <= 0) {
+					item_have_list[whatuse].have_kosuu = 0;
+				}
+
+				nyuuryokuMatiX = 30;
+				nyuuryokuMatiZ = 30;
+			}
+
+
+
+
+			if (CheckHitKey(KEY_INPUT_X) == 1 && nyuuryokuMatiX <= 0) {
+				// MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
+				keyFlagX = 0;
+				keyFlagZ = 0; // 戻りで使うので設定
+
+
+				filterFlag = 0;
+				mode_scene = MODE_ITEM_MENU;
+
+				nyuuryokuMatiX = 30;
+				nyuuryokuMatiZ = 30;
+
+			}
+
+
+
+			if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1) {
+				// MessageBox(NULL, TEXT("上が押されました。"), TEXT("キーテスト"), MB_OK);
+				whomCHARA = whomCHARA - 1;
+
+
+
+				if (whomCHARA > partyNinzuDone) {
+					whomCHARA = partyNinzuDone;
+				}
+				else if (whomCHARA < 1) {
+					whomCHARA = 1;
+				}
+				whomTargetID1 = whomCHARA - 1;
+
+
+				if (whomCHARA != beforeselect) {
+					//InvalidateRect(hWnd, NULL, FALSE);
+					//UpdateWindow(hWnd);
+				}
+
+				beforeselect = whomCHARA;
+			}
+
+
+
+
+
+			if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
+				// MessageBox(NULL, TEXT("↓が押されました。"), TEXT("キーテスト"), MB_OK);
+				whomCHARA = whomCHARA + 1;
+
+				if (whomCHARA >= partyNinzuDone) {
+					whomCHARA = partyNinzuDone;
+				}
+				else if (whomCHARA < 1) {
+					whomCHARA = 1;
+				}
+				whomTargetID1 = whomCHARA - 1;
+
+
+				if (whomCHARA != beforeselect) {
+					//InvalidateRect(hWnd, NULL, FALSE);
+					//UpdateWindow(hWnd);
+				}
+
+				beforeselect = whomCHARA;
+			}
+
+
+		} // アイテム対象者フロントの終わり
+
+
 
 
 
@@ -3846,6 +4695,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		
 
+		key_remain = 1;
 
 		ScreenFlip(); //裏画面を表画面に反映
 	}
