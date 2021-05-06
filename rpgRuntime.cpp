@@ -1591,6 +1591,49 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+
+
+
+
+
+
+
+
+		if (keyFlagZ == 0 && nyuuryokuMatiZ > 0) {
+			nyuuryokuMatiZ = nyuuryokuMatiZ - 1;
+
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+		}
+		if (nyuuryokuMatiZ <= 0) {
+			nyuuryokuMatiZ = 0;
+			keyFlagZ = 1;
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+		}
+
+		if (nyuuryokuMatiX > 0) {
+			nyuuryokuMatiX = nyuuryokuMatiX - 1;
+
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+		}
+
+		if (nyuuryokuMatiX <= 0) {
+			nyuuryokuMatiX = 0;
+			keyFlagX = 1;
+
+			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
+
+
+		}
+
+
+
+
+
+
 		// マップ描画
 		for (x_mapDraw = 0; x_mapDraw <= 9; ++x_mapDraw)
 		{
@@ -1701,6 +1744,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 		if (mode_scene == MODE_MAP) {
@@ -1855,20 +1912,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			}
 
-			// メニューからの帰り処理のため
 
-			{
-				if (nyuuryokuMatiX > 0) {
-					nyuuryokuMatiX = nyuuryokuMatiX - 1;
-				}
-
-				if (nyuuryokuMatiX <= 0) {
-					nyuuryokuMatiX = 0;
-				}
-			}
 
 			// if 残り待機がゼロで、さらにXボタンが押されたら、then メニュー画面に遷移
-			if (CheckHitKey(KEY_INPUT_X) == 1 && mode_scene == MODE_MAP && keyFlagX == 0 && nyuuryokuMatiX == 0) {
+			if (CheckHitKey(KEY_INPUT_X) == 1 &&  keyFlagX == 1) {
 				keyFlagX = 0;
 				mode_scene = MODE_MENU;
 				nyuuryokuMatiX = 30;
@@ -1881,6 +1928,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
 		} // map モードの終わり
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 		if (mode_scene == MODE_MENU) {
@@ -2214,7 +2273,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				nyuuryokuMatiX = 30;
 				keyFlagZ = 0; // 安全のためzもクリア
 
-				DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
+				// DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
 			}
 
@@ -2271,14 +2330,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// ここに共通する後段階の作業を記述;
 				// TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * j, menuComBaseY, mojibuf, lstrlen(mojibuf));
 
-
 				DrawFormatString(menuComBaseX + menuComOffsetPerX * j, menuComBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-
-
-
 
 
 
@@ -2286,7 +2338,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			/*
-
 
 
 			// partyNarabijyun[0];
@@ -2327,10 +2378,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 3 + 50, menuComBaseY + 40, mojibuf, lstrlen(mojibuf));
 			DrawFormatString(menuComBaseX + menuComOffsetPerX * 3 + 50, menuComBaseY + 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-					*/
+			*/
 
 
-					// 間借り
+			// 間借り
 
 			if (mode_scene == MODE_ITEM_TYPE) {
 
@@ -2466,8 +2517,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
 			}
+
+
+
 
 
 
@@ -2477,14 +2530,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				if (selecting_mainmenu == 1) {
-					//MessageBox(NULL, TEXT("消耗品とか。"), TEXT("キーテスト"), MB_OK);
+					// MessageBox(NULL, TEXT("消耗品とか。"), TEXT("キーテスト"), MB_OK);
 
 					selecting_item = 1;
 					selecting_item_x = ((selecting_item - 1) % 2) + 1;
 					selecting_item_y = ((selecting_item - 1) / 2) + 1;
 
 					mode_scene = MODE_ITEM_MENU; // MODE_ITEM_MENU;
-
+					//keyFlagZ = 0;
+					//nyuuryokuMatiZ = 30;
 				}
 
 				//mode_scene = MODE_MAP; 
@@ -2511,6 +2565,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				}
+
+
+				
+				keyFlagZ = 0;					
+				nyuuryokuMatiZ = 30;
+
+
+
+
 
 
 			}
@@ -2572,7 +2635,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					kasol2Target = 3;
 				}
 
-				selecting_mainmenu = kasol2Target +1;
+				//selecting_mainmenu = kasol2Target +1;
 
 			}
 
@@ -2621,14 +2684,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					kasol2Target = 3;
 				}
 
-				selecting_mainmenu = kasol2Target + 1;
+				//selecting_mainmenu = kasol2Target + 1;
 
 
 				
 			}
 
 
-
+			selecting_mainmenu = kasol2Target + 1;
 
 
 
@@ -2690,7 +2753,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			// MatiX を見るのはターゲット選択からの戻り用
-			if (CheckHitKey(KEY_INPUT_X) == 1 && nyuuryokuMatiX <= 0 ) {
+			if (CheckHitKey(KEY_INPUT_X) == 1 && keyFlagX == 1 ) {
 				
 
 				// 道具欄は使わないので、道具欄を黒で塗りつぶすことで非表示にしている。
@@ -2698,7 +2761,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					GetColor(0, 0, 0), 1);
 
 
-				mode_scene = MODE_MENU; 
+				mode_scene = MODE_ITEM_TYPE;
 				keyFlagX = 0; // 
 				nyuuryokuMatiX = 30;
 
@@ -2708,36 +2771,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			}
 
-
-			if (keyFlagZ == 0  && nyuuryokuMatiZ > 0) {
-				nyuuryokuMatiZ = nyuuryokuMatiZ - 1;
-
-				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
-
-
-			}
-			if (nyuuryokuMatiZ <= 0) {
-				nyuuryokuMatiZ = 0;
-				keyFlagZ = 1;
-				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
-
-
-			}
-
-			if (nyuuryokuMatiX > 0) {
-				nyuuryokuMatiX = nyuuryokuMatiX - 1;
-
-				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
-			}
-
-			if (nyuuryokuMatiX <= 0) {
-				nyuuryokuMatiX = 0;
-				keyFlagX = 1;
-
-				//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
-
-
-			}
 
 
 
@@ -2750,7 +2783,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 
 
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1) {
+			if (CheckHitKey(KEY_INPUT_Z) == 1  && keyFlagZ == 1) {
 				if (kasol2Target==0 && item_have_list[1].have_kosuu >= 1) {
 
 					keyFlagZ = 0;
@@ -3041,7 +3074,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				// mode_scene = itemModeMain; // mode_scene == MODE_ITEM_TYPE
-				mode_scene = MODE_ITEM_TYPE; // mode_scene == MODE_ITEM_TYPE
+				mode_scene = MODE_ITEM_MENU; // mode_scene == MODE_ITEM_TYPE
 
 				nyuuryokuMatiX = 30;
 			}
@@ -3101,12 +3134,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		}
-
-
-
-
-
-
 
 
 
