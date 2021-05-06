@@ -96,22 +96,28 @@ int keyFlagX = 0;
 int keyFlagZ = 0;
 
 
-int nyuuryokuMatiLR = 30;
-int nyuuryokuMatiUD = 30;
 
-int nyuuryokuMatiX = 30;
-int nyuuryokuMatiZ = 30;
+int waitTime1 = 60;
+int waitTime2 = 30;
 
 
-int nyuuryokuMatiUp = 30;
-int nyuuryokuMatiDown = 30;
+
+int nyuuryokuMatiLR = waitTime1;
+int nyuuryokuMatiUD = waitTime1;
+
+int nyuuryokuMatiX = waitTime1;
+int nyuuryokuMatiZ = waitTime1;
 
 
-int nyuuryokuMatiRight = 30;
-int nyuuryokuMatiLeft = 30;
+int nyuuryokuMatiUp = waitTime1;
+int nyuuryokuMatiDown = waitTime1;
 
 
-int waitKasol = 30;
+int nyuuryokuMatiRight = waitTime1;
+int nyuuryokuMatiLeft = waitTime1;
+
+
+int waitKasol = waitTime1;
 
 
 int kasol2Target = 0;
@@ -1258,21 +1264,10 @@ void keyFlagReset() {
 	keyFlagZ = 0;
 	keyFlagX = 0;
 
-	nyuuryokuMatiZ = 30;
-	nyuuryokuMatiX = 30;
+	nyuuryokuMatiZ = waitTime1;
+	nyuuryokuMatiX = waitTime1;
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1869,46 +1864,45 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			//DrawFormatString(250, 250 + 150 -50, GetColor(255, 255, 255), "ttttttt"); // 文字を描画する
 
-
 		}
-
-
-
-
-
-
 
 
 
 
 
 		// マップ描画
+
+		int mapChipWidthX = 30;
+		int mapChipWidthY = 30;
+
 		for (x_mapDraw = 0; x_mapDraw <= 9; ++x_mapDraw)
 		{
 			for (y_mapDraw = 0; y_mapDraw <= 6; ++y_mapDraw)
 			{
 				if (map1table[y_mapDraw][x_mapDraw] == 0) {
-					DrawGraph(30 * x_mapDraw, 30 * y_mapDraw, mapchip1Handle, false);
+					DrawGraph(mapChipWidthX* x_mapDraw, mapChipWidthY* y_mapDraw, mapchip1Handle, false);
 				}
 				if (map1table[y_mapDraw][x_mapDraw] == 1) {
-					DrawGraph(30 * x_mapDraw, 30 * y_mapDraw, mapchip2Handle, false);
+					DrawGraph(mapChipWidthX* x_mapDraw, mapChipWidthY* y_mapDraw, mapchip2Handle, false);
 				}
 			}
 
 		}
 
 
-		DrawGraph(30 * monPosiX, 30 * monPosiY, monchipDownHandle, false);
+		DrawGraph(mapChipWidthX * monPosiX, mapChipWidthY * monPosiY, monchipDownHandle, false);
 
 
 
 		// キャラチップ描画
 		{
+			int charaChipWidthX = 30; // 直後ifの外でも使うのでブロック外で定義。
+			int charaChipWidthY = 30;
+
 			if (xPosi == monPosiX && yPosi == monPosiY) {
-
-
+				
 				// モンスター画像 クリーン洋
-				DrawGraph(30 * monPosiX , 30 * monPosiY, blackchipHandle, false);
+				DrawGraph(charaChipWidthX* monPosiX , charaChipWidthY* monPosiY, blackchipHandle, false);
 
 				//DrawGraph(30 * monPosiX + 50, 30 * monPosiY, monchipDownHandle, true);
 
@@ -1918,38 +1912,47 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			// 個別の向きの画像で上書き
+
+
+			double baiX = waitTime1 / charaChipWidthX;
+			double baiY = waitTime1 / charaChipWidthY;
+
 			if (hero1_direction == rightward) {
+			
 				tempHandle = charachipRightHandle;
+				DrawGraph(charaChipWidthX * xPosi + 0 + (waitTime1 - nyuuryokuMatiLR)/baiX, charaChipWidthY* yPosi, tempHandle, false);
 
 				// 前半
 				if (nyuuryokuMatiLR > 20) {
-					DrawGraph(30 * xPosi, 30 * yPosi, tempHandle, false);
+				//	DrawGraph(30 * xPosi +0+(30 - nyuuryokuMatiLR), 30 * yPosi, tempHandle, false);
 				}
 
 				// 中盤
 				if (nyuuryokuMatiLR <= 20 && nyuuryokuMatiLR > 10) {
-					DrawGraph(30 * xPosi + 10, 30 * yPosi, tempHandle, false);
+				//	DrawGraph(30 * xPosi + 10, 30 * yPosi, tempHandle, false);
 				}
 
 				// 後半
 				if (nyuuryokuMatiLR <= 10 && nyuuryokuMatiLR >= 1) {
-					DrawGraph(30 * xPosi + 20, 30 * yPosi, tempHandle, false);
+				//	DrawGraph(30 * xPosi + 20, 30 * yPosi, tempHandle, false);
 				}
 			}
 
 			if (hero1_direction == leftward) {
+				tempHandle = charachipLeftHandle;
+				DrawGraph(charaChipWidthX* xPosi + 0 - (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
 
 				if (nyuuryokuMatiLR > 20) {
-					DrawGraph(30 * xPosi, 30 * yPosi, charachipLeftHandle, false);
+				//	DrawGraph(30 * xPosi, 30 * yPosi, charachipLeftHandle, false);
 				}
 
 				if (nyuuryokuMatiLR <= 20 && nyuuryokuMatiLR > 10) {
-					DrawGraph(30 * xPosi - 10, 30 * yPosi, charachipLeftHandle, false);
+				//	DrawGraph(30 * xPosi - 10, 30 * yPosi, charachipLeftHandle, false);
 				}
 
 
 				if (nyuuryokuMatiLR <= 10 && nyuuryokuMatiLR >= 1) {
-					DrawGraph(30 * xPosi - 20, 30 * yPosi, charachipLeftHandle, false);
+				//	DrawGraph(30 * xPosi - 20, 30 * yPosi, charachipLeftHandle, false);
 				}
 
 			}
@@ -1957,49 +1960,45 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			if (hero1_direction == downward) {
+				tempHandle = charachipDownHandle;
+				DrawGraph(charaChipWidthX* xPosi + 0 , charaChipWidthY* yPosi + (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
 
 				if (nyuuryokuMatiUD > 20) {
-					DrawGraph(30 * xPosi, 30 * yPosi - 0, charachipDownHandle, false);
+				//	DrawGraph(30 * xPosi, 30 * yPosi - 0, charachipDownHandle, false);
 				}
 
 				if (nyuuryokuMatiUD <= 20 && nyuuryokuMatiUD > 10) {
-					DrawGraph(30 * xPosi, 30 * yPosi + 10, charachipDownHandle, false);
+				//	DrawGraph(30 * xPosi, 30 * yPosi + 10, charachipDownHandle, false);
 				}
 
 
 				if (nyuuryokuMatiUD <= 10 && nyuuryokuMatiUD >= 1) {
-					DrawGraph(30 * xPosi, 30 * yPosi + 20, charachipDownHandle, false);
+				//	DrawGraph(30 * xPosi, 30 * yPosi + 20, charachipDownHandle, false);
 				}
 
 			}
 
 
 			if (hero1_direction == upward) {
+				tempHandle = charachipUpHandle;
+				DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi - (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
 
 				if (nyuuryokuMatiUD > 20) {
-					DrawGraph(30 * xPosi, 30 * yPosi + 0, charachipUpHandle, false);
+				//	DrawGraph(30 * xPosi, 30 * yPosi + 0, charachipUpHandle, false);
 				}
 
 				if (nyuuryokuMatiUD <= 20 && nyuuryokuMatiUD > 10) {
-					DrawGraph(30 * xPosi, 30 * yPosi - 10, charachipUpHandle, false);
+				//	DrawGraph(30 * xPosi, 30 * yPosi - 10, charachipUpHandle, false);
 				}
 
 
 				if (nyuuryokuMatiUD <= 10 && nyuuryokuMatiUD >= 1) {
-					DrawGraph(30 * xPosi, 30 * yPosi - 20, charachipUpHandle, false);
+				//	DrawGraph(30 * xPosi, 30 * yPosi - 20, charachipUpHandle, false);
 				}
 
 			}
 
 		}
-
-
-
-
-
-
-
-
 
 
 
@@ -2023,7 +2022,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							moving = 1;
 							hero1_direction = rightward;
 							keyFlagRight = 0;
-							nyuuryokuMatiLR = 30;
+							nyuuryokuMatiLR = waitTime1;
 						}
 					}
 					// カウント処理
@@ -2032,11 +2031,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 					// 移動の終了処理
 					if (hero1_direction == rightward && moving == 1 && nyuuryokuMatiLR <= 0) {
-						keyFlagRight = 0;
+						keyFlagRight = 1; // moving 回復までに時間が掛かるので、ここは1に。
 						
-						nyuuryokuMatiLR = 30;
-						nyuuryokuMatiLeft = 30;
-						nyuuryokuMatiRight = 30;
+						nyuuryokuMatiLR = waitTime1;
+						nyuuryokuMatiLeft = waitTime1;
+						nyuuryokuMatiRight = waitTime1;
 
 
 						xPosi++;                       // 右へ1マスだけ移動
@@ -2056,7 +2055,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							moving = 1;
 							hero1_direction = leftward;
 							keyFlagLeft = 0;
-							nyuuryokuMatiLR = 30;
+							nyuuryokuMatiLR = waitTime1;
 						}
 					}
 					// カウント処理
@@ -2065,11 +2064,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 					// 移動の終了処理
 					if (hero1_direction == leftward && moving == 1 && nyuuryokuMatiLR <= 0) {
-						keyFlagLeft = 0;
+						keyFlagLeft = 1;
 
-						nyuuryokuMatiLR = 30;
-						nyuuryokuMatiLeft = 30;
-						nyuuryokuMatiRight = 30;
+						nyuuryokuMatiLR = waitTime1;
+						nyuuryokuMatiLeft = waitTime1;
+						nyuuryokuMatiRight = waitTime1;
 
 						xPosi--;                       // 左へ1マスだけ移動
 						moving = 0;
@@ -2092,9 +2091,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							keyFlagDown = 0;
 
 
-							nyuuryokuMatiUD = 30;
-							nyuuryokuMatiUp = 30;
-							nyuuryokuMatiDown = 30;
+							nyuuryokuMatiUD = waitTime1;
+							nyuuryokuMatiUp = waitTime1;
+							nyuuryokuMatiDown = waitTime1;
 
 						}
 					}
@@ -2105,11 +2104,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 					// 移動の終了処理
 					if (hero1_direction == downward && nyuuryokuMatiUD <= 0) {
-						keyFlagDown = 0;
+						keyFlagDown = 1;
 
-						nyuuryokuMatiUD = 30;
-						nyuuryokuMatiUp = 30;
-						nyuuryokuMatiDown = 30;
+						nyuuryokuMatiUD = waitTime1;
+						nyuuryokuMatiUp = waitTime1;
+						nyuuryokuMatiDown = waitTime1;
 
 						yPosi++;                       // 下へ1マスだけ移動
 						moving = 0;
@@ -2130,9 +2129,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							hero1_direction = upward;
 							keyFlagUp = 0;
 
-							nyuuryokuMatiUD = 30;
-							nyuuryokuMatiUp = 30;
-							nyuuryokuMatiDown = 30;
+							nyuuryokuMatiUD = waitTime1;
+							nyuuryokuMatiUp = waitTime1;
+							nyuuryokuMatiDown = waitTime1;
 
 
 						}
@@ -2145,11 +2144,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 					// 移動の終了処理
 					if (hero1_direction == upward && nyuuryokuMatiUD <= 0 && moving == 1) {
-						keyFlagUp = 0;
+						keyFlagUp = 1;
 
-						nyuuryokuMatiUD = 30;
-						nyuuryokuMatiUp = 30;
-						nyuuryokuMatiDown = 30;
+						nyuuryokuMatiUD = waitTime1;
+						nyuuryokuMatiUp = waitTime1;
+						nyuuryokuMatiDown = waitTime1;
 
 						yPosi--;                       // 上へ1マスだけ移動
 						moving = 0;
@@ -2193,7 +2192,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (CheckHitKey(KEY_INPUT_X) == 1 &&  keyFlagX == 1) {
 				keyFlagX = 0;
 				mode_scene = MODE_MENU;
-				nyuuryokuMatiX = 30;
+				nyuuryokuMatiX = waitTime1;
 			}
 
 
@@ -2276,7 +2275,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// 移動の終了処理
 					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1) {
 						keyFlagUp = 0;
-						nyuuryokuMatiUp = 30;
+						nyuuryokuMatiUp = waitTime1;
 						selecting_mainmenu--;                       // 上へ1マスだけ移動
 						//moving = 0;
 					}
@@ -2301,7 +2300,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// 移動の終了処理
 					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
 						keyFlagDown = 0;
-						nyuuryokuMatiDown = 30;
+						nyuuryokuMatiDown = waitTime1;
 						selecting_mainmenu++;                       // 下へ1マスだけ移動
 						//moving = 0;
 					}
@@ -2333,7 +2332,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					if (selecting_mainmenu == 2) {
 						mode_scene = MODE_EQUIP_MAIN;
-						nyuuryokuMatiZ = 30;
+						nyuuryokuMatiZ = waitTime1;
 
 						DrawFormatString(100 + 170, 250, GetColor(255, 255, 255), "装備を選びました未実装"); // 文字を描画する
 						keyFlagReset();
@@ -2697,7 +2696,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					mode_scene = MODE_ITEM_MENU; // MODE_ITEM_MENU;
 					//keyFlagZ = 0;
-					//nyuuryokuMatiZ = 30;
+					//nyuuryokuMatiZ = waitTime1;
 				}
 
 				//mode_scene = MODE_MAP; 
@@ -2742,7 +2741,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					mode_scene = MODE_MENU;
 					keyFlagX = 0;
-					nyuuryokuMatiX = 30;
+					nyuuryokuMatiX = waitTime1;
 				}
 				keyFlagUp = 0;
 
@@ -2761,7 +2760,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 移動の終了処理
 				if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyFlagLeft == 1) {
 					keyFlagLeft = 0;
-					nyuuryokuMatiLeft = 30;
+					nyuuryokuMatiLeft = waitTime1;
 					selecting_mainmenu--;                       // 上へ1マスだけ移動
 					//moving = 0;
 				}
@@ -2792,7 +2791,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// MessageBox(NULL, TEXT("大事なもの（※未実装）。"), TEXT("テスト"), MB_OK);
 
 					keyFlagRight = 0;
-					nyuuryokuMatiRight = 30;
+					nyuuryokuMatiRight = waitTime1;
 					selecting_mainmenu++;                       // 下へ1マスだけ移動
 					//moving = 0;
 				}
@@ -2886,9 +2885,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				mode_scene = MODE_ITEM_TYPE;
 				keyFlagX = 0; // 
-				nyuuryokuMatiX = 30;
+				nyuuryokuMatiX = waitTime1;
 
-				waitKasol = 30;
+				waitKasol = waitTime1;
 				DrawFormatString(250, 250+50, GetColor(255, 255, 255), "道具から戻り"); // 文字を描画する
 
 
@@ -2959,7 +2958,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 移動の終了処理
 				if (keyFlagUp == 1 && waitKasol <= 0) {
 					keyFlagUp = 0;
-					waitKasol = 30;
+					waitKasol = waitTime1;
 					kasol2Target--;                       // 上へ1マスだけ移動
 					moving = 0;
 				}
@@ -3196,7 +3195,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 移動の終了処理
 				if (keyFlagUp == 1 && waitKasol <= 0) {
 					keyFlagUp = 0;
-					waitKasol = 30;
+					waitKasol = waitTime1;
 					kasol3Target--;                       // 上へ1マスだけ移動
 					moving = 0;
 				}
@@ -3261,7 +3260,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// mode_scene = itemModeMain; // mode_scene == MODE_ITEM_TYPE
 				mode_scene = MODE_ITEM_MENU; // mode_scene == MODE_ITEM_TYPE
 
-				nyuuryokuMatiX = 30;
+				nyuuryokuMatiX = waitTime1;
 			}
 
 			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1) {
@@ -3668,7 +3667,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					mode_scene = MODE_ITEM_WHOM; // 		
 				}
 
-				nyuuryokuMatiZ = 30;
+				nyuuryokuMatiZ = waitTime1;
 				keyFlagZ = 0;
 			}
 
@@ -3678,7 +3677,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				mode_scene = MODE_ITEM_TYPE;
 
-				nyuuryokuMatiX = 30;
+				nyuuryokuMatiX = waitTime1;
 				key_remain = 1;
 				keyFlagReset();
 			}
@@ -3694,9 +3693,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1 ) {
 					keyFlagUp = 0;
 
-					nyuuryokuMatiUD = 30;
-					nyuuryokuMatiUp = 30;
-					nyuuryokuMatiDown = 30;
+					nyuuryokuMatiUD = waitTime1;
+					nyuuryokuMatiUp = waitTime1;
+					nyuuryokuMatiDown = waitTime1;
 
 					// 個別の処理
 					if (itemHairetu[1] == -99) {
@@ -3723,9 +3722,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
 					keyFlagDown = 0;
 
-					nyuuryokuMatiUD = 30;
-					nyuuryokuMatiUp = 30;
-					nyuuryokuMatiDown = 30;
+					nyuuryokuMatiUD = waitTime1;
+					nyuuryokuMatiUp = waitTime1;
+					nyuuryokuMatiDown = waitTime1;
 
 					// 個別の処理
 
@@ -3750,9 +3749,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyFlagRight == 1) {
 					keyFlagRight = 0;
 
-					nyuuryokuMatiLR = 30;
-					nyuuryokuMatiLeft = 30;
-					nyuuryokuMatiRight = 30;
+					nyuuryokuMatiLR = waitTime1;
+					nyuuryokuMatiLeft = waitTime1;
+					nyuuryokuMatiRight = waitTime1;
 
 					//
 					if (itemHairetu[1] == -99) {
@@ -3774,9 +3773,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyFlagLeft == 1) {
 					keyFlagLeft = 0;
 
-					nyuuryokuMatiLR = 30;
-					nyuuryokuMatiLeft = 30;
-					nyuuryokuMatiRight = 30;
+					nyuuryokuMatiLR = waitTime1;
+					nyuuryokuMatiLeft = waitTime1;
+					nyuuryokuMatiRight = waitTime1;
 
 					//
 					if (itemHairetu[1] == -99) {
@@ -3904,8 +3903,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					item_have_list[whatuse].have_kosuu = 0;
 				}
 
-				nyuuryokuMatiX = 30;
-				nyuuryokuMatiZ = 30;
+				nyuuryokuMatiX = waitTime1;
+				nyuuryokuMatiZ = waitTime1;
 			}
 
 
@@ -3919,8 +3918,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				filterFlag = 0;
 				mode_scene = MODE_ITEM_MENU;
 
-				nyuuryokuMatiX = 30;
-				nyuuryokuMatiZ = 30;
+				nyuuryokuMatiX = waitTime1;
+				nyuuryokuMatiZ = waitTime1;
 
 			}
 
@@ -4194,7 +4193,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				filterFlag = 0;
 				mode_scene = MODE_MENU;
 
-				nyuuryokuMatiX = 30;
+				nyuuryokuMatiX = waitTime1;
 				key_remain = 0;
 				keyFlagReset();
 			}
@@ -4670,7 +4669,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (CheckHitKey(KEY_INPUT_X) == 1) {
 				mode_scene = MODE_MENU;
 				keyFlagX = 1; // 使い終わったのでゼロに戻す // 0ではなく1にしないとバグ
-				nyuuryokuMatiX = 30;
+				nyuuryokuMatiX = waitTime1;
 
 				DrawFormatString(250, 250 + 50*2, GetColor(255, 255, 255), "特技から戻り"); // 文字を描画する
 
