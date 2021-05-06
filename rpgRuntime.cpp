@@ -1147,6 +1147,8 @@ static int battle_key = 1;
 static int damage_HeroAttack = 1;
 static int damage_EnemyAttack = 0;
 
+
+
 void heroside_attack() {
 
 	int pnCommon = partyNarabijyun[actionOrder[globalTempA]];
@@ -1250,6 +1252,16 @@ char strCount[64];
 
 
 
+
+void keyFlagReset() {
+
+	keyFlagZ = 0;
+	keyFlagX = 0;
+
+	nyuuryokuMatiZ = 30;
+	nyuuryokuMatiX = 30;
+
+}
 
 
 
@@ -2315,8 +2327,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						//mode_scene = itemModeMain;
 						mode_scene = MODE_ITEM_TYPE;
 						DrawFormatString(100 + 170, 250, GetColor(255, 255, 255), "道具を選びました未実装"); // 文字を描画する
-						nyuuryokuMatiZ = 30;
-						keyFlagZ = 0;
+						
+						keyFlagReset();
 					}
 
 					if (selecting_mainmenu == 2) {
@@ -2324,9 +2336,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						nyuuryokuMatiZ = 30;
 
 						DrawFormatString(100 + 170, 250, GetColor(255, 255, 255), "装備を選びました未実装"); // 文字を描画する
-						keyFlagZ = 0;
-						keyFlagX = 0;
-
+						keyFlagReset();
 
 
 					}
@@ -2500,9 +2510,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (CheckHitKey(KEY_INPUT_X) == 1 && keyFlagX == 1) {
 				mode_scene = MODE_MAP;
 
-				keyFlagX = 0; // 使い終わったのでゼロに戻す 
-				nyuuryokuMatiX = 30;
-				keyFlagZ = 0; // 安全のためzもクリア
+				keyFlagReset();
 
 				// DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
@@ -2717,10 +2725,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 
-
-				
-				keyFlagZ = 0;					
-				nyuuryokuMatiZ = 30;
+				keyFlagReset();
 
 
 
@@ -2904,15 +2909,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (CheckHitKey(KEY_INPUT_Z) == 1  && keyFlagZ == 1) {
 				if (kasol2Target==0 && item_have_list[1].have_kosuu >= 1) {
 
-					keyFlagZ = 0;
-					nyuuryokuMatiZ = 30;
+					keyFlagReset();
 					mode_scene = itemModeTarget;
 				}
 
 				if (kasol2Target == 1 && item_have_list[2].have_kosuu >= 1) {
 
-					keyFlagZ = 0;
-					nyuuryokuMatiZ = 30;
+					keyFlagReset();
 					mode_scene = itemModeTarget;
 				}
 
@@ -3252,8 +3255,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			if (CheckHitKey(KEY_INPUT_X) == 1 &&  nyuuryokuMatiX <= 0) {
-				keyFlagX = 0;
-				keyFlagZ = 0; // 戻りで使うので設定
+				keyFlagReset();
 
 
 				// mode_scene = itemModeMain; // mode_scene == MODE_ITEM_TYPE
@@ -3267,9 +3269,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// 実行処理とカウント終了処理
 				
-					keyFlagZ = 0;
-					nyuuryokuMatiZ = 30;
-					nyuuryokuMatiX = 0;
+				keyFlagReset();
 
 					int HPX = 300; int HPY = 50;
 
@@ -3680,8 +3680,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				nyuuryokuMatiX = 30;
 				key_remain = 1;
-				keyFlagX = 0;
-				keyFlagZ = 0;
+				keyFlagReset();
 			}
 
 
@@ -3808,10 +3807,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && key_remain == 1) {
 
 				//MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
-
-				keyFlagX = 0;
-				keyFlagZ = 0; // 戻りで使うので設定
-
+				keyFlagReset();
 
 				key_remain = 0;
 				whomTargetID1 = whomCHARA - 1;
@@ -3917,8 +3913,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			if (CheckHitKey(KEY_INPUT_X) == 1 && nyuuryokuMatiX <= 0) {
 				// MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
-				keyFlagX = 0;
-				keyFlagZ = 0; // 戻りで使うので設定
+				keyFlagReset();
 
 
 				filterFlag = 0;
@@ -4170,9 +4165,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				mode_scene = MODE_EQUIP_EDIT;
 				beforeselect = 0;
-
-				nyuuryokuMatiZ = 30;
-				keyFlagZ = 0;
+				keyFlagReset();
 			}
 
 
@@ -4203,8 +4196,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				nyuuryokuMatiX = 30;
 				key_remain = 0;
-				keyFlagX = 0;
-				keyFlagZ = 0;
+				keyFlagReset();
 			}
 
 
@@ -4463,8 +4455,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1
 					&& mode_scene == MODE_EQUIP_EDIT) {
 
-					keyFlagZ = 0;
-					nyuuryokuMatiZ = 30;
+					keyFlagReset();
 					// MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
 
 					key_remain = 0;
@@ -4488,11 +4479,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					filterFlag = 0;
 					mode_scene = MODE_EQUIP_MAIN;
-					keyFlagZ = 0;
-
-
-					nyuuryokuMatiX = 30;
-					keyFlagX = 0;
+					keyFlagReset();
 				}
 
 			}
@@ -4504,9 +4491,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					filterFlag = 0;
 					mode_scene = MODE_EQUIP_EDIT;
-					keyFlagZ = 0;
-					nyuuryokuMatiX = 30;
-					keyFlagX = 0;
+					keyFlagReset();
 				}
 
 				int souWInXsta = 400;
