@@ -37,7 +37,7 @@ int jumpRyoku1 = 50;
 
 
 
-
+int TimeKasolCount = 0;
 
 static int selecting_mainmenu = 1;
 
@@ -2220,6 +2220,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int HPX = 300; int HPY = 50;
 
 			// ウィンドウ欄
+			
 			DrawBox(HPX, HPY, HPX + 150, HPY + 340 + 100,
 				GetColor(150, 150, 255), 1);
 
@@ -2258,8 +2259,37 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			if (keyFlagX == 1) {
 				// カーソル
-					DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
-						GetColor(250, 150, 150), 1);
+
+				int KasolColor = GetColor(250, 150, 150);
+				double redVal = 0;
+				if (TimeKasolCount < 120) {
+					redVal= TimeKasolCount;
+				}
+				if (TimeKasolCount >= 120) {
+					redVal = 240 - TimeKasolCount;
+				}
+
+					//DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
+					//	GetColor(250 , 150, 150), 1);
+
+				//DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
+				//	GetColor( 200 + (250 - 200)*(redVal / 120.0), 150, 250 - (250-150) * (redVal / 120.0) ), 1);
+
+
+				DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
+					GetColor( 150 + (180 - 150) * (redVal / 120.0),
+						150 + (180 - 150) * (redVal / 120.0),
+						250 - 0*(250-150) * (redVal / 120.0) ),
+					1);
+
+
+
+				TimeKasolCount = TimeKasolCount + 1;
+					if (TimeKasolCount > 240) {
+						TimeKasolCount = 0;
+					}
+
+					
 
 					// コマンド欄
 				DrawFormatString(100+20, 250, GetColor(255, 255, 255), "道具"); // 文字を描画する
@@ -4132,6 +4162,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 				// そのキャラの装備項目の選択がサブモード
+
+
+
+				
 			}// グラフィック関係
 
 			if (keyFlagZ == 0 && nyuuryokuMatiZ >= 0) {
