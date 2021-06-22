@@ -1265,8 +1265,16 @@ void keyFlagReset() {
 	keyFlagZ = 0;
 	keyFlagX = 0;
 
+	keyFlagUp = 0;
+	keyFlagDown = 0;
+
+
 	nyuuryokuMatiZ = waitTime1;
 	nyuuryokuMatiX = waitTime1;
+
+	nyuuryokuMatiUp = waitTime1/2;
+	nyuuryokuMatiDown = waitTime1/2;
+
 
 }
 
@@ -4650,6 +4658,67 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					mode_scene = MODE_EQUIP_MAIN;
 					keyFlagReset();
 				}
+
+
+
+
+
+
+
+				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1) {
+
+					// MessageBox(NULL, TEXT("上が押されました。"),
+				// TEXT("キーテスト"), MB_OK);
+					whatedit = whatedit - 1;
+
+					if (whatedit >= 5) {
+						whatedit = 5;
+					}
+					else if (whatedit <01) {
+						whatedit = 0;
+					}
+					//whomTargetID2 = whomCHARA - 1;
+
+
+					if (whomCHARA != beforeselect) {
+
+					}
+
+					//beforeselect = whomCHARA;
+					keyFlagReset();
+				}
+
+
+
+				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
+
+					// MessageBox(NULL, TEXT("↓が押されました。"),
+					// TEXT("キーテスト"), MB_OK);
+					whatedit = whatedit + 1;
+
+					if (whatedit >= 5) {
+						whatedit = 5;
+					}
+					else if (whatedit < 0) {
+						whatedit = 0;
+					}
+					//whomTargetID2 = whomCHARA - 1;
+
+
+					if (whomCHARA != beforeselect) {
+
+					}
+
+					//beforeselect = whomCHARA;
+
+					keyFlagReset();
+				}
+
+
+				//whatedit = whomTargetID2;
+
+
+
 
 			}
 
