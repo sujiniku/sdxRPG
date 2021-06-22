@@ -1549,11 +1549,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		weapon_have_list[temp].have_def_id = temp + 1;
 
 		if (temp == 0) {
-			weapon_have_list[temp].have_kosuu = 0;
+			weapon_have_list[temp].have_kosuu = 0; // --------
 		}
 
 		if (temp == 1) {
-			weapon_have_list[temp].have_kosuu = 0;
+			weapon_have_list[temp].have_kosuu = 2;
 		}
 
 		if (temp == 2) {
@@ -4594,6 +4594,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+
+
 			if (nyuuryokuMatiZ > 0) {
 				nyuuryokuMatiZ = nyuuryokuMatiZ - 1;
 
@@ -4627,100 +4629,102 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
-			// mode_scene == MODE_EQUIP_EDIT
-			{
-				if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1
-					&& mode_scene == MODE_EQUIP_EDIT) {
 
-					keyFlagReset();
-					// MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
+			if (mode_scene == MODE_EQUIP_EDIT) {
+				// mode_scene == MODE_EQUIP_EDIT
+				{
+					if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1
+						&& mode_scene == MODE_EQUIP_EDIT) {
 
-					key_remain = 0;
-					whomTargetID1 = whomCHARA - 1;
-					mode_scene = MODE_EQUIP_EDIT2;
+						keyFlagReset();
+						// MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
 
-					if (whatedit == 0) {
-						mode2_scene = MODE2_EQUIP_HAND1;
-					}
-					if (whatedit == 1) {
-						mode2_scene = MODE2_EQUIP_SHIELD;
-					}
-					if (whatedit == 2) {
-						mode2_scene = MODE2_EQUIP_HELM;
-					}
+						key_remain = 0;
+						whomTargetID1 = whomCHARA - 1;
+						mode_scene = MODE_EQUIP_EDIT2;
 
-				}
-
-
-				if (CheckHitKey(KEY_INPUT_X) == 1 && keyFlagX == 1 && mode_scene == MODE_EQUIP_EDIT) {
-
-					filterFlag = 0;
-					mode_scene = MODE_EQUIP_MAIN;
-					keyFlagReset();
-				}
-
-
-
-
-
-
-
-				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1) {
-
-					// MessageBox(NULL, TEXT("上が押されました。"),
-				// TEXT("キーテスト"), MB_OK);
-					whatedit = whatedit - 1;
-
-					if (whatedit >= 5) {
-						whatedit = 5;
-					}
-					else if (whatedit <01) {
-						whatedit = 0;
-					}
-					//whomTargetID2 = whomCHARA - 1;
-
-
-					if (whomCHARA != beforeselect) {
+						if (whatedit == 0) {
+							mode2_scene = MODE2_EQUIP_HAND1;
+						}
+						if (whatedit == 1) {
+							mode2_scene = MODE2_EQUIP_SHIELD;
+						}
+						if (whatedit == 2) {
+							mode2_scene = MODE2_EQUIP_HELM;
+						}
 
 					}
 
-					//beforeselect = whomCHARA;
-					keyFlagReset();
-				}
+
+					if (CheckHitKey(KEY_INPUT_X) == 1 && keyFlagX == 1 && mode_scene == MODE_EQUIP_EDIT) {
+
+						filterFlag = 0;
+						mode_scene = MODE_EQUIP_MAIN;
+						keyFlagReset();
+					}
 
 
 
-				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
 
-					// MessageBox(NULL, TEXT("↓が押されました。"),
+
+
+
+					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1) {
+
+						// MessageBox(NULL, TEXT("上が押されました。"),
 					// TEXT("キーテスト"), MB_OK);
-					whatedit = whatedit + 1;
+						whatedit = whatedit - 1;
 
-					if (whatedit >= 5) {
-						whatedit = 5;
+						if (whatedit >= 5) {
+							whatedit = 5;
+						}
+						else if (whatedit < 01) {
+							whatedit = 0;
+						}
+						//whomTargetID2 = whomCHARA - 1;
+
+
+						if (whomCHARA != beforeselect) {
+
+						}
+
+						//beforeselect = whomCHARA;
+						keyFlagReset();
 					}
-					else if (whatedit < 0) {
-						whatedit = 0;
+
+
+
+					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
+
+						// MessageBox(NULL, TEXT("↓が押されました。"),
+						// TEXT("キーテスト"), MB_OK);
+						whatedit = whatedit + 1;
+
+						if (whatedit >= 5) {
+							whatedit = 5;
+						}
+						else if (whatedit < 0) {
+							whatedit = 0;
+						}
+						//whomTargetID2 = whomCHARA - 1;
+
+
+						if (whomCHARA != beforeselect) {
+
+						}
+
+						//beforeselect = whomCHARA;
+
+						keyFlagReset();
 					}
-					//whomTargetID2 = whomCHARA - 1;
 
 
-					if (whomCHARA != beforeselect) {
-
-					}
-
-					//beforeselect = whomCHARA;
-
-					keyFlagReset();
+					//whatedit = whomTargetID2;
 				}
-
-
-				//whatedit = whomTargetID2;
-
-
-
 
 			}
+
+			
 
 
 			if (mode_scene == MODE_EQUIP_EDIT2) {
@@ -4802,6 +4806,107 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						}
 					}
+
+
+
+
+
+					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1) {
+
+						// MessageBox(NULL, TEXT("上が押されました。"),
+					// TEXT("キーテスト"), MB_OK);
+						whatedit2 = whatedit2 - 1;
+
+						if (whatedit2 >= 5) {
+							whatedit2 = 5;
+						}
+						else if (whatedit2 < 01) {
+							whatedit2 = 0;
+						}
+						//whomTargetID2 = whomCHARA - 1;
+
+
+						if (whomCHARA != beforeselect) {
+
+						}
+
+						//beforeselect = whomCHARA;
+						keyFlagReset();
+					}
+
+
+
+					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
+
+						// MessageBox(NULL, TEXT("↓が押されました。"),
+						// TEXT("キーテスト"), MB_OK);
+						whatedit2 = whatedit2 + 1;
+
+						if (whatedit2 >= 5) {
+							whatedit2 = 5;
+						}
+						else if (whatedit2 < 0) {
+							whatedit2 = 0;
+						}
+						//whomTargetID2 = whomCHARA - 1;
+
+
+						if (whomCHARA != beforeselect) {
+
+						}
+
+						//beforeselect = whomCHARA;
+
+						keyFlagReset();
+					}
+
+
+
+
+					if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyFlagZ == 1
+						&& mode_scene == MODE_EQUIP_EDIT2) {
+
+						keyFlagReset();
+						// MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
+
+						key_remain = 0;
+						//whomTargetID1 = whomCHARA - 1;
+						//mode_scene = MODE_EQUIP_EDIT2;
+
+
+						int temp;
+						int hensu = heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1;
+	
+						weapon_have_list[hensu].have_kosuu = weapon_have_list[hensu].have_kosuu + 1; // 装備してた武器が1個増えるように
+
+						//heros_def_list[temp].heros_weapon1].def_id) =    ;
+						if (whatedit2 < goukeiItem) {
+							heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1 =
+								weapon_def_list[whatedit2 + 1].def_id; // 装備の更新をしたい
+						}
+
+						if (whatedit2 < goukeiItem) {
+							weapon_have_list[whatedit2 + 1].have_kosuu = weapon_have_list[whatedit2 + 1].have_kosuu - 1;  // カーソル選択中だった武器が1個減る
+						}
+						if (whatedit2 >= goukeiItem) {
+							// 何も選択してない状態なので、何も減らない
+							//weapon_have_list[whatedit2 + 1].have_kosuu = weapon_have_list[whatedit2 + 1].have_kosuu - 1;  // カーソル選択中だった武器が1個減る
+						}
+			
+
+						if (whatedit2 >= goukeiItem) {
+							heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1 =
+								weapon_def_list[0].def_id; // 装備の更新をしたい
+						}
+
+
+
+
+					}
+
+
+
+
 				} // ウェポン
 
 
