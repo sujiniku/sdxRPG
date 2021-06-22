@@ -75,6 +75,7 @@ int hero2HPnow = 14;
 int hero2HPmax = 30;
 
 
+int toubouTyokugo = 0;
 
 
 
@@ -1271,7 +1272,7 @@ void keyFlagReset() {
 
 
 
-
+int toubouSeikou = 0;
 
 
 
@@ -2164,7 +2165,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-					if (xPosi == monPosiX && yPosi == monPosiY) {
+					if (xPosi == monPosiX && yPosi == monPosiY && toubouTyokugo == 0) {
+
+						mode_scene = MODE_BATTLE_COMMAND;
+
 						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
 							GetColor(0, 0, 0), 1);
 						DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
@@ -2206,8 +2210,140 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+		
+
+		if (mode_scene == MODE_BATTLE_COMMAND) {
+
+			// mode_scene = MODE_BATTLE_COMMAND;
+
+			int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
+			DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
+				GetColor(0, 0, 0), 1);
+			DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
+
+			// モンスター画像 // デバッグ用
+			DrawGraph(300, 95, koboHandle, true);
 
 
+
+			int KasolColor = GetColor(100, 100, 100);
+			double redVal = 0;
+			double tani = 60.0;
+			if (TimeKasolCount < tani) {
+				redVal = TimeKasolCount;
+			}
+			if (TimeKasolCount >= tani) {
+				redVal = tani * 2 - TimeKasolCount;
+			}
+
+			//DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
+			//	GetColor(250 , 150, 150), 1);
+
+		//DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
+		//	GetColor( 200 + (250 - 200)*(redVal / 120.0), 150, 250 - (250-150) * (redVal / 120.0) ), 1);
+
+
+			DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
+				GetColor(100 + (180 - 150) * (redVal / tani ),
+					100 + (180 - 150) * (redVal / tani ),
+					100 + 1 * (180 - 150) * (redVal / tani )),
+				1);
+
+
+
+			TimeKasolCount = TimeKasolCount + 1;
+			if (TimeKasolCount > tani *2) {
+				TimeKasolCount = 0;
+			}
+
+
+
+
+
+			DrawFormatString(100 + 20, 250, GetColor(255, 255, 255), "戦う"); // 文字を描画する
+			DrawFormatString(100 + 20, 250 + 40, GetColor(255, 255, 255), "逃げる"); // 文字を描画する
+
+
+
+
+				// 十字キー入力時
+
+				// カーソルを上に移動
+			{
+
+				// 移動の終了処理
+				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1) {
+					keyFlagUp = 0;
+					nyuuryokuMatiUp = waitTime1;
+					selecting_mainmenu--;                       // 上へ1マスだけ移動
+					//moving = 0;
+				}
+
+
+				if (selecting_mainmenu < 0) {
+					selecting_mainmenu = 0;
+				}
+
+				if (selecting_mainmenu >= 3) {
+					selecting_mainmenu = 3;
+				}
+				//moving = 0;
+			}
+
+
+
+
+			// カーソルを下に移動
+			{
+
+				// 移動の終了処理
+				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
+					keyFlagDown = 0;
+					nyuuryokuMatiDown = waitTime1;
+					selecting_mainmenu++;                       // 下へ1マスだけ移動
+					//moving = 0;
+				}
+
+
+				if (selecting_mainmenu < 1) {
+					selecting_mainmenu = 1;
+				}
+
+				if (selecting_mainmenu >= 3) {
+					selecting_mainmenu = 3;
+				}
+
+				//moving = 0;
+
+				
+
+				if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 2) {
+					TimeKasolCount = 0;
+					DrawFormatString(monMesX, 350 +30, GetColor(255, 255, 255), "逃げるのに成功"); // 文字を描画する
+					toubouSeikou = 1;
+					toubouTyokugo = 1;
+					// keyFlagReset();
+
+					// DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
+
+				}
+
+				if (toubouSeikou == 1 ) {
+					DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "逃げるのに成功"); // 文字を描画する
+
+				}
+
+				if (toubouSeikou == 1 && TimeKasolCount == 60) {
+					mode_scene = MODE_MAP;
+
+				}
+			}
+
+
+
+
+
+		}
 
 
 
