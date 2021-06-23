@@ -1592,31 +1592,31 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 // 計算量が2乗時間のアルゴリズムだけど、とりあえず編集性やバグ耐性を優先し、計算時間は考慮しない。
 // どうしても計算時間を短縮したいなら、ifをswitch-breakに置き換えれば、読み込み時間を若干、減らせるか。
 	for (int temp = 0; temp <= 10; temp = temp + 1) {
-
+		int locType = kabutoType;
 		if (temp == 0) {
-			helm_def_list[temp].def_id = temp;
-			lstrcpy(helm_def_list[temp].def_name, TEXT("--------"));
-			helm_def_list[temp].material = mateNothing;
-			helm_def_list[temp].equip_type = typeNothing;
-			helm_def_list[temp].equipPower = 0; // 攻撃力
+			(soubihin[temp].Stype[locType]).def_id = temp;
+			lstrcpy((soubihin[temp].Stype[locType]).def_name, TEXT("--------"));
+			(soubihin[temp].Stype[locType]).material = mateNothing;
+			(soubihin[temp].Stype[locType]).equip_type = typeNothing;
+			(soubihin[temp].Stype[locType]).equipPower = 0; // 攻撃力
 			continue; // 計算時間の節約のため
 		}
 
 		if (temp == 1) {
-			helm_def_list[temp].def_id = temp;
-			lstrcpy(helm_def_list[temp].def_name, TEXT("木の帽子"));
-			helm_def_list[temp].material = mateNothing;
-			helm_def_list[temp].equip_type = typeNothing;
-			helm_def_list[temp].equipPower = 5; // 攻撃力	
+			(soubihin[temp].Stype[locType]).def_id = temp;
+			lstrcpy((soubihin[temp].Stype[locType]).def_name, TEXT("木の帽子"));
+			(soubihin[temp].Stype[locType]).material = mateNothing;
+			(soubihin[temp].Stype[locType]).equip_type = typeNothing;
+			(soubihin[temp].Stype[locType]).equipPower = 5; // 攻撃力	
 			continue;
 		}
 
 		if (temp == 2) {
-			helm_def_list[temp].def_id = temp;
-			lstrcpy(helm_def_list[temp].def_name, TEXT("鉄のカブト"));
-			helm_def_list[temp].material = mateNothing;
-			helm_def_list[temp].equip_type = typeNothing;
-			helm_def_list[temp].equipPower = 10; // 攻撃力
+			(soubihin[temp].Stype[locType]).def_id = temp;
+			lstrcpy((soubihin[temp].Stype[locType]).def_name, TEXT("鉄のカブト"));
+			(soubihin[temp].Stype[locType]).material = mateNothing;
+			(soubihin[temp].Stype[locType]).equip_type = typeNothing;
+			(soubihin[temp].Stype[locType]).equipPower = 10; // 攻撃力
 			continue;
 		}
 	}
@@ -1693,24 +1693,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//所持の装備品の個数などの初期値
 	for (int temp = 0; temp <= 15 - 1; temp++) {
 
-		weapon_have_list[temp].have_def_id = temp + 1;
+//		weapon_have_list[temp].have_def_id = temp + 1;
 
 		//
-		soubiSyoji[temp].Stype[wepoType].have_def_id = temp + 1;
+		int locType = wepoType;
+		soubiSyoji[temp].Stype[locType].have_def_id = temp + 1;
 
 		if (temp == 0) {
 			//weapon_have_list[temp].have_kosuu = 0; // --------
-			(soubiSyoji[temp].Stype[wepoType]).have_kosuu = 0; // --------
+			(soubiSyoji[temp].Stype[locType]).have_kosuu = 0; // --------
 		}
 
 		if (temp == 1) {
 			//weapon_have_list[temp].have_kosuu = 2;
-			(soubiSyoji[temp].Stype[wepoType]).have_kosuu = 0;
+			(soubiSyoji[temp].Stype[locType]).have_kosuu = 0;
 		}
 
 		if (temp == 2) {
 			//weapon_have_list[temp].have_kosuu = 0;
-			(soubiSyoji[temp].Stype[wepoType]).have_kosuu = 3;
+			(soubiSyoji[temp].Stype[locType]).have_kosuu = 3;
 		}
 	}
 
@@ -1721,23 +1722,50 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// si-rudo weapon_have_list[temp].have_def_id = temp + 1;
 
 		//
-		soubiSyoji[temp].Stype[tateType].have_def_id = temp + 1;
+		int locType = tateType;
+		soubiSyoji[temp].Stype[locType].have_def_id = temp + 1;
 
 		if (temp == 0) {
 			//weapon_have_list[temp].have_kosuu = 0; // --------
-			(soubiSyoji[temp].Stype[tateType]).have_kosuu = 0; // --------
+			(soubiSyoji[temp].Stype[locType]).have_kosuu = 0; // --------
 		}
 
 		if (temp == 1) {
 			//weapon_have_list[temp].have_kosuu = 2;
-			(soubiSyoji[temp].Stype[tateType]).have_kosuu = 1;
+			(soubiSyoji[temp].Stype[locType]).have_kosuu = 1;
 		}
 
 		if (temp == 2) {
 			//weapon_have_list[temp].have_kosuu = 0;
-			(soubiSyoji[temp].Stype[tateType]).have_kosuu = 0;
+			(soubiSyoji[temp].Stype[locType]).have_kosuu = 0;
 		}
 	}
+
+
+	for (int temp = 0; temp <= 15 - 1; temp++) {
+
+		// kabuto weapon_have_list[temp].have_def_id = temp + 1;
+
+		//
+		int locType = kabutoType;
+		soubiSyoji[temp].Stype[kabutoType].have_def_id = temp + 1;
+
+		if (temp == 0) {
+			//weapon_have_list[temp].have_kosuu = 0; // --------
+			(soubiSyoji[temp].Stype[locType]).have_kosuu = 0; // --------
+		}
+
+		if (temp == 1) {
+			//weapon_have_list[temp].have_kosuu = 2;
+			(soubiSyoji[temp].Stype[locType]).have_kosuu = 5;
+		}
+
+		if (temp == 2) {
+			//weapon_have_list[temp].have_kosuu = 0;
+			(soubiSyoji[temp].Stype[locType]).have_kosuu = 0;
+		}
+	}
+
 
 
 	//初期装備の武器
@@ -3802,7 +3830,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						if (1) {
 							itemHairetu[itemIDcount] = idTemp;
-							itemTypeHairetu[itemIDcount] = wepoType;
+							itemTypeHairetu[itemIDcount] = localSouType;
 							itemIDcount = itemIDcount + 1;
 						}
 					}
@@ -3828,7 +3856,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						if (1) {
 							itemHairetu[itemIDcount] = idTemp;
-							itemTypeHairetu[itemIDcount] = tateType;
+							itemTypeHairetu[itemIDcount] = localSouType;
 							itemIDcount = itemIDcount + 1;
 						}
 
@@ -3846,13 +3874,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
 				{
 					// MessageBox(NULL, TEXT("テスト22"), TEXT("キーテスト"), MB_OK);
-					if (helm_have_list[idTemp].have_kosuu != 0) {
+					// if (helm_have_list[idTemp].have_kosuu != 0) {
+					int	localSouType = kabutoType;
+					if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
 
 						goukeiItem = goukeiItem + 1;
 
 						if (1) {
 							itemHairetu[itemIDcount] = idTemp;
-							itemTypeHairetu[itemIDcount] = kabutoType;
+							itemTypeHairetu[itemIDcount] = localSouType;
 							itemIDcount = itemIDcount + 1;
 						}
 
@@ -3889,6 +3919,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 					if (itemTypeHairetu[temp2] == wepoType
 						|| itemTypeHairetu[temp2] == tateType
+						|| itemTypeHairetu[temp2] == kabutoType
 						) {
 
 						int locType;
@@ -3900,7 +3931,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 						if (itemTypeHairetu[temp2] == tateType) {
 							locType = tateType;
-
+						}
+						if (itemTypeHairetu[temp2] == kabutoType) {
+							locType = kabutoType;
 						}
 
 						// lstrcpy(mojibuf, weapon_def_list[itemHairetu[temp2]].def_name);
@@ -3911,7 +3944,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 					if (itemTypeHairetu[temp2] == kabutoType) {
-						lstrcpy(mojibuf, helm_def_list[itemHairetu[temp2]].def_name);
+						// lstrcpy(mojibuf, helm_def_list[itemHairetu[temp2]].def_name);
 					}
 
 					//TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
@@ -3929,15 +3962,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), item_have_list[itemHairetu[temp2]].have_kosuu);
 					}
 
-					int someType = itemTypeHairetu[temp2];
-					if (itemTypeHairetu[temp2] == wepoType || itemTypeHairetu[temp2] == tateType												
+					int locType = itemTypeHairetu[temp2];
+					if (itemTypeHairetu[temp2] == wepoType || itemTypeHairetu[temp2] == tateType
+						|| itemTypeHairetu[temp2] == kabutoType
 						) {
 						// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[itemHairetu[temp2]].have_kosuu);
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), (soubiSyoji[itemHairetu[temp2]].Stype[someType]).have_kosuu);					
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), (soubiSyoji[itemHairetu[temp2]].Stype[locType]).have_kosuu);					
 					}
 
 					if (itemTypeHairetu[temp2] == kabutoType) {
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[itemHairetu[temp2]].have_kosuu);
+					//	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[itemHairetu[temp2]].have_kosuu);
 					}
 
 					// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d mm"), weapon_have_list[temp].have_kosuu);
@@ -4730,8 +4764,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				if (temp == 3) {
 					lstrcpy(mojibuf1, TEXT("頭"));
-					lstrcpy(mojibuf2, helm_def_list[
-						heros_def_list[partyNarabijyun[whomTargetID1]].heros_helm].def_name);
+					lstrcpy(mojibuf2, 
+						//helm_def_list[
+						//heros_def_list[partyNarabijyun[whomTargetID1]].heros_helm].def_name);
+						
+						soubihin[
+							// heros_def_list[partyNarabijyun[whomTargetID1]].heros_shield
+							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[temp]
+						].Stype[temp].def_name);
+
 				}
 
 				if (temp == 4) {
@@ -5006,9 +5047,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (mode2_scene == MODE2_EQUIP_SHIELD) {
 					locType = tateType;
 				}
+				if (mode2_scene == MODE2_EQUIP_HELM) {
+					locType = kabutoType;
+				}
 
 
-				if (mode2_scene == MODE2_EQUIP_HAND1  || mode2_scene == MODE2_EQUIP_SHIELD) {
+				if (mode2_scene == MODE2_EQUIP_HAND1  || mode2_scene == MODE2_EQUIP_SHIELD ||
+					mode2_scene == MODE2_EQUIP_HELM
+					
+					) {
 
 					
 
@@ -5248,6 +5295,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				*/
 
+
+
+				/*
+				
+		
+
 				if (mode2_scene == MODE2_EQUIP_HELM) {
 					for (idTemp = 0; idTemp <= 2; idTemp = idTemp + 1)
 					{
@@ -5283,6 +5336,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 				} // ヘルム
+						
+						*/
 
 			}
 
