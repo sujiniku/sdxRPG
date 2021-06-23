@@ -387,6 +387,29 @@ struct weapon_have
 
 
 
+struct soubi_have
+{
+	int have_type;
+	int have_def_id;
+	int have_kosuu;
+};
+
+
+struct soubi_def
+{
+	int def_type;
+	int def_id;
+	TCHAR def_name[MAX_LENGTH];
+	int material;
+	int equip_type;
+	int equipPower;// 攻撃力
+
+
+};
+
+
+
+
 
 
 struct weapon_def
@@ -492,6 +515,8 @@ struct heros_def
 	int heros_HP0_flag;
 
 	int PartyIn;
+
+	int heroSoubi[20];
 
 
 	int heros_weapon1;
@@ -767,6 +792,24 @@ static struct item_have item_have_list[8];
 
 
 // 装備品の処理の構造体配列の作成
+
+
+
+/*
+
+struct tykou {
+	struct soubi_def Stype[10];
+};
+
+struct tykou soubihin[10]; // 構造体配列の宣言
+
+
+static struct soubi_def soubi_def_list[15]; // 武器処理の構造体配列の宣言
+static struct soubi_have soubi_have_list[15];
+*/
+
+
+
 static struct weapon_def weapon_def_list[15]; // 武器処理の構造体配列の宣言
 static struct weapon_have weapon_have_list[15];
 
@@ -1370,6 +1413,55 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+	struct tykou {
+		struct soubi_def Stype[10];
+	};
+
+	struct tykou soubihin[10]; // 構造体配列の宣言
+
+
+	// strcpy_s((soubihin[0].Stype[0]).def_name, 10, "武器テスト---");  // 前コードと区別のため、文字を追加している
+	
+
+	//static struct soubi_def soubi_def_list[15]; // 武器処理の構造体配列の宣言
+	//static struct soubi_have soubi_have_list[15];
+
+	
+
+
+	for (int temp = 0; temp <= 10; temp = temp + 1) {
+
+		if (temp == 0) {
+			(soubihin[temp].Stype[0]).def_id = 0;
+			lstrcpy((soubihin[temp].Stype[0]).def_name, TEXT("--------"));
+			(soubihin[temp].Stype[0]).material = mateNothing;
+			(soubihin[temp].Stype[0]).equip_type = typeNothing;
+			(soubihin[temp].Stype[0]).equipPower = 0; // 攻撃力
+			continue; // 計算時間の節約のため
+		}
+
+		if (temp == 1) {
+			(soubihin[temp].Stype[0]).def_id = 1;
+			lstrcpy((soubihin[temp].Stype[0]).def_name, TEXT("鉄の槍"));
+			(soubihin[temp].Stype[0]).material = mateIron;
+			(soubihin[temp].Stype[0]).equip_type = spear;
+			(soubihin[temp].Stype[0]).equipPower = 107; // 攻撃力	
+			continue;
+		}
+
+		if (temp == 2) {
+			(soubihin[temp].Stype[0]).def_id = 2;
+			lstrcpy((soubihin[temp].Stype[0]).def_name, TEXT("鉄のメイス"));
+			(soubihin[temp].Stype[0]).material = mateIron;
+			// weapon_def_list[temp].equip_type = spear;
+			(soubihin[temp].Stype[0]).equipPower = 44; // 攻撃力
+			continue;
+		}
+
+
+	}
+
+
 	//武器の定義
 	// 計算量が2乗時間のアルゴリズムだけど、とりあえず編集性やバグ耐性を優先し、計算時間は考慮しない。
 	// どうしても計算時間を短縮したいなら、ifをswitch-breakに置き換えれば、読み込み時間を若干、減らせるか。
@@ -1412,6 +1504,37 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	for (int temp = 0; temp <= 10; temp = temp + 1) {
 
 		if (temp == 0) {
+			(soubihin[temp].Stype[1]).def_id = temp;
+			lstrcpy((soubihin[temp].Stype[1]).def_name, TEXT("--------"));
+			(soubihin[temp].Stype[1]).material = mateNothing;
+			(soubihin[temp].Stype[1]).equip_type = typeNothing;
+			(soubihin[temp].Stype[1]).equipPower = 0; // 攻撃力
+			continue; // 計算時間の節約のため
+		}
+
+		if (temp == 1) {
+			(soubihin[temp].Stype[1]).def_id = temp;
+			lstrcpy((soubihin[temp].Stype[1]).def_name, TEXT("木の盾"));
+			(soubihin[temp].Stype[1]).material = mateNothing;
+			(soubihin[temp].Stype[1]).equip_type = typeNothing;
+			(soubihin[temp].Stype[1]).equipPower = 5; // 攻撃力	
+			continue;
+		}
+
+		if (temp == 2) {
+			(soubihin[temp].Stype[1]).def_id = temp;
+			lstrcpy((soubihin[temp].Stype[1]).def_name, TEXT("鉄の盾"));
+			(soubihin[temp].Stype[1]).material = mateNothing;
+			(soubihin[temp].Stype[1]).equip_type = typeNothing;
+			(soubihin[temp].Stype[1]).equipPower = 10; // 攻撃力
+			continue;
+		}
+	}
+
+
+	for (int temp = 0; temp <= 10; temp = temp + 1) {
+
+		if (temp == 0) {
 			shield_def_list[temp].def_id = temp;
 			lstrcpy(shield_def_list[temp].def_name, TEXT("--------"));
 			helm_def_list[temp].material = mateNothing;
@@ -1438,6 +1561,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			continue;
 		}
 	}
+
+
+
+
+	strcpy_s((soubihin[0].Stype[1]).def_name, 30, "盾テスト---");  // 前コードと区別のため、文字を追加している
+	strcpy_s((soubihin[1].Stype[1]).def_name, 30, "弱い盾テスト1");  // 前コードと区別のため、文字を追加している
+	strcpy_s((soubihin[2].Stype[1]).def_name, 30, "鉄盾テスト");
+
 
 
 
@@ -1638,9 +1769,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			heros_def_list[temp].PartyIn = 1;
 
 
-			heros_def_list[temp].heros_weapon1 = 1;
+			// heros_def_list[temp].heros_weapon1 = 1;
+			heros_def_list[temp].heroSoubi[1] = 1;
 
-			heros_def_list[temp].heros_shield = 2;
+			//heros_def_list[temp].heros_shield = 2;
+			heros_def_list[temp].heroSoubi[2] = 2;
+
 			heros_def_list[temp].heros_bukiKougekiRyoku = weapon_def_list[heros_def_list[temp].heros_weapon1].equipPower;
 
 		}
@@ -1657,8 +1791,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			heros_def_list[temp].PartyIn = 1;
 
 
-			heros_def_list[temp].heros_weapon1 = 2;
-			heros_def_list[temp].heros_shield = 0;
+			// heros_def_list[temp].heros_weapon1 = 2;
+			heros_def_list[temp].heroSoubi[1] = 2;
+
+			// heros_def_list[temp].heros_shield = 0;
+			heros_def_list[temp].heroSoubi[2] = 0;
 
 			heros_def_list[temp].heros_bukiKougekiRyoku = weapon_def_list[heros_def_list[temp].heros_weapon1].equipPower;
 
@@ -4492,14 +4629,31 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				if (temp == 1) {
 					lstrcpy(mojibuf1, TEXT("武器"));
-					lstrcpy(mojibuf2, weapon_def_list[
-						heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1].def_name);
+					lstrcpy(mojibuf2,
+
+						//(soubihin[0].Stype[0]).def_name );
+
+
+						soubihin[
+							// heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1
+							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[temp]
+						].Stype[temp -1].def_name );
+
+						// weapon_def_list[0].def_name );
+						//weapon_def_list[
+						//heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1].def_name);
 				}
 
 				if (temp == 2) {
 					lstrcpy(mojibuf1, TEXT("盾"));
-					lstrcpy(mojibuf2, shield_def_list[
-						heros_def_list[partyNarabijyun[whomTargetID1]].heros_shield].def_name);
+					lstrcpy(mojibuf2, 
+						//shield_def_list[
+						// heros_def_list[partyNarabijyun[whomTargetID1]].heros_shield].def_name);
+
+						soubihin[
+							// heros_def_list[partyNarabijyun[whomTargetID1]].heros_shield
+							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[temp]
+						].Stype[temp - 1].def_name);
 				}
 
 				if (temp == 3) {
@@ -4874,16 +5028,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						//mode_scene = MODE_EQUIP_EDIT2;
 
 
+						int localSouType = 1;
 						int temp;
-						int hensu = heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1;
-	
+						// int hensu = heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1;
+						int hensu = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[localSouType]  ;
+
 						weapon_have_list[hensu].have_kosuu = weapon_have_list[hensu].have_kosuu + 1; // 装備してた武器が1個増えるように
 
-						//heros_def_list[temp].heros_weapon1].def_id) =    ;
-						if (whatedit2 < goukeiItem) {
-							heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1 =
-								weapon_def_list[whatedit2 + 1].def_id; // 装備の更新をしたい
-						}
 
 						if (whatedit2 < goukeiItem) {
 							weapon_have_list[whatedit2 + 1].have_kosuu = weapon_have_list[whatedit2 + 1].have_kosuu - 1;  // カーソル選択中だった武器が1個減る
@@ -4894,12 +5045,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 			
 
+
+						//heros_def_list[temp].heros_weapon1].def_id) =    ;
+						if (whatedit2 < goukeiItem) {
+							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[localSouType] =
+
+								// weapon_def_list[whatedit2 + 1].def_id; // 装備の更新をしたい							
+								soubihin[whatedit2 + 1].Stype[localSouType -1].def_id;
+						}
 						if (whatedit2 >= goukeiItem) {
-							heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1 =
-								weapon_def_list[0].def_id; // 装備の更新をしたい
+							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[localSouType] =
+								soubihin[0].Stype[localSouType -1].def_id; // 装備の更新をしたい
 						}
 
 
+
+						// (soubihin[temp].Stype[1])
 
 
 					}
@@ -4949,6 +5110,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						}
 					}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 				} // シールド
 
