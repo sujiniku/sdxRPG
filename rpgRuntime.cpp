@@ -43,7 +43,8 @@ static int selecting_mainmenu = 1;
 
 
 int battlewait = 30;
-int battleTraFlag = 0;
+//int battleTraFlag = 0;
+int keyHaijyo = 0;
 
 
 
@@ -2495,61 +2496,63 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				// 十字キー入力時
-
+			if (keyHaijyo == 0) {
 				// カーソルを上に移動
-			{
 
-				// 移動の終了処理
-				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1) {
-					keyFlagUp = 0;
-					nyuuryokuMatiUp = waitTime1;
-					selecting_mainmenu--;                       // 上へ1マスだけ移動
+				{
+
+					// 移動の終了処理
+					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyFlagUp == 1) {
+						keyFlagUp = 0;
+						nyuuryokuMatiUp = waitTime1;
+						selecting_mainmenu--;                       // 上へ1マスだけ移動
+						//moving = 0;
+					}
+
+
+					if (selecting_mainmenu < 0) {
+						selecting_mainmenu = 0;
+					}
+
+					if (selecting_mainmenu >= 3) {
+						selecting_mainmenu = 3;
+					}
 					//moving = 0;
 				}
 
 
-				if (selecting_mainmenu < 0) {
-					selecting_mainmenu = 0;
-				}
-
-				if (selecting_mainmenu >= 3) {
-					selecting_mainmenu = 3;
-				}
-				//moving = 0;
-			}
 
 
+				// カーソルを下に移動
+				{
+
+					// 移動の終了処理
+					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
+						keyFlagDown = 0;
+						nyuuryokuMatiDown = waitTime1;
+						selecting_mainmenu++;                       // 下へ1マスだけ移動
+						//moving = 0;
+					}
 
 
-			// カーソルを下に移動
-			{
+					if (selecting_mainmenu < 1) {
+						selecting_mainmenu = 1;
+					}
 
-				// 移動の終了処理
-				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyFlagDown == 1) {
-					keyFlagDown = 0;
-					nyuuryokuMatiDown = waitTime1;
-					selecting_mainmenu++;                       // 下へ1マスだけ移動
+					if (selecting_mainmenu >= 3) {
+						selecting_mainmenu = 3;
+					}
+
 					//moving = 0;
+
 				}
-
-
-				if (selecting_mainmenu < 1) {
-					selecting_mainmenu = 1;
-				}
-
-				if (selecting_mainmenu >= 3) {
-					selecting_mainmenu = 3;
-				}
-
-				//moving = 0;
 
 			}
 
-
-				if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 1) {
+				if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 1 && keyHaijyo == 0    ) {
 					TimeKasolCount = 0;
 					
-					
+					keyHaijyo = 1;
 					battlewait = 100;
 					//battleTraFlag = 1;
 																								   
@@ -2575,12 +2578,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					toubouSeikou = 1; // テスト用に逃げた扱いなので
 					toubouTyokugo = 5;
 
+					keyHaijyo = 0;
 					mode_scene = MODE_MAP;// テスト用に倒した扱いなので
 					//battleTraFlag = 0;
 				}
 
 
-				if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 2) {
+				if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 2  && keyHaijyo == 0) {
+
+					keyHaijyo = 1;
+
 					TimeKasolCount = 0;
 					DrawFormatString(monMesX, 350 +30, GetColor(255, 255, 255), "逃げるのに成功"); // 文字を描画する
 					toubouSeikou = 1;
@@ -2597,6 +2604,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 				if (toubouSeikou == 1 && TimeKasolCount == 60) {
+					keyHaijyo = 0;
 					mode_scene = MODE_MAP;
 
 				}
