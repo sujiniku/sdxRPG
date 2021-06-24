@@ -42,8 +42,8 @@ int TimeKasolCount = 0;
 static int selecting_mainmenu = 1;
 
 
-
-
+int battlewait = 30;
+int battleTraFlag = 0;
 
 
 
@@ -2443,7 +2443,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		
 
-		if (mode_scene == MODE_BATTLE_COMMAND) {
+		if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_NOW ){
 
 			// mode_scene = MODE_BATTLE_COMMAND;
 
@@ -2488,13 +2488,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
-
-
-
-			DrawFormatString(100 + 20, 250, GetColor(255, 255, 255), "戦う"); // 文字を描画する
-			DrawFormatString(100 + 20, 250 + 40, GetColor(255, 255, 255), "逃げる"); // 文字を描画する
-
-
+			if (mode_scene == MODE_BATTLE_COMMAND) {
+				DrawFormatString(100 + 20, 250, GetColor(255, 255, 255), "戦う"); // 文字を描画する
+				DrawFormatString(100 + 20, 250 + 40, GetColor(255, 255, 255), "逃げる"); // 文字を描画する
+			}
 
 
 				// 十字キー入力時
@@ -2546,7 +2543,42 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				//moving = 0;
 
-				
+			}
+
+
+				if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 1) {
+					TimeKasolCount = 0;
+					
+					
+					battlewait = 100;
+					//battleTraFlag = 1;
+																								   
+					mode_scene  = MODE_BATTLE_NOW;																   //toubouSeikou = 1;
+					//toubouTyokugo = 5;
+					// keyFlagReset();
+
+					// DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
+
+
+
+
+				}
+
+				if (mode_scene == MODE_BATTLE_NOW ) {
+					DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "戦うテスト、逃げた事にする"); // 文字を描画する
+					battlewait = battlewait -1;
+				}
+
+				if (battlewait <= 0 && mode_scene == MODE_BATTLE_NOW) {
+					battlewait = 0;
+
+					toubouSeikou = 1; // テスト用に逃げた扱いなので
+					toubouTyokugo = 5;
+
+					mode_scene = MODE_MAP;// テスト用に倒した扱いなので
+					//battleTraFlag = 0;
+				}
+
 
 				if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 2) {
 					TimeKasolCount = 0;
@@ -2568,7 +2600,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					mode_scene = MODE_MAP;
 
 				}
-			}
+			
 
 
 
