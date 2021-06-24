@@ -542,7 +542,7 @@ enum next_attack_flag { next_is_hero, next_is_enemy };
 enum next_attack_flag next_attack_var = next_is_hero;
 
 
-static int encount_monters_id = 1;
+static int encount_monters_id = 2;
 
 
 struct monsterTairetu_def
@@ -976,7 +976,8 @@ void battle_start() {
 	key_remain = 0;
 
 	monster_hp = monster_def_list[encount_monters_id - 1].mon_hp_max;
-
+	 	
+	_stprintf_s(monster_name, MAX_LENGTH, TEXT("%s"), monster_def_list[encount_monters_id - 1].monster_name );
 	tekiTairetuAgility[0] = monster_def_list[encount_monters_id - 1].mon_agility;
 
 	encount_mons_alive = 1;
@@ -2398,7 +2399,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 					if (xPosi == monPosiX && yPosi == monPosiY && toubouTyokugo == 0) {
-
+						battle_start();
 						mode_scene = MODE_BATTLE_COMMAND;
 
 						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
@@ -2493,6 +2494,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				DrawFormatString(100 + 20, 250, GetColor(255, 255, 255), "í‚¤"); // •¶š‚ğ•`‰æ‚·‚é
 				DrawFormatString(100 + 20, 250 + 40, GetColor(255, 255, 255), "“¦‚°‚é"); // •¶š‚ğ•`‰æ‚·‚é
 			}
+
+			//int locTest =1;
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("HP %d"), monster_hp);
+			//TextOut(hdc, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(300, 400, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), monster_name);
+			DrawFormatString(300, 400 +20, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+
 
 
 				// \šƒL[“ü—Í
