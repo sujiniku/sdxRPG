@@ -2377,6 +2377,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 
+
+				if (destMovable == 1 && moving == 1 && toubouTyokugo > 0) {
+					toubouTyokugo = toubouTyokugo -1;
+					destMovable = 0;
+				}
+				if (toubouTyokugo <= 0) {
+					toubouSeikou = 0;
+					toubouTyokugo = 0;
+				}
+
+
 				// モンスター遭遇のエンカウント判定
 				{
 					int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
@@ -2541,7 +2552,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					TimeKasolCount = 0;
 					DrawFormatString(monMesX, 350 +30, GetColor(255, 255, 255), "逃げるのに成功"); // 文字を描画する
 					toubouSeikou = 1;
-					toubouTyokugo = 1;
+					toubouTyokugo = 5;
 					// keyFlagReset();
 
 					// DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
