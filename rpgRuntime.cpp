@@ -2596,21 +2596,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					battlewait = battlewait -1;
 
 
-
-
-
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Exp: %d"), monster_def_list[encount_monters_id - 1].mon_exp);
 					DrawFormatString(monMesX, 350 + 30 * 2, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
 
-
-
-
-
-
-
-
-
-
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monters_id - 1].mon_gold );
+					DrawFormatString(monMesX, 350 + 30 * 3, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
 
 
 				}
@@ -2685,6 +2675,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			DrawFormatString(HPX + 20, HPY + 20 * 3, GetColor(255, 255, 255), "%s", heros_def_list[1].heros_name); // •¶š‚ğ•`‰æ‚·‚é
 			DrawFormatString(HPX + 20, HPY + 20 * (3+1), GetColor(255, 255, 255), "HP %d/%d", heros_def_list[1].heros_hp, heros_def_list[1].heros_hp_max); // •¶š‚ğ•`‰æ‚·‚é
+			DrawFormatString(HPX + 20 * 3, HPY + 20 * (3+2), GetColor(255, 255, 255), "EXP %d", heros_def_list[1].heros_exp); // •¶š‚ğ•`‰æ‚·‚é
+
+
+
+			DrawFormatString(500, 400, GetColor(255, 255, 255), "Š‹à"); // •¶š‚ğ•`‰æ‚·‚é
+			DrawFormatString(500, 400 +30, GetColor(255, 255, 255), "%d G", your_money); // •¶š‚ğ•`‰æ‚·‚é
+
+
 
 
 
