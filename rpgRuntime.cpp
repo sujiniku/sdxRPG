@@ -2506,6 +2506,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+			
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[0]].heros_name);
+			//TextOut(hdc, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(50, 400, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("HP %d"), heros_def_list[partyNarabijyun[0]].heros_hp);
+			//TextOut(hdc, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(50, 400 + 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
 				// 十字キー入力時
 			if (keyHaijyo == 0) {
 				// カーソルを上に移動
@@ -2575,6 +2588,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+					enemy_attack();
+
+					
+
+
 
 					// カネと経験値の更新
 					your_money = your_money + monster_def_list[encount_monters_id - 1].mon_gold;
@@ -2601,6 +2619,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monters_id - 1].mon_gold );
 					DrawFormatString(monMesX, 350 + 30 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("ダメージ: %d"), damage_EnemyAttack);
+					DrawFormatString(300, 150 + 30 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 				}
