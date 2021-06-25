@@ -2506,7 +2506,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+			/*
 			
+
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[0]].heros_name);
 			//TextOut(hdc, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
 			DrawFormatString(50, 400, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
@@ -2515,6 +2517,69 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("HP %d"), heros_def_list[partyNarabijyun[0]].heros_hp);
 			//TextOut(hdc, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
 			DrawFormatString(50, 400 + 30, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[1]].heros_name);
+			DrawFormatString(50 + 100, 400, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("HP %d"), heros_def_list[partyNarabijyun[1]].heros_hp);		
+			DrawFormatString(50 + 100, 400 + 30, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+			*/
+
+			int windowTempA = 410 +100; // y ‚ÌˆÊ’u
+			int chara_window_size_x = 140;
+
+			// _itot_s(your_money , p,200, 10);
+
+			int offsetBattleX = 170;
+			int tempVAl;
+
+				// partyNarabijyun[iTemp] ;
+			for (int iTemp = 0; iTemp <= partyNinzuDone - 1; iTemp++)
+			{
+
+				tempVAl = partyNarabijyun[iTemp];
+			
+
+				/* ƒLƒƒƒ‰‚ÌƒXƒe[ƒ^ƒX */
+				// TextOut(hdc, 20 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 10, heros_def_list[tempVAl].heros_name, lstrlen(heros_def_list[tempVAl].heros_name));
+				DrawFormatString(20 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 10,
+					GetColor(255, 255, 255), heros_def_list[tempVAl].heros_name ); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+				lstrcpy(mojibuf, TEXT("HP"));
+				// TextOut(hdc, 20 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 40, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(20 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 40, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[tempVAl].heros_hp);
+				//TextOut(hdc, 50 + iTemp * offsetBattleX, 410 - chara_window_size_x + 40, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(50 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 40, GetColor(255, 255, 255),mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[tempVAl].heros_hp_max);
+				//TextOut(hdc, 50 + 30 + iTemp * offsetBattleX, 410 - chara_window_size_x + 40, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(50 + 30 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 40,  GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+				lstrcpy(mojibuf, TEXT("‘f‘‚³"));
+				//TextOut(hdc, 20 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 40 + 30, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(20 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 40 + 30, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), sankaAgility[tempVAl]);
+				//TextOut(hdc, 50 + iTemp * offsetBattleX + 30, windowTempA - chara_window_size_x + 40 + 30, mojibuf, lstrlen(mojibuf));			
+				DrawFormatString(50 + iTemp * offsetBattleX + 30, windowTempA - chara_window_size_x + 40 + 30, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+
+
+			}
+
 
 
 
