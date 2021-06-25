@@ -2576,11 +2576,43 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+					// カネと経験値の更新
+					your_money = your_money + monster_def_list[encount_monters_id - 1].mon_gold;
+
+					for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
+						//if (heros_def_list[temp].PartyIn == 0) { // 登録キャラが多い場合を想定して（歴史SLGなど）、全キャラは走査しない。
+							// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
+
+						heros_def_list[partyNarabijyun[temp]].heros_exp = heros_def_list[partyNarabijyun[temp]].heros_exp + monster_def_list[encount_monters_id - 1].mon_exp;
+
+						//}		
+					}
+
+
 				}
 
 				if (mode_scene == MODE_BATTLE_NOW ) {
-					DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "戦うテスト、逃げた事にする"); // 文字を描画する
+					DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "戦うテスト、倒した事にする"); // 文字を描画する
 					battlewait = battlewait -1;
+
+
+
+
+
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Exp: %d"), monster_def_list[encount_monters_id - 1].mon_exp);
+					DrawFormatString(monMesX, 350 + 30 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+
+
+
+
+
+
+
 				}
 
 				if (battlewait <= 0 && mode_scene == MODE_BATTLE_NOW) {
@@ -2588,6 +2620,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					toubouSeikou = 1; // テスト用に逃げた扱いなので
 					toubouTyokugo = 5;
+
+
+
 
 					keyHaijyo = 0;
 					mode_scene = MODE_MAP;// テスト用に倒した扱いなので
@@ -2645,11 +2680,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			DrawFormatString(HPX +20, HPY + 20 * 0, GetColor(255, 255, 255), "%s", heros_def_list[0].heros_name); // 文字を描画する			
 			DrawFormatString(HPX +20, HPY + 20 * 1, GetColor(255, 255, 255), "HP %d/%d", heros_def_list[0].heros_hp, heros_def_list[0].heros_hp_max); // 文字を描画する
+			DrawFormatString(HPX + 20*3, HPY + 20 * 2, GetColor(255, 255, 255), "EXP %d", heros_def_list[0].heros_exp); // 文字を描画する
 
 
 			DrawFormatString(HPX + 20, HPY + 20 * 3, GetColor(255, 255, 255), "%s", heros_def_list[1].heros_name); // 文字を描画する
 			DrawFormatString(HPX + 20, HPY + 20 * (3+1), GetColor(255, 255, 255), "HP %d/%d", heros_def_list[1].heros_hp, heros_def_list[1].heros_hp_max); // 文字を描画する
-
 
 
 
