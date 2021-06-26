@@ -2452,7 +2452,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
 			DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
 				GetColor(0, 0, 0), 1);
-			DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
+			DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた"); // 文字を描画する
 
 			// モンスター画像 
 			if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_NOW ) {
@@ -2503,6 +2503,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// 敵関係のパラメ－タ表示
 			int monX = 450;
 			int monY = 150;
+
+
+
+			tekiTairetuAgility[0] = monster_def_list[encount_monters_id - 1].mon_agility;
+
+
+
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("HP %d"), monster_hp);
 			//TextOut(hdc, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
 			DrawFormatString(monX, monY , GetColor(255, 255, 255), mojibuf); // 文字を描画する
@@ -2510,6 +2517,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), monster_name);
 			DrawFormatString(monX, monY +20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("素早さ %d"), tekiTairetuAgility[0]);
+			//TextOut(hdc, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(monX, monY+20*2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
 
 
 			if (mode_scene == MODE_BATTLE_NOW) {
@@ -2583,6 +2596,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				DrawFormatString(50 + 30 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 40,  GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
+
 				lstrcpy(mojibuf, TEXT("素早さ"));
 				//TextOut(hdc, 20 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 40 + 30, mojibuf, lstrlen(mojibuf));
 				DrawFormatString(20 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 40 + 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
@@ -2595,6 +2609,90 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			}
+
+
+
+
+
+			for (idTemp = 0; idTemp <= partyNinzuDone - 1; idTemp = idTemp + 1)
+			{
+				// パーティにいないキャラごと、読み取る。
+				// パーティキャラの抽出は、後工程で行う。
+				mikataAgility[idTemp] = heros_def_list[idTemp].heros_agility;
+			}
+
+
+
+			// これ戦闘用ソート
+
+
+
+			for (idTemp = 0; idTemp <= partyNinzuDone - 1; idTemp = idTemp + 1)
+			{
+				// ここでパーティキャラだけ素早さを抽出している。mikataAgi は非パーティキャラを含んでるので、この工程が必要。
+				sankaAgility[idTemp] = mikataAgility[partyNarabijyun[idTemp]]; // sankaAgil はまだ並び替え前
+				// PorEflag[idTemp] = 1;
+				// actionOrder[idTemp] = idTemp;
+			}
+
+			for (idTemp = 0; idTemp <= enemyNinzu - 1; idTemp = idTemp + 1)
+			{
+				sankaAgility[partyNinzuDone + idTemp] = tekiTairetuAgility[idTemp];
+				// PorEflag[idTemp] = 2;
+				// actionOrder[idTemp] = idTemp;
+
+			}
+
+
+			for (int loctempQ = 0; loctempQ <= partyNinzuDone + enemyNinzu - 1; ++loctempQ)
+			{
+				iremonoAgilityHairetu[loctempQ] = sankaAgility[loctempQ]; // iremonoAgi と sanka は同内容
+
+				iremonoOrderHairetu[loctempQ] = loctempQ;
+			} // 初期値の代入
+
+
+			// ソートで実装
+
+			for (int loctempB = 0; loctempB <= (partyNinzuDone - 1 + enemyNinzu - 1) + 1; ++loctempB)
+			{
+				for (int loctempA = loctempB; loctempA <= (partyNinzuDone - 1 + enemyNinzu - 1) + 1; ++loctempA)
+				{
+					if (iremonoAgilityHairetu[loctempB] >= iremonoAgilityHairetu[loctempA + loctempB]) {
+
+						// 何もしていない
+					//	iremonoAgilityHairetu[loctempB] = iremonoAgilityHairetu[loctempB];
+					//	iremonoAgilityHairetu[loctempA + loctempB] = iremonoAgilityHairetu[loctempA + loctempB];
+
+					}
+					// locAのほうが内側です。
+					if (iremonoAgilityHairetu[loctempB] < iremonoAgilityHairetu[loctempA + loctempB]) {
+
+						int tempSwapA, tempSwapB;
+
+						tempSwapA = iremonoAgilityHairetu[loctempB];
+						tempSwapB = iremonoAgilityHairetu[loctempA + loctempB];
+
+						iremonoAgilityHairetu[loctempB] = tempSwapB;
+						iremonoAgilityHairetu[loctempA + loctempB] = tempSwapA;
+
+
+						int tempOrderSwapA, tempOrderSwapB;
+
+						tempOrderSwapA = iremonoOrderHairetu[loctempB];
+						tempOrderSwapB = iremonoOrderHairetu[loctempA + loctempB];
+
+						iremonoOrderHairetu[loctempB] = tempOrderSwapB;
+						iremonoOrderHairetu[loctempA + loctempB] = tempOrderSwapA;
+
+
+
+
+						// デバッグ文の「irem」では入れ物オーダー配列である。
+					}
+				}
+
+			} // ここまでソート
 
 
 
