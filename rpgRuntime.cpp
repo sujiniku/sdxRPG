@@ -1820,7 +1820,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (temp == 1) {
 			lstrcpy(monster_def_list[temp].monster_name, TEXT("コボルト"));
-			monster_def_list[temp].mon_hp_max = 125;
+			monster_def_list[temp].mon_hp_max = 10;
 			monster_def_list[temp].mon_agility = 76;
 			monster_def_list[temp].monster_id = 2;
 			monster_def_list[temp].mon_gold = 10;
@@ -2445,7 +2445,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		
 
-		if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_NOW ){
+		if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_NOW || mode_scene == MODE_BATTLE_WIN ){
 
 			// mode_scene = MODE_BATTLE_COMMAND;
 
@@ -2454,9 +2454,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				GetColor(0, 0, 0), 1);
 			DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
 
-			// モンスター画像 // デバッグ用
-			DrawGraph(300, 95, koboHandle, true);
+			// モンスター画像 
+			if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_NOW ) {
 
+				DrawGraph(300, 95, koboHandle, true);
+			}
 
 
 			int KasolColor = GetColor(100, 100, 100);
@@ -2496,13 +2498,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 			//int locTest =1;
+
+
+			// 敵関係のパラメ－タ表示
+			int monX = 450;
+			int monY = 150;
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("HP %d"), monster_hp);
 			//TextOut(hdc, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(300, 400, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+			DrawFormatString(monX, monY , GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), monster_name);
-			DrawFormatString(300, 400 +20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+			DrawFormatString(monX, monY +20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			if (mode_scene == MODE_BATTLE_NOW) {
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("ダメージ %d"), damage_EnemyAttack);
+				DrawFormatString(monX + 10, monY - 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			}
 
 
 
@@ -2652,58 +2668,89 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
 
-
+					heroside_attack();
 					enemy_attack();
 
-					
-
-
-
-					// カネと経験値の更新
-					your_money = your_money + monster_def_list[encount_monters_id - 1].mon_gold;
-
-					for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
-						//if (heros_def_list[temp].PartyIn == 0) { // 登録キャラが多い場合を想定して（歴史SLGなど）、全キャラは走査しない。
-							// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
-
-						heros_def_list[partyNarabijyun[temp]].heros_exp = heros_def_list[partyNarabijyun[temp]].heros_exp + monster_def_list[encount_monters_id - 1].mon_exp;
-
-						//}		
-					}
 
 
 				}
 
+				battlewait = battlewait - 1;
+
+
 				if (mode_scene == MODE_BATTLE_NOW ) {
-					DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "戦うテスト、倒した事にする"); // 文字を描画する
-					battlewait = battlewait -1;
+					DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "戦うテスト"); // 文字を描画する
+
+
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("受けダメージ: %d"), damage_EnemyAttack);
+					DrawFormatString(30, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				}
+
+
+				if (mode_scene == MODE_BATTLE_WIN ) {
+					DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "倒した"); // 文字を描画する
 
 
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Exp: %d"), monster_def_list[encount_monters_id - 1].mon_exp);
 					DrawFormatString(monMesX, 350 + 30 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monters_id - 1].mon_gold );
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monters_id - 1].mon_gold);
 					DrawFormatString(monMesX, 350 + 30 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("ダメージ: %d"), damage_EnemyAttack);
-					DrawFormatString(300, 150 + 30 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+					keyHaijyo = 1; // 戦闘コマンドが実行されないよう、まだ排除中
+
+					// toubouSeikou = 1; // テスト用に逃げた扱いなので
+					toubouTyokugo = 5;
 
 
+
+					if (battlewait <= 0) {
+						// カネと経験値の更新
+						your_money = your_money + monster_def_list[encount_monters_id - 1].mon_gold;
+
+						for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
+							//if (heros_def_list[temp].PartyIn == 0) { // 登録キャラが多い場合を想定して（歴史SLGなど）、全キャラは走査しない。
+								// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
+
+							heros_def_list[partyNarabijyun[temp]].heros_exp = heros_def_list[partyNarabijyun[temp]].heros_exp + monster_def_list[encount_monters_id - 1].mon_exp;
+
+							//}		
+						}
+						keyHaijyo = 0;
+
+						mode_scene = MODE_MAP;// テスト用に倒した扱いなので
+				//battleTraFlag = 0;
+						
+					}
+				
 				}
+
 
 				if (battlewait <= 0 && mode_scene == MODE_BATTLE_NOW) {
 					battlewait = 0;
 
-					toubouSeikou = 1; // テスト用に逃げた扱いなので
-					toubouTyokugo = 5;
+					// toubouSeikou = 1; // テスト用に逃げた扱いなので
+					// toubouTyokugo = 5;
+
+
+					if (monster_hp <= 0 ) {
+						mode_scene = MODE_BATTLE_WIN;
+						battlewait = 60.0 * 2.0 ;
+					}
+					if (monster_hp > 0) {
+						mode_scene = MODE_BATTLE_COMMAND;
+
+					}
+
 
 
 
 
 					keyHaijyo = 0;
-					mode_scene = MODE_MAP;// テスト用に倒した扱いなので
-					//battleTraFlag = 0;
+					
 				}
 
 
