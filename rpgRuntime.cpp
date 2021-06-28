@@ -750,7 +750,7 @@ static int keyCount = 0; // 主にキー入力の時間制限に使用
 
 
 
-
+int dameKei = 0; // ダメージ計算を1階数だけ行うためのフラグ
 
 
 // アイテムメニューでのカーソル位置の計算用
@@ -1820,7 +1820,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (temp == 1) {
 			lstrcpy(monster_def_list[temp].monster_name, TEXT("コボルト"));
-			monster_def_list[temp].mon_hp_max = 10;
+			monster_def_list[temp].mon_hp_max = 200;
 			monster_def_list[temp].mon_agility = 76;
 			monster_def_list[temp].monster_id = 2;
 			monster_def_list[temp].mon_gold = 10;
@@ -2525,14 +2525,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-			if (mode_scene == MODE_BATTLE_NOW) {
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("ダメージ %d"), damage_EnemyAttack);
-				DrawFormatString(monX + 10, monY - 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			}
-
 
 
 			/*
@@ -2698,7 +2690,221 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-				// 十字キー入力時
+
+
+
+
+			for (int loctempA = 0; loctempA <= partyNinzuDone - 1 + enemyNinzu; ++loctempA)
+			{
+				actionOrder[loctempA] = iremonoOrderHairetu[loctempA];
+			}
+
+
+			int mikataPE = 1; int tekiPE = 2;
+			for (int loctempA = 0; loctempA <= partyNinzuDone - 1 + enemyNinzu; ++loctempA)
+			{
+				if (actionOrder[loctempA] <= partyNinzuDone - 1) {
+					PorEflag[loctempA] = mikataPE;
+					// actionOrder[loctempA] = actionOrder[loctempA];
+				}
+
+				if (actionOrder[loctempA] > partyNinzuDone - 1) {
+					PorEflag[loctempA] = tekiPE;
+					// actionOrder[loctempA] = -9;
+				}
+
+
+			}
+
+
+			// actionOrder[idTemp] = idTemp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// 素早さ配列の表示テスト
+			int agilityProcMonitorX = 370;
+			int agilityProcMonitorY = 180;
+
+
+			lstrcpy(mojibuf, TEXT("素早さ配列"));
+			// TextOut(hdc, 			agilityProcMonitorX, agilityProcMonitorY				, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(agilityProcMonitorX, agilityProcMonitorY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			for (int tempMonitor = 0; tempMonitor <= sankaNinzu - 1; ++tempMonitor) {
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), iremonoAgilityHairetu[tempMonitor]);
+				//TextOut(hdc, agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 20, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			}
+
+
+
+			// 戦闘デバッグ文の描画プログラム
+
+			// 行動順配列の表示テスト 
+			lstrcpy(mojibuf, TEXT("行動順配列"));
+			//TextOut(hdc, agilityProcMonitorX, agilityProcMonitorY + 50, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(agilityProcMonitorX, agilityProcMonitorY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("irem"));
+			// TextOut(hdc, agilityProcMonitorX - 10, agilityProcMonitorY + 40 + 30, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(agilityProcMonitorX - 10, agilityProcMonitorY + 40 + 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+			for (int tempMonitor = 0; tempMonitor <= sankaNinzu - 1; ++tempMonitor) {
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), iremonoOrderHairetu[tempMonitor]);
+				// TextOut(hdc, agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 40 + 30, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 40 + 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+			}
+
+
+			// 行動順配列の表示テスト // こっちはactionOrder
+			lstrcpy(mojibuf, TEXT("act"));
+			// TextOut(hdc, agilityProcMonitorX - 10, agilityProcMonitorY + 40 + 30 * 2, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(agilityProcMonitorX - 10, agilityProcMonitorY + 40 + 30 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			for (int tempMonitor = 0; tempMonitor <= sankaNinzu - 1; ++tempMonitor) {
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("v%d"), actionOrder[tempMonitor]);
+				// TextOut(hdc, agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 40 + 30 * 2, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 40 + 30 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			}
+
+
+
+			lstrcpy(mojibuf, TEXT("PE f"));
+			// TextOut(hdc, agilityProcMonitorX - 10, agilityProcMonitorY + 40 + 30 * 3, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(agilityProcMonitorX - 10, agilityProcMonitorY + 40 + 30 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			for (int tempMonitor = 0; tempMonitor <= sankaNinzu - 1; ++tempMonitor) {
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), PorEflag[tempMonitor]);
+				//TextOut(hdc, agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 40 + 30 * 3, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 40 + 30 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+			}
+
+			lstrcpy(mojibuf, TEXT("Ac tp"));
+			// TextOut(hdc, agilityProcMonitorX - 10, agilityProcMonitorY + 40 + 30 * 4, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(agilityProcMonitorX - 10, agilityProcMonitorY + 40 + 30 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			for (int tempMonitor = 0; tempMonitor <= sankaNinzu - 1; ++tempMonitor) {
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), actionOrder[tempMonitor]);
+				// TextOut(hdc, agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 40 + 30 * 4, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 40 + 30 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+			}
+
+
+
+
+
+			if (mode_scene == MODE_BATTLE_NOW) {
+
+
+				int battleMassBaseX = 50; int battleMassBaseY = 410 - 230; // 410 は「windowTempA」
+
+				int pnCommon = partyNarabijyun[actionOrder[globalTempA]];
+
+				if (heros_def_list[pnCommon].heros_HP0_flag == 0) {
+					if (actionOrder[globalTempA] <= partyNinzuDone - 1) {
+
+						_stprintf_s(mojibuf, TEXT("%s の攻撃！"), heros_def_list[pnCommon].heros_name);
+						//TextOut(hdc, battleMassBaseX, battleMassBaseY, mojibuf, lstrlen(mojibuf));
+						DrawFormatString(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+						// デバッグ文
+
+						_stprintf_s(mojibuf, TEXT("gte %d"), globalTempA);
+						//TextOut(hdc, battleMassBaseX + 100, battleMassBaseY - 89 - 30, mojibuf, lstrlen(mojibuf));
+						////(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[globalTempA]);
+						// TextOut(hdc, battleMassBaseX + 100, battleMassBaseY - 89, mojibuf, lstrlen(mojibuf));
+
+						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[globalTempA]]);
+						// TextOut(hdc, battleMassBaseX + 100, battleMassBaseY - 59, mojibuf, lstrlen(mojibuf));
+
+
+						// ここまでデバ文
+
+						// ここにダメージ表記の関数を追加。
+						//draw_battle_EnemyDamage(hdc);
+
+						//draw_battle_common_after(hdc);
+					}
+
+				}
+
+
+
+				if (heros_def_list[partyNarabijyun[actionOrder[globalTempA]]].heros_HP0_flag == 1) {
+					if (actionOrder[globalTempA] <= partyNinzuDone - 1) {
+						_stprintf_s(mojibuf, TEXT("%s は戦闘不能で動けない"), heros_def_list[partyNarabijyun[actionOrder[globalTempA]]].heros_name);
+						//TextOut(hdc, battleMassBaseX, battleMassBaseY, mojibuf, lstrlen(mojibuf));
+						DrawFormatString(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+						// ここにダメージ表記の関数を追加。
+						// draw_battle_EnemyDamage(hdc);
+
+						//draw_battle_common_after(hdc);
+					}
+
+				}
+
+
+
+
+				if (actionOrder[globalTempA] >= partyNinzuDone) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("敵の攻撃！ "));
+					//TextOut(hdc, battleMassBaseX, battleMassBaseY, mojibuf, lstrlen(mojibuf));
+					DrawFormatString(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+					//draw_battle_HeroDamage(hdc);
+
+					//draw_battle_common_after(hdc);
+				}
+
+
+			}
+
+
+			// 十字キー入力時
 			if (keyHaijyo == 0) {
 				// カーソルを上に移動
 
@@ -2752,104 +2958,204 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			}
 
-				if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 1 && keyHaijyo == 0    ) {
-					TimeKasolCount = 0;
-					
-					keyHaijyo = 1;
-					battlewait = 100;
-					//battleTraFlag = 1;
-																								   
-					mode_scene  = MODE_BATTLE_NOW;																   //toubouSeikou = 1;
-					//toubouTyokugo = 5;
-					// keyFlagReset();
-
-					// DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
-
-
-					heroside_attack();
-					enemy_attack();
 
 
 
-				}
-
-				battlewait = battlewait - 1;
 
 
-				if (mode_scene == MODE_BATTLE_NOW ) {
-					DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "戦うテスト"); // 文字を描画する
+			// ターン開始
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 1 && keyHaijyo == 0) {
+				TimeKasolCount = 0;
 
+				keyHaijyo = 1;
+				battlewait = 100;
+				//battleTraFlag = 1;
 
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("受けダメージ: %d"), damage_EnemyAttack);
-					DrawFormatString(30, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				// globalTempA = 0;
+				dameKei = 0;
 
+				damage_EnemyAttack = 0;
+				damage_HeroAttack = 0;
 
-				}
+				mode_scene = MODE_BATTLE_NOW;																   //toubouSeikou = 1;
+				//toubouTyokugo = 5;
+				// keyFlagReset();
 
-
-				if (mode_scene == MODE_BATTLE_WIN ) {
-					DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "倒した"); // 文字を描画する
-
-
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Exp: %d"), monster_def_list[encount_monters_id - 1].mon_exp);
-					DrawFormatString(monMesX, 350 + 30 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monters_id - 1].mon_gold);
-					DrawFormatString(monMesX, 350 + 30 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-					keyHaijyo = 1; // 戦闘コマンドが実行されないよう、まだ排除中
-
-					// toubouSeikou = 1; // テスト用に逃げた扱いなので
-					toubouTyokugo = 5;
+				// DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
 
 
-					if (battlewait <= 0) {
-						// カネと経験値の更新
-						your_money = your_money + monster_def_list[encount_monters_id - 1].mon_gold;
 
-						for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
-							//if (heros_def_list[temp].PartyIn == 0) { // 登録キャラが多い場合を想定して（歴史SLGなど）、全キャラは走査しない。
-								// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
 
-							heros_def_list[partyNarabijyun[temp]].heros_exp = heros_def_list[partyNarabijyun[temp]].heros_exp + monster_def_list[encount_monters_id - 1].mon_exp;
 
-							//}		
-						}
-						keyHaijyo = 0;
+			}
 
-						mode_scene = MODE_MAP;// テスト用に倒した扱いなので
-				//battleTraFlag = 0;
-						
+			battlewait = battlewait - 1;
+
+
+			if (mode_scene == MODE_BATTLE_NOW) {
+				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "戦うテスト"); // 文字を描画する
+
+
+				if (PorEflag[globalTempA] == tekiPE) {
+					if (encount_mons_alive == 1) {
+
+
+
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("受けダメージ: %d"), damage_EnemyAttack);
+						DrawFormatString(30, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
 					}
-				
 				}
 
 
-				if (battlewait <= 0 && mode_scene == MODE_BATTLE_NOW) {
-					battlewait = 0;
-
-					// toubouSeikou = 1; // テスト用に逃げた扱いなので
-					// toubouTyokugo = 5;
+			}
 
 
-					if (monster_hp <= 0 ) {
-						mode_scene = MODE_BATTLE_WIN;
-						battlewait = 60.0 * 2.0 ;
+			if (mode_scene == MODE_BATTLE_WIN) {
+				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "倒した"); // 文字を描画する
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Exp: %d"), monster_def_list[encount_monters_id - 1].mon_exp);
+				DrawFormatString(monMesX, 350 + 30 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monters_id - 1].mon_gold);
+				DrawFormatString(monMesX, 350 + 30 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				keyHaijyo = 1; // 戦闘コマンドが実行されないよう、まだ排除中
+
+				// toubouSeikou = 1; // テスト用に逃げた扱いなので
+				toubouTyokugo = 5;
+
+
+
+				if (battlewait <= 0) {
+					// カネと経験値の更新
+					your_money = your_money + monster_def_list[encount_monters_id - 1].mon_gold;
+
+					for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
+						//if (heros_def_list[temp].PartyIn == 0) { // 登録キャラが多い場合を想定して（歴史SLGなど）、全キャラは走査しない。
+							// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
+
+						heros_def_list[partyNarabijyun[temp]].heros_exp = heros_def_list[partyNarabijyun[temp]].heros_exp + monster_def_list[encount_monters_id - 1].mon_exp;
+
+						//}		
 					}
-					if (monster_hp > 0) {
-						mode_scene = MODE_BATTLE_COMMAND;
-
-					}
-
-
-
-
-
 					keyHaijyo = 0;
-					
+
+					mode_scene = MODE_MAP;// テスト用に倒した扱いなので
+			//battleTraFlag = 0;
+
 				}
+
+			}
+
+
+
+
+
+			if ( mode_scene == MODE_BATTLE_NOW && dameKei == 0) {
+
+				if (PorEflag[globalTempA] == 1
+					//&&
+					//heros_def_list[partyNarabijyun[actionOrder[globalTempA]]].heros_HP0_flag == 0
+					) {
+
+					if (encount_mons_alive == 1) {
+						heroside_attack();
+						dameKei = 1;
+					}
+				}
+
+				if (PorEflag[globalTempA] == tekiPE) {
+					if (encount_mons_alive == 1) {
+
+
+
+						enemy_attack();
+						dameKei = 1;
+					}
+				}
+
+			}
+			
+
+
+			if (battlewait <= 0 && mode_scene == MODE_BATTLE_NOW && dameKei == 1) {
+				battlewait = 0;
+				dameKei = 0;
+
+				// toubouSeikou = 1; // テスト用に逃げた扱いなので
+				// toubouTyokugo = 5;
+
+
+				if (monster_hp <= 0) {
+					mode_scene = MODE_BATTLE_WIN;
+					battlewait = 60.0 * 2.0;
+				}
+				if (monster_hp > 0) {
+					// mode_scene = MODE_BATTLE_COMMAND;
+
+
+					if (globalTempA <= (partyNinzuDone - 1 + enemyNinzu - 1) + 1 && dameKei == 0) {
+
+						// MessageBox(NULL, TEXT("aaa"), TEXT("場所テスト"), MB_OK);
+
+						globalTempA = globalTempA + 1;
+
+						battlewait = 60.0 * 2.0;
+					}
+
+
+
+					// ターン終了
+					if (globalTempA >= (partyNinzuDone - 1 + enemyNinzu - 1) + 1 +1
+						//&& battlewait <= 0
+						) {
+
+
+						MessageBox(NULL, TEXT("qwerty"), TEXT("場所テスト"), MB_OK);
+						damage_EnemyAttack = 0;
+						damage_HeroAttack = 0;
+
+						globalTempA = 0;
+
+						mode_scene = MODE_BATTLE_COMMAND;
+					}
+
+				}
+
+
+
+
+
+				keyHaijyo = 0;
+
+			} // battlewait が0の状態
+
+
+
+
+
+			if (mode_scene == MODE_BATTLE_NOW) {
+
+				if (PorEflag[globalTempA] == mikataPE) {
+					if (encount_mons_alive == 1) {
+
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("ダメージ %d"), damage_HeroAttack);
+						DrawFormatString(monX + 10, monY - 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+					}
+				}
+
+
+
+			}
+
+
+
+
 
 
 				if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 2  && keyHaijyo == 0) {
