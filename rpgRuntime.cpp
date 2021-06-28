@@ -1852,7 +1852,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//heros_def_list[temp].heros_shield = 2;
 			heros_def_list[temp].heroSoubi[tateType] = 2;
 
-			heros_def_list[temp].heros_bukiKougekiRyoku = weapon_def_list[heros_def_list[temp].heros_weapon1].equipPower;
+			heros_def_list[temp].heros_bukiKougekiRyoku = (soubihin[heros_def_list[temp].heroSoubi[wepoType] ].Stype[wepoType]).equipPower;
+			// weapon_def_list[heros_def_list[temp].heros_weapon1].equipPower;
 
 		}
 
@@ -1874,7 +1875,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// heros_def_list[temp].heros_shield = 0;
 			heros_def_list[temp].heroSoubi[tateType] = 0;
 
-			heros_def_list[temp].heros_bukiKougekiRyoku = weapon_def_list[heros_def_list[temp].heros_weapon1].equipPower;
+			heros_def_list[temp].heros_bukiKougekiRyoku = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower;
 
 		}
 
@@ -5812,6 +5813,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// int hensu = heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1;
 						int hensu = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType]  ;
 
+
+
+
+						// 攻撃力の更新
+						heros_def_list[partyNarabijyun[whomTargetID1]].heros_bukiKougekiRyoku =
+							//heros_def_list[partyNarabijyun[whomTargetID1]].heros_bukiKougekiRyoku // 現在の値
+							(soubihin[itemHairetu[whatedit2]].Stype[wepoType]).equipPower;
+							//weapon_def_list[ itemHairetu[whatedit2] ].equipPower    ;  // これから装備するのは上がる。
+							//- weapon_def_list[tempEquip].equipPower; // 装備しているのは外れるので下がる。
+
+
+
 						//weapon_have_list[hensu].have_kosuu = weapon_have_list[hensu].have_kosuu + 1; // 装備してた武器が1個増えるように
 						(soubiSyoji[hensu].Stype[locType ]).have_kosuu = 
 							(soubiSyoji[hensu].Stype[locType ]).have_kosuu + 1; // 装備してた武器が1個増えるように
@@ -5974,9 +5987,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			}
 
-
+			// (soubiSyoji[0].Stype[locType]).have_kosuu = 0;
 			if (mode_scene == MODE_EQUIP_EDIT2) {
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), weapon_def_list[itemHairetu[whatedit2]].equipPower);
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[itemHairetu[whatedit2]].Stype[wepoType]).equipPower) ;
+				//	(soubiSyoji[ itemHairetu[whatedit2]   ] .Stype[wepoType]).equipPower);
+				// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), weapon_def_list[ itemHairetu[whatedit2]   ].equipPower);
 				//TextOut(hdc, 15 + 300, 350 + 10, mojibuf, lstrlen(mojibuf));
 
 				DrawFormatString(15 + 300, 350 + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
