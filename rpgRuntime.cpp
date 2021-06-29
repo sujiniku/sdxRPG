@@ -519,7 +519,7 @@ struct heros_def
 
 	int heroSoubi[20];
 
-
+	// 装備品 // 不要
 	int heros_weapon1;
 	int heros_weapon2;
 	int heros_shield;
@@ -534,7 +534,13 @@ struct heros_def
 	int heros_bukiKougekiRyoku;
 	int heros_subiRyoku;
 
+	int heros_para[20]; // 攻撃力や守備力の用を合計20、用意。
+
+
 };
+
+int kougekiPara = 1;
+int syubiPara = 2;
 
 
 
@@ -750,7 +756,7 @@ static int keyCount = 0; // 主にキー入力の時間制限に使用
 
 
 
-int dameKei = 0; // ダメージ計算を1階数だけ行うためのフラグ
+int dameKei = 0; // ダメージ計算を1回数だけ行うためのフラグ
 
 
 // アイテムメニューでのカーソル位置の計算用
@@ -1217,7 +1223,8 @@ void heroside_attack() {
 
 
 			/* サイコロ */
-			damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_bukiKougekiRyoku;
+			damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara];
+
 
 			// 敵にダメージ
 			monster_hp = monster_hp - damage_HeroAttack;
@@ -1248,8 +1255,19 @@ void enemy_attack() {
 		/* 乱数の種 */
 		// wWinMain で定義済み
 
+
+		int pnCommon = partyNarabijyun[actionOrder[globalTempA]];
+
+		// ダメージ計算式
 		/* サイコロ */
-		damage_EnemyAttack = rand() % (6 / 2) + 0 + 2 * monster_def_list[encount_monters_id - 1].mon_attackPower;
+		damage_EnemyAttack = rand() % (6 / 2) + 10 + 2 * monster_def_list[encount_monters_id - 1].mon_attackPower 
+			- heros_def_list[partyNarabijyun[0]].heros_para[syubiPara]  ;
+
+
+		if (damage_EnemyAttack <= 0) {		
+			damage_EnemyAttack = 0;			
+		}
+
 
 		// 隊列1人目にダメージ
 		if (heros_def_list[partyNarabijyun[0]].heros_HP0_flag != 1) {
@@ -1544,7 +1562,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[tateType]).def_name, TEXT("鉄の盾"));
 			(soubihin[temp].Stype[tateType]).material = mateNothing;
 			(soubihin[temp].Stype[tateType]).equip_type = typeNothing;
-			(soubihin[temp].Stype[tateType]).equipPower = 10; // 攻撃力
+			(soubihin[temp].Stype[tateType]).equipPower = 30; // 攻撃力
 			continue;
 		}
 	}
@@ -1820,7 +1838,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (temp == 1) {
 			lstrcpy(monster_def_list[temp].monster_name, TEXT("コボルト"));
-			monster_def_list[temp].mon_hp_max = 200;
+			monster_def_list[temp].mon_hp_max = 900;
 			monster_def_list[temp].mon_agility = 76;
 			monster_def_list[temp].monster_id = 2;
 			monster_def_list[temp].mon_gold = 10;
@@ -1836,7 +1854,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (temp == 0) {
 			lstrcpy(heros_def_list[temp].heros_name, TEXT("エロス"));
-			heros_def_list[temp].heros_hp = 32; // 20;
+			heros_def_list[temp].heros_hp = 132; // 20;
 			heros_def_list[temp].heros_hp_max = 125;
 			heros_def_list[temp].heros_agility = 56;
 
@@ -1852,8 +1870,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//heros_def_list[temp].heros_shield = 2;
 			heros_def_list[temp].heroSoubi[tateType] = 2;
 
-			heros_def_list[temp].heros_bukiKougekiRyoku = (soubihin[heros_def_list[temp].heroSoubi[wepoType] ].Stype[wepoType]).equipPower;
+			//heros_def_list[temp].heros_bukiKougekiRyoku = (soubihin[heros_def_list[temp].heroSoubi[wepoType] ].Stype[wepoType]).equipPower;
 			// weapon_def_list[heros_def_list[temp].heros_weapon1].equipPower;
+
+
+			heros_def_list[temp].heros_para[kougekiPara] = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower;
+
+
+			//heros_def_list[temp].heros_subiRyoku = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower;
+
+			heros_def_list[temp].heros_para[syubiPara] = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower;
+
+
+			// int heros_para[20]   ; // 攻撃力や守備力の用を合計20、用意。
+
 
 		}
 
@@ -1875,7 +1905,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// heros_def_list[temp].heros_shield = 0;
 			heros_def_list[temp].heroSoubi[tateType] = 0;
 
-			heros_def_list[temp].heros_bukiKougekiRyoku = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower;
+			////heros_def_list[temp].heros_bukiKougekiRyoku = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower;
+
+			heros_def_list[temp].heros_subiRyoku = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower;
+
+
+			heros_def_list[temp].heros_para[kougekiPara] = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower;
+
+			heros_def_list[temp].heros_para[syubiPara] = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower;
+
+
 
 		}
 
@@ -3116,7 +3155,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						) {
 
 
-						MessageBox(NULL, TEXT("qwerty"), TEXT("場所テスト"), MB_OK);
+						// MessageBox(NULL, TEXT("qwerty"), TEXT("場所テスト"), MB_OK);
 						damage_EnemyAttack = 0;
 						damage_HeroAttack = 0;
 
@@ -5336,7 +5375,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//SelectObject(hdc, blue_thin_1);
 			//Rectangle(hdc, 10, 100, 350, 300);
 
-			DrawBox(10, 100, 350, 300,
+			DrawBox(10, 100, 350, 300 +40,
 				GetColor(150, 150, 255), 1);
 
 
@@ -5445,17 +5484,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 			int temp = 8;
-			lstrcpy(mojibuf1, TEXT("武器攻撃力"));
-			//TextOut(hdc, 15, soubiYbase + soubiYper * temp,
-			//	mojibuf1, lstrlen(mojibuf1));
+
+			lstrcpy(mojibuf1, TEXT("攻撃力"));
 			DrawFormatString(15, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf1); // 文字を描画する
 
-
-			_stprintf_s(mojibuf2, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[whomTargetID1]].heros_bukiKougekiRyoku);
-			//TextOut(hdc, 90 + 50, soubiYbase + soubiYper * temp,
-			//	mojibuf2, lstrlen(mojibuf2));
-
+			_stprintf_s(mojibuf2, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[kougekiPara]);
 			DrawFormatString(90 + 50, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf2); // 文字を描画する
+
+
+
+			temp = 9;
+			lstrcpy(mojibuf1, TEXT("守備力"));
+			DrawFormatString(15, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf1); // 文字を描画する
+
+			_stprintf_s(mojibuf2, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[syubiPara]);
+			DrawFormatString(90 + 50, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf2); // 文字を描画する
+
 
 
 
@@ -5816,12 +5860,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-						// 攻撃力の更新
-						heros_def_list[partyNarabijyun[whomTargetID1]].heros_bukiKougekiRyoku =
-							//heros_def_list[partyNarabijyun[whomTargetID1]].heros_bukiKougekiRyoku // 現在の値
-							(soubihin[itemHairetu[whatedit2]].Stype[wepoType]).equipPower;
-							//weapon_def_list[ itemHairetu[whatedit2] ].equipPower    ;  // これから装備するのは上がる。
-							//- weapon_def_list[tempEquip].equipPower; // 装備しているのは外れるので下がる。
+						if (locType == wepoType ) {
+							// 攻撃力の更新
+							heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[kougekiPara] =
+								(soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower;
+
+						}
+
+
+						if (locType == tateType) {
+							// 防御力の更新
+							heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[syubiPara] =
+								//heros_def_list[partyNarabijyun[whomTargetID1]].heros_bukiKougekiRyoku // 現在の値
+								(soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower;
+
+						}
+
+
+
 
 
 
@@ -5989,7 +6045,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			// (soubiSyoji[0].Stype[locType]).have_kosuu = 0;
 			if (mode_scene == MODE_EQUIP_EDIT2) {
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[itemHairetu[whatedit2]].Stype[wepoType]).equipPower) ;
+
+
+				int locType;
+				if (mode2_scene == MODE2_EQUIP_HAND1) {
+					locType = wepoType;
+				}
+				if (mode2_scene == MODE2_EQUIP_SHIELD) {
+					locType = tateType;
+				}
+				if (mode2_scene == MODE2_EQUIP_HELM) {
+					locType = kabutoType;
+				}
+
+
+				
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower);
+		
+
+				
 				//	(soubiSyoji[ itemHairetu[whatedit2]   ] .Stype[wepoType]).equipPower);
 				// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), weapon_def_list[ itemHairetu[whatedit2]   ].equipPower);
 				//TextOut(hdc, 15 + 300, 350 + 10, mojibuf, lstrlen(mojibuf));
