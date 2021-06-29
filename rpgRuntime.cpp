@@ -403,7 +403,7 @@ struct soubi_def
 	TCHAR def_name[MAX_LENGTH];
 	int material;
 	int equip_type;
-	int equipPower;// UŒ‚—Í
+	int equipPower[20];// UŒ‚—Í‚â–hŒä—Í‚È‚Ç‚Ég—p
 
 
 };
@@ -1465,7 +1465,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[wepoType]).def_name, TEXT("--------"));
 			(soubihin[temp].Stype[wepoType]).material = mateNothing;
 			(soubihin[temp].Stype[wepoType]).equip_type = typeNothing;
-			(soubihin[temp].Stype[wepoType]).equipPower = 0; // UŒ‚—Í
+			(soubihin[temp].Stype[wepoType]).equipPower[kougekiPara] = 0; // UŒ‚—Í
 			continue; // ŒvZŠÔ‚Ìß–ñ‚Ì‚½‚ß
 		}
 
@@ -1474,7 +1474,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[wepoType]).def_name, TEXT("“S‚Ì‘„"));
 			(soubihin[temp].Stype[wepoType]).material = mateIron;
 			(soubihin[temp].Stype[wepoType]).equip_type = spear;
-			(soubihin[temp].Stype[wepoType]).equipPower = 107; // UŒ‚—Í	
+			(soubihin[temp].Stype[wepoType]).equipPower[kougekiPara] = 107; // UŒ‚—Í	
 			continue;
 		}
 
@@ -1483,7 +1483,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[wepoType]).def_name, TEXT("“S‚ÌƒƒCƒX"));
 			(soubihin[temp].Stype[wepoType]).material = mateIron;
 			// weapon_def_list[temp].equip_type = spear;
-			(soubihin[temp].Stype[wepoType]).equipPower = 44; // UŒ‚—Í
+			(soubihin[temp].Stype[wepoType]).equipPower[kougekiPara] = 44; // UŒ‚—Í
 			continue;
 		}
 
@@ -1544,7 +1544,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[tateType]).def_name, TEXT("--------"));
 			(soubihin[temp].Stype[tateType]).material = mateNothing;
 			(soubihin[temp].Stype[tateType]).equip_type = typeNothing;
-			(soubihin[temp].Stype[tateType]).equipPower = 0; // UŒ‚—Í
+			(soubihin[temp].Stype[tateType]).equipPower[syubiPara] = 0; // UŒ‚—Í
 			continue; // ŒvZŠÔ‚Ìß–ñ‚Ì‚½‚ß
 		}
 
@@ -1553,7 +1553,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[tateType]).def_name, TEXT("–Ø‚Ì‚"));
 			(soubihin[temp].Stype[tateType]).material = mateNothing;
 			(soubihin[temp].Stype[tateType]).equip_type = typeNothing;
-			(soubihin[temp].Stype[tateType]).equipPower = 5; // UŒ‚—Í	
+			(soubihin[temp].Stype[tateType]).equipPower[syubiPara] = 5; // UŒ‚—Í	
 			continue;
 		}
 
@@ -1562,7 +1562,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[tateType]).def_name, TEXT("“S‚Ì‚"));
 			(soubihin[temp].Stype[tateType]).material = mateNothing;
 			(soubihin[temp].Stype[tateType]).equip_type = typeNothing;
-			(soubihin[temp].Stype[tateType]).equipPower = 30; // UŒ‚—Í
+			(soubihin[temp].Stype[tateType]).equipPower[syubiPara] = 30; // UŒ‚—Í
 			continue;
 		}
 	}
@@ -1618,7 +1618,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[locType]).def_name, TEXT("--------"));
 			(soubihin[temp].Stype[locType]).material = mateNothing;
 			(soubihin[temp].Stype[locType]).equip_type = typeNothing;
-			(soubihin[temp].Stype[locType]).equipPower = 0; // UŒ‚—Í
+			(soubihin[temp].Stype[locType]).equipPower[syubiPara] = 0; // UŒ‚—Í
 			continue; // ŒvZŠÔ‚Ìß–ñ‚Ì‚½‚ß
 		}
 
@@ -1627,7 +1627,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[locType]).def_name, TEXT("–Ø‚Ì–Xq"));
 			(soubihin[temp].Stype[locType]).material = mateNothing;
 			(soubihin[temp].Stype[locType]).equip_type = typeNothing;
-			(soubihin[temp].Stype[locType]).equipPower = 5; // UŒ‚—Í	
+			(soubihin[temp].Stype[locType]).equipPower[syubiPara] = 5; // UŒ‚—Í	
 			continue;
 		}
 
@@ -1636,7 +1636,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[locType]).def_name, TEXT("“S‚ÌƒJƒuƒg"));
 			(soubihin[temp].Stype[locType]).material = mateNothing;
 			(soubihin[temp].Stype[locType]).equip_type = typeNothing;
-			(soubihin[temp].Stype[locType]).equipPower = 10; // UŒ‚—Í
+			(soubihin[temp].Stype[locType]).equipPower[syubiPara] = 10; // UŒ‚—Í
 			continue;
 		}
 	}
@@ -1874,12 +1874,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// weapon_def_list[heros_def_list[temp].heros_weapon1].equipPower;
 
 
-			heros_def_list[temp].heros_para[kougekiPara] = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower;
+			heros_def_list[temp].heros_para[kougekiPara] = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower[kougekiPara];
 
 
 			//heros_def_list[temp].heros_subiRyoku = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower;
 
-			heros_def_list[temp].heros_para[syubiPara] = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower;
+			heros_def_list[temp].heros_para[syubiPara] = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower[syubiPara];
 
 
 			// int heros_para[20]   ; // UŒ‚—Í‚âç”õ—Í‚Ì—p‚ğ‡Œv20A—pˆÓB
@@ -1907,12 +1907,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			////heros_def_list[temp].heros_bukiKougekiRyoku = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower;
 
-			heros_def_list[temp].heros_subiRyoku = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower;
+			heros_def_list[temp].heros_subiRyoku = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower[syubiPara];
 
 
-			heros_def_list[temp].heros_para[kougekiPara] = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower;
+			heros_def_list[temp].heros_para[kougekiPara] = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower[kougekiPara];
 
-			heros_def_list[temp].heros_para[syubiPara] = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower;
+			heros_def_list[temp].heros_para[syubiPara] = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower[syubiPara];
 
 
 
@@ -5863,7 +5863,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (locType == wepoType ) {
 							// UŒ‚—Í‚ÌXV
 							heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[kougekiPara] =
-								(soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower;
+								(soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[kougekiPara];
 
 						}
 
@@ -5872,7 +5872,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							// –hŒä—Í‚ÌXV
 							heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[syubiPara] =
 								//heros_def_list[partyNarabijyun[whomTargetID1]].heros_bukiKougekiRyoku // Œ»İ‚Ì’l
-								(soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower;
+								(soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[syubiPara];
 
 						}
 
@@ -6059,9 +6059,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 
-				
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("‘•”õˆĞ—Í %d"), (soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower);
-		
+				if (locType == wepoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("‘•”õˆĞ—Í %d"), (soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[kougekiPara]);
+				}
+
+
+
+				if (locType == tateType || locType == kabutoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("‘•”õˆĞ—Í %d"), (soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[syubiPara]);
+				}
+
 
 				
 				//	(soubiSyoji[ itemHairetu[whatedit2]   ] .Stype[wepoType]).equipPower);
