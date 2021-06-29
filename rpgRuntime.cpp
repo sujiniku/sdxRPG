@@ -1627,7 +1627,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[locType]).def_name, TEXT("木の帽子"));
 			(soubihin[temp].Stype[locType]).material = mateNothing;
 			(soubihin[temp].Stype[locType]).equip_type = typeNothing;
-			(soubihin[temp].Stype[locType]).equipPower[syubiPara] = 5; // 攻撃力	
+			(soubihin[temp].Stype[locType]).equipPower[syubiPara] = 50; // 攻撃力	
 			continue;
 		}
 
@@ -1636,7 +1636,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy((soubihin[temp].Stype[locType]).def_name, TEXT("鉄のカブト"));
 			(soubihin[temp].Stype[locType]).material = mateNothing;
 			(soubihin[temp].Stype[locType]).equip_type = typeNothing;
-			(soubihin[temp].Stype[locType]).equipPower[syubiPara] = 10; // 攻撃力
+			(soubihin[temp].Stype[locType]).equipPower[syubiPara] = 20; // 攻撃力
 			continue;
 		}
 	}
@@ -1868,7 +1868,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			heros_def_list[temp].heroSoubi[wepoType] = 1;
 
 			//heros_def_list[temp].heros_shield = 2;
-			heros_def_list[temp].heroSoubi[tateType] = 2;
+			heros_def_list[temp].heroSoubi[tateType] = 0;
+			heros_def_list[temp].heroSoubi[tateType] = 1;
+
 
 			//heros_def_list[temp].heros_bukiKougekiRyoku = (soubihin[heros_def_list[temp].heroSoubi[wepoType] ].Stype[wepoType]).equipPower;
 			// weapon_def_list[heros_def_list[temp].heros_weapon1].equipPower;
@@ -1879,7 +1881,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			//heros_def_list[temp].heros_subiRyoku = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower;
 
-			heros_def_list[temp].heros_para[syubiPara] = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower[syubiPara];
+			heros_def_list[temp].heros_para[syubiPara] = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower[syubiPara]			
+				+(soubihin[heros_def_list[temp].heroSoubi[kabutoType]].Stype[kabutoType]).equipPower[syubiPara]
+				
+				;
 
 
 			// int heros_para[20]   ; // 攻撃力や守備力の用を合計20、用意。
@@ -5868,14 +5873,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 
-						if (locType == tateType) {
-							// 防御力の更新
-							heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[syubiPara] =
-								//heros_def_list[partyNarabijyun[whomTargetID1]].heros_bukiKougekiRyoku // 現在の値
-								(soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[syubiPara];
-
-						}
-
 
 
 
@@ -5920,6 +5917,42 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType] =
 								soubihin[0].Stype[locType ].def_id; // 装備の更新をしたい
 						}
+
+
+
+						/////////////
+
+						if (locType == tateType || locType == kabutoType) {
+
+							// 防具の更新 // すでにしてある
+
+							//(soubihin[heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType]].Stype[locType]).equipPower[syubiPara] =
+							//	(soubihin[heros_def_list[itemHairetu[whatedit2]].heroSoubi[locType]].Stype[locType]).equipPower[syubiPara]
+							//	;
+
+
+
+							// 防御力の更新
+							heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[syubiPara] =
+								//heros_def_list[partyNarabijyun[whomTargetID1]].heros_bukiKougekiRyoku // 現在の値
+
+
+								(soubihin[ (heros_def_list[partyNarabijyun[whomTargetID1] ].heroSoubi[tateType]) ].Stype[tateType]).equipPower[syubiPara]
+								+ (soubihin[ (heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[kabutoType]) ].Stype[kabutoType]).equipPower[syubiPara]
+																;
+
+
+							// (soubihin[itemHairetu[whatedit2]].Stype[tateType]).equipPower[syubiPara]
+
+							// + (soubihin[itemHairetu[whatedit2]].Stype[kabutoType]).equipPower[syubiPara]
+							//;
+
+						}
+
+
+						//////////
+
+
 
 						(soubiSyoji[0].Stype[locType]).have_kosuu = 0;
 
