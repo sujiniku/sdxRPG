@@ -11,18 +11,73 @@
 #include <math.h>  // 切り上げ計算で使用
 
 
-int window1color = GetColor(50, 50, 155); // ウィンドウのほか、カーソルのベース色でも使う可能性があるので変数化。
+int wind1R = 50;
+int wind1G = 50;
+int wind1B = 150;
+
+int window1color = GetColor(wind1R, wind1G, wind1B); // ウィンドウのほか、カーソルのベース色でも使う可能性があるので変数化。
 void window1Draw(int X1, int Y1, int X2, int Y2) {
 	DrawBox(X1, Y1, X2, Y2,
 		window1color, 1);
 }
 
 
-int KasolColor = GetColor(250, 150, 150);
+
+int casolu1R = 250; // l と 1 の区別のため u 追加
+int casolu1G = 150;
+int casolu1B = 150;
+
+int KasolColor = GetColor(casolu1R, casolu1G, casolu1B);
 void redCasol1(int X1, int Y1, int X2, int Y2){
 	DrawBox(X1, Y1, X2, Y2,
 		KasolColor, 1);
 }
+
+
+
+
+int TimeKasolCount = 0;
+
+void tenmetu(int X1, int Y1, int X2, int Y2 ) {
+
+	// int KasolColor = GetColor(250, 150, 150);
+	double redVal = 0;
+
+	double spanBlink = 120.0;
+
+	if (TimeKasolCount < (int)spanBlink) {
+		redVal = TimeKasolCount;
+	}
+	if (TimeKasolCount >= (int)spanBlink) {
+		redVal = 240 - TimeKasolCount;
+	}
+
+	//DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
+	//	GetColor(250 , 150, 150), 1);
+
+//DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
+//	GetColor( 200 + (250 - 200)*(redVal / 120.0), 150, 250 - (250-150) * (redVal / 120.0) ), 1);
+
+
+	int whiteMax = 180;
+
+	DrawBox(X1, Y1, X2, Y2,
+	// DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
+
+		GetColor(wind1R + (whiteMax - wind1R) * (redVal / spanBlink),
+			wind1G + (whiteMax - wind1G) * (redVal / spanBlink),
+			wind1B + 1 * (whiteMax - wind1B) * (redVal / spanBlink)),
+		1);
+
+
+
+	TimeKasolCount = TimeKasolCount + 1;
+	if (TimeKasolCount > spanBlink * 2) {
+		TimeKasolCount = 0;
+	}
+
+}
+
 
 
 
@@ -48,7 +103,6 @@ int jumpRyoku1 = 50;
 
 
 
-int TimeKasolCount = 0;
 
 static int selecting_mainmenu = 1;
 
@@ -3308,38 +3362,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			if (keyFlagX == 1) {
-				// カーソル
+				// 点滅カーソル
 
-				int KasolColor = GetColor(250, 150, 150);
-				double redVal = 0;
-				if (TimeKasolCount < 120) {
-					redVal= TimeKasolCount;
-				}
-				if (TimeKasolCount >= 120) {
-					redVal = 240 - TimeKasolCount;
-				}
-
-					//DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
-					//	GetColor(250 , 150, 150), 1);
+				tenmetu(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40);
 
 				//DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
-				//	GetColor( 200 + (250 - 200)*(redVal / 120.0), 150, 250 - (250-150) * (redVal / 120.0) ), 1);
 
-
-				DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
-					GetColor( 150 + (180 - 150) * (redVal / 120.0),
-						150 + (180 - 150) * (redVal / 120.0),
-						250 - 0*(250-150) * (redVal / 120.0) ),
-					1);
-
-
-
-				TimeKasolCount = TimeKasolCount + 1;
-					if (TimeKasolCount > 240) {
-						TimeKasolCount = 0;
-					}
-
-					
 
 					// コマンド欄
 				DrawFormatString(100+20, 250, GetColor(255, 255, 255), "道具"); // 文字を描画する
