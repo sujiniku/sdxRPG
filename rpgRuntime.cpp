@@ -12,6 +12,12 @@
 
 
 
+void window1Draw(int X1, int Y1, int X2, int Y2) {
+	DrawBox(X1, Y1, X2, Y2,
+		GetColor(150, 150, 255), 1);
+}
+
+
 
 
 
@@ -888,9 +894,11 @@ void menu_CharaSelectDraw() {
 		//Rectangle(hdc, 10, 100 + offsetY * j,
 		//	300, 200 + offsetY * j);
 
-		DrawBox(10, 100 + offsetY * j,
-			300, 200 + offsetY * j,
-			GetColor(150, 150, 255), 1);
+		window1Draw(10, 100 + offsetY * j,
+			300, 200 + offsetY * j);
+		//DrawBox(10, 100 + offsetY * j,
+			//300, 200 + offsetY * j,
+			//GetColor(150, 150, 255), 1);
 
 		if (mode_scene == MODE_ITEM_WHOM) {
 			// カーソル
@@ -2477,9 +2485,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				nyuuryokuMatiX = waitTime1;
 			}
 
-
-			DrawBox(100, 250, 100 + 150, 250 + 40 + 100,
-				GetColor(150, 150, 255), 1);
+			window1Draw(100, 250, 100 + 150, 250 + 40 + 100);
+			// DrawBox(100, 250, 100 + 150, 250 + 40 + 100,
+			//	GetColor(150, 150, 255), 1);
 
 			DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
@@ -3247,8 +3255,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			// ウィンドウ欄
 			
-			DrawBox(HPX, HPY, HPX + 150, HPY + 340 + 100,
-				GetColor(150, 150, 255), 1);
+			window1Draw(HPX, HPY, HPX + 150, HPY + 340 + 100);
+			//DrawBox(HPX, HPY, HPX + 150, HPY + 340 + 100,
+				//GetColor(150, 150, 255), 1);
 
 
 			DrawFormatString(HPX +20, HPY + 20 * 0, GetColor(255, 255, 255), "%s", heros_def_list[0].heros_name); // 文字を描画する			
@@ -3268,9 +3277,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-			DrawBox(100, 250, 100 + 150, 250 + 40 + 100,
-				GetColor(150, 150, 255), 1);
+			window1Draw(100, 250, 100 + 150, 250 + 40 + 100);
+			//DrawBox(100, 250, 100 + 150, 250 + 40 + 100,
+				//GetColor(150, 150, 255), 1);
 
 			//DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", x, y); // 文字を描画する
 
@@ -3592,7 +3601,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			//Rectangle(hbackDC, 10, 10, 610, 80);
 
-			DrawBox(10, 10, 610, 80, GetColor(150, 150, 255), 1);
+			window1Draw(10, 10, 610, 80);
+			// DrawBox(10, 10, 610, 80, GetColor(150, 150, 255), 1);
 
 
 
@@ -3712,7 +3722,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				//Rectangle(hbackDC, 500, 250,
 				//	600, 350);
-				DrawBox(500, 250, 600, 350, GetColor(150, 150, 255), 1);
+				
+				window1Draw(500, 250, 600, 350);
+				//DrawBox(500, 250, 600, 350, GetColor(150, 150, 255), 1);
 
 				int GoldViewBaseX = 510; int GoldViewBaseY = 260;
 				lstrcpy(mojibuf, TEXT("所持金"));
@@ -4194,8 +4206,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			int HPX = 300; int HPY = 50;
 
-			DrawBox(HPX, HPY, HPX + 150, HPY + 340 + 50,
-				GetColor(150, 150, 255), 1);
+			window1Draw(HPX, HPY, HPX + 150, HPY + 340 + 50);
+			// DrawBox(HPX, HPY, HPX + 150, HPY + 340 + 50,
+			//	GetColor(150, 150, 255), 1);
 
 			// カーソル
 			DrawBox(HPX, HPY + kasol3Target * 60, HPX + 130, HPY + 50 + kasol3Target * 60,
@@ -4400,8 +4413,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//	600, 400);
 
 
-			DrawBox(10, 100,	600, 400,
-				GetColor(150, 150, 255), 1);
+			window1Draw(10, 100, 600, 400);
+			//DrawBox(10, 100,	600, 400,
+			//	GetColor(150, 150, 255), 1);
 
 
 			// カーソル描画設定
@@ -5102,8 +5116,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 背景の青
 				//SelectObject(hdc, blue_thin_1);
 
-				DrawBox(10, 350, 500, 400,
-					GetColor(150, 150, 255), 1);
+				window1Draw(10, 350, 500, 400);
+				//DrawBox(10, 350, 500, 400,	GetColor(150, 150, 255), 1);
 
 				//Rectangle(hdc, 10, 350, 500, 400);
 
@@ -5121,9 +5135,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					//Rectangle(hdc, 10, 100 + offsetY * j, 300,
 					//	200 + offsetY * j);
 
-
-					DrawBox(10, 100 + offsetY * j, 300, 200 + offsetY * j,
-						GetColor(150, 150, 255), 1);
+					window1Draw(10, 100 + offsetY * j, 300, 200 + offsetY * j);
+					// DrawBox(10, 100 + offsetY * j, 300, 200 + offsetY * j,		GetColor(150, 150, 255), 1);
 
 
 					// カーソル
@@ -5380,8 +5393,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//SelectObject(hdc, blue_thin_1);
 			//Rectangle(hdc, 10, 100, 350, 300);
 
-			DrawBox(10, 100, 350, 300 +40,
-				GetColor(150, 150, 255), 1);
+			window1Draw(10, 100, 350, 300 + 40);
+			// DrawBox(10, 100, 350, 300 +40,	GetColor(150, 150, 255), 1);
 
 
 
@@ -5512,8 +5525,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// 背景の青
 			//SelectObject(hdc, blue_thin_1);
 			//Rectangle(hdc, 10, 350, 500, 400);
-			DrawBox(10, 350, 500, 400,
-				GetColor(150, 150, 255), 1);
+
+			window1Draw(10, 350, 500, 400);
+			// DrawBox(10, 350, 500, 400,0,			GetColor(150, 150, 255), 1);
 
 			lstrcpy(mojibuf, TEXT("変更したい装備を選んでください。"));
 			//TextOut(hdc, 15, 350 + 10, mojibuf, lstrlen(mojibuf));
@@ -5693,8 +5707,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 背景の青
 				//SelectObject(hdc, blue_thin_1);
 				//Rectangle(hdc, souWInXsta, 100, souWInXend, 300);
-				DrawBox(souWInXsta, 100, souWInXend, 300,
-					GetColor(150, 150, 255), 1);
+
+				window1Draw(souWInXsta, 100, souWInXend, 300 );
+				//DrawBox( souWInXsta, 100, souWInXend, 300  ,	GetColor(150, 150, 255), 1);
 
 				// カーソル
 				//BrushPink_set(hdc);
