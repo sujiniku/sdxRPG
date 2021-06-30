@@ -19,9 +19,12 @@ int window1color = GetColor(wind1R, wind1G, wind1B); // ウィンドウのほか、カーソ
 void window1Draw(int X1, int Y1, int X2, int Y2) {
 	DrawBox(X1, Y1, X2, Y2,
 		window1color, 1);
+
+	DrawBox(X1, Y1, X2, Y2,	GetColor(255, 255, 255), 0);
+
 }
 
-
+int debugFlag = 0;
 
 int casolu1R = 250; // l と 1 の区別のため u 追加
 int casolu1G = 150;
@@ -69,6 +72,8 @@ void tenmetu(int X1, int Y1, int X2, int Y2 ) {
 			wind1B + 1 * (whiteMax - wind1B) * (redVal / spanBlink)),
 		1);
 
+
+	DrawBox(X1, Y1, X2, Y2, GetColor(255, 255, 255), 0);
 
 
 	TimeKasolCount = TimeKasolCount + 1;
@@ -5231,8 +5236,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					////	DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
 					//		300 - 10, 100 + 70 + 120 * (whomTargetID1),				GetColor(255, 150, 150), 1);
 
-						tenmetu(10 + 10, 100 + 10 + 120 * (whomTargetID1),
-							300 - 10, 100 + 70 + 120 * (whomTargetID1));
+						tenmetu(10 , 100  + offsetY * (whomTargetID1),
+							300 , 200 + offsetY * (whomTargetID1));
 
 					}
 
@@ -5312,12 +5317,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					}
 
+					if (debugFlag == 1) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
+						//TextOut(hdc, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
 
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
-					//TextOut(hdc, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
-
-					DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
+						DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+					}
 				}
 
 				// そのキャラの装備項目の選択がサブモード
@@ -5484,6 +5489,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		//	DrawBox(90, (110 + 20) + 20 * (whatedit), 300 - 10,
 		//		(110 + 20) + 20 * (1 + whatedit),		GetColor(255, 150, 150), 1);
+
+			// tenmetu(90, (110 + 20) + 20 * (whatedit), 300 - 10, (110 + 20) + 20 * (1 + whatedit));
+			//
 
 			if (mode_scene == MODE_EQUIP_EDIT) {
 				tenmetu(90, (110 + 20) + 20 * (whatedit), 300 - 10,
