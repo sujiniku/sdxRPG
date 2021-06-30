@@ -49,7 +49,7 @@ void tenmetu(int X1, int Y1, int X2, int Y2 ) {
 		redVal = TimeKasolCount;
 	}
 	if (TimeKasolCount >= (int)spanBlink) {
-		redVal = 240 - TimeKasolCount;
+		redVal = spanBlink *2 - TimeKasolCount;
 	}
 
 	//DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
@@ -72,6 +72,51 @@ void tenmetu(int X1, int Y1, int X2, int Y2 ) {
 
 
 	TimeKasolCount = TimeKasolCount + 1;
+	if (TimeKasolCount > spanBlink * 2) {
+		TimeKasolCount = 0;
+	}
+
+}
+
+
+
+void tenmetuStop(int X1, int Y1, int X2, int Y2) {
+
+	// int KasolColor = GetColor(250, 150, 150);
+	double redVal = 0;
+
+	double spanBlink = 120.0;
+
+	if (TimeKasolCount < (int)spanBlink) {
+		redVal = TimeKasolCount;
+	}
+	if (TimeKasolCount >= (int)spanBlink) {
+		redVal = spanBlink * 2 - TimeKasolCount;
+	}
+
+	redVal = spanBlink / 2;
+
+	//DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
+	//	GetColor(250 , 150, 150), 1);
+
+//DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
+//	GetColor( 200 + (250 - 200)*(redVal / 120.0), 150, 250 - (250-150) * (redVal / 120.0) ), 1);
+
+
+	int whiteMax = 180;
+
+	DrawBox(X1, Y1, X2, Y2,
+		// DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
+
+		GetColor(wind1R + (whiteMax - wind1R) * (redVal / spanBlink),
+			wind1G + (whiteMax - wind1G) * (redVal / spanBlink),
+			wind1B + 1 * (whiteMax - wind1B) * (redVal / spanBlink)),
+		1);
+
+
+
+	//TimeKasolCount = TimeKasolCount + 1;
+	
 	if (TimeKasolCount > spanBlink * 2) {
 		TimeKasolCount = 0;
 	}
@@ -970,7 +1015,7 @@ void menu_CharaSelectDraw() {
 				//DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
 				//	300 - 10, 100 + 70 + 120 * (whomTargetID1),	GetColor(255, 150, 150), 1);
 
-				redCasol1(10 + 10, 100 + 10 + 120 * (whomTargetID1),
+				tenmetu(10 + 10, 100 + 10 + 120 * (whomTargetID1),
 					300 - 10, 100 + 70 + 120 * (whomTargetID1));
 
 				//MessageBox(NULL, TEXT("デバッグ。"), TEXT("テスト"), MB_OK);
@@ -3645,7 +3690,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//Rectangle(hbackDC, 20 + (selecting_mainmenu - 1) * 100, 20,
 				//	100 + (selecting_mainmenu - 1) * 100, 70);
 				// DrawBox(20 + (selecting_mainmenu - 1) * 100, 20, 100 + (selecting_mainmenu - 1) * 100, 70, GetColor(255, 150, 150), 1);
-				redCasol1(20 + (selecting_mainmenu - 1) * 100, 20,
+				tenmetu(20 + (selecting_mainmenu - 1) * 100, 20,
 					100 + (selecting_mainmenu - 1) * 100, 70);
 			}
 
@@ -3653,7 +3698,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//Rectangle(hbackDC, 20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
 				//	100 + (selecting_mainmenu - 1) * (100 + 10), 70);
 				// DrawBox(20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,	100 + (selecting_mainmenu - 1) * (100 + 10), 70, GetColor(255, 150, 150), 1);
-				redCasol1(20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
+				tenmetu(20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
 					100 + (selecting_mainmenu - 1) * (100 + 10), 70);
 			}
 
@@ -4249,7 +4294,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			// カーソル
 			// DrawBox(HPX, HPY + kasol3Target * 60, HPX + 130, HPY + 50 + kasol3Target * 60,	GetColor(255, 150, 150), 1);
-			redCasol1(HPX, HPY + kasol3Target * 60, HPX + 130, HPY + 50 + kasol3Target * 60);
+			tenmetu(HPX, HPY + kasol3Target * 60, HPX + 130, HPY + 50 + kasol3Target * 60);
 
 
 
@@ -4465,7 +4510,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//	DrawBox(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
 			//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY,				GetColor(255, 150, 150), 1);
 
-			redCasol1(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
+			tenmetu(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
 				250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
 
 
@@ -5186,7 +5231,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					////	DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
 					//		300 - 10, 100 + 70 + 120 * (whomTargetID1),				GetColor(255, 150, 150), 1);
 
-						redCasol1(10 + 10, 100 + 10 + 120 * (whomTargetID1),
+						tenmetu(10 + 10, 100 + 10 + 120 * (whomTargetID1),
 							300 - 10, 100 + 70 + 120 * (whomTargetID1));
 
 					}
@@ -5440,8 +5485,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//	DrawBox(90, (110 + 20) + 20 * (whatedit), 300 - 10,
 		//		(110 + 20) + 20 * (1 + whatedit),		GetColor(255, 150, 150), 1);
 
-			redCasol1(90, (110 + 20) + 20 * (whatedit), 300 - 10,
-				(110 + 20) + 20 * (1 + whatedit));
+			if (mode_scene == MODE_EQUIP_EDIT) {
+				tenmetu(90, (110 + 20) + 20 * (whatedit), 300 - 10,
+					(110 + 20) + 20 * (1 + whatedit));
+			}
+			if (mode_scene == MODE_EQUIP_EDIT2) {
+				tenmetuStop(90, (110 + 20) + 20 * (whatedit), 300 - 10,
+					(110 + 20) + 20 * (1 + whatedit));
+			}
+
+
 
 
 			// 文字
@@ -5754,7 +5807,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//	DrawBox(souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
 			//			(110 + 20) + 20 * (1 + whatedit2),					GetColor(255, 150, 150), 1);
 
-				redCasol1(souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
+				tenmetu(souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
 					(110 + 20) + 20 * (1 + whatedit2));
 
 				weapon_have_list[0].have_kosuu = 0;
