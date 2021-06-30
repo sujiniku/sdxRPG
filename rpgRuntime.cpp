@@ -11,13 +11,18 @@
 #include <math.h>  // 切り上げ計算で使用
 
 
-
+int window1color = GetColor(50, 50, 155); // ウィンドウのほか、カーソルのベース色でも使う可能性があるので変数化。
 void window1Draw(int X1, int Y1, int X2, int Y2) {
 	DrawBox(X1, Y1, X2, Y2,
-		GetColor(150, 150, 255), 1);
+		window1color, 1);
 }
 
 
+int KasolColor = GetColor(250, 150, 150);
+void redCasol1(int X1, int Y1, int X2, int Y2){
+	DrawBox(X1, Y1, X2, Y2,
+		KasolColor, 1);
+}
 
 
 
@@ -908,9 +913,11 @@ void menu_CharaSelectDraw() {
 				//Rectangle(hdc, 10 + 10, 100 + 10 + 120 * (whomTargetID1),
 				//	300 - 10, 100 + 70 + 120 * (whomTargetID1));
 
-				DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
-					300 - 10, 100 + 70 + 120 * (whomTargetID1),
-					GetColor(255, 150, 150), 1);
+				//DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
+				//	300 - 10, 100 + 70 + 120 * (whomTargetID1),	GetColor(255, 150, 150), 1);
+
+				redCasol1(10 + 10, 100 + 10 + 120 * (whomTargetID1),
+					300 - 10, 100 + 70 + 120 * (whomTargetID1));
 
 				//MessageBox(NULL, TEXT("デバッグ。"), TEXT("テスト"), MB_OK);
 
@@ -3609,15 +3616,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (mode_scene != MODE_ITEM_TYPE) {
 				//Rectangle(hbackDC, 20 + (selecting_mainmenu - 1) * 100, 20,
 				//	100 + (selecting_mainmenu - 1) * 100, 70);
-				DrawBox(20 + (selecting_mainmenu - 1) * 100, 20,
-					100 + (selecting_mainmenu - 1) * 100, 70, GetColor(255, 150, 150), 1);
+				// DrawBox(20 + (selecting_mainmenu - 1) * 100, 20, 100 + (selecting_mainmenu - 1) * 100, 70, GetColor(255, 150, 150), 1);
+				redCasol1(20 + (selecting_mainmenu - 1) * 100, 20,
+					100 + (selecting_mainmenu - 1) * 100, 70);
 			}
 
 			if (mode_scene == MODE_ITEM_TYPE) {
 				//Rectangle(hbackDC, 20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
 				//	100 + (selecting_mainmenu - 1) * (100 + 10), 70);
-				DrawBox(20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
-					100 + (selecting_mainmenu - 1) * (100 + 10), 70, GetColor(255, 150, 150), 1);
+				// DrawBox(20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,	100 + (selecting_mainmenu - 1) * (100 + 10), 70, GetColor(255, 150, 150), 1);
+				redCasol1(20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
+					100 + (selecting_mainmenu - 1) * (100 + 10), 70);
 			}
 
 
@@ -4211,10 +4220,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//	GetColor(150, 150, 255), 1);
 
 			// カーソル
-			DrawBox(HPX, HPY + kasol3Target * 60, HPX + 130, HPY + 50 + kasol3Target * 60,
-				GetColor(255, 150, 150), 1);
-
-
+			// DrawBox(HPX, HPY + kasol3Target * 60, HPX + 130, HPY + 50 + kasol3Target * 60,	GetColor(255, 150, 150), 1);
+			redCasol1(HPX, HPY + kasol3Target * 60, HPX + 130, HPY + 50 + kasol3Target * 60);
 
 
 
@@ -4427,11 +4434,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
 
 
-			DrawBox(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
-				250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY,
-				GetColor(255, 150, 150), 1);
+		//	DrawBox(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
+			//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY,				GetColor(255, 150, 150), 1);
 
-
+			redCasol1(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
+				250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
 
 
 			//	_stprintf_s(p, MAX_LENGTH, TEXT("%s qqqqqqqqqqq"), heros_def_list[0].heros_name);
@@ -5148,10 +5155,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						//	300 - 10, 100 + 70 + 120 * (whomTargetID1));
 
 
-						DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
-							300 - 10, 100 + 70 + 120 * (whomTargetID1),
-							GetColor(255, 150, 150), 1);
+					////	DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
+					//		300 - 10, 100 + 70 + 120 * (whomTargetID1),				GetColor(255, 150, 150), 1);
 
+						redCasol1(10 + 10, 100 + 10 + 120 * (whomTargetID1),
+							300 - 10, 100 + 70 + 120 * (whomTargetID1));
 
 					}
 
@@ -5401,11 +5409,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			// カーソル
 
-			DrawBox(90, (110 + 20) + 20 * (whatedit), 300 - 10,
-				(110 + 20) + 20 * (1 + whatedit),
-				GetColor(255, 150, 150), 1);
+		//	DrawBox(90, (110 + 20) + 20 * (whatedit), 300 - 10,
+		//		(110 + 20) + 20 * (1 + whatedit),		GetColor(255, 150, 150), 1);
 
-
+			redCasol1(90, (110 + 20) + 20 * (whatedit), 300 - 10,
+				(110 + 20) + 20 * (1 + whatedit));
 
 
 			// 文字
@@ -5715,10 +5723,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//BrushPink_set(hdc);
 				//Rectangle(hdc, souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
 				//	(110 + 20) + 20 * (1 + whatedit2));
-				DrawBox(souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
-						(110 + 20) + 20 * (1 + whatedit2),
-					GetColor(255, 150, 150), 1);
+			//	DrawBox(souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
+			//			(110 + 20) + 20 * (1 + whatedit2),					GetColor(255, 150, 150), 1);
 
+				redCasol1(souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
+					(110 + 20) + 20 * (1 + whatedit2));
 
 				weapon_have_list[0].have_kosuu = 0;
 
