@@ -5641,28 +5641,78 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DrawFormatString(15, 350 + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
+
+			if (mode_scene == MODE_EQUIP_EDIT) {
+				int locType;
+				/*
+				if (whatedit == MODE2_EQUIP_HAND1) {
+					locType = wepoType;
+				}
+				if (mode2_scene == MODE2_EQUIP_SHIELD) {
+					locType = tateType;
+				}
+				if (mode2_scene == MODE2_EQUIP_HELM) {
+					locType = kabutoType;
+				}
+				*/
+
+
+				if (whatedit == 0) {
+					//mode2_scene = MODE2_EQUIP_HAND1;
+					locType = wepoType;
+				}
+				if (whatedit == 1) {
+					//mode2_scene = MODE2_EQUIP_SHIELD;
+					locType = tateType;
+				}
+				if (whatedit == 2) {
+					//mode2_scene = MODE2_EQUIP_HELM;
+					locType = kabutoType;
+				}
+
+
+				int tempSoubi = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType];
+
+				if (locType == wepoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[tempSoubi].Stype[locType]).equipPower[kougekiPara]);
+				}
+				if (locType == tateType || locType == kabutoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[tempSoubi].Stype[locType]).equipPower[syubiPara]);
+				}
+
+
+
+				//	(soubiSyoji[ itemHairetu[whatedit2]   ] .Stype[wepoType]).equipPower);
+				// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), weapon_def_list[ itemHairetu[whatedit2]   ].equipPower);
+				//TextOut(hdc, 15 + 300, 350 + 10, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(15 + 300 * 0, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+			}
+
+
 			// whatedit2
 
 
 
+			if (debugFlag == 1) {
+				// デバッグ文。装備個数ズレのバグ調査。
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("whatedit2: %d"), whatedit2);
+				//TextOut(hdc, 15, 350 + 10 + 20, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(15, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-			// デバッグ文。装備個数ズレのバグ調査。
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("whatedit2: %d"), whatedit2);
-			//TextOut(hdc, 15, 350 + 10 + 20, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(15, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("iHw2: %d"), itemHairetu[whatedit2]);
-			//TextOut(hdc, 15 + 130, 350 + 10 + 20, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(15 + 130, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("wHL: %d"), weapon_have_list[heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1].have_def_id);
-			// TextOut(hdc, 15 + 130 + 100, 350 + 10 + 20, mojibuf, lstrlen(mojibuf)); 
-			DrawFormatString(15 + 130 + 100, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-			// itemHairetu[whatedit2]         weapon_have_list[heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1].have_kosuu = weapon_have_list[itemHairetu[whatedit2]].have_kosuu + 1;
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("iHw2: %d"), itemHairetu[whatedit2]);
+				//TextOut(hdc, 15 + 130, 350 + 10 + 20, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(15 + 130, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("wHL: %d"), weapon_have_list[heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1].have_def_id);
+				// TextOut(hdc, 15 + 130 + 100, 350 + 10 + 20, mojibuf, lstrlen(mojibuf)); 
+				DrawFormatString(15 + 130 + 100, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				// itemHairetu[whatedit2]         weapon_have_list[heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1].have_kosuu = weapon_have_list[itemHairetu[whatedit2]].have_kosuu + 1;
+
+			}
 
 
 
