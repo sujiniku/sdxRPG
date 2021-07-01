@@ -2625,40 +2625,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
-			int KasolColor = GetColor(100, 100, 100);
-			double redVal = 0;
-			double tani = 60.0;
-			if (TimeKasolCount < tani) {
-				redVal = TimeKasolCount;
-			}
-			if (TimeKasolCount >= tani) {
-				redVal = tani * 2 - TimeKasolCount;
-			}
-
-			//DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
-			//	GetColor(250 , 150, 150), 1);
-
-		//DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
-		//	GetColor( 200 + (250 - 200)*(redVal / 120.0), 150, 250 - (250-150) * (redVal / 120.0) ), 1);
-
-
-			DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
-				GetColor(100 + (180 - 150) * (redVal / tani ),
-					100 + (180 - 150) * (redVal / tani ),
-					100 + 1 * (180 - 150) * (redVal / tani )),
-				1);
-
-
-
-			TimeKasolCount = TimeKasolCount + 1;
-			if (TimeKasolCount > tani *2) {
-				TimeKasolCount = 0;
-			}
-
+			
+			
 
 			if (mode_scene == MODE_BATTLE_COMMAND) {
-				DrawFormatString(100 + 20, 250, GetColor(255, 255, 255), "êÌÇ§"); // ï∂éöÇï`âÊÇ∑ÇÈ
-				DrawFormatString(100 + 20, 250 + 40, GetColor(255, 255, 255), "ì¶Ç∞ÇÈ"); // ï∂éöÇï`âÊÇ∑ÇÈ
+				int tem1X = 100; int Xwidth = 100;
+				int tem1Y = 240;
+
+				int yohakuY = 10;
+				window1Draw(tem1X - yohakuY, tem1Y - yohakuY,
+					tem1X + Xwidth  + yohakuY , tem1Y +40+40 + yohakuY);
+
+				// ÉJÅ[É\Éã
+				tenmetu(tem1X, tem1Y + (selecting_mainmenu - 1) * 40,
+					tem1X + Xwidth, tem1Y +10 + (selecting_mainmenu - 1) * 40 + 30);
+
+				DrawFormatString(tem1X + 20, tem1Y + 10, GetColor(255, 255, 255), "êÌÇ§"); // ï∂éöÇï`âÊÇ∑ÇÈ
+				DrawFormatString(tem1X + 20, tem1Y + 10 + 40, GetColor(255, 255, 255), "ì¶Ç∞ÇÈ"); // ï∂éöÇï`âÊÇ∑ÇÈ
 			}
 
 			//int locTest =1;
@@ -2722,9 +2705,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int offsetBattleX = 170;
 			int tempVAl;
 
+
+
+
+			
+
 				// partyNarabijyun[iTemp] ;
 			for (int iTemp = 0; iTemp <= partyNinzuDone - 1; iTemp++)
 			{
+
+				window1Draw( 10 + iTemp * offsetBattleX , 350,
+					10 + iTemp * offsetBattleX + 150, 470);
+
 
 				tempVAl = partyNarabijyun[iTemp];
 			
