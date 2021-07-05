@@ -1271,7 +1271,6 @@ void menu_CharaSelectDraw2() {
 
 
 
-
 // 戦闘への突入の処理 // のちのマップ判定で呼びだすので、戦闘突入とマップ判定の順序は固定のこと。
 void battle_start() {
 
@@ -1646,6 +1645,338 @@ int toubouSeikou = 0;
 
 
 
+
+
+
+
+
+
+struct tykou {
+	struct soubi_def Stype[10];
+};
+
+static struct tykou soubihin[10]; // 構造体配列の宣言
+static struct tykou* Asoubuhin = &soubihin[10];
+
+// strcpy_s((soubihin[0].Stype[0]).def_name, 10, "武器テスト---");  // 前コードと区別のため、文字を追加している
+
+
+//static struct soubi_def soubi_def_list[15]; // 武器処理の構造体配列の宣言
+//static struct soubi_have soubi_have_list[15];
+
+
+
+
+struct tykou2 {
+	struct soubi_have Stype[10];
+};
+
+struct tykou2 soubiSyoji[20]; // 構造体配列の宣言
+
+static struct tykou2* AsoubuSyoji = &soubiSyoji[10];
+
+
+
+
+void itemList (struct tykou soubuhin[10] , struct tykou2 soubiSyoji[20] ,int kasolFlag) {
+
+				darkFlag = 1;
+//MainGraMenu(hdc);
+darkFlag = 0;
+
+
+
+//BrushBlue_set(hdc);
+//Rectangle(hdc, 10, 100,
+//	600, 400);
+
+
+window1Draw(10, 100, 600, 400);
+//DrawBox(10, 100,	600, 400,
+//	GetColor(150, 150, 255), 1);
+
+
+// カーソル描画設定
+int spanY = 30;
+int Y0 = 120;
+
+//BrushPink_set(hdc);
+//Rectangle(hdc, 20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
+//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
+
+
+//	DrawBox(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
+	//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY,				GetColor(255, 150, 150), 1);
+
+	// こっちは覗き見なのでカーソルはオフに
+
+
+if (kasolFlag == 1) {
+	tenmetu(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY, 250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
+}
+
+	//	_stprintf_s(p, MAX_LENGTH, TEXT("%s qqqqqqqqqqq"), heros_def_list[0].heros_name);
+		//	TextOut(hdc, 130, 105, p, lstrlen(p));
+
+
+	goukeiItem = 0;
+
+
+	int column = 2;
+
+	int xcommon;
+	int ycommon;
+
+	// 表示フラグ
+	int ViewFlagItem = 1;
+	int ViewFlagWeapon = 0;
+	int ViewFlagShield = 0;
+	int ViewFlagHelm = 0;
+
+	if (mode_scene == MODE_ITEMweapon_MENU || mode_scene == MODE_ITEM_MENU || mode_scene == MODE_ITEM_TYPE) {
+
+		// 表示フラグ設定
+		if (mode_scene == MODE_ITEM_MENU || (selecting_mainmenu == 1 && mode_scene == MODE_ITEM_TYPE)) {
+			ViewFlagItem = 1;
+			ViewFlagWeapon = 0;
+			ViewFlagShield = 0;
+			ViewFlagHelm = 0;
+		}
+
+		if (mode_scene == MODE_ITEMweapon_MENU || (selecting_mainmenu == 2 && mode_scene == MODE_ITEM_TYPE)) {
+			ViewFlagItem = 0;
+			ViewFlagWeapon = 1;
+			ViewFlagShield = 1;
+			ViewFlagHelm = 1;
+		}
+
+		if ((selecting_mainmenu == 3 && mode_scene == MODE_ITEM_TYPE)) {
+			ViewFlagItem = 0;
+			ViewFlagWeapon = 0;
+			ViewFlagShield = 0;
+			ViewFlagHelm = 0;
+		}
+
+
+
+	}
+
+
+	int LimintTemp = goukeiItem;
+	goukeiItem = 0;
+
+
+
+	// アイテム配列のクリア。前の残骸が残る場合があるので。
+	itemHairetu[0] = -99;
+
+
+
+	int itemIDcount = 0; // for文の外で使うので、消したらダメ
+	// itemIDcounは goukeiItem と同内容だが、意味合いが違うので残す。
+
+	// 使用品の配列代入
+	if (ViewFlagItem) {
+
+		LimintTemp = goukeiItem;
+
+		for (idTemp = 1; idTemp <= 3; idTemp = idTemp + 1)
+		{
+
+			if (item_have_list[idTemp].have_kosuu != 0) {
+
+				goukeiItem = goukeiItem + 1;
+
+				if (1) {
+					itemHairetu[itemIDcount] = idTemp;
+					itemTypeHairetu[itemIDcount] = siyouType;
+					itemIDcount = itemIDcount + 1;
+				}
+			}
+		} // 使用品の配列代入
+	}
+
+	if (ViewFlagWeapon) {
+
+		LimintTemp = goukeiItem;
+
+
+		// 武器の配列代入
+		for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+		{
+			//if (weapon_have_list[idTemp].have_kosuu != 0) {
+			int	localSouType = wepoType;
+			if ((soubiSyoji[idTemp].Stype[localSouType]).have_kosuu != 0) {
+
+					
+				goukeiItem = goukeiItem + 1;
+
+				if (1) {
+					itemHairetu[itemIDcount] = idTemp;
+					itemTypeHairetu[itemIDcount] = localSouType;
+					itemIDcount = itemIDcount + 1;
+				}
+			}
+		} // 武器の配列代入
+	}
+
+
+
+	if (ViewFlagShield) {
+
+		LimintTemp = goukeiItem;
+
+		// シールドの配列代入
+		for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+		{
+			//if (shield_have_list[idTemp].have_kosuu != 0) {
+				// MessageBox(NULL, TEXT("テストhelm"), TEXT("キーテスト"), MB_OK);
+			int	localSouType = tateType;
+			if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
+
+
+				goukeiItem = goukeiItem + 1;
+
+				if (1) {
+					itemHairetu[itemIDcount] = idTemp;
+					itemTypeHairetu[itemIDcount] = localSouType;
+					itemIDcount = itemIDcount + 1;
+				}
+
+			}
+		} // シールド
+	}
+
+
+
+	if (ViewFlagHelm) {
+
+
+		LimintTemp = goukeiItem;
+		// ヘルムの配列代入
+		for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+		{
+			// MessageBox(NULL, TEXT("テスト22"), TEXT("キーテスト"), MB_OK);
+			// if (helm_have_list[idTemp].have_kosuu != 0) {
+			int	localSouType = kabutoType;
+			if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
+
+				goukeiItem = goukeiItem + 1;
+
+				if (1) {
+					itemHairetu[itemIDcount] = idTemp;
+					itemTypeHairetu[itemIDcount] = localSouType;
+					itemIDcount = itemIDcount + 1;
+				}
+
+			}
+		} // かぶとの配列代入
+	}
+
+	itemTypeHairetu[itemIDcount] = -99; // 終了を意味する数。
+
+
+
+	if (1) {
+		for (int temp = 0; temp <= 10; temp = temp + 1) {
+
+
+			int temp2 = temp + pageSyori * 6;
+
+			if (itemTypeHairetu[temp2] == -99) {
+				lstrcpy(mojibuf, TEXT("   "));
+				// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				break;
+			}
+
+
+			xcommon = 30 + 300 * floor((temp) % column);
+			ycommon = 130 + spanY * floor((temp) / column);
+
+			//SetBkMode(hdc, TRANSPARENT);
+
+			if (itemTypeHairetu[temp2] == siyouType) {
+				lstrcpy(mojibuf, item_def_list[itemHairetu[temp2]].def_name);
+			}
+			if (itemTypeHairetu[temp2] == wepoType
+				|| itemTypeHairetu[temp2] == tateType
+				|| itemTypeHairetu[temp2] == kabutoType
+				) {
+
+				int locType;
+
+				// loctype = itemTypeHairetu[temp2] だけど、分かりやすさ重視のため下記のようにif化
+				if (itemTypeHairetu[temp2] == wepoType) {
+					locType = wepoType;
+
+				}
+				if (itemTypeHairetu[temp2] == tateType) {
+					locType = tateType;
+				}
+				if (itemTypeHairetu[temp2] == kabutoType) {
+					locType = kabutoType;
+				}
+
+				// lstrcpy(mojibuf, weapon_def_list[itemHairetu[temp2]].def_name);
+				// soubihin[1].Stype[1]
+				lstrcpy(mojibuf, (soubihin[itemHairetu[temp2]].Stype[locType]).def_name);
+
+
+			}
+
+			if (itemTypeHairetu[temp2] == kabutoType) {
+				// lstrcpy(mojibuf, helm_def_list[itemHairetu[temp2]].def_name);
+			}
+
+			//TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf);
+
+
+			// 個数欄の背景クリア用
+			lstrcpy(mojibuf, TEXT("   "));
+			// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+			DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf);
+
+
+			if (itemTypeHairetu[temp2] == siyouType) {
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), item_have_list[itemHairetu[temp2]].have_kosuu);
+			}
+
+			int locType = itemTypeHairetu[temp2];
+			if (itemTypeHairetu[temp2] == wepoType || itemTypeHairetu[temp2] == tateType
+				|| itemTypeHairetu[temp2] == kabutoType
+				) {
+				// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[itemHairetu[temp2]].have_kosuu);
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), (soubiSyoji[itemHairetu[temp2]].Stype[locType]).have_kosuu);
+			}
+
+			if (itemTypeHairetu[temp2] == kabutoType) {
+				//	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[itemHairetu[temp2]].have_kosuu);
+			}
+
+			// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d mm"), weapon_have_list[temp].have_kosuu);
+			// TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(xcommon + 130, ycommon, GetColor(255, 255, 255), mojibuf);
+
+		}
+	}
+
+
+
+
+	itemIDcount = 0;
+
+} // itemlist
+
+
+
+
+
+
+
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -1729,31 +2060,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 	}
-
-
-
-	struct tykou {
-		struct soubi_def Stype[10];
-	};
-
-	struct tykou soubihin[10]; // 構造体配列の宣言
-
-
-	// strcpy_s((soubihin[0].Stype[0]).def_name, 10, "武器テスト---");  // 前コードと区別のため、文字を追加している
-
-
-	//static struct soubi_def soubi_def_list[15]; // 武器処理の構造体配列の宣言
-	//static struct soubi_have soubi_have_list[15];
-
-
-
-
-	struct tykou2 {
-		struct soubi_have Stype[10];
-	};
-
-	struct tykou2 soubiSyoji[20]; // 構造体配列の宣言
-
 
 
 
@@ -4058,292 +4364,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			if (mode_scene == MODE_ITEM_TYPE) {
-
-				darkFlag = 1;
-				//MainGraMenu(hdc);
-				darkFlag = 0;
-
-
-
-				//BrushBlue_set(hdc);
-				//Rectangle(hdc, 10, 100,
-				//	600, 400);
-
-
-				window1Draw(10, 100, 600, 400);
-				//DrawBox(10, 100,	600, 400,
-				//	GetColor(150, 150, 255), 1);
-
-
-				// カーソル描画設定
-				int spanY = 30;
-				int Y0 = 120;
-
-				//BrushPink_set(hdc);
-				//Rectangle(hdc, 20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
-				//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
-
-
-			//	DrawBox(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
-				//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY,				GetColor(255, 150, 150), 1);
-
-				// こっちは覗き見なのでカーソルはオフに
-				//				tenmetu(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
-
-
-				//	_stprintf_s(p, MAX_LENGTH, TEXT("%s qqqqqqqqqqq"), heros_def_list[0].heros_name);
-					//	TextOut(hdc, 130, 105, p, lstrlen(p));
-
-
-				goukeiItem = 0;
-
-
-				int column = 2;
-
-				int xcommon;
-				int ycommon;
-
-				// 表示フラグ
-				int ViewFlagItem = 1;
-				int ViewFlagWeapon = 0;
-				int ViewFlagShield = 0;
-				int ViewFlagHelm = 0;
-
-				if (mode_scene == MODE_ITEMweapon_MENU || mode_scene == MODE_ITEM_MENU || mode_scene == MODE_ITEM_TYPE) {
-
-					// 表示フラグ設定
-					if (mode_scene == MODE_ITEM_MENU || (selecting_mainmenu == 1 && mode_scene == MODE_ITEM_TYPE) ) {
-						ViewFlagItem = 1;
-						ViewFlagWeapon = 0;  
-						ViewFlagShield = 0;
-						ViewFlagHelm = 0;
-					}
-
-					if (mode_scene == MODE_ITEMweapon_MENU || (selecting_mainmenu == 2 && mode_scene == MODE_ITEM_TYPE)) {
-						ViewFlagItem = 0;
-						ViewFlagWeapon = 1;
-						ViewFlagShield = 1;
-						ViewFlagHelm = 1;
-					}
-
-					if ( (selecting_mainmenu == 3 && mode_scene == MODE_ITEM_TYPE)) {
-						ViewFlagItem = 0;
-						ViewFlagWeapon = 0;
-						ViewFlagShield = 0;
-						ViewFlagHelm = 0;
-					}
-
-
-
-				}
-
-
-				int LimintTemp = goukeiItem;
-				goukeiItem = 0;
-
-
-
-				// アイテム配列のクリア。前の残骸が残る場合があるので。
-				itemHairetu[0] = -99;
-
-
-
-				int itemIDcount = 0; // for文の外で使うので、消したらダメ
-				// itemIDcounは goukeiItem と同内容だが、意味合いが違うので残す。
-
-				// 使用品の配列代入
-				if (ViewFlagItem) {
-
-					LimintTemp = goukeiItem;
-
-					for (idTemp = 1; idTemp <= 3; idTemp = idTemp + 1)
-					{
-
-						if (item_have_list[idTemp].have_kosuu != 0) {
-
-							goukeiItem = goukeiItem + 1;
-
-							if (1) {
-								itemHairetu[itemIDcount] = idTemp;
-								itemTypeHairetu[itemIDcount] = siyouType;
-								itemIDcount = itemIDcount + 1;
-							}
-						}
-					} // 使用品の配列代入
-				}
-
-				if (ViewFlagWeapon) {
-
-					LimintTemp = goukeiItem;
-
-
-					// 武器の配列代入
-					for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
-					{
-						//if (weapon_have_list[idTemp].have_kosuu != 0) {
-						int	localSouType = wepoType;
-						if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
-
-
-							goukeiItem = goukeiItem + 1;
-
-							if (1) {
-								itemHairetu[itemIDcount] = idTemp;
-								itemTypeHairetu[itemIDcount] = localSouType;
-								itemIDcount = itemIDcount + 1;
-							}
-						}
-					} // 武器の配列代入
-				}
-
-
-
-				if (ViewFlagShield) {
-
-					LimintTemp = goukeiItem;
-
-					// シールドの配列代入
-					for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
-					{
-						//if (shield_have_list[idTemp].have_kosuu != 0) {
-							// MessageBox(NULL, TEXT("テストhelm"), TEXT("キーテスト"), MB_OK);
-						int	localSouType = tateType;
-						if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
-
-
-							goukeiItem = goukeiItem + 1;
-
-							if (1) {
-								itemHairetu[itemIDcount] = idTemp;
-								itemTypeHairetu[itemIDcount] = localSouType;
-								itemIDcount = itemIDcount + 1;
-							}
-
-						}
-					} // シールド
-				}
-
-
-
-				if (ViewFlagHelm) {
-
-
-					LimintTemp = goukeiItem;
-					// ヘルムの配列代入
-					for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
-					{
-						// MessageBox(NULL, TEXT("テスト22"), TEXT("キーテスト"), MB_OK);
-						// if (helm_have_list[idTemp].have_kosuu != 0) {
-						int	localSouType = kabutoType;
-						if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
-
-							goukeiItem = goukeiItem + 1;
-
-							if (1) {
-								itemHairetu[itemIDcount] = idTemp;
-								itemTypeHairetu[itemIDcount] = localSouType;
-								itemIDcount = itemIDcount + 1;
-							}
-
-						}
-					} // かぶとの配列代入
-				}
-
-				itemTypeHairetu[itemIDcount] = -99; // 終了を意味する数。
-
-
-
-				if (1) {
-					for (int temp = 0; temp <= 10; temp = temp + 1) {
-
-
-						int temp2 = temp + pageSyori * 6;
-
-						if (itemTypeHairetu[temp2] == -99) {
-							lstrcpy(mojibuf, TEXT("   "));
-							// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
-
-							DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-							break;
-						}
-
-
-						xcommon = 30 + 300 * floor((temp) % column);
-						ycommon = 130 + spanY * floor((temp) / column);
-
-						//SetBkMode(hdc, TRANSPARENT);
-
-						if (itemTypeHairetu[temp2] == siyouType) {
-							lstrcpy(mojibuf, item_def_list[itemHairetu[temp2]].def_name);
-						}
-						if (itemTypeHairetu[temp2] == wepoType
-							|| itemTypeHairetu[temp2] == tateType
-							|| itemTypeHairetu[temp2] == kabutoType
-							) {
-
-							int locType;
-
-							// loctype = itemTypeHairetu[temp2] だけど、分かりやすさ重視のため下記のようにif化
-							if (itemTypeHairetu[temp2] == wepoType) {
-								locType = wepoType;
-
-							}
-							if (itemTypeHairetu[temp2] == tateType) {
-								locType = tateType;
-							}
-							if (itemTypeHairetu[temp2] == kabutoType) {
-								locType = kabutoType;
-							}
-
-							// lstrcpy(mojibuf, weapon_def_list[itemHairetu[temp2]].def_name);
-							// soubihin[1].Stype[1]
-							lstrcpy(mojibuf, (soubihin[itemHairetu[temp2]].Stype[locType]).def_name);
-
-
-						}
-
-						if (itemTypeHairetu[temp2] == kabutoType) {
-							// lstrcpy(mojibuf, helm_def_list[itemHairetu[temp2]].def_name);
-						}
-
-						//TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
-
-						DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf);
-
-
-						// 個数欄の背景クリア用
-						lstrcpy(mojibuf, TEXT("   "));
-						// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
-						DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf);
-
-
-						if (itemTypeHairetu[temp2] == siyouType) {
-							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), item_have_list[itemHairetu[temp2]].have_kosuu);
-						}
-
-						int locType = itemTypeHairetu[temp2];
-						if (itemTypeHairetu[temp2] == wepoType || itemTypeHairetu[temp2] == tateType
-							|| itemTypeHairetu[temp2] == kabutoType
-							) {
-							// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[itemHairetu[temp2]].have_kosuu);
-							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), (soubiSyoji[itemHairetu[temp2]].Stype[locType]).have_kosuu);
-						}
-
-						if (itemTypeHairetu[temp2] == kabutoType) {
-							//	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[itemHairetu[temp2]].have_kosuu);
-						}
-
-						// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d mm"), weapon_have_list[temp].have_kosuu);
-						// TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
-						DrawFormatString(xcommon + 130, ycommon, GetColor(255, 255, 255), mojibuf);
-
-					}
-				}
-
-
-
-
-				itemIDcount = 0;
+				itemList(soubihin, soubiSyoji,0 );
 		
 			} // itemlist
 
@@ -4998,352 +5019,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (mode_scene == MODE_ITEM_MENU || mode_scene == MODE_ITEMweapon_MENU) {
 
-			darkFlag = 1;
-			//MainGraMenu(hdc);
-			darkFlag = 0;
-
-
-
-			//BrushBlue_set(hdc);
-			//Rectangle(hdc, 10, 100,
-			//	600, 400);
-
-
-			window1Draw(10, 100, 600, 400);
-			//DrawBox(10, 100,	600, 400,
-			//	GetColor(150, 150, 255), 1);
-
-
-			// カーソル描画設定
-			int spanY = 30;
-			int Y0 = 120;
-
-			//BrushPink_set(hdc);
-			//Rectangle(hdc, 20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
-			//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
-
-
-		//	DrawBox(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
-			//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY,				GetColor(255, 150, 150), 1);
-
-			tenmetu(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
-				250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
-
-
-			//	_stprintf_s(p, MAX_LENGTH, TEXT("%s qqqqqqqqqqq"), heros_def_list[0].heros_name);
-				//	TextOut(hdc, 130, 105, p, lstrlen(p));
-
-
-			goukeiItem = 0;
-
-
-			int column = 2;
-
-			int xcommon;
-			int ycommon;
-
-			// 表示フラグ
-			int ViewFlagItem = 1;
-			int ViewFlagWeapon = 0;
-			int ViewFlagShield = 0;
-			int ViewFlagHelm = 0;
-
-			if (mode_scene == MODE_ITEMweapon_MENU || mode_scene == MODE_ITEM_MENU) {
-
-				// 表示フラグ設定
-				if (mode_scene == MODE_ITEM_MENU) {
-					ViewFlagItem = 1;
-					ViewFlagWeapon = 0;
-					ViewFlagShield = 0;
-					ViewFlagHelm = 0;
-				}
-
-				if (mode_scene == MODE_ITEMweapon_MENU) {
-					ViewFlagItem = 0;
-					ViewFlagWeapon = 1;
-					ViewFlagShield = 1;
-					ViewFlagHelm = 1;
-				}
-			}
-
-
-			int LimintTemp = goukeiItem;
-			goukeiItem = 0;
-
-
-
-			// アイテム配列のクリア。前の残骸が残る場合があるので。
-			itemHairetu[0] = -99;
-
-
-
-			int itemIDcount = 0; // for文の外で使うので、消したらダメ
-			// itemIDcounは goukeiItem と同内容だが、意味合いが違うので残す。
-
-			// 使用品の配列代入
-			if (ViewFlagItem) {
-
-				LimintTemp = goukeiItem;
-
-				for (idTemp = 1; idTemp <= 3; idTemp = idTemp + 1)
-				{
-
-					if (item_have_list[idTemp].have_kosuu != 0) {
-
-						goukeiItem = goukeiItem + 1;
-
-						if (1) {
-							itemHairetu[itemIDcount] = idTemp;
-							itemTypeHairetu[itemIDcount] = siyouType;
-							itemIDcount = itemIDcount + 1;
-						}
-					}
-				} // 使用品の配列代入
-			}
-
-			if (ViewFlagWeapon) {
-
-				LimintTemp = goukeiItem;
-
-
-				// 武器の配列代入
-				for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
-				{
-					//if (weapon_have_list[idTemp].have_kosuu != 0) {
-					int	localSouType = wepoType;
-					if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
-
-
-						goukeiItem = goukeiItem + 1;
-
-						if (1) {
-							itemHairetu[itemIDcount] = idTemp;
-							itemTypeHairetu[itemIDcount] = localSouType;
-							itemIDcount = itemIDcount + 1;
-						}
-					}
-				} // 武器の配列代入
-			}
-
-
-
-			if (ViewFlagShield) {
-
-				LimintTemp = goukeiItem;
-
-				// シールドの配列代入
-				for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
-				{
-					//if (shield_have_list[idTemp].have_kosuu != 0) {
-						// MessageBox(NULL, TEXT("テストhelm"), TEXT("キーテスト"), MB_OK);
-					int	localSouType = tateType;
-					if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
-
-
-						goukeiItem = goukeiItem + 1;
-
-						if (1) {
-							itemHairetu[itemIDcount] = idTemp;
-							itemTypeHairetu[itemIDcount] = localSouType;
-							itemIDcount = itemIDcount + 1;
-						}
-
-					}
-				} // シールド
-			}
-
-
-
-			if (ViewFlagHelm) {
-
-
-				LimintTemp = goukeiItem;
-				// ヘルムの配列代入
-				for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
-				{
-					// MessageBox(NULL, TEXT("テスト22"), TEXT("キーテスト"), MB_OK);
-					// if (helm_have_list[idTemp].have_kosuu != 0) {
-					int	localSouType = kabutoType;
-					if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
-
-						goukeiItem = goukeiItem + 1;
-
-						if (1) {
-							itemHairetu[itemIDcount] = idTemp;
-							itemTypeHairetu[itemIDcount] = localSouType;
-							itemIDcount = itemIDcount + 1;
-						}
-
-					}
-				} // かぶとの配列代入
-			}
-
-			itemTypeHairetu[itemIDcount] = -99; // 終了を意味する数。
-
-
-
-			if (1) {
-				for (int temp = 0; temp <= 10; temp = temp + 1) {
-
-
-					int temp2 = temp + pageSyori * 6;
-
-					if (itemTypeHairetu[temp2] == -99) {
-						lstrcpy(mojibuf, TEXT("   "));
-						// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
-
-						DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-						break;
-					}
-
-
-					xcommon = 30 + 300 * floor((temp) % column);
-					ycommon = 130 + spanY * floor((temp) / column);
-
-					//SetBkMode(hdc, TRANSPARENT);
-
-					if (itemTypeHairetu[temp2] == siyouType) {
-						lstrcpy(mojibuf, item_def_list[itemHairetu[temp2]].def_name);
-					}
-					if (itemTypeHairetu[temp2] == wepoType
-						|| itemTypeHairetu[temp2] == tateType
-						|| itemTypeHairetu[temp2] == kabutoType
-						) {
-
-						int locType;
-
-						// loctype = itemTypeHairetu[temp2] だけど、分かりやすさ重視のため下記のようにif化
-						if (itemTypeHairetu[temp2] == wepoType) {
-							locType = wepoType;
-
-						}
-						if (itemTypeHairetu[temp2] == tateType) {
-							locType = tateType;
-						}
-						if (itemTypeHairetu[temp2] == kabutoType) {
-							locType = kabutoType;
-						}
-
-						// lstrcpy(mojibuf, weapon_def_list[itemHairetu[temp2]].def_name);
-						// soubihin[1].Stype[1]
-						lstrcpy(mojibuf, (soubihin[itemHairetu[temp2]].Stype[locType]).def_name);
-
-
-					}
-
-					if (itemTypeHairetu[temp2] == kabutoType) {
-						// lstrcpy(mojibuf, helm_def_list[itemHairetu[temp2]].def_name);
-					}
-
-					//TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
-
-					DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf);
-
-
-					// 個数欄の背景クリア用
-					lstrcpy(mojibuf, TEXT("   "));
-					// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
-					DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf);
-
-
-					if (itemTypeHairetu[temp2] == siyouType) {
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), item_have_list[itemHairetu[temp2]].have_kosuu);
-					}
-
-					int locType = itemTypeHairetu[temp2];
-					if (itemTypeHairetu[temp2] == wepoType || itemTypeHairetu[temp2] == tateType
-						|| itemTypeHairetu[temp2] == kabutoType
-						) {
-						// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[itemHairetu[temp2]].have_kosuu);
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), (soubiSyoji[itemHairetu[temp2]].Stype[locType]).have_kosuu);
-					}
-
-					if (itemTypeHairetu[temp2] == kabutoType) {
-						//	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[itemHairetu[temp2]].have_kosuu);
-					}
-
-					// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d mm"), weapon_have_list[temp].have_kosuu);
-					// TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
-					DrawFormatString(xcommon + 130, ycommon, GetColor(255, 255, 255), mojibuf);
-
-				}
-			}
-
-
-
-			/*
-
-
-			// デバッグ用モニター
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("itemHairetu[0] %d"), itemHairetu[0]);
-			//TextOut(hdc, 230, 200, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(230, 200, GetColor(255, 255, 255), mojibuf);
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("itemHairetu[1] %d"), itemHairetu[1]);
-			//TextOut(hdc, 230, 230, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(230, 230, GetColor(255, 255, 255), mojibuf);
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("itemHairetu[2] %d"), itemHairetu[2]);
-			TextOut(hdc, 230, 260, mojibuf, lstrlen(mojibuf));
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("whatuse %d"), whatuse);
-			TextOut(hdc, 230, 290, mojibuf, lstrlen(mojibuf));
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("goukeIte %d"), goukeiItem);
-			TextOut(hdc, 230, 290 + 30, mojibuf, lstrlen(mojibuf));
-
-			// デバッグ用
-			lstrcpy(mojibuf, TEXT("sele_item :"));
-			//TextOut(hdc, 430, 200, mojibuf, lstrlen(mojibuf));
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("SI: %d"), selecting_item);
-			TextOut(hdc, 530, 200, mojibuf, lstrlen(mojibuf));
-
-
-			lstrcpy(mojibuf, TEXT("item_x :"));
-			TextOut(hdc, 430, 230, mojibuf, lstrlen(mojibuf));
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), selecting_item_x);
-			TextOut(hdc, 490, 230, mojibuf, lstrlen(mojibuf));
-
-
-			lstrcpy(mojibuf, TEXT("item_y :"));
-			TextOut(hdc, 430, 280, mojibuf, lstrlen(mojibuf));
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), selecting_item_y);
-			TextOut(hdc, 490, 280, mojibuf, lstrlen(mojibuf));
-
-
-
-
-			// アイテム効果の確認用
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[0].heros_name);
-			TextOut(hdc, 400, 300, mojibuf, lstrlen(mojibuf));
-
-
-			lstrcpy(mojibuf, TEXT("HP"));
-			TextOut(hdc, 400, 300 + 30, mojibuf, lstrlen(mojibuf));
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[0].heros_hp);
-			TextOut(hdc, 400 + 30, 300 + 30, mojibuf, lstrlen(mojibuf));
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[0].heros_hp_max);
-			TextOut(hdc, 400 + 60, 300 + 30, mojibuf, lstrlen(mojibuf));
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
-			TextOut(hdc, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
-
-
-
-			*/
-
-
-			itemIDcount = 0;
+			itemList(soubihin, soubiSyoji,1);
 		} // end
 
 
