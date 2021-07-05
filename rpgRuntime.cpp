@@ -1078,15 +1078,27 @@ void menu_CharaSelectDraw() {
 		DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
+		int revwait = 120 - waitheal;
 		// if (heros_def_list[partyNarabijyun[j]].heros_hpdiff > 0) {
 		if (healflag == 1 && healkioku == j) {
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabijyun[j]].heros_hpdiff);
 			//TextOut(hdc, StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
 
-			DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY -20 + offsetY * j, GetColor(10, 255, 10), mojibuf); // 文字を描画する
+			DrawFormatString(StatsHPbaseX + 30 +20, StatsHPbaseY -20 + offsetY * j  +20 - 2 * revwait, GetColor(10, 255, 10), mojibuf); // 文字を描画する
 
 
 		}
+
+		if (healflag == 2 && healkioku == j) {
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabijyun[j]].heros_hpdiff);
+			//TextOut(hdc, StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(StatsHPbaseX + 30 +20, StatsHPbaseY - 20 + offsetY * j - (60) / 6, GetColor(10, 255, 10), mojibuf); // 文字を描画する
+
+
+		}
+
+
 
 
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabijyun[j]].heros_hp_max);
@@ -3971,6 +3983,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
+
 			if (mode_scene == MODE_MENU || mode_scene == MODE_ITEM_TYPE) {
 
 				/* 所持金の表示欄 */
@@ -4013,7 +4026,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-			darkwindow1Draw(10, 250, 120, 250 +200);
+			darkwindow1Draw(10, 250, 120, 250 + 200);
 			tenmetuStop(10, 250, 120, 250 + 30);
 
 			// 道具～セーブ のメニュー欄
@@ -4038,10 +4051,307 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// DrawFormatString(menuComBaseX + menuComOffsetPerX * j, menuComBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-				DrawFormatString(30, 250 + 40 * j, GetColor(255 *2/3, 255 * 2 / 3, 255 * 2 / 3), mojibuf); // 文字を描画する
+				DrawFormatString(30, 250 + 40 * j, GetColor(255 * 2 / 3, 255 * 2 / 3, 255 * 2 / 3), mojibuf); // 文字を描画する
 
 
 			}
+
+
+			if (mode_scene == MODE_ITEM_TYPE) {
+
+				darkFlag = 1;
+				//MainGraMenu(hdc);
+				darkFlag = 0;
+
+
+
+				//BrushBlue_set(hdc);
+				//Rectangle(hdc, 10, 100,
+				//	600, 400);
+
+
+				window1Draw(10, 100, 600, 400);
+				//DrawBox(10, 100,	600, 400,
+				//	GetColor(150, 150, 255), 1);
+
+
+				// カーソル描画設定
+				int spanY = 30;
+				int Y0 = 120;
+
+				//BrushPink_set(hdc);
+				//Rectangle(hdc, 20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
+				//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
+
+
+			//	DrawBox(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,
+				//	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY,				GetColor(255, 150, 150), 1);
+
+				// こっちは覗き見なのでカーソルはオフに
+				//				tenmetu(20 + (selecting_item_x - 1) * 300, Y0 + (selecting_item_y - 1) * spanY,	250 + (selecting_item_x - 1) * 300, Y0 + spanY + (selecting_item_y - 1) * spanY);
+
+
+				//	_stprintf_s(p, MAX_LENGTH, TEXT("%s qqqqqqqqqqq"), heros_def_list[0].heros_name);
+					//	TextOut(hdc, 130, 105, p, lstrlen(p));
+
+
+				goukeiItem = 0;
+
+
+				int column = 2;
+
+				int xcommon;
+				int ycommon;
+
+				// 表示フラグ
+				int ViewFlagItem = 1;
+				int ViewFlagWeapon = 0;
+				int ViewFlagShield = 0;
+				int ViewFlagHelm = 0;
+
+				if (mode_scene == MODE_ITEMweapon_MENU || mode_scene == MODE_ITEM_MENU || mode_scene == MODE_ITEM_TYPE) {
+
+					// 表示フラグ設定
+					if (mode_scene == MODE_ITEM_MENU || (selecting_mainmenu == 1 && mode_scene == MODE_ITEM_TYPE) ) {
+						ViewFlagItem = 1;
+						ViewFlagWeapon = 0;  
+						ViewFlagShield = 0;
+						ViewFlagHelm = 0;
+					}
+
+					if (mode_scene == MODE_ITEMweapon_MENU || (selecting_mainmenu == 2 && mode_scene == MODE_ITEM_TYPE)) {
+						ViewFlagItem = 0;
+						ViewFlagWeapon = 1;
+						ViewFlagShield = 1;
+						ViewFlagHelm = 1;
+					}
+
+					if ( (selecting_mainmenu == 3 && mode_scene == MODE_ITEM_TYPE)) {
+						ViewFlagItem = 0;
+						ViewFlagWeapon = 0;
+						ViewFlagShield = 0;
+						ViewFlagHelm = 0;
+					}
+
+
+
+				}
+
+
+				int LimintTemp = goukeiItem;
+				goukeiItem = 0;
+
+
+
+				// アイテム配列のクリア。前の残骸が残る場合があるので。
+				itemHairetu[0] = -99;
+
+
+
+				int itemIDcount = 0; // for文の外で使うので、消したらダメ
+				// itemIDcounは goukeiItem と同内容だが、意味合いが違うので残す。
+
+				// 使用品の配列代入
+				if (ViewFlagItem) {
+
+					LimintTemp = goukeiItem;
+
+					for (idTemp = 1; idTemp <= 3; idTemp = idTemp + 1)
+					{
+
+						if (item_have_list[idTemp].have_kosuu != 0) {
+
+							goukeiItem = goukeiItem + 1;
+
+							if (1) {
+								itemHairetu[itemIDcount] = idTemp;
+								itemTypeHairetu[itemIDcount] = siyouType;
+								itemIDcount = itemIDcount + 1;
+							}
+						}
+					} // 使用品の配列代入
+				}
+
+				if (ViewFlagWeapon) {
+
+					LimintTemp = goukeiItem;
+
+
+					// 武器の配列代入
+					for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+					{
+						//if (weapon_have_list[idTemp].have_kosuu != 0) {
+						int	localSouType = wepoType;
+						if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
+
+
+							goukeiItem = goukeiItem + 1;
+
+							if (1) {
+								itemHairetu[itemIDcount] = idTemp;
+								itemTypeHairetu[itemIDcount] = localSouType;
+								itemIDcount = itemIDcount + 1;
+							}
+						}
+					} // 武器の配列代入
+				}
+
+
+
+				if (ViewFlagShield) {
+
+					LimintTemp = goukeiItem;
+
+					// シールドの配列代入
+					for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+					{
+						//if (shield_have_list[idTemp].have_kosuu != 0) {
+							// MessageBox(NULL, TEXT("テストhelm"), TEXT("キーテスト"), MB_OK);
+						int	localSouType = tateType;
+						if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
+
+
+							goukeiItem = goukeiItem + 1;
+
+							if (1) {
+								itemHairetu[itemIDcount] = idTemp;
+								itemTypeHairetu[itemIDcount] = localSouType;
+								itemIDcount = itemIDcount + 1;
+							}
+
+						}
+					} // シールド
+				}
+
+
+
+				if (ViewFlagHelm) {
+
+
+					LimintTemp = goukeiItem;
+					// ヘルムの配列代入
+					for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+					{
+						// MessageBox(NULL, TEXT("テスト22"), TEXT("キーテスト"), MB_OK);
+						// if (helm_have_list[idTemp].have_kosuu != 0) {
+						int	localSouType = kabutoType;
+						if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
+
+							goukeiItem = goukeiItem + 1;
+
+							if (1) {
+								itemHairetu[itemIDcount] = idTemp;
+								itemTypeHairetu[itemIDcount] = localSouType;
+								itemIDcount = itemIDcount + 1;
+							}
+
+						}
+					} // かぶとの配列代入
+				}
+
+				itemTypeHairetu[itemIDcount] = -99; // 終了を意味する数。
+
+
+
+				if (1) {
+					for (int temp = 0; temp <= 10; temp = temp + 1) {
+
+
+						int temp2 = temp + pageSyori * 6;
+
+						if (itemTypeHairetu[temp2] == -99) {
+							lstrcpy(mojibuf, TEXT("   "));
+							// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+
+							DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+							break;
+						}
+
+
+						xcommon = 30 + 300 * floor((temp) % column);
+						ycommon = 130 + spanY * floor((temp) / column);
+
+						//SetBkMode(hdc, TRANSPARENT);
+
+						if (itemTypeHairetu[temp2] == siyouType) {
+							lstrcpy(mojibuf, item_def_list[itemHairetu[temp2]].def_name);
+						}
+						if (itemTypeHairetu[temp2] == wepoType
+							|| itemTypeHairetu[temp2] == tateType
+							|| itemTypeHairetu[temp2] == kabutoType
+							) {
+
+							int locType;
+
+							// loctype = itemTypeHairetu[temp2] だけど、分かりやすさ重視のため下記のようにif化
+							if (itemTypeHairetu[temp2] == wepoType) {
+								locType = wepoType;
+
+							}
+							if (itemTypeHairetu[temp2] == tateType) {
+								locType = tateType;
+							}
+							if (itemTypeHairetu[temp2] == kabutoType) {
+								locType = kabutoType;
+							}
+
+							// lstrcpy(mojibuf, weapon_def_list[itemHairetu[temp2]].def_name);
+							// soubihin[1].Stype[1]
+							lstrcpy(mojibuf, (soubihin[itemHairetu[temp2]].Stype[locType]).def_name);
+
+
+						}
+
+						if (itemTypeHairetu[temp2] == kabutoType) {
+							// lstrcpy(mojibuf, helm_def_list[itemHairetu[temp2]].def_name);
+						}
+
+						//TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
+
+						DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf);
+
+
+						// 個数欄の背景クリア用
+						lstrcpy(mojibuf, TEXT("   "));
+						// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+						DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf);
+
+
+						if (itemTypeHairetu[temp2] == siyouType) {
+							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), item_have_list[itemHairetu[temp2]].have_kosuu);
+						}
+
+						int locType = itemTypeHairetu[temp2];
+						if (itemTypeHairetu[temp2] == wepoType || itemTypeHairetu[temp2] == tateType
+							|| itemTypeHairetu[temp2] == kabutoType
+							) {
+							// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[itemHairetu[temp2]].have_kosuu);
+							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), (soubiSyoji[itemHairetu[temp2]].Stype[locType]).have_kosuu);
+						}
+
+						if (itemTypeHairetu[temp2] == kabutoType) {
+							//	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[itemHairetu[temp2]].have_kosuu);
+						}
+
+						// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d mm"), weapon_have_list[temp].have_kosuu);
+						// TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
+						DrawFormatString(xcommon + 130, ycommon, GetColor(255, 255, 255), mojibuf);
+
+					}
+				}
+
+
+
+
+				itemIDcount = 0;
+		
+			} // itemlist
+
+
+
+
+
+
 
 
 
@@ -5197,11 +5507,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (healflag == 1) {
 				waitheal = waitheal - 1;
 			}
-			if (waitheal <= 0) {
+			if (waitheal <= 100 && waitheal > 0 ) {
+				// waitheal = 0;
+
+				waitheal = waitheal - 1;
+				healflag = 2; // 表示関数で使うので残しておくこと
+			}
+			if (waitheal <= 0 && healflag != 0) {
+				// MessageBox(NULL, TEXT("テスト"), TEXT("キーテスト"), MB_OK);
 				waitheal = 0;
 				healflag = 0;
 			}
-
 
 
 			int tempVal;
