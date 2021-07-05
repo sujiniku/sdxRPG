@@ -1004,7 +1004,13 @@ void menu_CharaSelectDraw() {
 	//	100 + (selecting_mainmenu - 1) * 100, 70);
 
 
-	int StatsHPbaseX = 130; int StatsHPbaseY = 130;
+	int winX1 = 10;
+	int winY1 = 100;
+	int winX2 = 300;
+	int winY2 = 200;
+
+
+	int StatsHPbaseX = winX1 + 120; int StatsHPbaseY = winY1 + 30;
 	int offsetY = 120;
 
 
@@ -1014,8 +1020,9 @@ void menu_CharaSelectDraw() {
 		//Rectangle(hdc, 10, 100 + offsetY * j,
 		//	300, 200 + offsetY * j);
 
-		window1Draw(10, 100 + offsetY * j,
-			300, 200 + offsetY * j);
+	
+		window1Draw(winX1, winY1 + offsetY * j,
+			winX2, winY2 + offsetY * j);
 		//DrawBox(10, 100 + offsetY * j,
 			//300, 200 + offsetY * j,
 			//GetColor(150, 150, 255), 1);
@@ -1031,8 +1038,8 @@ void menu_CharaSelectDraw() {
 				//DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
 				//	300 - 10, 100 + 70 + 120 * (whomTargetID1),	GetColor(255, 150, 150), 1);
 
-				tenmetu(10 + 10, 100 + 10 + 120 * (whomTargetID1),
-					300 - 10, 100 + 70 + 120 * (whomTargetID1));
+				tenmetu(winX1, winY1 + offsetY * (whomTargetID1),
+					winX2, winY2 + offsetY * (whomTargetID1));
 
 				//MessageBox(NULL, TEXT("デバッグ。"), TEXT("テスト"), MB_OK);
 
@@ -1090,11 +1097,11 @@ void menu_CharaSelectDraw() {
 
 
 
-		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
+		//_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
 		//TextOut(hdc, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
-		DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf);
+		// DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf);
 
-	}
+	} // end for
 
 
 
