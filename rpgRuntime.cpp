@@ -10,6 +10,9 @@
 
 #include <math.h>  // 切り上げ計算で使用
 
+int waitheal = 0; // 回復の表示中の長さ
+
+
 int senkaFlag = 0;
 
 int wind1R = 50;
@@ -626,6 +629,10 @@ struct monster_def
 	int mon_exp;
 };
 
+int healflag = 0;
+int healti = 0;
+int healkioku = 0; // 回復したあと、数秒の表示を記憶するため。
+
 
 // 味方パーティ構造体 (モンスター構造体の流用)
 struct heros_def
@@ -633,6 +640,9 @@ struct heros_def
 	int heros_id;
 	TCHAR heros_name[MAX_LENGTH];
 	int heros_hp;
+	int heros_hpdiff;
+
+
 	int heros_hp_max;
 	int heros_agility;
 
@@ -1068,7 +1078,15 @@ void menu_CharaSelectDraw() {
 		DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
+		// if (heros_def_list[partyNarabijyun[j]].heros_hpdiff > 0) {
+		if (healflag == 1 && healkioku == j) {
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabijyun[j]].heros_hpdiff);
+			//TextOut(hdc, StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
 
+			DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY -20 + offsetY * j, GetColor(10, 255, 10), mojibuf); // 文字を描画する
+
+
+		}
 
 
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabijyun[j]].heros_hp_max);
@@ -4631,13 +4649,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					item_have_list[kasol2Target + 1].have_kosuu = item_have_list[kasol2Target + 1].have_kosuu - 1;
 
 					if (kasol2Target == 0) {
+						healflag = 1;
+						healti = 5;
+						heros_def_list[kasol3Target].heros_hp = heros_def_list[kasol3Target].heros_hp + healti;
 
-						heros_def_list[kasol3Target].heros_hp = heros_def_list[kasol3Target].heros_hp + 5;
 					}
 
 					if (kasol2Target == 1) {
-
-						heros_def_list[kasol3Target].heros_hp = heros_def_list[kasol3Target].heros_hp + 2;
+						healflag = 1;
+						healti = 2;
+						heros_def_list[kasol3Target].heros_hp = heros_def_list[kasol3Target].heros_hp + healti;
 					}
 
 
@@ -5173,6 +5194,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		if (mode_scene == MODE_ITEM_WHOM) {
+			if (healflag == 1) {
+				waitheal = waitheal - 1;
+			}
+			if (waitheal <= 0) {
+				waitheal = 0;
+				healflag = 0;
+			}
+
+
 
 			int tempVal;
 
@@ -5203,7 +5233,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							//UpdateWindow(hWnd); break;
 						}
 
-						heros_def_list[tempVal].heros_hp = heros_def_list[tempVal].heros_hp + 5;
+						healti = 5; healflag = 1; waitheal = 120;
+						heros_def_list[tempVal].heros_hp = heros_def_list[tempVal].heros_hp + healti;
+
+
+						healkioku = partyNarabijyun[whomTargetID1];
+
 
 						if (heros_def_list[tempVal].heros_hp > heros_def_list[tempVal].heros_hp_max) {
 							heros_def_list[tempVal].heros_hp = heros_def_list[tempVal].heros_hp_max;
@@ -5231,8 +5266,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							break;
 						}
 
+						healti = 1; healflag = 1;
 
-						heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp + 1;
+						heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp + healti;
+
+						healkioku = partyNarabijyun[whomTargetID1];
 
 						if (heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp > heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp_max) {
 							heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[whomTargetID1].heros_hp_max;
