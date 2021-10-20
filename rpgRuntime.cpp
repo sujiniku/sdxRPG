@@ -11,7 +11,8 @@
 #include <math.h>  // 切り上げ計算で使用
 
 int waitheal = 0; // 回復の表示中の長さ
-
+int damepyon = 0; // 戦闘中にダメージをピョンと動かすアレ
+int tekidame = 0; // 敵がダメージ受けてる間だけオン
 
 int senkaFlag = 0;
 
@@ -1506,6 +1507,8 @@ static int damage_EnemyAttack = 0;
 
 
 void heroside_attack() {
+	tekidame = 1;
+	damepyon = 0;
 
 	int pnCommon = partyNarabijyun[actionOrder[globalTempA]];
 
@@ -1546,6 +1549,8 @@ void heroside_attack() {
 
 
 void enemy_attack() {
+	tekidame = 0;
+	damepyon = 0;
 
 	// 敵たちの攻撃
 	{
@@ -3658,6 +3663,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			if (mode_scene == MODE_BATTLE_WIN) {
+			
+
+
 				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "倒した"); // 文字を描画する
 
 
@@ -3749,6 +3757,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				if (monster_hp <= 0) {
+					//damepyon = 0;
 					mode_scene = MODE_BATTLE_WIN;
 					battlewait = 60.0 * 2.0;
 				}
@@ -3779,7 +3788,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						globalTempA = 0;
 
+						damepyon = 0;
 						mode_scene = MODE_BATTLE_COMMAND;
+					
+						
 					}
 
 				}
@@ -3799,10 +3811,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (mode_scene == MODE_BATTLE_NOW) {
 
 				if (PorEflag[globalTempA] == mikataPE) {
-					if (encount_mons_alive == 1) {
+					if (encount_mons_alive == 1 || encount_mons_alive == 0) {
+
+						if (damepyon < 10 && tekidame == 1) {
+							damepyon = damepyon + 1;
+						}
 
 						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("ダメージ %d"), damage_HeroAttack);
-						DrawFormatString(monX + 10, monY - 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+						DrawFormatString(monX + 10, monY - 30 -5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 					}
 				}
