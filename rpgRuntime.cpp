@@ -3650,10 +3650,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (PorEflag[globalTempA] == tekiPE) {
 					if (encount_mons_alive == 1) {
 
-
+						if (damepyon < 10 && tekidame == 0) {
+							damepyon = damepyon + 1;
+						}
 
 						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Žó‚¯ƒ_ƒ[ƒW: %d"), damage_EnemyAttack);
-						DrawFormatString(30, 350, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+						DrawFormatString(30, 350 - 5 * damepyon, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
 
 					}
 				}
