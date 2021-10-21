@@ -1702,7 +1702,7 @@ window1Draw(10, 100, 600, 400);
 
 
 // カーソル描画設定
-int spanY = 30;
+int spanY = FontYoffset;
 int Y0 = 120;
 
 //BrushPink_set(hdc);
@@ -3654,7 +3654,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							damepyon = damepyon + 1;
 						}
 
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("ダメージ %d"), damage_EnemyAttack);
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d ダメージ"), damage_EnemyAttack);
 						DrawFormatString(30, 350 - 5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 					}
@@ -3673,11 +3673,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				int senkaX = 250; int senkaY = 150;
 				window1Draw(senkaX, senkaY, senkaX + 150, senkaY + 120 );
 
+				int offsetY2 = FontYoffset;
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Exp: %d"), monster_def_list[encount_monters_id - 1].mon_exp);
-				DrawFormatString(senkaX + 10, senkaY + 30 * 1, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 1, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monters_id - 1].mon_gold);
-				DrawFormatString(senkaX + 10, senkaY + 30 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 				keyHaijyo = 1; // 戦闘コマンドが実行されないよう、まだ排除中
@@ -3821,7 +3822,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							damepyon = damepyon + 1;
 						}
 
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("ダメージ %d"), damage_HeroAttack);
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d ダメージ"), damage_HeroAttack);
 						DrawFormatString(monX + 10, monY - 30 -5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 					}
