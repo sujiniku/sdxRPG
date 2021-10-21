@@ -3482,7 +3482,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (mode_scene == MODE_BATTLE_NOW) {
 
 
-				int battleMassBaseX = 50; int battleMassBaseY = 410 - 230; // 410 は「windowTempA」
+				int battleMassBaseX = 150; int battleMassBaseY = 410 - 180; // 410 は「windowTempA」
 
 				int pnCommon = partyNarabijyun[actionOrder[globalTempA]];
 
@@ -3654,7 +3654,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							damepyon = damepyon + 1;
 						}
 
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("受けダメージ: %d"), damage_EnemyAttack);
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("ダメージ %d"), damage_EnemyAttack);
 						DrawFormatString(30, 350 - 5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 					}
@@ -3670,12 +3670,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "倒した"); // 文字を描画する
 
+				int senkaX = 250; int senkaY = 150;
+				window1Draw(senkaX, senkaY, senkaX + 150, senkaY + 120 );
 
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Exp: %d"), monster_def_list[encount_monters_id - 1].mon_exp);
-				DrawFormatString(monMesX, 350 + 30 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				DrawFormatString(senkaX + 10, senkaY + 30 * 1, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monters_id - 1].mon_gold);
-				DrawFormatString(monMesX, 350 + 30 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				DrawFormatString(senkaX + 10, senkaY + 30 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 				keyHaijyo = 1; // 戦闘コマンドが実行されないよう、まだ排除中
