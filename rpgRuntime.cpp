@@ -6076,7 +6076,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
-
+			int sentakuKougekiR = 0; //(soubihin[itemHairetu[whatedit2]].Stype[wepoType]).equipPower[kougekiPara];
 
 			if (mode_scene == MODE_EQUIP_EDIT2) {
 
@@ -6146,37 +6146,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					) {
 
 
+					for (idTemp = 0; idTemp <= 2; idTemp = idTemp + 1)
+					{
+						itemHairetu[idTemp] = 0; // これないと、装備品が減ったとき残骸が残る。[]内がidTempであることに注意
+					}
 
 					for (idTemp = 0; idTemp <= 2; idTemp = idTemp + 1)
 					{
 
-						// if (weapon_have_list[idTemp].have_kosuu != 0) {
 						if ((soubiSyoji[idTemp].Stype[locType]).have_kosuu != 0) {
-
 
 
 							xcommon = souWInXsta + 300 * floor((idTemp - itemskip) % column);
 							ycommon = 130 + 20 * floor((idTemp - itemskip) / column);
 
-							// SetBkMode(hdc, TRANSPARENT);
-							// lstrcpy(mojibuf, weapon_def_list[idTemp].def_name);
-							// soubihin[itemHairetu[whatedit2]].Stype[locType].
-
+							// アイテム名の表示
 							lstrcpy(mojibuf, (soubihin[idTemp].Stype[locType]).def_name);
-
-
-
-							// TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
-
 							DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-
-							//_stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d"), weapon_have_list[idTemp].have_kosuu);
+							// 個数の表示
 							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d"), (soubiSyoji[idTemp].Stype[locType]).have_kosuu);
-
-
-							// TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
-
 							DrawFormatString(xcommon + 130, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -6188,10 +6177,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						}
 
-						//if (weapon_have_list[idTemp].have_kosuu == 0) {
+	
 						if ((soubiSyoji[idTemp].Stype[locType]).have_kosuu == 0) {
 							itemskip = itemskip + 1;
-
+							itemHairetu[itemIDcount] = 0; // これないと、装備部位を変えたとき残骸が残る。
 						}
 					}
 
@@ -6211,14 +6200,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						else if (whatedit2 < 01) {
 							whatedit2 = 0;
 						}
-						//whomTargetID2 = whomCHARA - 1;
+
 
 
 						if (whomCHARA != beforeselect) {
 
 						}
 
-						//beforeselect = whomCHARA;
+
 						keyEnableReset();
 					}
 
@@ -6226,8 +6215,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
 
-						// MessageBox(NULL, TEXT("↓が押されました。"),
-						// TEXT("キーテスト"), MB_OK);
+
 						whatedit2 = whatedit2 + 1;
 
 						if (whatedit2 >= 5) {
@@ -6236,14 +6224,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						else if (whatedit2 < 0) {
 							whatedit2 = 0;
 						}
-						//whomTargetID2 = whomCHARA - 1;
+
 
 
 						if (whomCHARA != beforeselect) {
 
 						}
 
-						//beforeselect = whomCHARA;
 
 						keyEnableReset();
 					}
@@ -6255,16 +6242,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						&& mode_scene == MODE_EQUIP_EDIT2) {
 
 						keyEnableReset();
-						// MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
 
 						key_remain = 0;
-						//whomTargetID1 = whomCHARA - 1;
-						//mode_scene = MODE_EQUIP_EDIT2;
+
 
 
 						//int localSouType = wepoType;
 						int temp;
-						// int hensu = heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1;
+
 						int hensu = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType];
 
 
@@ -6276,21 +6261,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								(soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[kougekiPara];
 
 						}
+						sentakuKougekiR = (soubihin[itemHairetu[whatedit2]].Stype[wepoType]).equipPower[kougekiPara]; // 表示でも使うので再利用
 
-
-
-
-
-
-
-						//weapon_have_list[hensu].have_kosuu = weapon_have_list[hensu].have_kosuu + 1; // 装備してた武器が1個増えるように
 						(soubiSyoji[hensu].Stype[locType]).have_kosuu =
 							(soubiSyoji[hensu].Stype[locType]).have_kosuu + 1; // 装備してた武器が1個増えるように
 
 
 						if (whatedit2 < goukeiItem) {
-							//weapon_have_list[whatedit2 + 1].have_kosuu = weapon_have_list[whatedit2 + 1].have_kosuu - 1;  // カーソル選択中だった武器が1個減る
-							// (soubiSyoji[whatedit2 + 1].Stype[localSouType ]).have_kosuu = (soubiSyoji[whatedit2 + 1].Stype[localSouType ]).have_kosuu - 1; // おかしい
 
 							//itemHairetu
 							(soubiSyoji[itemHairetu[whatedit2]].Stype[locType]).have_kosuu
@@ -6304,19 +6281,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 
-
-						//heros_def_list[temp].heros_weapon1].def_id) =    ;
 						if (whatedit2 < goukeiItem) {
 							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType] =
-
-								// weapon_def_list[whatedit2 + 1].def_id; // 装備の更新をしたい							
+						
 								soubihin[itemHairetu[whatedit2]].Stype[locType].def_id; // 
 
-
-
-
-
-							//(soubiSyoji[whatedit2 ].Stype[wepoType]).have_def_id; ; // 装備の更新をしたい
 						}
 						if (whatedit2 >= goukeiItem) {
 							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType] =
@@ -6338,19 +6307,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 							// 防御力の更新
-							heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[syubiPara] =
-								//heros_def_list[partyNarabijyun[whomTargetID1]].heros_bukiKougekiRyoku // 現在の値
-
+							heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[syubiPara] = // 現在の値
 
 								(soubihin[(heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[tateType])].Stype[tateType]).equipPower[syubiPara]
 								+ (soubihin[(heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[kabutoType])].Stype[kabutoType]).equipPower[syubiPara]
 								;
 
-
-							// (soubihin[itemHairetu[whatedit2]].Stype[tateType]).equipPower[syubiPara]
-
-							// + (soubihin[itemHairetu[whatedit2]].Stype[kabutoType]).equipPower[syubiPara]
-							//;
 
 						}
 
@@ -6380,6 +6342,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (mode_scene == MODE_EQUIP_EDIT2) {
 
 
+
+
 				int locType;
 				locType = 0; // 未定義対応
 
@@ -6394,10 +6358,47 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 
+
+				
+				/*
+				
+				
+
+				int itemskip = 0;
+				goukeiItem = 0;
+
+				int itemIDcount = 0;
+
+
+				for (idTemp = 0; idTemp <= 2; idTemp = idTemp + 1)
+				{
+
+					if ((soubiSyoji[idTemp].Stype[locType]).have_kosuu != 0) {
+
+
+						goukeiItem = goukeiItem + 1;
+
+						itemHairetu[itemIDcount] = idTemp; // これはボタン操作側で使う
+						itemIDcount = itemIDcount + 1; // これは上コードで使う
+
+					}
+
+
+					if ((soubiSyoji[idTemp].Stype[locType]).have_kosuu == 0) {
+						itemskip = itemskip + 1;
+						itemHairetu[itemIDcount] = 0;
+					}
+				}
+
+				*/
+
+
+
+
 				if (locType == wepoType) {
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[kougekiPara]);
 				}
-
+				// (soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[kougekiPara];
 
 
 				if (locType == tateType || locType == kabutoType) {
@@ -6405,10 +6406,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 
-
-				//	(soubiSyoji[ itemHairetu[whatedit2]   ] .Stype[wepoType]).equipPower);
-				// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), weapon_def_list[ itemHairetu[whatedit2]   ].equipPower);
-				//TextOut(hdc, 15 + 300, 350 + 10, mojibuf, lstrlen(mojibuf));
 
 				DrawFormatString(15 + 300, 350 + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
