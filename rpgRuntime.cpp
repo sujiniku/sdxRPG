@@ -298,7 +298,7 @@ enum mode mode_scene = MODE_MAP;
 
 
 enum mode2 {
-
+	MODE2_EQUIP_UnDef, // 未定義対応
 	MODE2_EQUIP_HAND1,
 	MODE2_EQUIP_SHIELD,
 	MODE2_EQUIP_HELM,
@@ -5990,6 +5990,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						whomTargetID1 = whomCHARA - 1;
 						mode_scene = MODE_EQUIP_EDIT2;
 
+						
+					
+							mode2_scene = MODE2_EQUIP_UnDef; // 未定義対応のため、とりあえず武器に初期化
+						
 						if (whatedit == 0) {
 							mode2_scene = MODE2_EQUIP_HAND1;
 						}
@@ -6123,6 +6127,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				int locType;
+				locType = 0; // 未定義の装備部位の処理用のシステム値。
+
 				if (mode2_scene == MODE2_EQUIP_HAND1) {
 					locType = wepoType;
 				}
@@ -6166,7 +6172,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 							//_stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d"), weapon_have_list[idTemp].have_kosuu);
-							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d"), (soubiSyoji[idTemp].Stype[locType]).have_kosuu);
+							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("xqwer %d"), (soubiSyoji[idTemp].Stype[locType]).have_kosuu);
 
 
 							// TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
@@ -6367,111 +6373,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				} // ウェポン
 
-				/*
-
-
-				// シールド
-				if (mode2_scene == MODE2_EQUIP_SHIELD) {
-					for (idTemp = 0; idTemp <= 2; idTemp = idTemp + 1)
-					{
-
-						if (shield_have_list[idTemp].have_kosuu != 0) {
-
-							xcommon = souWInXsta + 300 * floor((idTemp - itemskip) % column);
-							ycommon = 130 + 20 * floor((idTemp - itemskip) / column);
-
-							// SetBkMode(hdc, TRANSPARENT);
-							lstrcpy(mojibuf, shield_def_list[idTemp].def_name);
-							// TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
-
-
-							DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d"), shield_have_list[idTemp].have_kosuu);
-							// TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
-
-							DrawFormatString(xcommon + 130, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-
-							goukeiItem = goukeiItem + 1;
-
-							itemHairetu[itemIDcount] = idTemp; // これはボタン操作側で使う
-							itemIDcount = itemIDcount + 1; // これは上コードで使う
-
-						}
-
-						if (shield_have_list[idTemp].have_kosuu == 0) {
-							itemskip = itemskip + 1;
-
-						}
-					}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				} // シールド
-
-
-				*/
-
-
-
-				/*
-
-
-
-				if (mode2_scene == MODE2_EQUIP_HELM) {
-					for (idTemp = 0; idTemp <= 2; idTemp = idTemp + 1)
-					{
-
-						if (helm_have_list[idTemp].have_kosuu != 0) {
-
-							xcommon = souWInXsta + 300 * floor((idTemp - itemskip) % column); // コピペ時、ここを更新
-							ycommon = 130 + 20 * floor((idTemp - itemskip) / column);
-
-							//SetBkMode(hdc, TRANSPARENT);
-							lstrcpy(mojibuf, helm_def_list[idTemp].def_name);  // コピペ時、ここを更新
-							//TextOut(hdc, xcommon, ycommon, mojibuf, lstrlen(mojibuf));
-
-							DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d"), helm_have_list[idTemp].have_kosuu);  // コピペ時、ここを帰る
-							//TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
-							DrawFormatString(xcommon + 130, ycommon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-							goukeiItem = goukeiItem + 1;
-
-							itemHairetu[itemIDcount] = idTemp; // これはボタン操作側で使う
-							itemIDcount = itemIDcount + 1; // これは上コードで使う
-
-						}
-
-						if (helm_have_list[idTemp].have_kosuu == 0) {  // コピペ時、ここを帰る
-							itemskip = itemskip + 1;
-
-						}
-					}
-
-				} // ヘルム
-
-						*/
 
 			}
 
@@ -6480,6 +6381,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				int locType;
+				locType = 0; // 未定義対応
+
 				if (mode2_scene == MODE2_EQUIP_HAND1) {
 					locType = wepoType;
 				}
