@@ -6172,7 +6172,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 							//_stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d"), weapon_have_list[idTemp].have_kosuu);
-							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("xqwer %d"), (soubiSyoji[idTemp].Stype[locType]).have_kosuu);
+							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("x %d"), (soubiSyoji[idTemp].Stype[locType]).have_kosuu);
 
 
 							// TextOut(hdc, xcommon + 130, ycommon, mojibuf, lstrlen(mojibuf));
