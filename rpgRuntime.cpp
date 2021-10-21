@@ -336,10 +336,10 @@ int pageSyori = 0;
 
 
 // アイテム種類番号
-int siyouType = 0;
-int wepoType = 1;
-int tateType = 2;
-int kabutoType = 3;
+int siyouType = 10; // 0～9番はシステム処理用に確保
+int wepoType = 11;
+int tateType = 12;
+int kabutoType = 13;
 
 int PorEflag[20];
 
@@ -1657,11 +1657,11 @@ int toubouSeikou = 0;
 
 
 struct tykou {
-	struct soubi_def Stype[10];
+	struct soubi_def Stype[20];
 };
 
-static struct tykou soubihin[10]; // 構造体配列の宣言
-static struct tykou* Asoubuhin = &soubihin[10];
+static struct tykou soubihin[20]; // 構造体配列の宣言
+static struct tykou* Asoubuhin = &soubihin[20];
 
 // strcpy_s((soubihin[0].Stype[0]).def_name, 10, "武器テスト---");  // 前コードと区別のため、文字を追加している
 
@@ -5749,8 +5749,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
+			int stypeOffset = 10;
 			for (int temp = 1; temp <= 7; temp = temp + 1) {
+
+				int afterOffTemp = stypeOffset + temp;
 
 				if (temp == 1) {
 					lstrcpy(mojibuf1, TEXT("武器"));
@@ -5761,8 +5763,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						soubihin[
 							// heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1
-							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[temp]
-						].Stype[temp].def_name);
+							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[afterOffTemp]
+						].Stype[afterOffTemp].def_name);
 
 					// weapon_def_list[0].def_name );
 					//weapon_def_list[
@@ -5777,8 +5779,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						soubihin[
 							// heros_def_list[partyNarabijyun[whomTargetID1]].heros_shield
-							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[temp]
-						].Stype[temp].def_name);
+							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[afterOffTemp]
+						].Stype[afterOffTemp].def_name);
 				}
 
 				if (temp == 3) {
@@ -5789,8 +5791,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						soubihin[
 							// heros_def_list[partyNarabijyun[whomTargetID1]].heros_shield
-							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[temp]
-						].Stype[temp].def_name);
+							heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[afterOffTemp]
+						].Stype[afterOffTemp].def_name);
 
 				}
 
@@ -5877,6 +5879,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 				*/
 
+				locType = 0; // 応急処置。未定義のloctypeを防ぐための初期化。システム処理用の番号を入力
 
 				if (whatedit == 0) {
 					//mode2_scene = MODE2_EQUIP_HAND1;
@@ -5893,6 +5896,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				int tempSoubi = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType];
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), 0); // 未定義エラーを防ぐための初期化
 
 				if (locType == wepoType) {
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[tempSoubi].Stype[locType]).equipPower[kougekiPara]);
