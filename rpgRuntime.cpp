@@ -3665,14 +3665,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 				}
 
-
 			}
 
 
 			if (mode_scene == MODE_BATTLE_WIN) {
 			
-
-
 				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "倒した"); // 文字を描画する
 
 				int senkaX = 250; int senkaY = 150;
@@ -3721,14 +3718,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					keyHaijyo = 0;
 					mode_scene = MODE_MAP;// テスト用に倒した扱いなので
 
-					
 
 				}
 
 			}
-
-
-
 
 
 			if (mode_scene == MODE_BATTLE_NOW && dameKei == 0) {
@@ -3800,20 +3793,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						damepyon = 0;
 						mode_scene = MODE_BATTLE_COMMAND;
-					
-						
+											
 					}
 
 				}
 
-
-
-
-
 				keyHaijyo = 0;
 
 			} // battlewait が0の状態
-
 
 
 
@@ -3833,11 +3820,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 				}
 
-
-
 			}
-
-
 
 
 
@@ -3867,17 +3850,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			}
 
-
-
-
-
-
 		}
-
-
-
-
-
 
 
 
@@ -3887,9 +3860,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// ウィンドウ欄
 
 			window1Draw(HPX, HPY, HPX + 150, HPY + 100 *2);
-			//DrawBox(HPX, HPY, HPX + 150, HPY + 340 + 100,
-				//GetColor(150, 150, 255), 1);
-
 
 			for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
 				DrawFormatString(HPX + 20, HPY + 20 * 0 + shiftY * temp, GetColor(255, 255, 255), "%s", heros_def_list[partyNarabijyun[temp]].heros_name); // 文字を描画する			
@@ -3898,34 +3868,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			}
 
-			/*
-			DrawFormatString(HPX + 20, HPY + 20 * 0, GetColor(255, 255, 255), "%s", heros_def_list[0].heros_name); // 文字を描画する			
-			DrawFormatString(HPX + 20, HPY + 20 * 1, GetColor(255, 255, 255), "HP %d/%d", heros_def_list[0].heros_hp, heros_def_list[0].heros_hp_max); // 文字を描画する
-			DrawFormatString(HPX + 20 * 3, HPY + 20 * 2, GetColor(255, 255, 255), "EXP %d", heros_def_list[0].heros_exp); // 文字を描画する
-
-
-			DrawFormatString(HPX + 20, HPY + 20 * 3, GetColor(255, 255, 255), "%s", heros_def_list[1].heros_name); // 文字を描画する
-			DrawFormatString(HPX + 20, HPY + 20 * (3 + 1), GetColor(255, 255, 255), "HP %d/%d", heros_def_list[1].heros_hp, heros_def_list[1].heros_hp_max); // 文字を描画する
-			DrawFormatString(HPX + 20 * 3, HPY + 20 * (3 + 2), GetColor(255, 255, 255), "EXP %d", heros_def_list[1].heros_exp); // 文字を描画する
-
 			
-			*/
-			
-
-
 			window1Draw(480, 380, 600, 470);
 			DrawFormatString(500, 400, GetColor(255, 255, 255), "所持金"); // 文字を描画する
 			DrawFormatString(500, 400 + 30, GetColor(255, 255, 255), "%d G", your_money); // 文字を描画する
 
 
-
-
-			window1Draw(100, 250, 100 + 150, 250 + 40 + 100);
-			//DrawBox(100, 250, 100 + 150, 250 + 40 + 100,
-				//GetColor(150, 150, 255), 1);
-
-			//DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", x, y); // 文字を描画する
-
+			// コマンドウィンドウの基準位置
+			int XXX = 100;  int YYY = 250;
+			window1Draw(XXX, YYY, XXX + 150, YYY + 40 + 150);
 
 			if (keyEnableX == 0) {
 
@@ -3941,20 +3892,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-
 			if (keyEnableX == 1) {
-				// 点滅カーソル
+				// 点滅カーソル				
+				tenmetu(XXX, YYY + (selecting_mainmenu - 1) * 40, XXX + 80, YYY + (selecting_mainmenu - 1) * 40 + 40);
 
-				tenmetu(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40);
+				
+				// コマンド欄
+				
+				for (int j = 0; j <= 4; ++j) {
 
-				//DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
+					// ここに共通する前段階の作業を記述;
 
+					// 非共通;
+					if (j == 0) { lstrcpy(mojibuf, TEXT("道具")); }
+					if (j == 1) { lstrcpy(mojibuf, TEXT("装備")); }
+					if (j == 2) { lstrcpy(mojibuf, TEXT("技能")); }
+					if (j == 3) { lstrcpy(mojibuf, TEXT("セーブ")); }
+					if (j == 4) { lstrcpy(mojibuf, TEXT("並び替え")); }
 
-					// コマンド欄
-				DrawFormatString(100 + 20, 250, GetColor(255, 255, 255), "道具"); // 文字を描画する
-				DrawFormatString(100 + 20, 250 + 40, GetColor(255, 255, 255), "装備"); // 文字を描画する
+					// ここに共通する後段階の作業を記述;
+					DrawFormatString(XXX + 20, YYY + 40 * j, GetColor(255 , 255 , 255), mojibuf); // 文字を描画する
 
+				}
 
 
 				// 十字キー入力時
@@ -4188,9 +4147,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					}
 
-
-
-
 				}
 			}
 
@@ -4200,8 +4156,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				mode_scene = MODE_MAP;
 
 				keyEnableReset();
-
-				// DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
 			}
 
@@ -4213,10 +4167,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		if (mode_scene == MODE_ITEM_TYPE) {
-			//Rectangle(hbackDC, 20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
-			//	100 + (selecting_mainmenu - 1) * (100 + 10), 70);
-
-			//Rectangle(hbackDC, 10, 10, 610, 80);
 
 			window1Draw(10, 10, 610, 80);
 			// DrawBox(10, 10, 610, 80, GetColor(150, 150, 255), 1);
@@ -4224,17 +4174,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			if (mode_scene != MODE_ITEM_TYPE) {
-				//Rectangle(hbackDC, 20 + (selecting_mainmenu - 1) * 100, 20,
-				//	100 + (selecting_mainmenu - 1) * 100, 70);
-				// DrawBox(20 + (selecting_mainmenu - 1) * 100, 20, 100 + (selecting_mainmenu - 1) * 100, 70, GetColor(255, 150, 150), 1);
+
 				tenmetu(20 + (selecting_mainmenu - 1) * 100, 20,
 					100 + (selecting_mainmenu - 1) * 100, 70);
 			}
 
 			if (mode_scene == MODE_ITEM_TYPE) {
-				//Rectangle(hbackDC, 20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
-				//	100 + (selecting_mainmenu - 1) * (100 + 10), 70);
-				// DrawBox(20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,	100 + (selecting_mainmenu - 1) * (100 + 10), 70, GetColor(255, 150, 150), 1);
+
 				tenmetu(20 + (selecting_mainmenu - 1) * (100 + 10), 20 + 20,
 					100 + (selecting_mainmenu - 1) * (100 + 10), 70);
 			}
@@ -4246,51 +4192,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int menuComBaseY = 20;
 
 			//SetBkMode(hbackDC, TRANSPARENT);
-
-
-
-			/*
-
-
-			// partyNarabijyun[0];
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("pn[0]: %d"), partyNarabijyun[0]);
-			//TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 0 + 50, menuComBaseY + 20, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(menuComBaseX + menuComOffsetPerX * 0 + 50, menuComBaseY + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("pn[1]: %d"), partyNarabijyun[1]);
-			//TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 1 + 50, menuComBaseY + 20, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(menuComBaseX + menuComOffsetPerX * 1 + 50, menuComBaseY + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("pn[2]: %d"), partyNarabijyun[2]);
-			//TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 2 + 50, menuComBaseY + 20, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(menuComBaseX + menuComOffsetPerX * 2 + 50, menuComBaseY + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-			// heros_def_list[temp].PartyIn
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("paI[0]: %d"), heros_def_list[0].PartyIn);
-			//TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 0 + 50, menuComBaseY + 40, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(menuComBaseX + menuComOffsetPerX * 0 + 50, menuComBaseY + 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("paI[1]: %d"), heros_def_list[1].PartyIn);
-			// TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 1 + 50, menuComBaseY + 40, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(menuComBaseX + menuComOffsetPerX * 1 + 50, menuComBaseY + 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("paI[2]: %d"), heros_def_list[2].PartyIn);
-			// TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 2 + 50, menuComBaseY + 40, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(menuComBaseX + menuComOffsetPerX * 2 + 50, menuComBaseY + 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("paI[3]: %d"), heros_def_list[3].PartyIn);
-			//TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * 3 + 50, menuComBaseY + 40, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(menuComBaseX + menuComOffsetPerX * 3 + 50, menuComBaseY + 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-			*/
 
 
 			// 間借り
@@ -4306,7 +4207,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (j == 2) { lstrcpy(mojibuf, TEXT("大事なもの")); }
 
 					// ここに共通する後段階の作業を記述;
-					// TextOut(hbackDC, menuComBaseX + (menuComOffsetPerX + 10) * j, menuComBaseY + 20, mojibuf, lstrlen(mojibuf));
+
 					DrawFormatString(menuComBaseX + (menuComOffsetPerX + 10) * j, menuComBaseY + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -4329,12 +4230,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				int GoldViewBaseX = 510; int GoldViewBaseY = 260;
 				lstrcpy(mojibuf, TEXT("所持金"));
-				//TextOut(hbackDC, GoldViewBaseX, GoldViewBaseY, mojibuf, lstrlen(mojibuf));
+
 				DrawFormatString(GoldViewBaseX, GoldViewBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d G"), your_money);
-				//TextOut(hbackDC, GoldViewBaseX, GoldViewBaseY + 40, mojibuf, lstrlen(mojibuf));
+
 				DrawFormatString(GoldViewBaseX, GoldViewBaseY + 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -4344,28 +4245,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				/* キャラのステータス欄 */
 				menu_CharaSelectDraw2();
 
-
-
-
-				//_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
-				//TextOut(hbackDC, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
-				//DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
 			}
 
 
 
-
-
-			darkwindow1Draw(10, 250, 120, 250 + 200);
-			tenmetuStop(10, 250, 120, 250 + 30);
-
 			// 道具～セーブ のメニュー欄
-			//int	menuComBaseX = 20; int menuComOffsetPerX = 100;
-			//int menuComBaseY = 20;
+			int XXX = 100;  int YYY = 250;
 
-			//SetBkMode(hbackDC, TRANSPARENT);
+			int darkWinX = 10; int darkWinY = 250;
+			tekidame = 0;
+
+			if (damepyon <= XXX && tekidame == 0) {
+				damepyon = damepyon + 5;
+			}
+
+			darkwindow1Draw(darkWinX +XXX - damepyon, darkWinY, darkWinX + 110 + XXX - damepyon, darkWinY + 200);
+			tenmetuStop(darkWinX, darkWinY, darkWinX + 110, darkWinY + 30);
+
 
 			for (int j = 0; j <= 4; ++j) {
 
@@ -4379,12 +4275,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (j == 4) { lstrcpy(mojibuf, TEXT("並び替え")); }
 
 				// ここに共通する後段階の作業を記述;
-				// TextOut(hbackDC, menuComBaseX + menuComOffsetPerX * j, menuComBaseY, mojibuf, lstrlen(mojibuf));
-
-				// DrawFormatString(menuComBaseX + menuComOffsetPerX * j, menuComBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-				DrawFormatString(30, 250 + 40 * j, GetColor(255 * 2 / 3, 255 * 2 / 3, 255 * 2 / 3), mojibuf); // 文字を描画する
-
+				DrawFormatString(darkWinX + 20, darkWinY + 40 * j, GetColor(255 * 2 / 3, 255 * 2 / 3, 255 * 2 / 3), mojibuf); // 文字を描画する
 
 			}
 
@@ -4393,11 +4284,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				itemList(soubihin, soubiSyoji,0 );
 		
 			} // itemlist
-
-
-
-
-
 
 
 
@@ -4413,8 +4299,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					selecting_item_y = ((selecting_item - 1) / 2) + 1;
 
 					mode_scene = MODE_ITEM_MENU; // MODE_ITEM_MENU;
-					//keyEnableZ = 0;
-					//nyuuryokuMatiZ = waitTime1;
+
 				}
 
 				//mode_scene = MODE_MAP; 
@@ -4445,10 +4330,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				keyEnableReset();
 
 
-
-
-
-
 			}
 
 
@@ -4456,6 +4337,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				{
 					key_remain = 0;
+					damepyon = 0;
 
 					mode_scene = MODE_MENU;
 					keyEnableX = 0;
