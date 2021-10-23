@@ -5699,13 +5699,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// MessageBox(NULL, TEXT("aaaaココ1"), TEXT("メッセージ"), MB_OK);
 
 
-			// MainGraFrontMenu();
-
-
-
-			// Rectangle(hdc, 20 + (selecting_mainmenu - 1) * 100, 20,
-			//	100 + (selecting_mainmenu - 1) * 100, 70);
-
 			int StatsHPbaseX = 130;
 			int StatsHPbaseY = 130;
 			int offsetY = 120;
@@ -5719,15 +5712,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// DrawBox(10, 100, 350, 300 +40,	GetColor(150, 150, 255), 1);
 
 
-
-
 			// カーソル
 
-		//	DrawBox(90, (110 + 20) + 20 * (whatedit), 300 - 10,
-		//		(110 + 20) + 20 * (1 + whatedit),		GetColor(255, 150, 150), 1);
-
-			// tenmetu(90, (110 + 20) + 20 * (whatedit), 300 - 10, (110 + 20) + 20 * (1 + whatedit));
-			//
 
 			if (mode_scene == MODE_EQUIP_EDIT) {
 				tenmetu(90, (110 + 20) + 20 * (whatedit), 300 - 10,
@@ -5823,14 +5809,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 
-				//TextOut(hdc, 15, soubiYbase + soubiYper * temp,
-				//	mojibuf1, lstrlen(mojibuf1));
 				DrawFormatString(15, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf1); // 文字を描画する
 
-
-
-				//TextOut(hdc, 90, soubiYbase + soubiYper * temp,
-				//	mojibuf2, lstrlen(mojibuf2));
 				DrawFormatString(90, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf2); // 文字を描画する
 
 
@@ -5854,48 +5834,30 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DrawFormatString(90 + 50, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf2); // 文字を描画する
 
 
-
-
-
 			// 背景の青
-			//SelectObject(hdc, blue_thin_1);
-			//Rectangle(hdc, 10, 350, 500, 400);
+
 
 			window1Draw(10, 350, 500, 400);
-			// DrawBox(10, 350, 500, 400,0,			GetColor(150, 150, 255), 1);
+
 
 			lstrcpy(mojibuf, TEXT("変更したい装備を選んでください。"));
-			//TextOut(hdc, 15, 350 + 10, mojibuf, lstrlen(mojibuf));
 			DrawFormatString(15, 350 + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 
 			if (mode_scene == MODE_EQUIP_EDIT) {
 				int locType;
-				/*
-				if (whatedit == MODE2_EQUIP_HAND1) {
-					locType = wepoType;
-				}
-				if (mode2_scene == MODE2_EQUIP_SHIELD) {
-					locType = tateType;
-				}
-				if (mode2_scene == MODE2_EQUIP_HELM) {
-					locType = kabutoType;
-				}
-				*/
+
 
 				locType = 0; // 応急処置。未定義のloctypeを防ぐための初期化。システム処理用の番号を入力
 
 				if (whatedit == 0) {
-					//mode2_scene = MODE2_EQUIP_HAND1;
 					locType = wepoType;
 				}
 				if (whatedit == 1) {
-					//mode2_scene = MODE2_EQUIP_SHIELD;
 					locType = tateType;
 				}
 				if (whatedit == 2) {
-					//mode2_scene = MODE2_EQUIP_HELM;
 					locType = kabutoType;
 				}
 
@@ -5904,18 +5866,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), 0); // 未定義エラーを防ぐための初期化
 
+
 				if (locType == wepoType) {
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[tempSoubi].Stype[locType]).equipPower[kougekiPara]);
 				}
 				if (locType == tateType || locType == kabutoType) {
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[tempSoubi].Stype[locType]).equipPower[syubiPara]);
 				}
-
-
-
-				//	(soubiSyoji[ itemHairetu[whatedit2]   ] .Stype[wepoType]).equipPower);
-				// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), weapon_def_list[ itemHairetu[whatedit2]   ].equipPower);
-				//TextOut(hdc, 15 + 300, 350 + 10, mojibuf, lstrlen(mojibuf));
 
 				DrawFormatString(15 + 300 * 0, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
@@ -6101,14 +6058,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//Rectangle(hdc, souWInXsta, 100, souWInXend, 300);
 
 				window1Draw(souWInXsta, 100, souWInXend, 300);
-				//DrawBox( souWInXsta, 100, souWInXend, 300  ,	GetColor(150, 150, 255), 1);
-
-				// カーソル
-				//BrushPink_set(hdc);
-				//Rectangle(hdc, souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
-				//	(110 + 20) + 20 * (1 + whatedit2));
-			//	DrawBox(souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
-			//			(110 + 20) + 20 * (1 + whatedit2),					GetColor(255, 150, 150), 1);
 
 				tenmetu(souWInXsta + 20, (110 + 20) + 20 * (whatedit2), souWInXend - 30,
 					(110 + 20) + 20 * (1 + whatedit2));
@@ -6127,8 +6076,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				int ycommon;
 
 				// SetBkMode(hdc, TRANSPARENT);
-
-				//int soubiHai[15];
 
 
 				int locType;
@@ -6346,6 +6293,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					locType = kabutoType;
 				}
 
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT(""), 0); // 未定義エラー文を防ぐための初期化
 
 				if (locType == wepoType) {
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[kougekiPara]);
