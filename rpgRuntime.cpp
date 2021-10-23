@@ -2888,153 +2888,158 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (mode_scene == MODE_MAP) {
 			// 移動キーのフラグ処理
 			{
-				// キャラを右に移動
-				{
-					// 移動先予定地の入場可否の判定
-					if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyEnableRight == 1 && moving == 0) {
-						if (map1table[yPosi][xPosi + 1] == 1) { destMovable = 0; }
-						if (map1table[yPosi][xPosi + 1] == 0) { destMovable = 1; }
+				int mapsizeX = 10; int mapsizeY = 7;
+				
+				{ // 移動のモジュール
 
-						// 入場可能ならフラグ設定
-						if (destMovable == 1) {
-							moving = 1;
-							hero1_direction = rightward;
-							keyEnableRight = 0;
-							nyuuryokuMatiLR = waitTime1;
+					// キャラを右に移動
+					if (xPosi < mapsizeX && yPosi < mapsizeY + 1 ) { // y判定 が+1 してるのはデバッグ用
+						// 移動先予定地の入場可否の判定
+						if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyEnableRight == 1 && moving == 0) {
+							if (map1table[yPosi][xPosi + 1] == 1) { destMovable = 0; }
+							if (map1table[yPosi][xPosi + 1] == 0) { destMovable = 1; }
+
+							// 入場可能ならフラグ設定
+							if (destMovable == 1) {
+								moving = 1;
+								hero1_direction = rightward;
+								keyEnableRight = 0;
+								nyuuryokuMatiLR = waitTime1;
+							}
 						}
-					}
-					// カウント処理
-					if (moving == 1 && nyuuryokuMatiLR > 0) {
-						nyuuryokuMatiLR = nyuuryokuMatiLR - 1;
-					}
-					// 移動の終了処理
-					if (hero1_direction == rightward && moving == 1 && nyuuryokuMatiLR <= 0) {
-						keyEnableRight = 1; // moving 回復までに時間が掛かるので、ここは1に。
-
-						nyuuryokuMatiLR = waitTime1;
-						nyuuryokuMatiLeft = waitTime1;
-						nyuuryokuMatiRight = waitTime1;
-
-
-						xPosi++;                       // 右へ1マスだけ移動
-						moving = 0;
-					}
-				}
-
-				// 左に移動
-				{
-					// 移動先予定地の入場可否の判定
-					if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyEnableLeft == 1 && moving == 0) {
-						if (map1table[yPosi][xPosi - 1] == 1) { destMovable = 0; }
-						if (map1table[yPosi][xPosi - 1] == 0) { destMovable = 1; }
-
-						// 入場可能ならフラグ設定
-						if (destMovable == 1) {
-							moving = 1;
-							hero1_direction = leftward;
-							keyEnableLeft = 0;
-							nyuuryokuMatiLR = waitTime1;
+						// カウント処理
+						if (moving == 1 && nyuuryokuMatiLR > 0) {
+							nyuuryokuMatiLR = nyuuryokuMatiLR - 1;
 						}
-					}
-					// カウント処理
-					if (moving == 1 && nyuuryokuMatiLR > 0) {
-						nyuuryokuMatiLR = nyuuryokuMatiLR - 1;
-					}
-					// 移動の終了処理
-					if (hero1_direction == leftward && moving == 1 && nyuuryokuMatiLR <= 0) {
-						keyEnableLeft = 1;
+						// 移動の終了処理
+						if (hero1_direction == rightward && moving == 1 && nyuuryokuMatiLR <= 0) {
+							keyEnableRight = 1; // moving 回復までに時間が掛かるので、ここは1に。
 
-						nyuuryokuMatiLR = waitTime1;
-						nyuuryokuMatiLeft = waitTime1;
-						nyuuryokuMatiRight = waitTime1;
-
-						xPosi--;                       // 左へ1マスだけ移動
-						moving = 0;
-					}
-
-				}
+							nyuuryokuMatiLR = waitTime1;
+							nyuuryokuMatiLeft = waitTime1;
+							nyuuryokuMatiRight = waitTime1;
 
 
-				// 下に移動
-				{
-					// 移動先予定地の入場可否の判定
-					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1 && moving == 0) {
-						if (map1table[yPosi + 1][xPosi] == 1) { destMovable = 0; }
-						if (map1table[yPosi + 1][xPosi] == 0) { destMovable = 1; }
+							xPosi++;                       // 右へ1マスだけ移動
+							moving = 0;
+						}
+					} // 右移動
 
-						// 入場可能ならフラグ設定
-						if (destMovable == 1) {
-							moving = 1;
-							hero1_direction = downward;
-							keyEnableDown = 0;
+					// 左に移動
+					if (xPosi < mapsizeX + 1 && yPosi < mapsizeY + 1 ) {      // y判定 が+1 してるのはデバッグ用
+						// 移動先予定地の入場可否の判定
+						if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyEnableLeft == 1 && moving == 0) {
+							if (map1table[yPosi][xPosi - 1] == 1) { destMovable = 0; }
+							if (map1table[yPosi][xPosi - 1] == 0) { destMovable = 1; }
 
+							// 入場可能ならフラグ設定
+							if (destMovable == 1) {
+								moving = 1;
+								hero1_direction = leftward;
+								keyEnableLeft = 0;
+								nyuuryokuMatiLR = waitTime1;
+							}
+						}
+						// カウント処理
+						if (moving == 1 && nyuuryokuMatiLR > 0) {
+							nyuuryokuMatiLR = nyuuryokuMatiLR - 1;
+						}
+						// 移動の終了処理
+						if (hero1_direction == leftward && moving == 1 && nyuuryokuMatiLR <= 0) {
+							keyEnableLeft = 1;
+
+							nyuuryokuMatiLR = waitTime1;
+							nyuuryokuMatiLeft = waitTime1;
+							nyuuryokuMatiRight = waitTime1;
+
+							xPosi--;                       // 左へ1マスだけ移動
+							moving = 0;
+						}
+					}// 左に移動
+
+					// 下に移動
+					if (xPosi < mapsizeX  && yPosi < mapsizeY ) {
+						// 移動先予定地の入場可否の判定
+						if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1 && moving == 0) {
+							if (map1table[yPosi + 1][xPosi] == 1) { destMovable = 0; }
+							if (map1table[yPosi + 1][xPosi] == 0) { destMovable = 1; }
+
+							// 入場可能ならフラグ設定
+							if (destMovable == 1) {
+								moving = 1;
+								hero1_direction = downward;
+								keyEnableDown = 0;
+
+
+								nyuuryokuMatiUD = waitTime1;
+								nyuuryokuMatiUp = waitTime1;
+								nyuuryokuMatiDown = waitTime1;
+
+							}
+						}
+
+						// カウント処理
+						// keyEnableは別のブロックで流用してるので、必ず moving ==1 が必要
+						if (nyuuryokuMatiUD > 0 && moving == 1) {
+							nyuuryokuMatiUD = nyuuryokuMatiUD - 1;
+						}
+						// 移動の終了処理
+						if (hero1_direction == downward && nyuuryokuMatiUD <= 0) {
+							keyEnableDown = 1;
 
 							nyuuryokuMatiUD = waitTime1;
 							nyuuryokuMatiUp = waitTime1;
 							nyuuryokuMatiDown = waitTime1;
 
+							yPosi++;                       // 下へ1マスだけ移動
+							moving = 0;
 						}
-					}
-					// カウント処理
-					// keyEnableは別のブロックで流用してるので、必ず moving ==1 が必要
-					if (nyuuryokuMatiUD > 0 && moving == 1) {
-						nyuuryokuMatiUD = nyuuryokuMatiUD - 1;
-					}
-					// 移動の終了処理
-					if (hero1_direction == downward && nyuuryokuMatiUD <= 0) {
-						keyEnableDown = 1;
-
-						nyuuryokuMatiUD = waitTime1;
-						nyuuryokuMatiUp = waitTime1;
-						nyuuryokuMatiDown = waitTime1;
-
-						yPosi++;                       // 下へ1マスだけ移動
-						moving = 0;
-					}
-				}
+					}// 下に移動
 
 
-				// 上に移動
-				{
-					// 移動先予定地の入場可否の判定
-					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && moving == 0) {
-						if (map1table[yPosi - 1][xPosi] == 1) { destMovable = 0; }
-						if (map1table[yPosi - 1][xPosi] == 0) { destMovable = 1; }
+					// 上に移動
+					if (xPosi < mapsizeX  && yPosi < mapsizeY + 1) {
+						// 移動先予定地の入場可否の判定
+						if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && moving == 0) {
+							if (map1table[yPosi - 1][xPosi] == 1) { destMovable = 0; }
+							if (map1table[yPosi - 1][xPosi] == 0) { destMovable = 1; }
 
-						// 入場可能ならフラグ設定
-						if (destMovable == 1) {
-							moving = 1;
-							hero1_direction = upward;
-							keyEnableUp = 0;
+							// 入場可能ならフラグ設定
+							if (destMovable == 1) {
+								moving = 1;
+								hero1_direction = upward;
+								keyEnableUp = 0;
+
+								nyuuryokuMatiUD = waitTime1;
+								nyuuryokuMatiUp = waitTime1;
+								nyuuryokuMatiDown = waitTime1;
+
+
+							}
+						}
+						// カウント処理
+
+						// keyEnableは別のブロックで流用してるので、必ず moving ==1 が必要
+						if (nyuuryokuMatiUD > 0 && moving == 1) {
+							nyuuryokuMatiUD = nyuuryokuMatiUD - 1;
+						}
+						// 移動の終了処理
+						if (hero1_direction == upward && nyuuryokuMatiUD <= 0 && moving == 1) {
+							keyEnableUp = 1;
 
 							nyuuryokuMatiUD = waitTime1;
 							nyuuryokuMatiUp = waitTime1;
 							nyuuryokuMatiDown = waitTime1;
 
-
+							yPosi--;                       // 上へ1マスだけ移動
+							moving = 0;
 						}
-					}
-					// カウント処理
-
-					// keyEnableは別のブロックで流用してるので、必ず moving ==1 が必要
-					if (nyuuryokuMatiUD > 0 && moving == 1) {
-						nyuuryokuMatiUD = nyuuryokuMatiUD - 1;
-					}
-					// 移動の終了処理
-					if (hero1_direction == upward && nyuuryokuMatiUD <= 0 && moving == 1) {
-						keyEnableUp = 1;
-
-						nyuuryokuMatiUD = waitTime1;
-						nyuuryokuMatiUp = waitTime1;
-						nyuuryokuMatiDown = waitTime1;
-
-						yPosi--;                       // 上へ1マスだけ移動
-						moving = 0;
-					}
-				}
+					}// 上に移動
 
 
+				}// 移動
 
+				// 逃亡処理のフラグ設定っぽい
 				if (destMovable == 1 && moving == 1 && toubouTyokugo > 0) {
 					toubouTyokugo = toubouTyokugo - 1;
 					destMovable = 0;
@@ -6253,8 +6258,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						int hensu = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType];
 
 
-
-
 						if (locType == wepoType) {
 							// 攻撃力の更新
 							heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[kougekiPara] =
@@ -6305,7 +6308,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							//	;
 
 
-
 							// 防御力の更新
 							heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[syubiPara] = // 現在の値
 
@@ -6313,35 +6315,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								+ (soubihin[(heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[kabutoType])].Stype[kabutoType]).equipPower[syubiPara]
 								;
 
-
 						}
-
 
 						//////////
 
-
-
 						(soubiSyoji[0].Stype[locType]).have_kosuu = 0;
-
 
 						// (soubiSyoji[temp].Stype[0]).have_kosuu
 						// (soubihin[temp].Stype[1])
 
-
 					}
-
-
-
 
 				} // ウェポン
 
-
 			}
 
-			// (soubiSyoji[0].Stype[locType]).have_kosuu = 0;
 			if (mode_scene == MODE_EQUIP_EDIT2) {
-
-
 
 
 				int locType;
@@ -6358,48 +6347,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 
-
-				
-				/*
-				
-				
-
-				int itemskip = 0;
-				goukeiItem = 0;
-
-				int itemIDcount = 0;
-
-
-				for (idTemp = 0; idTemp <= 2; idTemp = idTemp + 1)
-				{
-
-					if ((soubiSyoji[idTemp].Stype[locType]).have_kosuu != 0) {
-
-
-						goukeiItem = goukeiItem + 1;
-
-						itemHairetu[itemIDcount] = idTemp; // これはボタン操作側で使う
-						itemIDcount = itemIDcount + 1; // これは上コードで使う
-
-					}
-
-
-					if ((soubiSyoji[idTemp].Stype[locType]).have_kosuu == 0) {
-						itemskip = itemskip + 1;
-						itemHairetu[itemIDcount] = 0;
-					}
-				}
-
-				*/
-
-
-
-
 				if (locType == wepoType) {
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[kougekiPara]);
 				}
-				// (soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[kougekiPara];
-
 
 				if (locType == tateType || locType == kabutoType) {
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), (soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[syubiPara]);
