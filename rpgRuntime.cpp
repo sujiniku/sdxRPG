@@ -5478,6 +5478,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				key_remain = 0;
 				whomTargetID1 = whomCHARA - 1;
 
+				
 				mode_scene = MODE_EQUIP_EDIT;
 				beforeselect = 0;
 				keyEnableReset();
@@ -5832,6 +5833,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						key_remain = 0;
 						whomTargetID1 = whomCHARA - 1;
+
+						whatedit2 = 0;
 						mode_scene = MODE_EQUIP_EDIT2;
 
 						
@@ -6164,6 +6167,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				int locType;
 				locType = 0; // –¢’è‹`‘Î‰ž
+				
 
 				if (mode2_scene == MODE2_EQUIP_HAND1) {
 					locType = wepoType;
