@@ -655,6 +655,7 @@ struct heros_def
 	int PartyIn;
 
 	int heroSoubi[20];
+	int heroSoubiKasol[20];
 
 	// 装備品 // 不要
 	int heros_weapon1;
@@ -2474,22 +2475,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			heros_def_list[temp].PartyIn = 1;
 
 
-			// heros_def_list[temp].heros_weapon1 = 1;
 			heros_def_list[temp].heroSoubi[wepoType] = 1;
 
-			//heros_def_list[temp].heros_shield = 2;
+			heros_def_list[temp].heroSoubiKasol[wepoType] = 0;
+
+
+
 			heros_def_list[temp].heroSoubi[tateType] = 0;
 			heros_def_list[temp].heroSoubi[tateType] = 1;
 
 
-			//heros_def_list[temp].heros_bukiKougekiRyoku = (soubihin[heros_def_list[temp].heroSoubi[wepoType] ].Stype[wepoType]).equipPower;
-			// weapon_def_list[heros_def_list[temp].heros_weapon1].equipPower;
-
 
 			heros_def_list[temp].heros_para[kougekiPara] = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower[kougekiPara];
 
-
-			//heros_def_list[temp].heros_subiRyoku = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower;
 
 			heros_def_list[temp].heros_para[syubiPara] = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower[syubiPara]
 				+ (soubihin[heros_def_list[temp].heroSoubi[kabutoType]].Stype[kabutoType]).equipPower[syubiPara]
@@ -2514,13 +2512,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			heros_def_list[temp].PartyIn = 1;
 
 
-			// heros_def_list[temp].heros_weapon1 = 2;
+
 			heros_def_list[temp].heroSoubi[wepoType] = 2;
 
-			// heros_def_list[temp].heros_shield = 0;
+
 			heros_def_list[temp].heroSoubi[tateType] = 0;
 
-			////heros_def_list[temp].heros_bukiKougekiRyoku = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower;
 
 			heros_def_list[temp].heros_subiRyoku = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower[syubiPara];
 
@@ -5823,7 +5820,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			if (mode_scene == MODE_EQUIP_EDIT) {
-				// mode_scene == MODE_EQUIP_EDIT
+				
 				{
 					if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyEnableZ == 1
 						&& mode_scene == MODE_EQUIP_EDIT) {
@@ -5835,6 +5832,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						whomTargetID1 = whomCHARA - 1;
 
 						whatedit2 = 0;
+
 						mode_scene = MODE_EQUIP_EDIT2;
 
 						
@@ -5842,12 +5840,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							mode2_scene = MODE2_EQUIP_UnDef; // 未定義対応のため、とりあえず武器に初期化
 						
 						if (whatedit == 0) {
+							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[wepoType];
+
 							mode2_scene = MODE2_EQUIP_HAND1;
 						}
 						if (whatedit == 1) {
+							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[tateType];
+
 							mode2_scene = MODE2_EQUIP_SHIELD;
 						}
 						if (whatedit == 2) {
+							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[kabutoType];
+
 							mode2_scene = MODE2_EQUIP_HELM;
 						}
 
@@ -5860,10 +5864,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						mode_scene = MODE_EQUIP_MAIN;
 						keyEnableReset();
 					}
-
-
-
-
 
 
 
@@ -5904,7 +5904,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						else if (whatedit < 0) {
 							whatedit = 0;
 						}
-						//whomTargetID2 = whomCHARA - 1;
 
 
 						if (whomCHARA != beforeselect) {
@@ -5930,6 +5929,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (CheckHitKey(KEY_INPUT_X) == 1) {
 
 					filterFlag = 0;
+					if (mode2_scene == MODE2_EQUIP_HAND1) {
+						heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[wepoType] = whatedit2;
+
+					}
+					if (mode2_scene == MODE2_EQUIP_SHIELD) {
+						heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[tateType] = whatedit2;
+
+					}
+					if (mode2_scene == MODE2_EQUIP_HELM) {
+						heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[kabutoType] = whatedit2;
+
+					}
+
+					
 					mode_scene = MODE_EQUIP_EDIT;
 					keyEnableReset();
 				}
