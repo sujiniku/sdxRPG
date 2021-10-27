@@ -5845,25 +5845,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							mode3_scene = whatedit + 11; // 装備品データベースは11番から
 							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[mode3_scene];
 
-							// /*
+							/*
 							
 							
 						if (whatedit == 0) {
-							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[wepoType];
+							//whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[wepoType];
 
 							mode2_scene = MODE2_EQUIP_HAND1;
 							//mode3_scene = wepoType;
 
 						}
 						if (whatedit == 1) {
-							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[tateType];
+							//whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[tateType];
 
 							mode2_scene = MODE2_EQUIP_SHIELD;
 							//mode3_scene = tateType;
 
 						}
 						if (whatedit == 2) {
-							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[kabutoType];
+							//whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[kabutoType];
 
 							mode2_scene = MODE2_EQUIP_HELM;
 							//mode3_scene = kabutoType;
@@ -5871,7 +5871,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							
 							
 							
-							// */
+							*/
 
 
 
@@ -6006,6 +6006,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				int locType;
 				locType = 0; // 未定義の装備部位の処理用のシステム値。
 
+				locType = mode3_scene;
+
+				/*
+				
+				
 				if (mode2_scene == MODE2_EQUIP_HAND1) {
 					locType = wepoType;
 				}
@@ -6016,8 +6021,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					locType = kabutoType;
 				}
 
+				*/
 
-				if (mode2_scene == MODE2_EQUIP_HAND1 || mode2_scene == MODE2_EQUIP_SHIELD ||
+
+				if (1 || mode2_scene == MODE2_EQUIP_HAND1 || mode2_scene == MODE2_EQUIP_SHIELD ||
 					mode2_scene == MODE2_EQUIP_HELM
 
 					) {
@@ -6208,8 +6215,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				int locType;
 				locType = 0; // 未定義対応
 				
+				locType = mode3_scene;
 
-				if (mode2_scene == MODE2_EQUIP_HAND1) {
+				/*
+								if (mode2_scene == MODE2_EQUIP_HAND1) {
 					locType = wepoType;
 				}
 				if (mode2_scene == MODE2_EQUIP_SHIELD) {
@@ -6218,6 +6227,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (mode2_scene == MODE2_EQUIP_HELM) {
 					locType = kabutoType;
 				}
+
+				*/
 
 
 
