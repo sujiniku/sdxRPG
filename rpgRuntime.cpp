@@ -306,7 +306,7 @@ enum mode2 {
 };
 enum mode2 mode2_scene = MODE2_EQUIP_HAND1;
 
-
+int mode3_scene = 0 ;
 
 
 
@@ -5838,22 +5838,42 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						
 					
 							mode2_scene = MODE2_EQUIP_UnDef; // 未定義対応のため、とりあえず武器に初期化
-						
+							mode3_scene = 0;
+
+
+							
+							mode3_scene = whatedit + 11; // 装備品データベースは11番から
+							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[mode3_scene];
+
+							// /*
+							
+							
 						if (whatedit == 0) {
 							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[wepoType];
 
 							mode2_scene = MODE2_EQUIP_HAND1;
+							//mode3_scene = wepoType;
+
 						}
 						if (whatedit == 1) {
 							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[tateType];
 
 							mode2_scene = MODE2_EQUIP_SHIELD;
+							//mode3_scene = tateType;
+
 						}
 						if (whatedit == 2) {
 							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[kabutoType];
 
 							mode2_scene = MODE2_EQUIP_HELM;
+							//mode3_scene = kabutoType;
 						}
+							
+							
+							
+							// */
+
+
 
 					}
 
@@ -5929,6 +5949,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (CheckHitKey(KEY_INPUT_X) == 1) {
 
 					filterFlag = 0;
+
+					heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[mode3_scene ] = whatedit2;
+
+					/*										
+				
 					if (mode2_scene == MODE2_EQUIP_HAND1) {
 						heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[wepoType] = whatedit2;
 
@@ -5941,6 +5966,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[kabutoType] = whatedit2;
 
 					}
+
+					*/
 
 					
 					mode_scene = MODE_EQUIP_EDIT;
