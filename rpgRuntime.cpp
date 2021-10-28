@@ -52,12 +52,10 @@ void redCasol1(int X1, int Y1, int X2, int Y2) {
 
 
 
-
 int TimeKasolCount = 0;
 
 void tenmetu(int X1, int Y1, int X2, int Y2) {
 
-	// int KasolColor = GetColor(250, 150, 150);
 	double redVal = 0;
 
 	double spanBlink = 120.0;
@@ -69,17 +67,11 @@ void tenmetu(int X1, int Y1, int X2, int Y2) {
 		redVal = spanBlink * 2 - TimeKasolCount;
 	}
 
-	//DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
-	//	GetColor(250 , 150, 150), 1);
-
-//DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
-//	GetColor( 200 + (250 - 200)*(redVal / 120.0), 150, 250 - (250-150) * (redVal / 120.0) ), 1);
 
 
 	int whiteMax = 180;
 
 	DrawBox(X1, Y1, X2, Y2,
-		// DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
 
 		GetColor(wind1R + (whiteMax - wind1R) * (redVal / spanBlink),
 			wind1G + (whiteMax - wind1G) * (redVal / spanBlink),
@@ -101,7 +93,6 @@ void tenmetu(int X1, int Y1, int X2, int Y2) {
 
 void tenmetuStop(int X1, int Y1, int X2, int Y2) {
 
-	// int KasolColor = GetColor(250, 150, 150);
 	double redVal = 0;
 
 	double spanBlink = 120.0;
@@ -115,26 +106,16 @@ void tenmetuStop(int X1, int Y1, int X2, int Y2) {
 
 	redVal = spanBlink / 2;
 
-	//DrawBox(100, 250 + (selecting_mainmenu -1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 +40,
-	//	GetColor(250 , 150, 150), 1);
-
-//DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
-//	GetColor( 200 + (250 - 200)*(redVal / 120.0), 150, 250 - (250-150) * (redVal / 120.0) ), 1);
-
 
 	int whiteMax = 180;
 
 	DrawBox(X1, Y1, X2, Y2,
-		// DrawBox(100, 250 + (selecting_mainmenu - 1) * 40, 100 + 80, 250 + (selecting_mainmenu - 1) * 40 + 40,
 
 		GetColor(wind1R + (whiteMax - wind1R) * (redVal / spanBlink),
 			wind1G + (whiteMax - wind1G) * (redVal / spanBlink),
 			wind1B + 1 * (whiteMax - wind1B) * (redVal / spanBlink)),
 		1);
 
-
-
-	//TimeKasolCount = TimeKasolCount + 1;
 
 	if (TimeKasolCount > spanBlink * 2) {
 		TimeKasolCount = 0;
@@ -294,9 +275,6 @@ enum mode mode_scene = MODE_MAP;
 
 
 
-
-
-
 enum mode2 {
 	MODE2_EQUIP_UnDef, // 未定義対応
 	MODE2_EQUIP_HAND1,
@@ -310,17 +288,9 @@ int mode3_scene = 0 ;
 
 
 
-
 int yakusouKosuu = 5;
 int dokukesiKosuu = 3;
 int soesiKosuu = 4;
-
-
-
-
-
-
-
 
 
 
@@ -455,7 +425,6 @@ enum equip_type
 
 
 
-
 // グローバル変数:
 
 int IsNewGame = 1; // 初めてこのゲームを起動するとき、1である。一度でもセーブすれば2になる。
@@ -537,9 +506,6 @@ struct soubi_def
 
 
 };
-
-
-
 
 
 
@@ -697,8 +663,6 @@ struct monsterTairetu_def
 
 
 
-
-
 static int selecting_item = 1;
 static int selecting_item_x = 1;
 static int selecting_item_y = 1;
@@ -740,11 +704,6 @@ static TCHAR filename_temp[100]; // ファイル読み書きで使う一時的なファイル名
 
 
 
-
-
-
-
-
 static int mode2_mode_scene = 0;
 
 static int selecting_OP = 1;
@@ -781,9 +740,6 @@ static int before_chara_y; //
 
 static int start_x = 4;
 static int start_y = 3;
-
-
-
 
 
 
@@ -853,8 +809,6 @@ static struct MapTrans_def MapTrans_def_list[8];
 
 
 
-
-
 // map2 のデータ
 
 int map2table[10][10] = {
@@ -870,7 +824,6 @@ int map2table[10][10] = {
 
 // int MapTrans_position_x_map2to_map1 = 2;
 // int MapTrans_position_y_map2to_map1 = 0;
-
 
 
 static int selecting_battle_mainmenu = 1;
@@ -927,8 +880,6 @@ void item_select() {
 
 
 
-
-
 // アイテム処理の構造体変数の作成
 static struct item_def item_def_list[8]; // アイテム処理の構造体配列の宣言
 static struct item_have item_have_list[8];
@@ -937,22 +888,6 @@ static struct item_have item_have_list[8];
 
 
 // 装備品の処理の構造体配列の作成
-
-
-
-/*
-
-struct tykou {
-	struct soubi_def Stype[10];
-};
-
-struct tykou soubihin[10]; // 構造体配列の宣言
-
-
-static struct soubi_def soubi_def_list[15]; // 武器処理の構造体配列の宣言
-static struct soubi_have soubi_have_list[15];
-*/
-
 
 
 static struct weapon_def weapon_def_list[15]; // 武器処理の構造体配列の宣言
@@ -978,9 +913,6 @@ static struct heros_def heros_def_list[8];
 
 
 
-
-
-
 static struct monsterTairetu_def monsterTairetu_def_list[50];
 
 int darkFlag = 0;
@@ -1003,19 +935,6 @@ void menu_CharaSelectDraw() {
 
 
 
-	// 			mode_scene = MODE_ITEM_WHOM_FRONT;
-
-
-	//MainGraFrontMenu(hdc);
-
-	//BrushBlue_set(hdc);
-
-	//BrushPink_set(hdc);
-
-	// Rectangle(hdc, 20 + (selecting_mainmenu - 1) * 100, 20,
-	//	100 + (selecting_mainmenu - 1) * 100, 70);
-
-
 	int winX1 = 10;
 	int winY1 = 100;
 	int winX2 = 300;
@@ -1027,29 +946,16 @@ void menu_CharaSelectDraw() {
 
 
 	for (int j = 0; j <= partyNinzuDone - 1; ++j) {
-		// 背景の青
-		//SelectObject(hdc, blue_thin_1);
-		//Rectangle(hdc, 10, 100 + offsetY * j,
-		//	300, 200 + offsetY * j);
 
-	
+		// 背景の青
+
 		window1Draw(winX1, winY1 + offsetY * j,
 			winX2, winY2 + offsetY * j);
-		//DrawBox(10, 100 + offsetY * j,
-			//300, 200 + offsetY * j,
-			//GetColor(150, 150, 255), 1);
 
 		if (mode_scene == MODE_ITEM_WHOM) {
 			// カーソル
 			if (whomTargetID1 == j) {
-				//BrushPink_set(hdc);
-
-				//Rectangle(hdc, 10 + 10, 100 + 10 + 120 * (whomTargetID1),
-				//	300 - 10, 100 + 70 + 120 * (whomTargetID1));
-
-				//DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
-				//	300 - 10, 100 + 70 + 120 * (whomTargetID1),	GetColor(255, 150, 150), 1);
-
+				
 				tenmetu(winX1, winY1 + offsetY * (whomTargetID1),
 					winX2, winY2 + offsetY * (whomTargetID1));
 
@@ -1059,83 +965,52 @@ void menu_CharaSelectDraw() {
 		}
 
 
-		//SetBkMode(hdc, TRANSPARENT);
-
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[j]].heros_name);
-		//TextOut(hdc, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
 		DrawFormatString(StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 
 		lstrcpy(mojibuf, TEXT("HP"));
-		//TextOut(hdc, StatsHPbaseX, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
-
 		DrawFormatString(StatsHPbaseX, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_hp);
-		//TextOut(hdc, StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
-
 		DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 		int revwait = 120 - waitheal;
-		// if (heros_def_list[partyNarabijyun[j]].heros_hpdiff > 0) {
+
 		if (healflag == 1 && healkioku == j) {
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabijyun[j]].heros_hpdiff);
-			//TextOut(hdc, StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
-
 			DrawFormatString(StatsHPbaseX + 30 +20, StatsHPbaseY -20 + offsetY * j  +20 - 2 * revwait, GetColor(10, 255, 10), mojibuf); // 文字を描画する
 
 
 		}
 
 		if (healflag == 2 && healkioku == j) {
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabijyun[j]].heros_hpdiff);
-			//TextOut(hdc, StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
 
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabijyun[j]].heros_hpdiff);
 			DrawFormatString(StatsHPbaseX + 30 +20, StatsHPbaseY - 20 + offsetY * j - (60) / 6, GetColor(10, 255, 10), mojibuf); // 文字を描画する
 
 
 		}
 
 
-
-
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabijyun[j]].heros_hp_max);
-		//TextOut(hdc, StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
-
 		DrawFormatString(StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-
-
-
-
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_HP0_flag);
-		// TextOut(hdc, StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
-
 		DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
 
 
 		if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag == 1) {
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("戦闘不能"));
-			//TextOut(hdc, StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
 			DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 		}
 
-
-
-		//_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
-		//TextOut(hdc, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
-		// DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf);
-
 	} // end for
-
-
 
 
 }
@@ -1158,17 +1033,6 @@ void menu_CharaSelectDraw2() {
 
 
 
-	// 			mode_scene = MODE_ITEM_WHOM_FRONT;
-
-
-	//MainGraFrontMenu(hdc);
-
-	//BrushBlue_set(hdc);
-
-	//BrushPink_set(hdc);
-
-	// Rectangle(hdc, 20 + (selecting_mainmenu - 1) * 100, 20,
-	//	100 + (selecting_mainmenu - 1) * 100, 70);
 
 	int shiftTemp = 140;
 
@@ -1178,26 +1042,13 @@ void menu_CharaSelectDraw2() {
 
 	for (int j = 0; j <= partyNinzuDone - 1; ++j) {
 		// 背景の青
-		//SelectObject(hdc, blue_thin_1);
-		//Rectangle(hdc, 10, 100 + offsetY * j,
-		//	300, 200 + offsetY * j);
 
 		window1Draw(10 + shiftTemp, 100 + offsetY * j, // +140
 			300 + shiftTemp, 200 + offsetY * j);
-		//DrawBox(10, 100 + offsetY * j,
-			//300, 200 + offsetY * j,
-			//GetColor(150, 150, 255), 1);
 
 		if (mode_scene == MODE_ITEM_WHOM) {
 			// カーソル
 			if (whomTargetID1 == j) {
-				//BrushPink_set(hdc);
-
-				//Rectangle(hdc, 10 + 10, 100 + 10 + 120 * (whomTargetID1),
-				//	300 - 10, 100 + 70 + 120 * (whomTargetID1));
-
-				//DrawBox(10 + 10, 100 + 10 + 120 * (whomTargetID1),
-				//	300 - 10, 100 + 70 + 120 * (whomTargetID1),	GetColor(255, 150, 150), 1);
 
 				tenmetu(10 + 10, 100 + 10 + 120 * (whomTargetID1),
 					300 - 10, 100 + 70 + 120 * (whomTargetID1));
@@ -1208,59 +1059,34 @@ void menu_CharaSelectDraw2() {
 		}
 
 
-		//SetBkMode(hdc, TRANSPARENT);
 
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[j]].heros_name);
-		//TextOut(hdc, StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, mojibuf, lstrlen(mojibuf));
 		DrawFormatString(StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
 		lstrcpy(mojibuf, TEXT("HP"));
-		//TextOut(hdc, StatsHPbaseX, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
-
 		DrawFormatString(StatsHPbaseX, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_hp);
-		//TextOut(hdc, StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
-
 		DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
-
-
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabijyun[j]].heros_hp_max);
-		//TextOut(hdc, StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, mojibuf, lstrlen(mojibuf));
-
 		DrawFormatString(StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
-
-
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_HP0_flag);
-		// TextOut(hdc, StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
-
 		DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 
-
 		if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag == 1) {
+
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("戦闘不能"));
-			//TextOut(hdc, StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, mojibuf, lstrlen(mojibuf));
 			DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 		}
-
-
-
-	//	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mode: %d"), mode_scene);
-		//TextOut(hdc, 130 * 2, 300, mojibuf, lstrlen(mojibuf));
-	//	DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf);
 
 	}
 
@@ -1294,13 +1120,6 @@ void battle_start() {
 
 
 }
-
-
-
-
-
-
-
 
 
 
@@ -1661,35 +1480,35 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 	int ycommon;
 
 	// 表示フラグ
-	int ViewFlagItem = 1;
-	int ViewFlagWeapon = 0;
-	int ViewFlagShield = 0;
-	int ViewFlagHelm = 0;
+	//int ViewFlagItem = 1;
+	//int ViewFlagWeapon = 0;
+	//int ViewFlagShield = 0;
+	//int ViewFlagHelm = 0;
 
-	int ViewFlag[10];
+	int ViewFlag[10]; // 0はシステム用, 1が使用品, 2が武器、3がタテ、4がカブト
 
 	if (mode_scene == MODE_ITEMweapon_MENU || mode_scene == MODE_ITEM_MENU || mode_scene == MODE_ITEM_TYPE) {
 
 		// 表示フラグ設定
 		if (mode_scene == MODE_ITEM_MENU || (selecting_mainmenu == 1 && mode_scene == MODE_ITEM_TYPE)) {
-			ViewFlagItem = 1;
-			ViewFlagWeapon = 0;
-			ViewFlagShield = 0;
-			ViewFlagHelm = 0;
+			ViewFlag[1] = 1;  // ViewFlagItem = 1;
+			ViewFlag[2] = 0;  // ViewFlagWeapon = 0;
+			ViewFlag[3] = 0;  // ViewFlagShield = 0;
+			ViewFlag[4] = 0;  // ViewFlagHelm = 0;
 		}
 
 		if (mode_scene == MODE_ITEMweapon_MENU || (selecting_mainmenu == 2 && mode_scene == MODE_ITEM_TYPE)) {
-			ViewFlagItem = 0;
-			ViewFlagWeapon = 1;
-			ViewFlagShield = 1;
-			ViewFlagHelm = 1;
+			ViewFlag[1] = 0;  // ViewFlagItem = 0;
+			ViewFlag[2] = 1;  // ViewFlagWeapon = 1;
+			ViewFlag[3] = 1;  // ViewFlagShield = 1;
+			ViewFlag[4] = 1;  // ViewFlagHelm = 1;
 		}
 
 		if ((selecting_mainmenu == 3 && mode_scene == MODE_ITEM_TYPE)) {
-			ViewFlagItem = 0;
-			ViewFlagWeapon = 0;
-			ViewFlagShield = 0;
-			ViewFlagHelm = 0;
+			ViewFlag[1] = 0;   //ViewFlagItem = 0;
+			ViewFlag[2] = 0;   //ViewFlagWeapon = 0;
+			ViewFlag[3] = 0;   //ViewFlagShield = 0;
+			ViewFlag[4] = 0;   //ViewFlagHelm = 0;
 		}
 
 	}
@@ -1706,7 +1525,7 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 	int itemIDcount = 0; // for文の外で使うので、消したらダメ
 
 	// 使用品の配列代入
-	if (ViewFlagItem) {
+	if (ViewFlag[1]) {
 
 		LimintTemp = goukeiItem;
 
@@ -1726,82 +1545,33 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 		} // 使用品の配列代入
 	}
 
-	if (ViewFlagWeapon) {
+	// 
+	for (int tempVal1 = 2; tempVal1 <= 4; tempVal1 = tempVal1 +1) {
 
-		LimintTemp = goukeiItem;
+		if (ViewFlag[tempVal1]) {
+
+			LimintTemp = goukeiItem;
+
+			// 装備品の配列代入
+			for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+			{
+
+				int	localSouType = 11 + tempVal1 - 2;
+				if ((soubiSyoji[idTemp].Stype[localSouType]).have_kosuu != 0) {
 
 
-		// 武器の配列代入
-		for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
-		{
+					goukeiItem = goukeiItem + 1;
 
-			int	localSouType = wepoType;
-			if ((soubiSyoji[idTemp].Stype[localSouType]).have_kosuu != 0) {
-
-
-				goukeiItem = goukeiItem + 1;
-
-				{
-					itemHairetu[itemIDcount] = idTemp;
-					itemTypeHairetu[itemIDcount] = localSouType;
-					itemIDcount = itemIDcount + 1;
+					{
+						itemHairetu[itemIDcount] = idTemp;
+						itemTypeHairetu[itemIDcount] = localSouType;
+						itemIDcount = itemIDcount + 1;
+					}
 				}
-			}
-		} // 武器の配列代入
+			} // 装備品の配列代入
+		}
+
 	}
-
-
-	if (ViewFlagShield) {
-
-		LimintTemp = goukeiItem;
-
-		// シールドの配列代入
-		for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
-		{
-			// MessageBox(NULL, TEXT("テストhelm"), TEXT("キーテスト"), MB_OK);
-			int	localSouType = tateType;
-			if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
-
-
-				goukeiItem = goukeiItem + 1;
-
-				{
-					itemHairetu[itemIDcount] = idTemp;
-					itemTypeHairetu[itemIDcount] = localSouType;
-					itemIDcount = itemIDcount + 1;
-				}
-
-			}
-		} // シールド
-	}
-
-
-	if (ViewFlagHelm) {
-
-		LimintTemp = goukeiItem;
-		// ヘルムの配列代入
-		for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
-		{
-			// MessageBox(NULL, TEXT("テスト22"), TEXT("キーテスト"), MB_OK);
-
-			int	localSouType = kabutoType;
-			if (soubiSyoji[idTemp].Stype[localSouType].have_kosuu != 0) {
-
-				goukeiItem = goukeiItem + 1;
-
-				{
-					itemHairetu[itemIDcount] = idTemp;
-					itemTypeHairetu[itemIDcount] = localSouType;
-					itemIDcount = itemIDcount + 1;
-				}
-
-			}
-		} // かぶとの配列代入
-	}
-
-
-
-
 
 	itemTypeHairetu[itemIDcount] = -99; // 終了を意味する数。
 
@@ -1849,7 +1619,6 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 				}
 				*/
 
-
 				lstrcpy(mojibuf, (soubihin[itemHairetu[temp2]].Stype[locType]).def_name);
 
 			}
@@ -1872,7 +1641,7 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 			if (itemTypeHairetu[temp2] == wepoType || itemTypeHairetu[temp2] == tateType
 				|| itemTypeHairetu[temp2] == kabutoType
 				) {
-				// 武器の個数表示. 表示は後処理のDrawFormat で一括
+				// 装備品の個数表示. 表示は後処理のDrawFormat で一括
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), (soubiSyoji[itemHairetu[temp2]].Stype[locType]).have_kosuu);
 			}
 
