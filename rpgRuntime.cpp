@@ -2765,7 +2765,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 
-
 				TimeKasolCount = 0;
 
 				keyHaijyo = 1;
