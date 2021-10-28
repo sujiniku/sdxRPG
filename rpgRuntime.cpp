@@ -307,9 +307,12 @@ int pageSyori = 0;
 
 // アイテム種類番号
 int siyouType = 10; // 0～9番はシステム処理用に確保
-int wepoType = 11;
-int tateType = 12;
-int kabutoType = 13;
+
+int soubiOffset = 11; // wepoTypeと同番号だが、拡張性や可読性を考え、別変数を用意
+
+int wepoType = soubiOffset ; // 11
+int tateType = soubiOffset + 1; // 12;
+int kabutoType = soubiOffset + 2; // 13;
 
 int PorEflag[20];
 
@@ -1556,7 +1559,7 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 			for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
 			{
 
-				int	localSouType = 11 + tempVal1 - 2;
+				int	localSouType = soubiOffset + tempVal1 - 2;
 				if ((soubiSyoji[idTemp].Stype[localSouType]).have_kosuu != 0) {
 
 
@@ -4432,7 +4435,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (mode_scene == MODE_EQUIP_EDIT) {
 				int locType;
 
-				locType = 11 + whatedit;
+				locType = soubiOffset + whatedit;
 				/*
 				// 下記は上記のリファクタ
 
