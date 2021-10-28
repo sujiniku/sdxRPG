@@ -9,7 +9,8 @@
 
 int waitheal = 0; // 回復の表示中の長さ
 int damepyon = 0; // 戦闘中にダメージをピョンと動かすアレ
-int tekidame = 0; // 敵がダメージ受けてる間だけオン
+int tekidame = 0; // 敵のダメージ受けてる間だけオン
+int mikatadame = 0; // mikataのダメージ受けてる間だけオン
 
 int senkaFlag = 0;
 
@@ -2673,7 +2674,41 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					DrawFormatString(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 				}
-			}
+
+
+
+				// DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "戦うテスト"); // 文字を描画する
+
+				if (PorEflag[globalTempA] == tekiPE) {
+					if (encount_mons_alive == 1) {
+
+						// enemy atack で　tekidame =0 にされてる
+						if (damepyon < 10 && tekidame == 0) {
+							damepyon = damepyon + 1;
+						}
+
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d ダメージ"), damage_EnemyAttack);
+						DrawFormatString(30, 350 - 5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+					}
+				}
+
+				if (PorEflag[globalTempA] == mikataPE) {
+					if (encount_mons_alive == 1 || encount_mons_alive == 0) {
+
+						// hero atack で　tekidame =1 にされてる
+						if (damepyon < 10 && tekidame == 1) {
+							damepyon = damepyon + 1;
+						}
+
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d ダメージ"), damage_HeroAttack);
+						DrawFormatString(monX + 10, monY - 30 - 5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+					}
+				}
+
+			}// now
+
 
 
 			// 十字キー入力時
@@ -2720,11 +2755,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 				}
-			}
+			} //if (keyHaijyo == 0)
 
 
 			// ターン開始
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 1 && keyHaijyo == 0) {
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 1 && keyHaijyo == 0 				
+				&& mode_scene != MODE_BATTLE_NOW       // これが無いと連打でターン再開してしまう
+				&& mode_scene != MODE_BATTLE_WIN ) { // これが無いと連打でターン再開してしまう
+
+				// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
+
 				TimeKasolCount = 0;
 
 				keyHaijyo = 1;
@@ -2742,24 +2783,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			battlewait = battlewait - 1;
 
 
-			if (mode_scene == MODE_BATTLE_NOW) {
-				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "戦うテスト"); // 文字を描画する
-
-
-				if (PorEflag[globalTempA] == tekiPE) {
-					if (encount_mons_alive == 1) {
-
-						if (damepyon < 10 && tekidame == 0) {
-							damepyon = damepyon + 1;
-						}
-
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d ダメージ"), damage_EnemyAttack);
-						DrawFormatString(30, 350 - 5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-					}
-				}
-
-			}
+			
 
 
 			if (mode_scene == MODE_BATTLE_WIN) {
@@ -2810,7 +2834,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					keyHaijyo = 0;
 					mode_scene = MODE_MAP;// テスト用に倒した扱いなので
 				}
-			}
+			} // win
 
 
 			if (mode_scene == MODE_BATTLE_NOW && dameKei == 0) {
@@ -2832,7 +2856,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 			}
 
-
+			// 次行動者(globalTempA )をセット
 			if (battlewait <= 0 && mode_scene == MODE_BATTLE_NOW && dameKei == 1) {
 				battlewait = 0;
 				dameKei = 0;
@@ -2870,21 +2894,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			} // battlewait が0の状態
 
 
-			if (mode_scene == MODE_BATTLE_NOW) {
 
-				if (PorEflag[globalTempA] == mikataPE) {
-					if (encount_mons_alive == 1 || encount_mons_alive == 0) {
-
-						if (damepyon < 10 && tekidame == 1) {
-							damepyon = damepyon + 1;
-						}
-
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d ダメージ"), damage_HeroAttack);
-						DrawFormatString(monX + 10, monY - 30 -5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-					}
-				}
-			}
 
 
 			if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 2 && keyHaijyo == 0) {
