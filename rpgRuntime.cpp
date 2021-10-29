@@ -1390,31 +1390,58 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 	if (mode_scene == MODE_ITEMweapon_MENU || mode_scene == MODE_ITEM_MENU || mode_scene == MODE_ITEM_TYPE) {
 	
 		// 安全のため一旦0に
+
+		for (int temp = 1; temp <= 4; temp = temp + 1) {
+			ViewFlag[temp] = 0;
+
+		}
+
+		/*				
 		ViewFlag[1] = 0;  // ViewFlagItem = 0;
 		ViewFlag[2] = 0;  // ViewFlagWeapon = 0;
 		ViewFlag[3] = 0;  // ViewFlagShield = 0;
 		ViewFlag[4] = 0;  // ViewFlagHelm = 0;
+		*/
+
 
 		// 表示フラグ設定
 		if (mode_scene == MODE_ITEM_MENU || (selecting_mainmenu == 1 && mode_scene == MODE_ITEM_TYPE)) {
 			ViewFlag[1] = 1;  // ViewFlagItem = 1;
-			ViewFlag[2] = 0;  // ViewFlagWeapon = 0;
-			ViewFlag[3] = 0;  // ViewFlagShield = 0;
-			ViewFlag[4] = 0;  // ViewFlagHelm = 0;
+
+			for (int temp = 2; temp <= 4; temp = temp + 1) {
+				ViewFlag[temp] = 0; // 装備品は表示オフ
+
+			}
+
+			//ViewFlag[2] = 0;  // ViewFlagWeapon = 0;
+			//ViewFlag[3] = 0;  // ViewFlagShield = 0;
+			//ViewFlag[4] = 0;  // ViewFlagHelm = 0;
 		}
 
 		if (mode_scene == MODE_ITEMweapon_MENU || (selecting_mainmenu == 2 && mode_scene == MODE_ITEM_TYPE)) {
 			ViewFlag[1] = 0;  // ViewFlagItem = 0;
-			ViewFlag[2] = 1;  // ViewFlagWeapon = 1;
-			ViewFlag[3] = 1;  // ViewFlagShield = 1;
-			ViewFlag[4] = 1;  // ViewFlagHelm = 1;
+
+
+			for (int temp = 2; temp <= 4; temp = temp + 1) {
+				ViewFlag[temp] = 1; // 装備品は表示オン
+
+			}
+			//ViewFlag[2] = 1;  // ViewFlagWeapon = 1;
+			//ViewFlag[3] = 1;  // ViewFlagShield = 1;
+			//ViewFlag[4] = 1;  // ViewFlagHelm = 1;
 		}
 
 		if ((selecting_mainmenu == 3 && mode_scene == MODE_ITEM_TYPE)) {
 			ViewFlag[1] = 0;   //ViewFlagItem = 0;
-			ViewFlag[2] = 0;   //ViewFlagWeapon = 0;
-			ViewFlag[3] = 0;   //ViewFlagShield = 0;
-			ViewFlag[4] = 0;   //ViewFlagHelm = 0;
+
+			for (int temp = 2; temp <= 4; temp = temp + 1) {
+				ViewFlag[temp] = 0; // 装備品は表示オフ
+
+			}
+
+			//ViewFlag[2] = 0;   //ViewFlagWeapon = 0;
+			//ViewFlag[3] = 0;   //ViewFlagShield = 0;
+			//ViewFlag[4] = 0;   //ViewFlagHelm = 0;
 		}
 
 	}
@@ -1499,10 +1526,20 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 			if (itemTypeHairetu[temp2] == siyouType) {
 				lstrcpy(mojibuf, item_def_list[itemHairetu[temp2]].def_name);
 			}
-			if (itemTypeHairetu[temp2] == wepoType
-				|| itemTypeHairetu[temp2] == tateType
-				|| itemTypeHairetu[temp2] == kabutoType
-				) {
+
+
+			int defSoubiType = 2; // 定義し終わった装備品の種類数からマイナス1。 たとえば武器、カテ、カブトなら 3-1=2
+
+			if (itemTypeHairetu[temp2] >= soubiOffset // wepoType
+					&& itemTypeHairetu[temp2] <= soubiOffset + defSoubiType // kabutoType
+					)			
+				/* // 意味
+				if (itemTypeHairetu[temp2] == soubiOffset // wepoType
+				|| itemTypeHairetu[temp2] == soubiOffset +1 // tateType
+				|| itemTypeHairetu[temp2] == soubiOffset + 2 // kabutoType
+				)
+				*/
+			{
 
 				int locType;
 
@@ -1521,12 +1558,14 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 				}
 				*/
 
+				// 装備品の名前表示セット. まだ個数は表示してない
 				lstrcpy(mojibuf, (soubihin[itemHairetu[temp2]].Stype[locType]).def_name);
 
 			}
 
 			DrawFormatString(xcommon, ycommon, GetColor(255, 255, 255), mojibuf);
 
+			// 個数セットのモジュール
 			// 個数欄の背景クリア用
 			lstrcpy(mojibuf, TEXT("   "));
 			DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf);
@@ -1538,9 +1577,15 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 			}
 
 			int locType = itemTypeHairetu[temp2];
-			if (itemTypeHairetu[temp2] == wepoType || itemTypeHairetu[temp2] == tateType
-				|| itemTypeHairetu[temp2] == kabutoType
-				) {
+			
+			//if (itemTypeHairetu[temp2] == wepoType || itemTypeHairetu[temp2] == tateType
+			//	|| itemTypeHairetu[temp2] == kabutoType
+			//	)
+							
+			if (itemTypeHairetu[temp2] >= soubiOffset // wepoType				
+				&& itemTypeHairetu[temp2] <= soubiOffset + defSoubiType // kabutoType				
+				)	
+			{
 				// 装備品の個数表示. 表示は後処理のDrawFormat で一括
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), (soubiSyoji[itemHairetu[temp2]].Stype[locType]).have_kosuu);
 			}
