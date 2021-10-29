@@ -2178,7 +2178,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 
-		DrawGraph(mapChipWidthX * monPosiX, mapChipWidthY * monPosiY, monchipDownHandle, false);
+		// toubouTyokugo == 0
+		//if (enemy_alive[(encount_monters_id)-1] = 1 ) {
+			
+		// 逃亡用の復活烏猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
+		if (toubouTyokugo == 0) {
+			// モンスター画像
+			DrawGraph(mapChipWidthX * monPosiX, mapChipWidthY * monPosiY, monchipDownHandle, false);
+
+		}
 
 
 
@@ -2187,9 +2195,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int charaChipWidthX = 30; // 直後ifの外でも使うのでブロック外で定義。
 			int charaChipWidthY = 30;
 
-			if (xPosi == monPosiX && yPosi == monPosiY) {
+			if (enemy_alive[(encount_monters_id)-1] = 0 && xPosi == monPosiX && yPosi == monPosiY) {
 
-				// モンスター画像 クリーン用
+				// モンスター画像 討伐後のクリーン用
 				DrawGraph(charaChipWidthX * monPosiX, charaChipWidthY * monPosiY, blackchipHandle, false);
 
 			}
