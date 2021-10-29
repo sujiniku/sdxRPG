@@ -2400,22 +2400,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
-			if (mode_scene == MODE_BATTLE_COMMAND) {
-				int tem1X = 100; int Xwidth = 100;
-				int tem1Y = 240;
-
-				int yohakuY = 10;
-				window1Draw(tem1X - yohakuY, tem1Y - yohakuY,
-					tem1X + Xwidth + yohakuY, tem1Y + 40 + 40 + yohakuY);
-
-				// カーソル
-				tenmetu(tem1X, tem1Y + (selecting_mainmenu - 1) * 40,
-					tem1X + Xwidth, tem1Y + 10 + (selecting_mainmenu - 1) * 40 + 30);
-
-				DrawFormatString(tem1X + 20, tem1Y + 10, GetColor(255, 255, 255), "戦う"); // 文字を描画する
-				DrawFormatString(tem1X + 20, tem1Y + 10 + 40, GetColor(255, 255, 255), "逃げる"); // 文字を描画する
-			}
-
 
 
 
@@ -2641,6 +2625,57 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			} // ここまでデバッグ文
 
 
+
+			if (mode_scene == MODE_BATTLE_COMMAND) {
+				int tem1X = 100; int Xwidth = 100;
+				int tem1Y = 240;
+
+				int yohakuY = 10;
+				window1Draw(tem1X - yohakuY, tem1Y - yohakuY,
+					tem1X + Xwidth + yohakuY, tem1Y + 40 + 40 + yohakuY);
+
+				// カーソル
+				tenmetu(tem1X, tem1Y + (selecting_mainmenu - 1) * 40,
+					tem1X + Xwidth, tem1Y + 10 + (selecting_mainmenu - 1) * 40 + 30);
+
+
+				int ComdTemp[5]; // のちのターン開始if文で流用するので配列定義
+
+				for (int temp =0 ; temp <= 1; temp = temp + 1) {
+				
+					ComdTemp[temp] = temp;
+
+					if (ComdTemp[temp] == 0) { _stprintf_s(mojibuf, MAX_LENGTH, TEXT("戦う")); }
+					if (ComdTemp[temp] == 1) { _stprintf_s(mojibuf, MAX_LENGTH, TEXT("逃げる")); }
+
+					DrawFormatString(tem1X + 20, tem1Y + 10 + 40 * ComdTemp[temp], GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				}
+																				   
+				 // ターン開始 of 戦うコマンド
+				if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == ComdTemp[0] + 1 && keyHaijyo == 0
+					// && mode_scene == MODE_BATTLE_COMMAND // これが無いと連打でターン再開してしまう // 上記コマンド一覧と統合のため除去
+					) { 
+
+					// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
+					TimeKasolCount = 0;
+
+					keyHaijyo = 1;
+					battlewait = 100;
+
+					dameKei = 0;
+
+					damage_EnemyAttack = 0;
+					damage_HeroAttack = 0;
+
+					mode_scene = MODE_BATTLE_NOW;
+
+				} // ターン開始 of 戦うコマンド
+			} //  MODE_BATTLE_COMMAND
+
+
+
 			if (mode_scene == MODE_BATTLE_NOW) {
 
 				int battleMassBaseX = 150; int battleMassBaseY = 410 - 180; // 410 は「windowTempA」
@@ -2759,30 +2794,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 			} //if (keyHaijyo == 0)
 
-
-			// ターン開始
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 1 && keyHaijyo == 0 	
-
-				// && mode_scene != MODE_BATTLE_NOW       // これが無いと連打でターン再開してしまう
-				// && mode_scene != MODE_BATTLE_WIN 
-				&& mode_scene == MODE_BATTLE_COMMAND
-				) { // これが無いと連打でターン再開してしまう
-
-				// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
-
-				TimeKasolCount = 0;
-
-				keyHaijyo = 1;
-				battlewait = 100;
-
-				dameKei = 0;
-
-				damage_EnemyAttack = 0;
-				damage_HeroAttack = 0;
-
-				mode_scene = MODE_BATTLE_NOW;		
-
-			}
 
 			battlewait = battlewait - 1;
 
