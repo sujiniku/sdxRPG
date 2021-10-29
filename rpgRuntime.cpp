@@ -2417,6 +2417,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
+
+
 			// 敵関係のパラメ－タ表示
 			int monX = 450;
 			int monY = 150;
@@ -2759,9 +2761,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			// ターン開始
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 1 && keyHaijyo == 0 				
-				&& mode_scene != MODE_BATTLE_NOW       // これが無いと連打でターン再開してしまう
-				&& mode_scene != MODE_BATTLE_WIN ) { // これが無いと連打でターン再開してしまう
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 1 && keyHaijyo == 0 	
+
+				// && mode_scene != MODE_BATTLE_NOW       // これが無いと連打でターン再開してしまう
+				// && mode_scene != MODE_BATTLE_WIN 
+				&& mode_scene == MODE_BATTLE_COMMAND
+				) { // これが無いと連打でターン再開してしまう
 
 				// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 
