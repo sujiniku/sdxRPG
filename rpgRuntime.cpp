@@ -2179,10 +2179,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		// toubouTyokugo == 0
-		//if (enemy_alive[(encount_monters_id)-1] = 1 ) {
+		if (enemy_alive[(encount_monters_id)-1] == 1 ) {
 			
 		// 逃亡用の復活烏猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
-		if (toubouTyokugo == 0) {
+		// if (toubouTyokugo == 0) {
 			// モンスター画像
 			DrawGraph(mapChipWidthX * monPosiX, mapChipWidthY * monPosiY, monchipDownHandle, false);
 
@@ -2195,9 +2195,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int charaChipWidthX = 30; // 直後ifの外でも使うのでブロック外で定義。
 			int charaChipWidthY = 30;
 
-			if (enemy_alive[(encount_monters_id)-1] = 0 && xPosi == monPosiX && yPosi == monPosiY) {
+			if (toubouTyokugo > 0 && enemy_alive[(encount_monters_id)-1] == 1 && xPosi == monPosiX && yPosi == monPosiY) {
 
-				// モンスター画像 討伐後のクリーン用
+				// 逃亡時に重なってもモンスター表示しないようにする処理
 				DrawGraph(charaChipWidthX * monPosiX, charaChipWidthY * monPosiY, blackchipHandle, false);
 
 			}
@@ -2396,6 +2396,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (toubouTyokugo <= 0) {
 					toubouSeikou = 0;
 					toubouTyokugo = 0;
+
+					enemy_alive[(encount_monters_id)-1] = 1; // 敵が倒されてた場合は復活するように
 				}
 
 				// モンスター遭遇のエンカウント判定
@@ -2962,9 +2964,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			} // battlewait が0の状態
 
 
-
-
-
+			// 逃げる
 			if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 2 && keyHaijyo == 0) {
 
 				keyHaijyo = 1;
