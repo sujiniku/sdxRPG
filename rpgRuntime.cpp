@@ -620,7 +620,7 @@ enum next_attack_flag { next_is_hero, next_is_enemy };
 enum next_attack_flag next_attack_var = next_is_hero;
 
 
-static int encount_monters_id = 2;
+static int encount_monsters_id = 2;
 
 
 struct monsterTairetu_def
@@ -1028,10 +1028,10 @@ void battle_start() {
 	// 以下、定型文
 	key_remain = 0;
 
-	monster_hp = monster_def_list[encount_monters_id - 1].mon_hp_max;
+	monster_hp = monster_def_list[encount_monsters_id - 1].mon_hp_max;
 
-	_stprintf_s(monster_name, MAX_LENGTH, TEXT("%s"), monster_def_list[encount_monters_id - 1].monster_name);
-	tekiTairetuAgility[0] = monster_def_list[encount_monters_id - 1].mon_agility;
+	_stprintf_s(monster_name, MAX_LENGTH, TEXT("%s"), monster_def_list[encount_monsters_id - 1].monster_name);
+	tekiTairetuAgility[0] = monster_def_list[encount_monsters_id - 1].mon_agility;
 
 	encount_mons_alive = 1;
 	selecting_battle_mainmenu = 1;
@@ -1051,7 +1051,7 @@ void check_encount_enemy(HWND hWnd) {
 			if (enemy_alive[i] == 1) {
 				if (chara_x == positionX_enemy[i] && chara_y == positionY_enemy[i]) {
 
-					encount_monters_id = i + 1;	// ここに、誰と遭遇したかを記述
+					encount_monsters_id = i + 1;	// ここに、誰と遭遇したかを記述
 
 					// スライム encount id が 1番
 					// コボルと id 2番
@@ -1246,7 +1246,7 @@ void heroside_attack() {
 		if (monster_hp < 1) {
 			monster_hp = 0;
 
-			enemy_alive[(encount_monters_id)-1] = 0; // フィールド上の敵の除去
+			enemy_alive[(encount_monsters_id)-1] = 0; // フィールド上の敵の除去
 
 			encount_mons_alive = 0; // 現在戦闘中の敵を死亡にフラグ設定
 
@@ -1267,7 +1267,7 @@ void enemy_attack() {
 
 	// ダメージ計算式
 	/* サイコロ */
-	damage_EnemyAttack = rand() % (6 / 2) + 10 + 2 * monster_def_list[encount_monters_id - 1].mon_attackPower
+	damage_EnemyAttack = rand() % (6 / 2) + 10 + 2 * monster_def_list[encount_monsters_id - 1].mon_attackPower
 		- heros_def_list[partyNarabijyun[0]].heros_para[syubiPara];
 
 
@@ -2179,9 +2179,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		// toubouTyokugo == 0
-		if (enemy_alive[(encount_monters_id)-1] == 1 ) {
+		if (enemy_alive[(encount_monsters_id)-1] == 1 ) {
 			
-		// 逃亡用の復活烏猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
+		// 逃亡用の復活 猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
 		// if (toubouTyokugo == 0) {
 			// モンスター画像
 			DrawGraph(mapChipWidthX * monPosiX, mapChipWidthY * monPosiY, monchipDownHandle, false);
@@ -2195,7 +2195,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int charaChipWidthX = 30; // 直後ifの外でも使うのでブロック外で定義。
 			int charaChipWidthY = 30;
 
-			if (toubouTyokugo > 0 && enemy_alive[(encount_monters_id)-1] == 1 && xPosi == monPosiX && yPosi == monPosiY) {
+			if (toubouTyokugo > 0 && enemy_alive[(encount_monsters_id)-1] == 1 && xPosi == monPosiX && yPosi == monPosiY) {
 
 				// 逃亡時に重なってもモンスター表示しないようにする処理
 				DrawGraph(charaChipWidthX * monPosiX, charaChipWidthY * monPosiY, blackchipHandle, false);
@@ -2397,7 +2397,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					toubouSeikou = 0;
 					toubouTyokugo = 0;
 
-					enemy_alive[(encount_monters_id)-1] = 1; // 敵が倒されてた場合は復活するように
+					enemy_alive[(encount_monsters_id)-1] = 1; // 敵が倒されてた場合は復活するように
 				}
 
 				// モンスター遭遇のエンカウント判定
@@ -2410,7 +2410,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						mode_scene = MODE_BATTLE_COMMAND;
 
 						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
-							GetColor(0, 0, 0), 1);
+							GetColor(1, 1, 1), 1);
 						DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
 
 						// モンスター画像 // デバッグ用
@@ -2419,7 +2419,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					if (!(xPosi == monPosiX && yPosi == monPosiY)) {
 						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
-							GetColor(0, 0, 0), 1);
+							GetColor(1, 1, 1), 1);
 						DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "テスト用メッセージ"); // 文字を描画する
 
 					}
@@ -2434,9 +2434,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				nyuuryokuMatiX = waitTime1;
 			}
 
-			window1Draw(100, 250, 100 + 150, 250 + 40 + 100);
-
-			DrawFormatString(100, 250, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
+			int infoX = 100; int infoY = 250;
+			window1Draw(infoX, infoY, infoX + 150, infoY + 40 + 100);
+			DrawFormatString(infoX, infoY, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
 		} // map モードの終わり
 
@@ -2445,7 +2445,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
 			DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
-				GetColor(0, 0, 0), 1);
+				GetColor(1, 1, 1), 1);
 			DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた"); // 文字を描画する
 
 			// モンスター画像 
@@ -2462,7 +2462,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int monX = 450;
 			int monY = 150;
 
-			tekiTairetuAgility[0] = monster_def_list[encount_monters_id - 1].mon_agility;
+			tekiTairetuAgility[0] = monster_def_list[encount_monsters_id - 1].mon_agility;
 
 
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("HP %d"), monster_hp);
@@ -2786,8 +2786,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 				if (PorEflag[globalTempA] == mikataPE) {
-					if (encount_mons_alive == 1 || encount_mons_alive == 0) {
-
+					{
 						// hero atack で　tekidame =1 にされてる
 						if (damepyon < 10 && tekidame == 1) {
 							damepyon = damepyon + 1;
@@ -2864,10 +2863,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				window1Draw(senkaX, senkaY, senkaX + 150, senkaY + 120 );
 
 				int offsetY2 = FontYoffset;
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Exp: %d"), monster_def_list[encount_monters_id - 1].mon_exp);
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Exp: %d"), monster_def_list[encount_monsters_id - 1].mon_exp);
 				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 1, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monters_id - 1].mon_gold);
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monsters_id - 1].mon_gold);
 				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -2883,14 +2882,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
 
 					// カネと経験値の更新
-					your_money = your_money + monster_def_list[encount_monters_id - 1].mon_gold;
+					your_money = your_money + monster_def_list[encount_monsters_id - 1].mon_gold;
 
 					for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
 
 						// 登録キャラが多い場合を想定して（歴史SLGなど）、全キャラは走査しない。							
 						// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
 
-						heros_def_list[partyNarabijyun[temp]].heros_exp = heros_def_list[partyNarabijyun[temp]].heros_exp + monster_def_list[encount_monters_id - 1].mon_exp;
+						heros_def_list[partyNarabijyun[temp]].heros_exp = heros_def_list[partyNarabijyun[temp]].heros_exp + monster_def_list[encount_monsters_id - 1].mon_exp;
 
 					}					
 					senkaFlag = 1;
@@ -3420,6 +3419,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
+			int itemTypeMax = 3;
 			// カーソルを←に移動
 			{
 
@@ -3436,8 +3436,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					selecting_mainmenu = 0;
 				}
 
-				if (selecting_mainmenu >= 3) {
-					selecting_mainmenu = 3;
+				if (selecting_mainmenu >= itemTypeMax) {
+					selecting_mainmenu = itemTypeMax;
 				}
 			}
 
@@ -3460,8 +3460,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					selecting_mainmenu = 1;
 				}
 
-				if (selecting_mainmenu >= 3) {
-					selecting_mainmenu = 3;
+				if (selecting_mainmenu >= itemTypeMax) {
+					selecting_mainmenu = itemTypeMax;
 				}
 
 			}
@@ -3496,184 +3496,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 
-		if (mode_scene == itemModeTarget) {
-
-			int itemWindX = 450;
-			int itemWindY = 50;
-
-
-			// デバッグ用
-			DrawFormatString(itemWindX, 250 + 150 - 20, GetColor(255, 255, 255), "kkkkkkk"); // 文字を描画する
-
-			// カウント処理
-			if (keyEnableZ == 2 && nyuuryokuMatiZ > 0) {
-				nyuuryokuMatiZ = nyuuryokuMatiZ - 1;
-				keyEnableZ = 3;
-				// デバッグ用
-				DrawFormatString(250, 250 + 150, GetColor(255, 255, 255), "aaa567"); // 文字を描画する
-			}
-
-
-			if (nyuuryokuMatiZ > 0) {
-				nyuuryokuMatiZ = nyuuryokuMatiZ - 1;
-
-			}
-
-			if (nyuuryokuMatiZ <= 0) {
-				nyuuryokuMatiZ = 0;
-
-			}
-
-			int HPX = 300; int HPY = 50;
-
-			window1Draw(HPX, HPY, HPX + 150, HPY + 340 + 50);
-
-
-			// カーソル
-			tenmetu(HPX, HPY + kasol3Target * 60, HPX + 130, HPY + 50 + kasol3Target * 60);
-
-			DrawFormatString(HPX + 20, HPY + 20 * 0, GetColor(255, 255, 255), "%s", heros_def_list[0].heros_name); // 文字を描画する			
-			DrawFormatString(HPX + 20, HPY + 20 * 1, GetColor(255, 255, 255), "HP %d/%d", heros_def_list[0].heros_hp, heros_def_list[0].heros_hp_max); // 文字を描画する
-
-			DrawFormatString(HPX + 20, HPY + 20 * 3, GetColor(255, 255, 255), "%s", heros_def_list[1].heros_name); // 文字を描画する
-			DrawFormatString(HPX + 20, HPY + 20 * (3 + 1), GetColor(255, 255, 255), "HP %d/%d", heros_def_list[1].heros_hp, heros_def_list[1].heros_hp_max); // 文字を描画する
-
-
-			if (nyuuryokuMatiX > 0) {
-				nyuuryokuMatiX = nyuuryokuMatiX - 1;
-
-			}
-
-			if (nyuuryokuMatiX <= 0) {
-				nyuuryokuMatiX = 0;
-				keyEnableX = 1;
-
-			}
-
-			// 十字キー入力時
-			// カーソルを上に移動
-			{
-				// 移動先予定地の入場可否の判定
-				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 0 && moving == 0) {
-
-					// 入場可能ならフラグ設定
-	
-					moving = 1;
-
-					keyEnableUp = 1;
-					waitKasol = 20;
-					
-				}
-
-				// カウント処理
-				if (keyEnableUp == 1 && waitKasol > 0) {
-					waitKasol = waitKasol - 1;
-				}
-
-				// 移動の終了処理
-				if (keyEnableUp == 1 && waitKasol <= 0) {
-					keyEnableUp = 0;
-					waitKasol = waitTime1;
-					kasol3Target--;      // 上へ1マスだけ移動
-					moving = 0;
-				}
-
-				if (kasol3Target < 0) {
-					kasol3Target = 0;
-				}
-
-				if (kasol3Target >= 3) {
-					kasol3Target = 3;
-				}
-			}
-
-
-			// カーソルを下に移動
-			{
-				// 移動先予定地の入場可否の判定
-				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 0 && moving == 0) {
-
-					// 入場可能ならフラグ設定
-	
-					moving = 1;
-
-					keyEnableDown = 1;
-					waitKasol = 20;
 		
-				}
-				// カウント処理
-				if (keyEnableDown == 1 && waitKasol > 0) {
-					waitKasol = waitKasol - 1;
-				}
-				// 移動の終了処理
-				if (keyEnableDown == 1 && waitKasol <= 0) {
-					keyEnableDown = 0;
-					waitKasol = 20;
-					kasol3Target++;   // 下へ1マスだけ移動
-					moving = 0;
-				}
-
-
-				if (kasol3Target < 0) {
-					kasol3Target = 0;
-				}
-
-				if (kasol3Target >= 3) {
-					kasol3Target = 3;
-				}
-			}
-
-
-			if (CheckHitKey(KEY_INPUT_X) == 1 && nyuuryokuMatiX <= 0) {
-				keyEnableReset();
-
-				// コピペ用にほかのイコールも残しとく
-				// mode_scene = itemModeMain; // mode_scene == MODE_ITEM_TYPE
-				mode_scene = MODE_ITEM_MENU; // mode_scene == MODE_ITEM_TYPE
-
-				nyuuryokuMatiX = waitTime1;
-			}
-
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyEnableZ == 1) {
-
-				// 実行処理とカウント終了処理
-
-				keyEnableReset();
-
-				int HPX = 300; int HPY = 50;
-
-				DrawFormatString(HPX + 20, HPY + 20 * 0, GetColor(255, 255, 255), "%s", heros_def_list[0].heros_name); // 文字を描画する			
-				DrawFormatString(HPX + 20, HPY + 20 * 1, GetColor(255, 255, 255), "HP %d/%d", heros_def_list[0].heros_hp, heros_def_list[0].heros_hp_max); // 文字を描画する
-
-				DrawFormatString(HPX + 20, HPY + 20 * 3, GetColor(255, 255, 255), "%s", heros_def_list[1].heros_name); // 文字を描画する
-				DrawFormatString(HPX + 20, HPY + 20 * (3 + 1), GetColor(255, 255, 255), "HP %d/%d", heros_def_list[1].heros_hp, heros_def_list[1].heros_hp_max); // 文字を描画する
-
-
-				if (item_have_list[kasol2Target + 1].have_kosuu > 0) {
-					item_have_list[kasol2Target + 1].have_kosuu = item_have_list[kasol2Target + 1].have_kosuu - 1;
-
-					if (kasol2Target == 0) {
-						healflag = 1;
-						healti = 5;
-						heros_def_list[kasol3Target].heros_hp = heros_def_list[kasol3Target].heros_hp + healti;
-
-					}
-
-					if (kasol2Target == 1) {
-						healflag = 1;
-						healti = 2;
-						heros_def_list[kasol3Target].heros_hp = heros_def_list[kasol3Target].heros_hp + healti;
-					}
-
-				}
-
-				if (item_have_list[kasol2Target + 1].have_kosuu <= 0) {
-					item_have_list[kasol2Target + 1].have_kosuu = 0;
-				}
-
-			}
-
-		}
 
 
 		if (mode_scene == MODE_ITEM_MENU || mode_scene == MODE_ITEMweapon_MENU) {
@@ -3763,7 +3586,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
-			// キャラを右に移動
+			// カーソルを右に移動
 			{
 				// 移動先予定地の入場可否の判定
 				if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyEnableRight == 1) {
@@ -3786,7 +3609,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			}
 
-			// 左に移動
+			// カーソルを左に移動
 			{
 				// 移動先予定地の入場可否の判定
 				if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyEnableLeft == 1) {
@@ -3845,26 +3668,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					//MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
 
+					
 					tempVal = partyNarabijyun[whomTargetID1];
-
 					if (heros_def_list[tempVal].heros_hp < heros_def_list[tempVal].heros_hp_max) {
-						if (item_have_list[whatuse].have_kosuu <= 0) {
-							mode_scene = MODE_ITEM_MENU;
+
+						if (item_have_list[whatuse].have_kosuu > 0) {
+							healti = 5; healflag = 1; waitheal = 120;
+							
+
+							healkioku = partyNarabijyun[whomTargetID1];
 
 						}
-
-						healti = 5; healflag = 1; waitheal = 120;
-						heros_def_list[tempVal].heros_hp = heros_def_list[tempVal].heros_hp + healti;
-
-
-						healkioku = partyNarabijyun[whomTargetID1];
-
-						if (heros_def_list[tempVal].heros_hp > heros_def_list[tempVal].heros_hp_max) {
-							heros_def_list[tempVal].heros_hp = heros_def_list[tempVal].heros_hp_max;
-						}
-
-						item_have_list[whatuse].have_kosuu = item_have_list[whatuse].have_kosuu - 1;
-
 					}
 				}
 
@@ -3875,24 +3689,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
 					if (heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp < heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp_max) {
 
-						if (item_have_list[whatuse].have_kosuu <= 0) {
-							mode_scene = MODE_ITEM_MENU;
+						if (item_have_list[whatuse].have_kosuu > 0) {
+							healti = 1; healflag = 1;
 
-							break;
+							healkioku = partyNarabijyun[whomTargetID1];
+
 						}
-
-						healti = 1; healflag = 1;
-
-						heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp + healti;
-
-						healkioku = partyNarabijyun[whomTargetID1];
-
-						if (heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp > heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp_max) {
-							heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[whomTargetID1].heros_hp_max;
-						}
-
-						item_have_list[whatuse].have_kosuu = item_have_list[whatuse].have_kosuu - 1;
-
 					}
 
 				}
@@ -3903,31 +3705,54 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					heros_def_list[partyNarabijyun[whomTargetID1]].heros_HP0_flag = 0;
 
-					heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp + 3;
-
+					
 					//MessageBox(NULL, TEXT("いまココaaaa"), TEXT("メッセージ"), MB_OK);
 
 
-					if (item_have_list[whatuse].have_kosuu <= 0) {
-						mode_scene = MODE_ITEM_MENU;
-	
-					}
+					if (item_have_list[whatuse].have_kosuu > 0) {
 
-					if (heros_def_list[whomTargetID1].heros_hp > heros_def_list[whomTargetID1].heros_hp_max) {
-						heros_def_list[whomTargetID1].heros_hp = heros_def_list[whomTargetID1].heros_hp_max;
+						healti = 3;
+						// ここで回復
+						
+					}
+				}
+
+
+				// 回復の共通処理
+				if (item_have_list[whatuse].have_kosuu > 0) {
+
+					tempVal = partyNarabijyun[whomTargetID1];
+					heros_def_list[tempVal].heros_hp = heros_def_list[tempVal].heros_hp + healti;
+
+				}
+			
+				// 共通処理 個数ゼロなのに決定ボタンを押したら、アイテム選択に戻る
+				if (item_have_list[whatuse].have_kosuu <= 0) {
+					mode_scene = MODE_ITEM_MENU;
+
+					//break; // これやると、なぜか強制終了なので、コメントアウト
+				}
+
+				// 共通処理 効果の超過分をカット
+				if (item_have_list[whatuse].have_kosuu > 0) {
+
+
+					if (heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp > heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp_max) {
+						heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[whomTargetID1].heros_hp_max;
 					}
 
 					item_have_list[whatuse].have_kosuu = item_have_list[whatuse].have_kosuu - 1;
-
 				}
 
+
+				// 共通処理 個数
 				if (item_have_list[whatuse].have_kosuu <= 0) {
 					item_have_list[whatuse].have_kosuu = 0;
 				}
 
 				nyuuryokuMatiX = waitTime1;
 				nyuuryokuMatiZ = waitTime1;
-			}
+			} // if (CheckHitKey(KEY_INPUT_Z) == 1
 
 
 			if (CheckHitKey(KEY_INPUT_X) == 1 && nyuuryokuMatiX <= 0) {
