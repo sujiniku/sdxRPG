@@ -14,11 +14,12 @@ int mikatadame = 0; // mikataのダメージ受けてる間だけオン
 
 int senkaFlag = 0;
 
-int wind1R = 50;
-int wind1G = 50;
-int wind1B = 150;
+// ウィンドウ色のデフォ値を定数化。カスタム機能をつける場合は別途に新たな変数を用意せよ。
+const int wind1R = 50;
+const int wind1G = 50;
+const int wind1B = 150;
 
-int window1color = GetColor(wind1R, wind1G, wind1B); // ウィンドウのほか、カーソルのベース色でも使う可能性があるので変数化。
+const int window1color = GetColor(wind1R, wind1G, wind1B); // ウィンドウのほか、カーソルのベース色でも使う可能性があるので変数化。
 void window1Draw(int X1, int Y1, int X2, int Y2) {
 	DrawBox(X1, Y1, X2, Y2,
 		window1color, 1);
@@ -27,7 +28,7 @@ void window1Draw(int X1, int Y1, int X2, int Y2) {
 
 }
 
-int darkwindow1color = GetColor(wind1R /2, wind1G /2, wind1B /2);
+const int darkwindow1color = GetColor(wind1R /2, wind1G /2, wind1B /2);
 void darkwindow1Draw(int X1, int Y1, int X2, int Y2) {
 	DrawBox(X1, Y1, X2, Y2,
 		darkwindow1color, 1);
@@ -38,11 +39,11 @@ void darkwindow1Draw(int X1, int Y1, int X2, int Y2) {
 
 int debugFlag = 0;
 
-int casolu1R = 250; // l と 1 の区別のため u 追加
-int casolu1G = 150;
-int casolu1B = 150;
+const int casolu1R = 250; // l と 1 の区別のため u 追加
+const int casolu1G = 150;
+const int casolu1B = 150;
 
-int KasolColor = GetColor(casolu1R, casolu1G, casolu1B);
+const int KasolColor = GetColor(casolu1R, casolu1G, casolu1B);
 void redCasol1(int X1, int Y1, int X2, int Y2) {
 	DrawBox(X1, Y1, X2, Y2,
 		KasolColor, 1);
@@ -66,7 +67,7 @@ void tenmetu(int X1, int Y1, int X2, int Y2) {
 	}
 
 
-	int whiteMax = 180;
+	const int whiteMax = 180;
 
 	DrawBox(X1, Y1, X2, Y2,
 
@@ -101,7 +102,7 @@ void tenmetuStop(int X1, int Y1, int X2, int Y2) {
 
 	redVal = spanBlink / 2;
 
-	int whiteMax = 180;
+	const int whiteMax = 180;
 
 	DrawBox(X1, Y1, X2, Y2,
 
@@ -255,7 +256,7 @@ enum mode {
 };
 enum mode mode_scene = MODE_MAP;
 
-
+// 残骸だけど、検証めんどいので残す
 enum mode2 {
 	MODE2_EQUIP_UnDef, // 未定義対応
 	MODE2_EQUIP_HAND1,
@@ -267,10 +268,10 @@ enum mode2 mode2_scene = MODE2_EQUIP_HAND1;
 
 int mode3_scene = 0 ;
 
-
-int yakusouKosuu = 5;
-int dokukesiKosuu = 3;
-int soesiKosuu = 4;
+//int itemkosuuyoki[10] = { 5,3,4 };
+//int yakusouKosuu = 5;
+//int dokukesiKosuu = 3;
+//int soesiKosuu = 4;
 
 
 int NaraSele1 = 0;
@@ -284,9 +285,10 @@ int pageSyori = 0;
 
 
 // アイテム種類番号
-int siyouType = 10; // 0～9番はシステム処理用に確保
+const int itemOffset = 10;// 0～9番はシステム処理用に確保
+int siyouType = itemOffset;  // =10
 
-int soubiOffset = 11; // wepoTypeと同番号だが、拡張性や可読性を考え、別変数を用意
+const int soubiOffset = 11; // wepoTypeと同番号だが、拡張性や可読性を考え、別変数を用意
 
 int wepoType = soubiOffset ; // 11
 int tateType = soubiOffset + 1; // 12;
@@ -317,7 +319,7 @@ int whatuse = 0;
 
 int beforeselect = 1; // なんらかの選択肢で直前に選んだ選択肢の番号。画面更新用に使う。
 
-int whatedit = 0; // 装備コマンドなど、編集をするいろいろな作業用
+int whatedit1 = 0; // 装備コマンドなど、編集をするいろいろな作業用
 int whatedit2 = 0; // ひとつの画面内に、前画面用カーソルを残す場合の処理変数
 
 
@@ -439,6 +441,7 @@ struct item_def
 {
 	int def_id;
 	TCHAR def_name[MAX_LENGTH];
+	int healti;
 	int power;
 	int item_type;
 };
@@ -1356,7 +1359,7 @@ static struct tykou2* AsoubuSyoji = &soubiSyoji[10];
 
 void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasolFlag) {
 
-	darkFlag = 1;
+	// darkFlag = 1;
 	darkFlag = 0;
 
 	window1Draw(10, 100, 600, 400);
@@ -1642,21 +1645,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		item_def_list[temp].item_type = siyouType;
 
 		if (temp == 0) {
-			//薬草の定義
+			// 空白の定義
 			lstrcpy(item_def_list[temp].def_name, TEXT("--------"));
+			item_def_list[temp].healti = 0;
 		}
 
 		if (temp == 1) {
 			//薬草の定義
 			lstrcpy(item_def_list[temp].def_name, TEXT("薬草"));
+			item_def_list[temp].healti = 5;
 		}
 
 		if (temp == 2) {
 			lstrcpy(item_def_list[temp].def_name, TEXT("毒消し草"));
+			item_def_list[temp].healti = 1;
 		}
 
 		if (temp == 3) {
-			lstrcpy(item_def_list[temp].def_name, TEXT("不死鳥の尾")); // 漢字の理由は字数の節約			
+			lstrcpy(item_def_list[temp].def_name, TEXT("不死鳥の尾")); // 漢字の理由は字数の節約
+			item_def_list[temp].healti = 2;
 		}
 	}
 
@@ -1956,7 +1963,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (temp == 0) {
 			lstrcpy(heros_def_list[temp].heros_name, TEXT("エロス"));
 			heros_def_list[temp].heros_hp = 132; // 20;
-			heros_def_list[temp].heros_hp_max = 185;
+			heros_def_list[temp].heros_hp_max = 140;
 			heros_def_list[temp].heros_agility = 56;
 
 			heros_def_list[temp].heros_exp = 0;
@@ -3665,56 +3672,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// 薬草の効果
 				if (whatuse == 1) {
-
-					//MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
-
-					
-					tempVal = partyNarabijyun[whomTargetID1];
-					if (heros_def_list[tempVal].heros_hp < heros_def_list[tempVal].heros_hp_max) {
-
-						if (item_have_list[whatuse].have_kosuu > 0) {
-							healti = 5; healflag = 1; waitheal = 120;
-							
-
-							healkioku = partyNarabijyun[whomTargetID1];
-
-						}
-					}
+					//MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);		
 				}
 
 
 				// 毒消しの効果
 				if (whatuse == 2) {
 
-					// MessageBox(NULL, TEXT("いまココ1"), TEXT("メッセージ"), MB_OK);
-					if (heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp < heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp_max) {
-
-						if (item_have_list[whatuse].have_kosuu > 0) {
-							healti = 1; healflag = 1;
-
-							healkioku = partyNarabijyun[whomTargetID1];
-
-						}
-					}
-
 				}
 
 
 				// 不死鳥の尾の効果
 				if (whatuse == 3) {
-
 					heros_def_list[partyNarabijyun[whomTargetID1]].heros_HP0_flag = 0;
 
-					
-					//MessageBox(NULL, TEXT("いまココaaaa"), TEXT("メッセージ"), MB_OK);
-
-
-					if (item_have_list[whatuse].have_kosuu > 0) {
-
-						healti = 3;
-						// ここで回復
-						
-					}
 				}
 
 
@@ -3722,6 +3693,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (item_have_list[whatuse].have_kosuu > 0) {
 
 					tempVal = partyNarabijyun[whomTargetID1];
+
+					if (heros_def_list[tempVal].heros_hp < heros_def_list[tempVal].heros_hp_max) {
+						item_have_list[whatuse].have_kosuu = item_have_list[whatuse].have_kosuu - 1;
+
+
+
+						healflag = 1; waitheal = 120;
+
+
+						healkioku = partyNarabijyun[whomTargetID1];
+					}
+
+					healti = item_def_list[whatuse].healti;
 					heros_def_list[tempVal].heros_hp = heros_def_list[tempVal].heros_hp + healti;
 
 				}
@@ -3741,7 +3725,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[whomTargetID1].heros_hp_max;
 					}
 
-					item_have_list[whatuse].have_kosuu = item_have_list[whatuse].have_kosuu - 1;
+					
 				}
 
 
@@ -3983,8 +3967,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// MessageBox(NULL, TEXT("aaaaココ1"), TEXT("メッセージ"), MB_OK);
 
 
-			int StatsHPbaseX = 130;
-			int StatsHPbaseY = 130;
+			const int StatsHPbaseX = 130;
+			const int StatsHPbaseY = 130;
 			int offsetY = 120;
 
 
@@ -3993,12 +3977,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			// カーソル
 			if (mode_scene == MODE_EQUIP_EDIT) {
-				tenmetu(90, (110 + 20) + 20 * (whatedit), 300 - 10,
-					(110 + 20) + 20 * (1 + whatedit));
+				tenmetu(90, (110 + 20) + 20 * (whatedit1), 300 - 10,
+					(110 + 20) + 20 * (1 + whatedit1));
 			}
 			if (mode_scene == MODE_EQUIP_EDIT2) {
-				tenmetuStop(90, (110 + 20) + 20 * (whatedit), 300 - 10,
-					(110 + 20) + 20 * (1 + whatedit));
+				tenmetuStop(90, (110 + 20) + 20 * (whatedit1), 300 - 10,
+					(110 + 20) + 20 * (1 + whatedit1));
 			}
 
 
@@ -4095,17 +4079,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (mode_scene == MODE_EQUIP_EDIT) {
 				int locType;
 
-				locType = soubiOffset + whatedit;
+				locType = soubiOffset + whatedit1;
 				/*
 				// 下記は上記のリファクタ
 
-				if (whatedit == 0) {
+				if (whatedit1 == 0) {
 					locType = wepoType;
 				}
-				if (whatedit == 1) {
+				if (whatedit1 == 1) {
 					locType = tateType;
 				}
-				if (whatedit == 2) {
+				if (whatedit1 == 2) {
 					locType = kabutoType;
 				}
 				*/
@@ -4185,7 +4169,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						mode3_scene = 0;
 
 
-						mode3_scene = whatedit + 11; // 装備品データベースは11番から
+						mode3_scene = whatedit1 + 11; // 装備品データベースは11番から
 						whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[mode3_scene];
 					}
 
@@ -4202,13 +4186,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						// MessageBox(NULL, TEXT("上が押されました。"),
 					// TEXT("キーテスト"), MB_OK);
-						whatedit = whatedit - 1;
+						whatedit1 = whatedit1 - 1;
 
-						if (whatedit >= 5) {
-							whatedit = 5;
+						if (whatedit1 >= 5) {
+							whatedit1 = 5;
 						}
-						else if (whatedit < 01) {
-							whatedit = 0;
+						else if (whatedit1 < 01) {
+							whatedit1 = 0;
 						}
 
 						keyEnableReset();
@@ -4219,13 +4203,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						// MessageBox(NULL, TEXT("↓が押されました。"),
 						// TEXT("キーテスト"), MB_OK);
-						whatedit = whatedit + 1;
+						whatedit1 = whatedit1 + 1;
 
-						if (whatedit >= 5) {
-							whatedit = 5;
+						if (whatedit1 >= 5) {
+							whatedit1 = 5;
 						}
-						else if (whatedit < 0) {
-							whatedit = 0;
+						else if (whatedit1 < 0) {
+							whatedit1 = 0;
 						}
 
 						keyEnableReset();
