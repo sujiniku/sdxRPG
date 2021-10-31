@@ -1962,7 +1962,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (temp == 0) {
 			lstrcpy(heros_def_list[temp].heros_name, TEXT("エロス"));
-			heros_def_list[temp].heros_hp = 132; // 20;
+			heros_def_list[temp].heros_hp = 132; // 132   20;
 			heros_def_list[temp].heros_hp_max = 140;
 			heros_def_list[temp].heros_agility = 56;
 
@@ -1988,7 +1988,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (temp == 1) {
 			lstrcpy(heros_def_list[temp].heros_name, TEXT("ピエ－ル"));
-			heros_def_list[temp].heros_hp = 108; //  18;
+			heros_def_list[temp].heros_hp = 108; //108  18;
 			heros_def_list[temp].heros_hp_max = 150;
 			heros_def_list[temp].heros_agility = 100;
 
@@ -2799,8 +2799,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							damepyon = damepyon + 1;
 						}
 
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d ダメージ"), damage_HeroAttack);
-						DrawFormatString(monX + 10, monY - 30 - 5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+						if (heros_def_list[partyNarabijyun[actionOrder[globalTempA]]].heros_HP0_flag == 0) {
+							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d ダメージ"), damage_HeroAttack);
+							DrawFormatString(monX + 10, monY - 30 - 5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+						}
 
 					}
 				}
