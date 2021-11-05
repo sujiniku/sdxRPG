@@ -2425,7 +2425,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						destMovable = 0;
 					}
 					if (toubouTyokugo[temp-1] <= 0) {
-						//toubouSeikou = 0;
+						// toubouSeikou = 0; // これないと再戦時に逃亡成功メッセージが出てしまう // これだとマップ中に一匹でも戦闘可能モンスターがいると0セットになる
 						toubouTyokugo[temp-1] = 0;
 
 						enemy_alive[temp -1] = 1; // 敵が倒されてた場合は復活するように
@@ -3050,14 +3050,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 			if (toubouSeikou == 1) {
-				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "逃げるのに2成功"); // 画面に表示されるのは、こっち
+				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "逃げるのに成功"); // 画面に表示されるのは、こっち
 
 			}
 
 			if (toubouSeikou == 1 && TimeKasolCount == 60) {
 				keyHaijyo = 0;
 				mode_scene = MODE_MAP;
-				toubouSeikou = 0; // これないと再戦時に逃亡成功メッセージが出てしまう
+				toubouSeikou = 0; // これないと再戦時に逃亡成功メッセージが出てしまう // 復活時に0セットすると、歩行のたびにセットになるので、こっちでセット
 			}
 		}
 
