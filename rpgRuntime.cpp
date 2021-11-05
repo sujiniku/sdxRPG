@@ -2225,7 +2225,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (toubouTyokugo[(encount_monsters_id)-1] > 0 && enemy_alive[(encount_monsters_id)-1] == 1 && xPosi == monPosiX[1-1] && yPosi == monPosiY[1-1]) {
 
 				// 逃亡時に重なってもモンスター表示しないようにする処理
-				DrawGraph(charaChipWidthX * monPosiX[(encount_monsters_id)-1], charaChipWidthY * monPosiY[(encount_monsters_id)-1], blackchipHandle, false);
+				// DrawGraph(charaChipWidthX * monPosiX[(encount_monsters_id)-1], charaChipWidthY * monPosiY[(encount_monsters_id)-1], blackchipHandle, false);
 
 			}
 
@@ -2415,6 +2415,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}// 上に移動
 				}// 移動
 
+				// 敵復活カウンター
 				// 逃亡処理のフラグ設定っぽい
 				// たぶん、歩くたびに逃亡処理判定用のカウンターが+1する
 
@@ -2424,7 +2425,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						destMovable = 0;
 					}
 					if (toubouTyokugo[temp-1] <= 0) {
-						toubouSeikou = 0;
+						//toubouSeikou = 0;
 						toubouTyokugo[temp-1] = 0;
 
 						enemy_alive[temp -1] = 1; // 敵が倒されてた場合は復活するように
@@ -2441,14 +2442,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							// モンスター画像 // デバッグ用
 							if (temp == 1) {
-								mapEneNum = temp;
+								mapEneNum = temp; //  2;// enemy_alive などで使う
 								DrawGraph(300, 95, koboHandle, true);
 								encount_monsters_id = 2;
 
 							}
 
 							if (temp == 2) {
-								mapEneNum = temp;
+								mapEneNum = temp; // 1;//  enemy_alive などで使う
 
 								DrawGraph(300, 95, slimeHandle, true);
 								encount_monsters_id = 1;
@@ -2513,11 +2514,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 					
-
 			}
-
-
-
 
 
 			// 敵関係のパラメ－タ表示
@@ -2981,10 +2978,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			} // battlewait が0の状態
 
 
-
-
-
-
 			if (mode_scene == MODE_BATTLE_WIN) {
 
 				// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
@@ -3008,7 +3001,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				keyHaijyo = 1; // 戦闘コマンドが実行されないよう、まだ排除中
 
-				toubouTyokugo[mapEneNum - 1] = 5; // 敵の復活まで残り5カウント
+				toubouTyokugo[mapEneNum - 1] = 10; // 敵の復活まで残り10カウント
 				enemy_alive[mapEneNum - 1] = 0; // 0 だと敵の死亡中の意味
 
 
@@ -3044,31 +3037,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-
-
-
 			// 逃げる
 			if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 2 && keyHaijyo == 0) {
 
 				keyHaijyo = 1;
 
 				TimeKasolCount = 0;
-				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "逃げるのに成功"); // 文字を描画する
+				// DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "逃げるのに1成功");  // これは次メッセージで上書きされて消える
 				toubouSeikou = 1;
-				toubouTyokugo[mapEneNum - 1] = 5;
+				toubouTyokugo[mapEneNum - 1] = 5;// 敵の復活まで残り5カウント
 
 			}
 
 			if (toubouSeikou == 1) {
-				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "逃げるのに成功"); // 文字を描画する
+				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "逃げるのに2成功"); // 画面に表示されるのは、こっち
 
 			}
 
 			if (toubouSeikou == 1 && TimeKasolCount == 60) {
 				keyHaijyo = 0;
 				mode_scene = MODE_MAP;
-
+				toubouSeikou = 0; // これないと再戦時に逃亡成功メッセージが出てしまう
 			}
 		}
 
