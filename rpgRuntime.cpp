@@ -7,6 +7,9 @@
 
 #include <math.h>  // 切り上げ計算で使用
 
+int mapEneNum = 1;
+
+
 int waitheal = 0; // 回復の表示中の長さ
 int damepyon = 0; // 戦闘中にダメージをピョンと動かすアレ
 int tekidame = 0; // 敵のダメージ受けてる間だけオン
@@ -148,9 +151,9 @@ int battlewait = 30;
 //int battleTraFlag = 0;
 int keyHaijyo = 0;
 
-
-int monPosiX = 4; int monPosiY = 3; // マップ上でモンスターのいる座標
-
+int monPosiX[5] = { 4,6 }; int monPosiY[5] = { 3,2 };
+int monPosiX1 = 4; int monPosiY1 = 3; // マップ上でモンスターのいる座標
+int monPosiX2 = 6; int monPosiY2 = 2;
 
 int map1table[10][10] = {
 	{ 1,1,1,1,1,1,1,1,1,1 }, //0 y
@@ -174,7 +177,8 @@ int hero2HPnow = 14;
 int hero2HPmax = 30;
 
 
-int toubouTyokugo = 0;
+int toubouTyokugo1 = 0;
+int toubouTyokugo[5] = { 0,0,0 };
 
 
 int xPosi = 2;
@@ -1624,6 +1628,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	int koboHandle = LoadGraph("GameData\\monster_graphic\\kobo.png");
+	int slimeHandle = LoadGraph("GameData\\monster_graphic\\slime.png");
+
 	int monchipDownHandle = LoadGraph("GameData\\charachip\\enemy_dot.bmp");
 	int blackchipHandle = LoadGraph("GameData\\charachip\\blackchip.bmp");
 
@@ -2185,16 +2191,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 
-		// toubouTyokugo == 0
-		if (enemy_alive[(encount_monsters_id)-1] == 1 ) {
-			
-		// 逃亡用の復活 猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
-		// if (toubouTyokugo == 0) {
-			// モンスター画像
-			DrawGraph(mapChipWidthX * monPosiX, mapChipWidthY * monPosiY, monchipDownHandle, false);
+		// マップ側のモンスターのドット
+		for (int temp = 1; temp <= 2; temp = temp + 1) {
+			if (enemy_alive[mapEneNum] == 1) {
 
+				// 逃亡用の復活 猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
+				if (toubouTyokugo[temp - 1] == 0) {
+					// モンスター画像
+					DrawGraph(mapChipWidthX * monPosiX[temp - 1], mapChipWidthY * monPosiY[temp - 1], monchipDownHandle, false);
+
+				}
+
+			}
 		}
-
 
 
 		// キャラチップ描画
@@ -2202,10 +2211,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int charaChipWidthX = 30; // 直後ifの外でも使うのでブロック外で定義。
 			int charaChipWidthY = 30;
 
-			if (toubouTyokugo > 0 && enemy_alive[(encount_monsters_id)-1] == 1 && xPosi == monPosiX && yPosi == monPosiY) {
+			if (toubouTyokugo[(encount_monsters_id)-1] > 0 && enemy_alive[(encount_monsters_id)-1] == 1 && xPosi == monPosiX[1-1] && yPosi == monPosiY[1-1]) {
 
 				// 逃亡時に重なってもモンスター表示しないようにする処理
-				DrawGraph(charaChipWidthX * monPosiX, charaChipWidthY * monPosiY, blackchipHandle, false);
+				DrawGraph(charaChipWidthX * monPosiX[(encount_monsters_id)-1], charaChipWidthY * monPosiY[(encount_monsters_id)-1], blackchipHandle, false);
 
 			}
 
@@ -2396,15 +2405,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}// 移動
 
 				// 逃亡処理のフラグ設定っぽい
-				if (destMovable == 1 && moving == 1 && toubouTyokugo > 0) {
-					toubouTyokugo = toubouTyokugo - 1;
-					destMovable = 0;
-				}
-				if (toubouTyokugo <= 0) {
-					toubouSeikou = 0;
-					toubouTyokugo = 0;
+				// たぶん、歩くたびに逃亡処理判定用のカウンターが+1する
 
-					enemy_alive[(encount_monsters_id)-1] = 1; // 敵が倒されてた場合は復活するように
+				for (int temp = 1; temp <= 2; temp = temp + 1) {
+					if (destMovable == 1 && moving == 1 && toubouTyokugo[temp-1] > 0) {
+						toubouTyokugo[temp-1] = toubouTyokugo[temp-1] - 1;
+						destMovable = 0;
+					}
+					if (toubouTyokugo[temp-1] <= 0) {
+						toubouSeikou = 0;
+						toubouTyokugo[temp-1] = 0;
+
+						enemy_alive[temp -1] = 1; // 敵が倒されてた場合は復活するように
+					}
 				}
 
 				// モンスター遭遇のエンカウント判定
@@ -2412,24 +2425,47 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
 
 
-					if (xPosi == monPosiX && yPosi == monPosiY && toubouTyokugo == 0) {
-						battle_start();
-						mode_scene = MODE_BATTLE_COMMAND;
+					for (int temp = 1; temp <= 2; temp = temp + 1) {
+						if (xPosi == monPosiX[temp - 1] && yPosi == monPosiY[temp - 1] && toubouTyokugo[temp -1 ] == 0) {
 
+							// モンスター画像 // デバッグ用
+							if (temp == 1) {
+								mapEneNum = temp;
+								DrawGraph(300, 95, koboHandle, true);
+								encount_monsters_id = 2;
+
+							}
+
+							if (temp == 2) {
+								mapEneNum = temp;
+
+								DrawGraph(300, 95, slimeHandle, true);
+								encount_monsters_id = 1;
+							}
+
+
+							battle_start();
+							// mode_scene = MODE_BATTLE_COMMAND;
+
+							DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
+								GetColor(1, 1, 1), 1);
+							DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
+
+
+
+
+						}
+					}
+					if (!(xPosi == monPosiX[1-1] && yPosi == monPosiY[1-1])) {
 						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
 							GetColor(1, 1, 1), 1);
-						DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
-
-						// モンスター画像 // デバッグ用
-						DrawGraph(300, 95, koboHandle, true);
-					}
-
-					if (!(xPosi == monPosiX && yPosi == monPosiY)) {
-						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
-							GetColor(1, 1, 1), 1);
-						DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "テスト用メッセージ"); // 文字を描画する
+						// DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "テスト用メッセージ"); // 文字を描画する
 
 					}
+
+
+
+
 
 				} // モンスター遭遇処理
 			}
@@ -2458,7 +2494,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// モンスター画像 
 			if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_NOW) {
 
-				DrawGraph(300, 95, koboHandle, true);
+				if (encount_monsters_id == 2) {
+					DrawGraph(300, 95, koboHandle, true);
+				}
+				if (encount_monsters_id ==1) {
+					DrawGraph(300, 95, slimeHandle, true);
+
+				}
+					
+
 			}
 
 
@@ -2879,10 +2923,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monsters_id - 1].mon_gold);
 				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
+				// debug you
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mons id: %d"), encount_monsters_id );
+				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
 
 				keyHaijyo = 1; // 戦闘コマンドが実行されないよう、まだ排除中
 
-				toubouTyokugo = 5;
+				toubouTyokugo[mapEneNum - 1] = 5;
 
 
 				if (battlewait <= 0 && senkaFlag == 0) {
@@ -2981,7 +3029,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				TimeKasolCount = 0;
 				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "逃げるのに成功"); // 文字を描画する
 				toubouSeikou = 1;
-				toubouTyokugo = 5;
+				toubouTyokugo[mapEneNum - 1] = 5;
 
 			}
 
