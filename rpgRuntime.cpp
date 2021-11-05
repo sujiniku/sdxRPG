@@ -2193,7 +2193,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// マップ側のモンスターのドット
 		for (int temp = 1; temp <= 2; temp = temp + 1) {
-			if (enemy_alive[mapEneNum] == 1) {
+			//if (enemy_alive[mapEneNum] == 1) {
 
 				// 逃亡用の復活 猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
 				if (toubouTyokugo[temp - 1] == 0) {
@@ -2202,7 +2202,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 
-			}
+			//}
 		}
 
 
@@ -2909,61 +2909,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			
 
 
-			if (mode_scene == MODE_BATTLE_WIN) {
-			
-				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "倒した"); // 文字を描画する
-
-				int senkaX = 250; int senkaY = 150;
-				window1Draw(senkaX, senkaY, senkaX + 150, senkaY + 120 );
-
-				int offsetY2 = FontYoffset;
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Exp: %d"), monster_def_list[encount_monsters_id - 1].mon_exp);
-				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 1, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monsters_id - 1].mon_gold);
-				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-				// debug you
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mons id: %d"), encount_monsters_id );
-				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-				keyHaijyo = 1; // 戦闘コマンドが実行されないよう、まだ排除中
-
-				toubouTyokugo[mapEneNum - 1] = 5;
-
-
-				if (battlewait <= 0 && senkaFlag == 0) {
-
-					globalTempA = 0; // ターン終了処理
-
-					// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
-
-					// カネと経験値の更新
-					your_money = your_money + monster_def_list[encount_monsters_id - 1].mon_gold;
-
-					for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
-
-						// 登録キャラが多い場合を想定して（歴史SLGなど）、全キャラは走査しない。							
-						// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
-
-						heros_def_list[partyNarabijyun[temp]].heros_exp = heros_def_list[partyNarabijyun[temp]].heros_exp + monster_def_list[encount_monsters_id - 1].mon_exp;
-
-					}					
-					senkaFlag = 1;
-				}
-
-
-				if (CheckHitKey(KEY_INPUT_Z) == 1 && senkaFlag == 1) {
-					globalTempA = 0; // ターン終了
-
-					keyEnableReset();
-					keyHaijyo = 0;
-					mode_scene = MODE_MAP;// テスト用に倒した扱いなので
-				}
-			} // win
-
-
 			if (mode_scene == MODE_BATTLE_NOW && dameKei == 0) {
 
 				if (PorEflag[globalTempA] == 1	) {
@@ -2989,8 +2934,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				dameKei = 0;
 
 				if (monster_hp <= 0) {			
+					// MessageBox(NULL, TEXT("敵倒した3。"), TEXT("場所テスト"), MB_OK);
+					
 					mode_scene = MODE_BATTLE_WIN;
 					battlewait = 60.0 * 2.0;
+
+					// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
 				}
 				if (monster_hp > 0) {
 
@@ -3019,6 +2968,72 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 				keyHaijyo = 0;
 			} // battlewait が0の状態
+
+
+
+
+
+
+			if (mode_scene == MODE_BATTLE_WIN) {
+
+				// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
+
+				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "倒した"); // 文字を描画する
+
+				int senkaX = 250; int senkaY = 150;
+				window1Draw(senkaX, senkaY, senkaX + 150, senkaY + 120);
+
+				int offsetY2 = FontYoffset;
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Exp: %d"), monster_def_list[encount_monsters_id - 1].mon_exp);
+				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 1, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Gold: %d"), monster_def_list[encount_monsters_id - 1].mon_gold);
+				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				// debug you
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("mons id: %d"), encount_monsters_id);
+				DrawFormatString(senkaX + 10, senkaY + offsetY2 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				keyHaijyo = 1; // 戦闘コマンドが実行されないよう、まだ排除中
+
+				toubouTyokugo[mapEneNum - 1] = 5;
+
+
+				if (battlewait <= 0 && senkaFlag == 0) {
+
+					globalTempA = 0; // ターン終了処理
+
+					// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
+
+					// カネと経験値の更新
+					your_money = your_money + monster_def_list[encount_monsters_id - 1].mon_gold;
+
+					for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
+
+						// 登録キャラが多い場合を想定して（歴史SLGなど）、全キャラは走査しない。							
+						// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
+
+						heros_def_list[partyNarabijyun[temp]].heros_exp = heros_def_list[partyNarabijyun[temp]].heros_exp + monster_def_list[encount_monsters_id - 1].mon_exp;
+
+					}
+					senkaFlag = 1;
+				}
+
+
+				if (CheckHitKey(KEY_INPUT_Z) == 1 && senkaFlag == 1) {
+					globalTempA = 0; // ターン終了
+
+					keyEnableReset();
+					keyHaijyo = 0;
+					mode_scene = MODE_MAP;// テスト用に倒した扱いなので
+				}
+			} // win
+
+
+
+
+
 
 
 			// 逃げる
