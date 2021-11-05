@@ -2202,6 +2202,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 
+				if (toubouTyokugo[temp - 1] > 0 && enemy_alive[temp -1] == 1) {
+					// モンスター画像
+
+					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+					DrawGraph(mapChipWidthX * monPosiX[temp - 1], mapChipWidthY * monPosiY[temp - 1], monchipDownHandle, false);
+					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+				}
+
+
+
+
 			//}
 		}
 
@@ -2997,7 +3008,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				keyHaijyo = 1; // 戦闘コマンドが実行されないよう、まだ排除中
 
-				toubouTyokugo[mapEneNum - 1] = 5;
+				toubouTyokugo[mapEneNum - 1] = 5; // 敵の復活まで残り5カウント
+				enemy_alive[mapEneNum - 1] = 0; // 0 だと敵の死亡中の意味
 
 
 				if (battlewait <= 0 && senkaFlag == 0) {
