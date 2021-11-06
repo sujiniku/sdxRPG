@@ -1626,9 +1626,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int mapchip1Handle = LoadGraph("GameData\\mapchip\\mapchip_grass.bmp");
 	int mapchip2Handle = LoadGraph("GameData\\mapchip\\mapchip_wall.bmp");
 
-
-	int koboHandle = LoadGraph("GameData\\monster_graphic\\kobo.png");
+	int monsHandle[10];
 	int slimeHandle = LoadGraph("GameData\\monster_graphic\\slime.png");
+	int koboHandle = LoadGraph("GameData\\monster_graphic\\kobo.png");
+
+
+	monsHandle[0] = LoadGraph("GameData\\monster_graphic\\slime.png");
+	monsHandle[1] = LoadGraph("GameData\\monster_graphic\\kobo.png");
+
+
 
 	int monchipDownHandle = LoadGraph("GameData\\charachip\\enemy_dot.bmp");
 	int blackchipHandle = LoadGraph("GameData\\charachip\\blackchip.bmp");
@@ -2437,22 +2443,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
 
 
+					int taiou[10] = { 2,1,0,0,0,0 }; // エンカウント0番目は敵id2(コボルト)が出現、の意味
+
 					for (int temp = 1; temp <= 2; temp = temp + 1) {
 						if (xPosi == monPosiX[temp - 1] && yPosi == monPosiY[temp - 1] && toubouTyokugo[temp -1 ] == 0) {
 
 							// モンスター画像 // デバッグ用
-							if (temp == 1) {
+							{
 								mapEneNum = temp; //  2;// enemy_alive などで使う
-								DrawGraph(300, 95, koboHandle, true);
-								encount_monsters_id = 2;
 
-							}
+								encount_monsters_id = taiou[temp -1]; // ブロック固有の要素
+								DrawGraph(300, 95, monsHandle[encount_monsters_id - 1], true);
+								
 
-							if (temp == 2) {
-								mapEneNum = temp; // 1;//  enemy_alive などで使う
-
-								DrawGraph(300, 95, slimeHandle, true);
-								encount_monsters_id = 1;
 							}
 
 
@@ -2506,13 +2509,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// モンスター画像 
 			if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_NOW) {
 
-				if (encount_monsters_id == 2) {
-					DrawGraph(300, 95, koboHandle, true);
+				{
+					DrawGraph(300, 95, monsHandle[encount_monsters_id -1], true);
 				}
-				if (encount_monsters_id ==1) {
-					DrawGraph(300, 95, slimeHandle, true);
 
-				}
 					
 			}
 
