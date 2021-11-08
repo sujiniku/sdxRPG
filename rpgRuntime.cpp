@@ -1968,15 +1968,35 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	}
 
+	// 試験的にデータベースの将来実装に向けて配列テスト
+	// const化しない。現状では定数だが、将来のデータベース読み込み時に可変として使うので
+	//                 =  {id, HP,HPM, agi};
+	int hairetu1[3][10] = { { 1,132,140,56 }, 
+		                    { 2,108,150,100}
+	
+	};
+	// 想定では、本番ではCSVファイルを組み込んで、それを読み込んで配列に代入するスタイルを想定。
+	// 現時点では開発段階なので、CSVは未作成。エクセル使うの面倒だし。
+
+	// TCHAR tesqqq[30] = TEXT("aaaa"); // 勉強用 // TCHARの最後の[ ]は文字数だと忘れるな。
+
+	// [30]は文字数であることに注意
+	TCHAR charaList[5][30] = { 
+		TEXT("エロス"),
+		TEXT("ピエール")
+
+	};
+
+
 
 	// キャラクターの定義
 	for (int temp = 0; temp <= makeNakamaNinzu + 1; temp++) {
 
 		if (temp == 0) {
-			lstrcpy(heros_def_list[temp].heros_name, TEXT("エロス"));
-			heros_def_list[temp].heros_hp = 132; // 132   20;
-			heros_def_list[temp].heros_hp_max = 140;
-			heros_def_list[temp].heros_agility = 56;
+			lstrcpy(heros_def_list[temp].heros_name, charaList[temp]);
+			heros_def_list[temp].heros_hp = hairetu1[temp][1]; // 132; // 132   20;
+			heros_def_list[temp].heros_hp_max = hairetu1[temp][2]; // 140;
+			heros_def_list[temp].heros_agility = hairetu1[temp][3]; // 56;
 
 			heros_def_list[temp].heros_exp = 0;
 
@@ -1999,10 +2019,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 		if (temp == 1) {
-			lstrcpy(heros_def_list[temp].heros_name, TEXT("ピエ－ル"));
-			heros_def_list[temp].heros_hp = 108; //108  18;
-			heros_def_list[temp].heros_hp_max = 150;
-			heros_def_list[temp].heros_agility = 100;
+			lstrcpy(heros_def_list[temp].heros_name, charaList[temp]);
+
+			heros_def_list[temp].heros_hp = hairetu1[temp][1]; // 108; 
+			heros_def_list[temp].heros_hp_max = hairetu1[temp][2]; // 150;
+			heros_def_list[temp].heros_agility = hairetu1[temp][3]; // 100;
+
+
 
 			heros_def_list[temp].heros_exp = 0;
 
