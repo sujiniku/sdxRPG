@@ -1981,10 +1981,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// TCHAR tesqqq[30] = TEXT("aaaa"); // 勉強用 // TCHARの最後の[ ]は文字数だと忘れるな。
 
 	// [30]は文字数であることに注意
-	TCHAR charaList[5][30] = { 
-		TEXT("エロス"),
-		TEXT("ピエール")
-
+	TCHAR charaList[5][5][30] = { 
+		{TEXT("0"),TEXT("エロス"), },	
+		{TEXT("1"),TEXT("ピエール"),}
 	};
 
 
@@ -1993,7 +1992,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	for (int temp = 0; temp <= makeNakamaNinzu + 1; temp++) {
 
 		if (temp == 0) {
-			lstrcpy(heros_def_list[temp].heros_name, charaList[temp]);
+			lstrcpy(heros_def_list[temp].heros_name, charaList[temp][1]);
 			heros_def_list[temp].heros_hp = hairetu1[temp][1]; // 132; // 132   20;
 			heros_def_list[temp].heros_hp_max = hairetu1[temp][2]; // 140;
 			heros_def_list[temp].heros_agility = hairetu1[temp][3]; // 56;
@@ -2019,7 +2018,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 		if (temp == 1) {
-			lstrcpy(heros_def_list[temp].heros_name, charaList[temp]);
+			lstrcpy(heros_def_list[temp].heros_name, charaList[temp][1]);
 
 			heros_def_list[temp].heros_hp = hairetu1[temp][1]; // 108; 
 			heros_def_list[temp].heros_hp_max = hairetu1[temp][2]; // 150;
