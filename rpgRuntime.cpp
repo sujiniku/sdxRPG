@@ -1970,11 +1970,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// 試験的にデータベースの将来実装に向けて配列テスト
 	// const化しない。現状では定数だが、将来のデータベース読み込み時に可変として使うので
-	//                 =  {id, HP,HPM, agi};
-	int hairetu1[3][10] = { { 1,132,140,56 }, 
-		                    { 2,108,150,100}
+	//                 =  {id, LV,HP,HPM, agi};
+	int hairetu1[8][10] = { { 0,1,132,140,56, }, 
+		                    { 1,1,108,150,100,}
 	
 	};
+
+	// 経験値とか
+	//                       id,exp
+	int hairetu2[8][10] = { { 0,0,0,0, },
+							{ 1,0,0,0,}
+
+	};
+
+	// ステータスのフラグ
+	//                       id,death,
+	int hairetu3[8][10] = { { 0,0,0,0, },
+						    { 1,0,0,0,}
+
+	};
+
+
+
 	// 想定では、本番ではCSVファイルを組み込んで、それを読み込んで配列に代入するスタイルを想定。
 	// 現時点では開発段階なので、CSVは未作成。エクセル使うの面倒だし。
 
@@ -1988,26 +2005,54 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+	// 装備のフラグ
+	//                       id,wep,tate,kabu,
+	int hairetu4[8][10] = { { 0, 1,   1,  0, },
+							{ 1, 2,   0,  0,}
+
+	};
+
+
+	// 装備カーソルの位置。このゲームには、これがあるんだった
+	//                       id,wep,tate,kabu,
+	int hairetu5[8][10] = { { 0, 0,   0,  0, },
+							{ 1, 0,   0,  0,}
+
+	};
+
+
+
+	// パーティ加入フラグ
+	// 応急処置
+	int haiParIn[8][10] = { { 0, 1,   0,  0, },
+							{ 1, 1,   0,  0,}
+
+	};
+
+
 	// キャラクターの定義
 	for (int temp = 0; temp <= makeNakamaNinzu + 1; temp++) {
 
-		if (temp == 0) {
+		// キャラ0とキャラ1の初期値代入モジュールの結合テスト
+		for (int temp = 0; temp <= 1; temp++) {
+		
+			
 			lstrcpy(heros_def_list[temp].heros_name, charaList[temp][1]);
-			heros_def_list[temp].heros_hp = hairetu1[temp][1]; // 132; // 132   20;
-			heros_def_list[temp].heros_hp_max = hairetu1[temp][2]; // 140;
-			heros_def_list[temp].heros_agility = hairetu1[temp][3]; // 56;
 
-			heros_def_list[temp].heros_exp = 0;
+			heros_def_list[temp].heros_hp = hairetu1[temp][2]; // 132; // 132   20;
+			heros_def_list[temp].heros_hp_max = hairetu1[temp][3]; // 140;
+			heros_def_list[temp].heros_agility = hairetu1[temp][4]; // 56;
 
-			heros_def_list[temp].heros_HP0_flag = 0;
-			heros_def_list[temp].PartyIn = 1;
+			heros_def_list[temp].heros_exp = hairetu2[temp][1];
+
+			heros_def_list[temp].heros_HP0_flag = hairetu3[temp][1];
+			heros_def_list[temp].PartyIn = haiParIn[temp][1];
 
 
-			heros_def_list[temp].heroSoubi[wepoType] = 1;
-			heros_def_list[temp].heroSoubiKasol[wepoType] = 0;
+			heros_def_list[temp].heroSoubi[wepoType] = hairetu4[temp][1];
+			heros_def_list[temp].heroSoubiKasol[wepoType] = hairetu5[temp][1];
 
-			heros_def_list[temp].heroSoubi[tateType] = 0;
-			heros_def_list[temp].heroSoubi[tateType] = 1;
+			heros_def_list[temp].heroSoubi[tateType] = hairetu4[temp][2];
 
 			heros_def_list[temp].heros_para[kougekiPara] = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower[kougekiPara];
 
@@ -2017,34 +2062,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			
 		}
 
-		if (temp == 1) {
-			lstrcpy(heros_def_list[temp].heros_name, charaList[temp][1]);
-
-			heros_def_list[temp].heros_hp = hairetu1[temp][1]; // 108; 
-			heros_def_list[temp].heros_hp_max = hairetu1[temp][2]; // 150;
-			heros_def_list[temp].heros_agility = hairetu1[temp][3]; // 100;
-
-
-
-			heros_def_list[temp].heros_exp = 0;
-
-			heros_def_list[temp].heros_HP0_flag = 0;
-			heros_def_list[temp].PartyIn = 1;
-
-
-
-			heros_def_list[temp].heroSoubi[wepoType] = 2;
-			heros_def_list[temp].heroSoubi[tateType] = 0;
-
-
-			heros_def_list[temp].heros_subiRyoku = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower[syubiPara];
-
-			heros_def_list[temp].heros_para[kougekiPara] = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower[kougekiPara];
-			heros_def_list[temp].heros_para[syubiPara] = (soubihin[heros_def_list[temp].heroSoubi[tateType]].Stype[tateType]).equipPower[syubiPara];
-
-
-
-		}
 
 		if (temp == 2) {
 			lstrcpy(heros_def_list[temp].heros_name, TEXT("ゴンザレス"));
