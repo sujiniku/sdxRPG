@@ -3079,7 +3079,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			// “¦‚°‚é
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 2 && keyHaijyo == 0) {
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == 2 && keyHaijyo == 0 && mode_scene == MODE_BATTLE_COMMAND) {
 
 				keyHaijyo = 1;
 
