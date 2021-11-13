@@ -679,7 +679,8 @@ static int mode2_mode_scene = 0;
 static int selecting_OP = 1;
 
 static int cursol_stop;
-static int your_money = 0;
+//static 
+int your_money = 0; // これstatic にすると、戦闘終了後にバグる。
 
 
 
@@ -3071,6 +3072,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					keyEnableReset();
 					keyHaijyo = 0;
 					mode_scene = MODE_MAP;// テスト用に倒した扱いなので
+					senkaFlag = 0; // これないと、以降の戦闘で経験値などが入らなくなる。
 				}
 			} // win
 
