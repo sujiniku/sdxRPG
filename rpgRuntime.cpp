@@ -1944,49 +1944,76 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 
+	// [30]は文字数であることに注意
+	TCHAR TekiList[5][5][30] = {
+		{TEXT("1"),TEXT("スライム"), },
+		{TEXT("2"),TEXT("コボルト"),}
+	};
+
+	int TekiParam1[8][10] = {
+	
+	//= {id, LV, HPM, };
+		{ 1, 1, 13  , },						      
+		{ 2, 1, 90,}
+
+	};
+ 
+
+	int TekiParam2[8][10] = { 
+
+	//   id ,atk,agi,  
+		{ 1, 0, 13  },						  
+		{ 2, 1, 76}
+
+	};
+
+
+	int TekiParam3[8][10] = {
+
+		//   id ,exp,gold,  
+			{ 1, 2, 1  },
+			{ 2, 5, 10}
+
+	};
+
+
+
+
 	// モンスターの定義	
 	for (int temp = 0; temp <= 1; temp++) {
 
-		if (temp == 0) {
-			lstrcpy(monster_def_list[temp].monster_name, TEXT("スライム"));
-			monster_def_list[temp].mon_hp_max = 12;
-			monster_def_list[temp].mon_agility = 13;
-			monster_def_list[temp].monster_id = 1;
-			monster_def_list[temp].mon_gold = 1;
-			monster_def_list[temp].mon_exp = 2;
-			monster_def_list[temp].mon_attackPower = 0;
-		}
 
-		if (temp == 1) {
-			lstrcpy(monster_def_list[temp].monster_name, TEXT("コボルト"));
-			monster_def_list[temp].mon_hp_max = 90;
-			monster_def_list[temp].mon_agility = 76;
-			monster_def_list[temp].monster_id = 2;
-			monster_def_list[temp].mon_gold = 10;
-			monster_def_list[temp].mon_exp = 5;
-			monster_def_list[temp].mon_attackPower = 1;
-		}
+			lstrcpy(monster_def_list[temp].monster_name, TekiList[temp][1]);
 
+			monster_def_list[temp].monster_id = TekiParam1[temp][0];
+			monster_def_list[temp].mon_hp_max = TekiParam1[temp][2];
+
+			monster_def_list[temp].mon_attackPower = TekiParam2[temp][1];
+			monster_def_list[temp].mon_agility = TekiParam2[temp][2];
+			
+			monster_def_list[temp].mon_exp = TekiParam3[temp][1];
+			monster_def_list[temp].mon_gold = TekiParam3[temp][2];
+		
 	}
 
 	// 試験的にデータベースの将来実装に向けて配列テスト
 	// const化しない。現状では定数だが、将来のデータベース読み込み時に可変として使うので
 	//                 =  {id, LV,HP,HPM, agi};
-	int hairetu1[8][10] = { { 0,1,132,140,56, }, 
+	int NakamaParam1[8][10] = { { 0,1,132,140,56, }, 
 		                    { 1,1,108,150,100,}
 	
 	};
 
 	// 経験値とか
 	//                       id,exp
-	int hairetu2[8][10] = { { 0,0,0,0, },
+	int NakamaParam2[8][10] = { { 0,0,0,0, },
 							{ 1,0,0,0,}
 
 	};
 
-	// ステータスのフラグ
+	// 状態ステータスのフラグ
 	//                       id,death,
-	int hairetu3[8][10] = { { 0,0,0,0, },
+	int NakamaJotai[8][10] = { { 0,0,0,0, },
 						    { 1,0,0,0,}
 
 	};
@@ -1999,7 +2026,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// TCHAR tesqqq[30] = TEXT("aaaa"); // 勉強用 // TCHARの最後の[ ]は文字数だと忘れるな。
 
 	// [30]は文字数であることに注意
-	TCHAR charaList[5][5][30] = { 
+	TCHAR NakamaList[5][5][30] = { 
 		{TEXT("0"),TEXT("エロス"), },	
 		{TEXT("1"),TEXT("ピエール"),}
 	};
@@ -2008,7 +2035,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// 装備のフラグ
 	//                       id,wep,tate,kabu,
-	int hairetu4[8][10] = { { 0, 1,   1,  0, },
+	int NakamaEquipList[8][10] = { { 0, 1,   1,  0, },
 							{ 1, 2,   0,  0,}
 
 	};
@@ -2016,7 +2043,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// 装備カーソルの位置。このゲームには、これがあるんだった
 	//                       id,wep,tate,kabu,
-	int hairetu5[8][10] = { { 0, 0,   0,  0, },
+	int NakamaKasolEquip[8][10] = { { 0, 0,   0,  0, },
 							{ 1, 0,   0,  0,}
 
 	};
@@ -2025,7 +2052,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// パーティ加入フラグ
 	// 応急処置
-	int haiParIn[8][10] = { { 0, 1,   0,  0, },
+	int PartyInFlag[8][10] = { { 0, 1,   0,  0, },
 							{ 1, 1,   0,  0,}
 
 	};
@@ -2038,22 +2065,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		for (int temp = 0; temp <= 1; temp++) {
 		
 			
-			lstrcpy(heros_def_list[temp].heros_name, charaList[temp][1]);
+			lstrcpy(heros_def_list[temp].heros_name, NakamaList[temp][1]);
 
-			heros_def_list[temp].heros_hp = hairetu1[temp][2]; // 132; // 132   20;
-			heros_def_list[temp].heros_hp_max = hairetu1[temp][3]; // 140;
-			heros_def_list[temp].heros_agility = hairetu1[temp][4]; // 56;
+			heros_def_list[temp].heros_hp = NakamaParam1[temp][2]; // 132; // 132   20;
+			heros_def_list[temp].heros_hp_max = NakamaParam1[temp][3]; // 140;
+			heros_def_list[temp].heros_agility = NakamaParam1[temp][4]; // 56;
 
-			heros_def_list[temp].heros_exp = hairetu2[temp][1];
+			heros_def_list[temp].heros_exp = NakamaParam2[temp][1];
 
-			heros_def_list[temp].heros_HP0_flag = hairetu3[temp][1];
-			heros_def_list[temp].PartyIn = haiParIn[temp][1];
+			heros_def_list[temp].heros_HP0_flag = NakamaJotai[temp][1];
+			heros_def_list[temp].PartyIn = PartyInFlag[temp][1];
 
 
-			heros_def_list[temp].heroSoubi[wepoType] = hairetu4[temp][1];
-			heros_def_list[temp].heroSoubiKasol[wepoType] = hairetu5[temp][1];
+			heros_def_list[temp].heroSoubi[wepoType] = NakamaEquipList[temp][1];
+			heros_def_list[temp].heroSoubiKasol[wepoType] = NakamaKasolEquip[temp][1];
 
-			heros_def_list[temp].heroSoubi[tateType] = hairetu4[temp][2];
+			heros_def_list[temp].heroSoubi[tateType] = NakamaEquipList[temp][2];
 
 			heros_def_list[temp].heros_para[kougekiPara] = (soubihin[heros_def_list[temp].heroSoubi[wepoType]].Stype[wepoType]).equipPower[kougekiPara];
 
