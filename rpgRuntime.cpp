@@ -1643,6 +1643,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	int blackbackHandle = LoadGraph("GameData\\picture\\blackBigBack.bmp");
 
+	int townchipDownHandle = LoadGraph("GameData\\charachip\\town_dot.bmp");
+
 
 	int charachipUpHandle = LoadGraph("GameData\\charachip\\hero_dot_up.bmp");
 	int charachipDownHandle = LoadGraph("GameData\\charachip\\hero_dot_down.bmp");
@@ -2264,14 +2266,44 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 
+		struct monPosi_def
+		{
+			int PosiX;
+			int PosiY;
+		};
+
+		struct Posi_def
+		{
+			int PosiX;
+			int PosiY;
+		};
+
+		struct mon
+		{
+			struct Posi_def Posi_def_list[15];
+		};
+
+
+		static struct monPosi_def monPosi_def_list[15];
+
+
+		for (int temp = 1; temp <= 2; temp = temp + 1) {
+			//if (enemy_alive[mapEneNum] == 1) {
+
+			monPosi_def_list[temp - 1].PosiX = monPosiX[temp - 1];
+			monPosi_def_list[temp - 1].PosiY = monPosiY[temp - 1];
+
+		}
+
 		// マップ側のモンスターのドット
+		// temp はモンスター登録数
 		for (int temp = 1; temp <= 2; temp = temp + 1) {
 			//if (enemy_alive[mapEneNum] == 1) {
 
 				// 逃亡用の復活 猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
 				if (toubouTyokugo[temp - 1] == 0) {
 					// モンスター画像
-					DrawGraph(mapChipWidthX * monPosiX[temp - 1], mapChipWidthY * monPosiY[temp - 1], monchipDownHandle, false);
+					DrawGraph(mapChipWidthX * monPosi_def_list[temp - 1].PosiX, mapChipWidthY * monPosi_def_list[temp - 1].PosiY, monchipDownHandle, false);
 
 				}
 
@@ -2283,11 +2315,38 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 				}
 
-
-
-
 			//}
 		}
+
+
+		struct town_def
+		{
+			int PosiX; 
+			int PosiY;
+		};
+
+		static struct town_def town_def_list[15];
+
+		// 2,5
+
+		for (int temp = 0; temp <= 0; temp = temp + 1) {
+
+			// 町座標
+			town_def_list[temp].PosiX = 2;
+			town_def_list[temp].PosiY = 5;
+
+		}
+
+		// マップ側の町のドット
+		for (int temp = 0; temp <= 0; temp = temp + 1) {
+
+				// 町画像
+				DrawGraph(mapChipWidthX * town_def_list[temp].PosiX, mapChipWidthY * town_def_list[temp].PosiY, townchipDownHandle, false);
+
+		}
+
+
+
 
 
 		// キャラチップ描画
@@ -2550,6 +2609,54 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				} // モンスター遭遇処理
+
+
+
+
+				// 町に入るのエンカウント判定
+				{
+					int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
+
+
+					int taiou[10] = { 2,1,0,0,0,0 }; // エンカウント0番目は敵id2(コボルト)が出現、の意味
+
+					for (int temp = 1; temp <= 2; temp = temp + 1) {
+						if (xPosi == monPosiX[temp - 1] && yPosi == monPosiY[temp - 1] && toubouTyokugo[temp - 1] == 0) {
+
+							// モンスター画像 // デバッグ用
+							{
+								mapEneNum = temp; //  2;// enemy_alive などで使う
+
+								encount_monsters_id = taiou[temp - 1]; // ブロック固有の要素
+								DrawGraph(300, 95, monsHandle[encount_monsters_id - 1], true);
+
+
+							}
+
+
+							battle_start();
+							// mode_scene = MODE_BATTLE_COMMAND;
+
+							DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
+								GetColor(1, 1, 1), 1);
+							DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
+
+
+
+
+						}
+					}
+					if (!(xPosi == monPosiX[1 - 1] && yPosi == monPosiY[1 - 1])) {
+						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
+							GetColor(1, 1, 1), 1);
+						// DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "テスト用メッセージ"); // 文字を描画する
+
+					}
+
+
+				} // モンスター遭遇処理
+
+
 			}
 
 			// if 残り待機がゼロで、さらにXボタンが押されたら、then メニュー画面に遷移
