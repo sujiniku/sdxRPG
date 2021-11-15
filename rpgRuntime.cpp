@@ -2277,7 +2277,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// int tempHandle; // すでにグローバル変数で同様の数を定義ずみ
 		};
 
-		static struct Posi_def* tempEvAdr[15];
+		static struct Posi_def* tempEvAdr;
 
 
 		// 町は背景に準じるので、モンスターより先に描画。しかしマップイベントであるので、背景とは区別の必要あり。
@@ -2300,15 +2300,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		
 		tempTourokusuu1 = 1;
 
-		for (int temp = 0; temp <= tempTourokusuu1 -1; temp = temp + 1) {
-			tempEvAdr[temp] = &town[temp];
-		}
+		tempEvAdr = town;
 
 		// マップ側の町のドット
 		for (int temp = 0; temp <= tempTourokusuu1 - 1; temp = temp + 1) {
 
 			// 町画像
-			DrawGraph(mapChipWidthX * (*tempEvAdr[temp]).PosiX, mapChipWidthY * (*tempEvAdr[temp]).PosiY, tempHandle, false);
+			DrawGraph(mapChipWidthX * (*(tempEvAdr+temp)).PosiX, mapChipWidthY * (*(tempEvAdr+temp)).PosiY, tempHandle, false);
 
 		}
 
@@ -2329,29 +2327,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 
-		for (int temp = 0; temp <= 15; temp = temp + 1) {
-			tempEvAdr[temp] = &monEv[temp];
-		}
+		tempEvAdr = monEv;
 
 		// マップ側のモンスターのドット
 		// tempTouroku はモンスター登録数
 		tempTourokusuu1 = 2;
 
-		for (int temp = 1; temp <= tempTourokusuu1; temp = temp + 1) {
+		for (int temp = 0; temp <= tempTourokusuu1 -1; temp = temp + 1) {
 			//if (enemy_alive[mapEneNum] == 1) {
 
 				// 逃亡用の復活 猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
-				if (toubouTyokugo[temp - 1] == 0) {
+				if (toubouTyokugo[temp ] == 0) {
 					// モンスター画像
-					DrawGraph(mapChipWidthX * (*tempEvAdr[temp - 1]).PosiX, mapChipWidthY * (*tempEvAdr[temp - 1]).PosiY, tempHandle, false);
+					DrawGraph(mapChipWidthX* (*(tempEvAdr + temp)).PosiX, mapChipWidthY* (*(tempEvAdr + temp)).PosiY, tempHandle, false);
 
 				}
 
-				if (toubouTyokugo[temp - 1] > 0 && enemy_alive[temp -1] == 1) {
+				if (toubouTyokugo[temp ] > 0 && enemy_alive[temp] == 1) {
 					// モンスター画像
 
 					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-					DrawGraph(mapChipWidthX * (*tempEvAdr[temp - 1]).PosiX, mapChipWidthY * (*tempEvAdr[temp - 1]).PosiY, tempHandle, false);
+					DrawGraph(mapChipWidthX* (*(tempEvAdr + temp)).PosiX, mapChipWidthY* (*(tempEvAdr + temp)).PosiY, tempHandle, false);
+
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 				}
 
