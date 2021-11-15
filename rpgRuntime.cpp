@@ -2266,32 +2266,48 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 
-		struct monPosi_def
-		{
-			int PosiX;
-			int PosiY;
-		};
 
+		// マップ中にあるモンスターシンボルやら町やらのマス位置をあらわす構造体
+		// マップイベント用に使いたい
 		struct Posi_def
 		{
 			int PosiX;
 			int PosiY;
 		};
 
-		struct mon
-		{
-			struct Posi_def Posi_def_list[15];
-		};
+
+		// 町は背景に準じるので、モンスターより先に描画。しかしマップイベントであるので、背景とは区別の必要あり。
+		// マップイベントのタウン用
+		static struct Posi_def town[15];
+
+		for (int temp = 0; temp <= 0; temp = temp + 1) {
+
+			// 町座標		
+			// 2,5
+			town[temp].PosiX = 2;
+			town[temp].PosiY = 5;
+
+		}
+
+		// マップ側の町のドット
+		for (int temp = 0; temp <= 0; temp = temp + 1) {
+
+			// 町画像
+			DrawGraph(mapChipWidthX * town[temp].PosiX, mapChipWidthY * town[temp].PosiY, townchipDownHandle, false);
+
+		}
 
 
-		static struct monPosi_def monPosi_def_list[15];
+
+		// モンスターの位置情報
+		static struct Posi_def mon[15];
 
 
 		for (int temp = 1; temp <= 2; temp = temp + 1) {
 			//if (enemy_alive[mapEneNum] == 1) {
 
-			monPosi_def_list[temp - 1].PosiX = monPosiX[temp - 1];
-			monPosi_def_list[temp - 1].PosiY = monPosiY[temp - 1];
+			mon[temp - 1].PosiX = monPosiX[temp - 1];
+			mon[temp - 1].PosiY = monPosiY[temp - 1];
 
 		}
 
@@ -2303,7 +2319,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 逃亡用の復活 猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
 				if (toubouTyokugo[temp - 1] == 0) {
 					// モンスター画像
-					DrawGraph(mapChipWidthX * monPosi_def_list[temp - 1].PosiX, mapChipWidthY * monPosi_def_list[temp - 1].PosiY, monchipDownHandle, false);
+					DrawGraph(mapChipWidthX * mon[temp - 1].PosiX, mapChipWidthY * mon[temp - 1].PosiY, monchipDownHandle, false);
 
 				}
 
@@ -2311,40 +2327,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// モンスター画像
 
 					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-					DrawGraph(mapChipWidthX * monPosiX[temp - 1], mapChipWidthY * monPosiY[temp - 1], monchipDownHandle, false);
+					DrawGraph(mapChipWidthX * mon[temp - 1].PosiX, mapChipWidthY * mon[temp - 1].PosiY, monchipDownHandle, false);
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 				}
 
 			//}
 		}
-
-
-		struct town_def
-		{
-			int PosiX; 
-			int PosiY;
-		};
-
-		static struct town_def town_def_list[15];
-
-		// 2,5
-
-		for (int temp = 0; temp <= 0; temp = temp + 1) {
-
-			// 町座標
-			town_def_list[temp].PosiX = 2;
-			town_def_list[temp].PosiY = 5;
-
-		}
-
-		// マップ側の町のドット
-		for (int temp = 0; temp <= 0; temp = temp + 1) {
-
-				// 町画像
-				DrawGraph(mapChipWidthX * town_def_list[temp].PosiX, mapChipWidthY * town_def_list[temp].PosiY, townchipDownHandle, false);
-
-		}
-
 
 
 
