@@ -2248,8 +2248,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// マップ描画
 
-		int mapChipWidthX = 30;
-		int mapChipWidthY = 30;
+		static int mapChipWidthX = 30;
+		static int mapChipWidthY = 30;
 
 		for (x_mapDraw = 0; x_mapDraw <= 9; ++x_mapDraw)
 		{
@@ -2302,11 +2302,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		tempEvAdr = town;
 
+		struct localFuncStruct
+		{
+			void localDraw(int temp) {
+				DrawGraph(mapChipWidthX * (*(tempEvAdr + temp)).PosiX, mapChipWidthY * (*(tempEvAdr + temp)).PosiY, tempHandle, false);
+			}
+
+
+		} localFunc;
+
 		// マップ側の町のドット
 		for (int temp = 0; temp <= tempTourokusuu1 - 1; temp = temp + 1) {
 
 			// 町画像
-			DrawGraph(mapChipWidthX * (*(tempEvAdr+temp)).PosiX, mapChipWidthY * (*(tempEvAdr+temp)).PosiY, tempHandle, false);
+			localFunc.localDraw(temp) ;
+			//DrawGraph(mapChipWidthX * (*(tempEvAdr+temp)).PosiX, mapChipWidthY * (*(tempEvAdr+temp)).PosiY, tempHandle, false);
 
 		}
 
@@ -2339,7 +2349,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 逃亡用の復活 猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
 				if (toubouTyokugo[temp ] == 0) {
 					// モンスター画像
-					DrawGraph(mapChipWidthX* (*(tempEvAdr + temp)).PosiX, mapChipWidthY* (*(tempEvAdr + temp)).PosiY, tempHandle, false);
+					localFunc.localDraw(temp);
 
 				}
 
@@ -2347,7 +2357,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// モンスター画像
 
 					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-					DrawGraph(mapChipWidthX* (*(tempEvAdr + temp)).PosiX, mapChipWidthY* (*(tempEvAdr + temp)).PosiY, tempHandle, false);
+					localFunc.localDraw(temp);
 
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 				}
