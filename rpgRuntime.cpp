@@ -1158,16 +1158,21 @@ void pre_guild() {
 	mode_scene = MODE_Guild_Main;
 }
 
+int townFlag = 0; // これないと、タウンからでても、タウンに入り続ける
 
 void check_encount_town() {
+	
 
-	if (where_map == 1 && chara_x == town_X && chara_y == town_Y) {
+	//if (where_map == 1 && chara_x == town_X && chara_y == town_Y) {
+	if (townFlag == 0 && where_map == 1 && xPosi == town_X && yPosi == town_Y) {
+
+		// MessageBox(NULL, TEXT("kansuのテスト中。"), TEXT("キーテスト"), MB_OK);
 
 		popFlagTown = 1;
 		lstrcpy(popMsg, TEXT("パーティの編成をできます。"));
 
 		mode_scene = MODE_TOWN;
-		// pre_guild(hWnd); // のちのちのギルド実装のため残す
+		// pre_guild(); // のちのちのギルド実装のため残す
 
 	}
 }
@@ -1319,6 +1324,225 @@ void enemy_attack() {
 	// MessageBox(NULL, TEXT("いまそこ。"), TEXT("キーテスト"), MB_OK);
 
 }
+
+
+
+
+
+void hikaesai() {
+	filterFlag = 1;
+	// Draw_map(hdc); // 応急処置。できれば、hbitmapuをグローバル変数にしたいが、方法が分からない。
+	// もし処理速度に問題が生じるようなら、背景色を（マップ背景描画をやめて）黒に変更。
+
+
+	//Draw_map(hdc);
+
+
+
+
+	int offsetYtemp1 = 100;
+	//SelectObject(hdc, blue_thin_1);
+
+	if (mode_scene != MODE_Guild_Main) {
+		// BrushDarkBlue_set(hdc);
+		darkwindow1Draw(10, offsetYtemp1,
+			offsetYtemp1 + 100, 400);
+	}
+
+	if (mode_scene != MODE_Guild_Main) {
+		// BrushDarkBlue_set(hdc);
+		window1Draw(10, offsetYtemp1,
+			offsetYtemp1 + 100, 400);
+	}
+
+	// Rectangle(hdc, 10, offsetYtemp1,		offsetYtemp1 + 100, 400);
+
+
+
+	int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
+
+	//BrushPink_set(hdc);
+
+	if (mode_scene != MODE_Guild_Main) {
+		//BrushDarkPink_set(hdc);
+	}
+
+	tenmetu( 20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1hikae),
+		150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1hikae)); // あとでダーク化
+
+	int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
+	int yspan1 = carsoruHigh;
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("控えメンバー"));
+	// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
+
+	DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	if (uwadumeFlag == 0) {
+		for (int temp = 0; temp <= tourokuNakama; temp = temp + 1) {
+			if (heros_def_list[temp].PartyIn == 0) {
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[temp].heros_name);
+			}
+
+			if (heros_def_list[temp].PartyIn == 1) {
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出動中: %s"), heros_def_list[temp].heros_name);
+			}
+
+			// TextOut(hdc, offsetXtemp1, 30 - 10 + yspan1 * (temp)+120, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(offsetXtemp1, 30 - 10 + yspan1 * (temp)+120, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+		}
+
+
+		// temp == tourokuNakama + 1    に相当
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("【外す】"));
+		// TextOut(hdc, offsetXtemp1, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120, mojibuf, lstrlen(mojibuf));
+
+		DrawFormatString(offsetXtemp1, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	}
+
+
+	if (uwadumeFlag == 1) {
+
+		int skip = 0;
+
+		// 控え終わり記号の -1 まで読み込んでるので、読み込み回数は控え人数よりも1回多い
+		for (int temp = 0; temp <= hikaeNinzu; temp = temp + 1) { // tempは0から数えてるので、2項目が hikaeNinzu;
+		// for (int temp = 0; temp <= 1; temp = temp + 1) { // 2項目が hikaeNinzu;
+
+			if (hikaeNarabijyun[temp] > -1) { // 右辺が0だと主人公が非表示になってしまう
+
+				if (heros_def_list[hikaeNarabijyun[temp]].PartyIn == 0) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s "), heros_def_list[hikaeNarabijyun[temp]].heros_name);
+					skip = skip + 1;
+				}
+
+				if (heros_def_list[hikaeNarabijyun[temp]].PartyIn == 1) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("編成中: %s"), heros_def_list[hikaeNarabijyun[temp]].heros_name);
+				} // デバッグ用にメッセージを「編成」に変えてる。
+
+				// TextOut(hdc, offsetXtemp1, 30 - 10 + yspan1 * (temp)+120, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(offsetXtemp1, 30 - 10 + yspan1 * (temp)+120, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+			}
+
+		}
+
+
+		// temp == tourokuNakama + 1    に相当
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("【外す】"));
+		// TextOut(hdc, offsetXtemp1, 30 - 10 + yspan1 * (skip)+120, mojibuf, lstrlen(mojibuf));
+
+		DrawFormatString(offsetXtemp1, 30 - 10 + yspan1 * (skip)+120, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+	}
+
+	// デバッグ文
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Hikae[0]: %d"), hikaeNarabijyun[0]);
+	// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50, mojibuf, lstrlen(mojibuf));
+
+
+	DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Hikae[1]: %d"), hikaeNarabijyun[1]);
+	// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 1, mojibuf, lstrlen(mojibuf));
+
+	DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 1, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("控え人数: %d"), hikaeNinzu);
+	// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 2, mojibuf, lstrlen(mojibuf));
+
+
+	DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("whomCH: %d"), whomCHARA);
+	// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 3, mojibuf, lstrlen(mojibuf));
+
+	DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("P人数: %d"), partyNinzuTemp);
+	// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 4, mojibuf, lstrlen(mojibuf));
+
+	DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+}
+
+
+
+void parsai() {
+
+	// パーティメンバー側も再描画の必要あり
+
+	//BrushBlue_set(hdc);
+	// Rectangle(hdc, 10, 10, 610, 80);
+
+	//BrushPink_set(hdc);
+
+
+	int offsetXtemp2 = 220; int offsetYtemp2 = 100;
+	//SelectObject(hdc, blue_thin_1);
+	// Rectangle(hdc, offsetXtemp2, offsetYtemp2,	offsetXtemp2 + 200, offsetYtemp2 + 300);
+	window1Draw(offsetXtemp2, offsetYtemp2, offsetXtemp2 + 200, offsetYtemp2 + 300);
+
+	int kasoruHeight = 50;
+	//BrushPink_set(hdc);
+	
+	if (mode_scene == MODE_Guild_Main) {
+		//BrushDarkPink_set(hdc);
+		// よく分からんので、テストで確認
+	}
+
+	if (mode_scene == MODE_Guild_Remove) {
+		//Rectangle(hdc, offsetXtemp2 + 10, offsetYtemp2 + 10 + 60 * (whomTargetID1party),offsetXtemp2 + 150, offsetYtemp2 + kasoruHeight + 10 + 60 * (whomTargetID1party));
+	
+		window1Draw(offsetXtemp2 + 10, offsetYtemp2 + 10 + 60 * (whomTargetID1party), offsetXtemp2 + 150, offsetYtemp2 + kasoruHeight + 10 + 60 * (whomTargetID1party));
+	
+	}
+
+	int yspan1 = 50;
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("パーティメンバー"));
+	// TextOut(hdc, offsetXtemp2 + 30, -10 + offsetYtemp2 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
+
+
+	DrawFormatString(offsetXtemp2 + 30, -10 + offsetYtemp2 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	for (int temp = 0; temp <= partymax - 1; temp = temp + 1) {
+
+		if (partyNarabijyun[temp] >= 0) {
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[temp]].heros_name);
+		}
+
+		if (partyNarabijyun[temp] < 0) {
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("【空き枠】"));
+		}
+
+		//TextOut(hdc, offsetXtemp2 + 30, offsetYtemp2 + 30 + yspan1 * (temp), mojibuf, lstrlen(mojibuf));
+
+		DrawFormatString(offsetXtemp2 + 30, offsetYtemp2 + 30 + yspan1 * (temp), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+	}
+
+	// 検索用 aaaaaaaaaaaaa
+
+}
+
+
 
 
 char strCount[64];
@@ -2291,8 +2515,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			// 町座標
 			// 2,5
-			town[temp].PosiX = 3;
-			town[temp].PosiY = 5;
+			town[temp].PosiX = town_X;
+			town[temp].PosiY = town_Y;
 
 		}
 
@@ -2452,6 +2676,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							xPosi++;     // 右へ1マスだけ移動
 							moving = 0;
+
+							townFlag = 0;
 						}
 					} // 右移動
 
@@ -2484,6 +2710,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							xPosi--;    // 左へ1マスだけ移動
 							moving = 0;
+
+							townFlag = 0;
 						}
 					}// 左に移動
 
@@ -2523,6 +2751,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							yPosi++;     // 下へ1マスだけ移動
 							moving = 0;
+
+							townFlag = 0;
 						}
 					}// 下に移動
 
@@ -2562,6 +2792,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							yPosi--;     // 上へ1マスだけ移動
 							moving = 0;
+
+							townFlag = 0;
 						}
 					}// 上に移動
 				}// 移動
@@ -2574,6 +2806,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (destMovable == 1 && moving == 1 && toubouTyokugo[temp-1] > 0) {
 						toubouTyokugo[temp-1] = toubouTyokugo[temp-1] - 1;
 						destMovable = 0;
+
+						// townFlag = 0; // 町から出た処理をついでに。 // 反応しない
 					}
 					if (toubouTyokugo[temp-1] <= 0) {
 						// toubouSeikou = 0; // これないと再戦時に逃亡成功メッセージが出てしまう // これだとマップ中に一匹でも戦闘可能モンスターがいると0セットになる
@@ -2609,7 +2843,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
 								GetColor(1, 1, 1), 1);
-							DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
+							DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた"); // 文字を描画する
 
 
 
@@ -2634,46 +2868,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// 町に入るのエンカウント判定
 				{
-					int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
+					static int where_map = 1;
+					check_encount_town();
 
-
-					int taiou[10] = { 2,1,0,0,0,0 }; // エンカウント0番目は敵id2(コボルト)が出現、の意味
-
-					for (int temp = 1; temp <= 2; temp = temp + 1) {
-						if (xPosi == monPosiX[temp - 1] && yPosi == monPosiY[temp - 1] && toubouTyokugo[temp - 1] == 0) {
-
-							// モンスター画像 // デバッグ用
-							{
-								mapEneNum = temp; //  2;// enemy_alive などで使う
-
-								encount_monsters_id = taiou[temp - 1]; // ブロック固有の要素
-								DrawGraph(300, 95, monsHandle[encount_monsters_id - 1], true);
-
-
-							}
-
-
-							battle_start();
-							// mode_scene = MODE_BATTLE_COMMAND;
-
-							DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
-								GetColor(1, 1, 1), 1);
-							DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた未実装"); // 文字を描画する
-
-
-
-
-						}
-					}
-					if (!(xPosi == monPosiX[1 - 1] && yPosi == monPosiY[1 - 1])) {
-						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
-							GetColor(1, 1, 1), 1);
-						// DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "テスト用メッセージ"); // 文字を描画する
-
-					}
-
-
-				} // モンスター遭遇処理
+				} // 町に入るのエンカウント判定
 
 
 			}
@@ -2690,6 +2888,1346 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DrawFormatString(infoX, infoY, GetColor(255, 255, 255), "座標[%d,%d]", xPosi, yPosi); // 文字を描画する
 
 		} // map モードの終わり
+
+
+
+		// タウンの処理
+
+
+		if (mode_scene == MODE_TOWN) {
+			// MessageBox(NULL, TEXT("townのテスト中。"), TEXT("キーテスト"), MB_OK);
+
+
+			filterFlag = 1;
+			// Draw_map(hdc);
+
+			//window1Draw(winX1, winY1 + offsetY * j,				winX2, winY2 + offsetY * j);
+
+
+			//BrushBlue_set(hdc);
+			// Rectangle(hdc, 10, 10, 610, 80);
+
+			//BrushPink_set(hdc);
+			//	Rectangle(hdc, 10, 100,	300, 200);
+
+			int mes1X = 220; int mes1Y = 140;
+			window1Draw(mes1X, mes1Y, mes1X + 300, mes1Y + 30);
+
+			lstrcpy(mojibuf, TEXT("街に入りました。どこへ行きますか?"));
+			// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(mes1X + 10, mes1Y+10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			int offsetYtemp1 = 100;
+			// SelectObject(hdc, blue_thin_1);
+			
+			window1Draw(10, offsetYtemp1, offsetYtemp1 + 100, 400);
+
+			// Rectangle(hdc, 10, offsetYtemp1,offsetYtemp1 + 100, 400);
+
+			int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
+
+			// BrushPink_set(hdc);
+			tenmetu(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1),
+				150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1));
+			
+			// Rectangle(hdc, 20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1), 150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1));
+
+
+
+			int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
+			int yspan1 = carsoruHigh;
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
+			//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
+			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("ギルド"));
+			//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), mojibuf, lstrlen(mojibuf));
+			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("宿屋"));
+			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), mojibuf, lstrlen(mojibuf));
+			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("商店"));
+			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), mojibuf, lstrlen(mojibuf));
+			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出る"));
+			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), mojibuf, lstrlen(mojibuf));
+			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			if (whomTargetID1 == 0) {
+				lstrcpy(popMsg, TEXT("パーティの編成をできます。"));
+			}
+
+			if (whomTargetID1 == 1 && afterShop == 0) {
+				lstrcpy(popMsg, TEXT("HPを全回復します。"));
+			}
+
+			if (whomTargetID1 == 2 && afterShop == 0) {
+				lstrcpy(popMsg, TEXT("装備品や道具の売買を出来ます。"));
+			}
+
+			if (whomTargetID1 == 3 && afterShop == 0) {
+				lstrcpy(popMsg, TEXT("街の外に出ます。"));
+			}
+
+
+			if (popFlagTown == 1) {
+
+				lstrcpy(mojibuf, TEXT("                                      "));
+
+				mes1Y = 150 + 30;				
+				window1Draw(mes1X, mes1Y, mes1X + 300, mes1Y + 30);
+
+				lstrcpy(mojibuf, popMsg);
+				DrawFormatString(mes1X + 10, mes1Y + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+			}
+
+			// temp == tourokuNakama + 1    に相当
+		//	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("【外す】"));
+		//	TextOut(hdc, offsetXtemp1, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120, mojibuf, lstrlen(mojibuf));
+
+
+
+			if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1) {
+				townFlag = 1;
+				
+				keyEnableX = 0;
+				mode_scene = MODE_MAP;
+				nyuuryokuMatiX = waitTime1;
+			}
+
+		}
+
+
+		// if (mode_scene == MODE_Shop_Main && key_remain > 0) {
+
+
+
+		if (mode_scene == MODE_Shop_Main) {
+			filterFlag = 1;
+			// Draw_map(hdc);
+
+			//BrushBlue_set(hdc);
+			// Rectangle(hdc, 10, 10, 610, 80);
+
+			// BrushPink_set(hdc);
+			//	Rectangle(hdc, 10, 100,	300, 200);
+
+
+			lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
+			//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(130, 150, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			int offsetYtemp1 = 100;
+			// SelectObject(hdc, blue_thin_1);
+			// Rectangle(hdc, 10, offsetYtemp1,				offsetYtemp1 + 100, 400);
+
+			window1Draw(10, offsetYtemp1, offsetYtemp1 + 100, 400);
+
+
+			int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
+
+			//BrushPink_set(hdc);
+			// Rectangle(hdc, 20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1), 150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1));
+
+			tenmetu(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1), 150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1));
+
+
+			int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
+			int yspan1 = carsoruHigh;
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
+			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("武器"));
+			//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("防具"));
+			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), mojibuf, lstrlen(mojibuf));
+			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装飾品"));
+			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), mojibuf, lstrlen(mojibuf));
+			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("道具"));
+			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出る"));
+			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			if (popFlagTown == 1) {
+
+				lstrcpy(mojibuf, TEXT("                                      "));
+				// TextOut(hdc, 130, 150, mojibuf, lstrlen(mojibuf));
+				
+				DrawFormatString(130, 150, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				lstrcpy(mojibuf, popMsg);
+				//TextOut(hdc, 130, 150, mojibuf, lstrlen(mojibuf));
+
+
+			}
+
+			tempPass = whomTargetID1;
+
+		}
+
+
+
+
+		if (mode_scene == MODE_Guild_Main) {
+			filterFlag = 1;
+			// Draw_map(hdc);
+
+			// MessageBox(NULL, TEXT("ギルドのテスト中。"), TEXT("キーテスト"), MB_OK);
+
+			// BrushBlue_set(hdc);
+			// Rectangle(hdc, 10, 10, 610, 80);
+
+			// BrushPink_set(hdc);
+			//	Rectangle(hdc, 10, 100,	300, 200);
+
+
+			filterFlag = 1;
+
+			hikaesai();
+			parsai();
+
+
+
+			lstrcpy(mojibuf, TEXT("誰を仲間にしますか？ 選んでください。"));
+			// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("Xボタンで退出。          "));
+			// TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			if (partyNinzuTemp <= 0) {
+
+				lstrcpy(mojibuf, TEXT("パーティ人数が1人以上必要です。"));
+				//TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+			}
+
+
+
+
+			_stprintf_s(
+				mojibuf, MAX_LENGTH, TEXT("%d"),
+				partyNinzuDone);
+			// TextOut(hdc, 280, 310, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(280, 310, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+		}
+
+
+		if (mode_scene == MODE_Guild_Remove) {
+			//BrushBlue_set(hdc);
+			//BrushPink_set(hdc);
+
+			hikaesai();
+			parsai();
+
+		}
+
+
+		if (mode_scene == MODE_Guild_Responce) {
+
+			// MessageBox(NULL, TEXT("ギルドのテスト中。"), TEXT("キーテスト"), MB_OK);
+
+			//BrushBlue_set(hdc);
+			//BrushPink_set(hdc);
+
+			lstrcpy(mojibuf, TEXT("誰を仲間にしますか？ 選んでください。"));
+			// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			hikaesai();
+			parsai();
+
+
+			// ここが上書きされている。
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s が仲間に加わった。"), heros_def_list[whomTargetID1hikae].heros_name);
+			// TextOut(hdc, 280, 300, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(280, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("Xボタンで退出。"));
+			// TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			mode_scene = MODE_Guild_Main;
+		}
+
+
+
+		if (mode_scene == MODE_Shop_weapon_main || mode_scene == MODE_Shop_armor_main) {
+			filterFlag = 1;
+			// Draw_map(hdc);
+
+			// MessageBox(NULL, TEXT("ギルドのテスト中。"), TEXT("キーテスト"), MB_OK);
+
+
+
+
+
+			{
+
+				//BrushDarkBlue_set(hdc);
+				// Rectangle(hdc, 10, 10, 610, 80);
+
+				// BrushDarkPink_set(hdc);
+				//	Rectangle(hdc, 10, 100,	300, 200);
+
+
+				lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
+				// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				int offsetYtemp1 = 100;
+				// SelectObject(hdc, blue_thin_1);
+
+				// Rectangle(hdc, 10, offsetYtemp1, offsetYtemp1 + 100, 400);
+
+				window1Draw(10, offsetYtemp1, offsetYtemp1 + 100, 400);
+
+
+				int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
+
+				// BrushDarkPink_set(hdc);
+				tenmetu( 20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1),
+					150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1)); // あとでダークに直す
+
+
+
+				int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
+				int yspan1 = carsoruHigh;
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
+				// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("武器"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), mojibuf, lstrlen(mojibuf));
+
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("防具"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), mojibuf, lstrlen(mojibuf));
+
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装飾品"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), mojibuf, lstrlen(mojibuf));
+
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("道具"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), mojibuf, lstrlen(mojibuf));
+
+
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出る"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), mojibuf, lstrlen(mojibuf));
+
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			}
+
+
+
+			if (popFlagTown == 1) {
+
+				lstrcpy(mojibuf, TEXT("                                      "));
+				// TextOut(hdc, 130, 150, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(130, 150, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				lstrcpy(mojibuf, popMsg);
+				//TextOut(hdc, 130, 150, mojibuf, lstrlen(mojibuf));
+
+
+			}
+
+
+
+			//BrushBlue_set(hdc);
+			//BrushPink_set(hdc);
+
+			if (mode_scene == MODE_Shop_weapon_main) {
+				lstrcpy(mojibuf, TEXT("武器屋テスト。"));
+			}
+			if (mode_scene == MODE_Shop_armor_main) {
+				lstrcpy(mojibuf, TEXT("防具屋テスト。"));
+			}
+			//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			int offsetYtemp1 = 100;
+			//SelectObject(hdc, blue_thin_1);
+			window1Draw( 250, 100,   450, 150);
+
+
+			int BuySellX = 280;
+			int BuySellY = 120;
+
+			int carsoruHigh = 30;
+			int spanX = 50;
+
+			// BrushPink_set(hdc);
+
+			tenmetu(BuySellX + spanX * (whomTargetID2), offsetYtemp1 + 10,
+				320 + spanX * (whomTargetID2), offsetYtemp1 + 60);
+
+
+			lstrcpy(mojibuf, TEXT("買う"));
+			// TextOut(hdc, BuySellX, BuySellY, mojibuf, lstrlen(mojibuf));
+
+
+			DrawFormatString(BuySellX, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("売る"));
+			// TextOut(hdc, BuySellX + spanX * 1, BuySellY, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(BuySellX + spanX * 1, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("中古"));
+			// TextOut(hdc, BuySellX + spanX * 2, BuySellY, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(BuySellX + spanX * 2, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("出る"));
+			// TextOut(hdc, BuySellX + spanX * 3, BuySellY, mojibuf, lstrlen(mojibuf));
+
+
+			DrawFormatString(BuySellX + spanX * 3, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			int GoldRanX = 480; int GoldRanY = 50;
+			//SelectObject(hdc, blue_thin_1);
+			window1Draw(GoldRanX, GoldRanY,		GoldRanX + 120, 110);
+
+			lstrcpy(mojibuf, TEXT("所持金"));
+			// TextOut(hdc, GoldRanX, GoldRanY + 10, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(GoldRanX, GoldRanY + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d G"), your_money);
+			// TextOut(hdc, GoldRanX, GoldRanY + 10 + 20, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(GoldRanX, GoldRanY + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			// SelectObject(hdc, blue_thin_1);
+			window1Draw(250, 170,	450, 400);
+
+			lstrcpy(mojibuf, TEXT("ここに商品や所持品が表示されます"));
+			// TextOut(hdc, 280, 170, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(280, 170, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("商品名"));
+			// TextOut(hdc, 280, 200, mojibuf, lstrlen(mojibuf));
+
+
+			DrawFormatString(280, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("価格"));
+			// TextOut(hdc, 280 + 120, 200, mojibuf, lstrlen(mojibuf));
+
+
+			DrawFormatString(280 + 120, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("在庫"));
+			// TextOut(hdc, 280 + 170, 200, mojibuf, lstrlen(mojibuf));
+
+
+			DrawFormatString(280 + 170, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			if (mode_scene == MODE_Shop_weapon_main) {
+				for (int temp = 1; temp <= 2; temp = temp + 1) {
+
+					lstrcpy(mojibuf, weapon_def_list[temp].def_name);
+					// TextOut(hdc, 280, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(280, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+					lstrcpy(mojibuf, TEXT("50G"));
+					// TextOut(hdc, 280 + 120, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(280 + 120, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				}
+			}
+
+
+			if (mode_scene == MODE_Shop_armor_main) {
+				for (int temp = 1; temp <= 2; temp = temp + 1) {
+
+					lstrcpy(mojibuf, helm_def_list[temp].def_name);
+					// TextOut(hdc, 280, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+
+
+					DrawFormatString(280, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+					lstrcpy(mojibuf, TEXT("50G"));
+					// TextOut(hdc, 280 + 120, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(280 + 120, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				}
+			}
+
+		}
+
+
+		if (mode_scene == MODE_Shop_weapon_buy || (mode_scene == MODE_Shop_armor_buy)) {
+			filterFlag = 1;
+			//Draw_map(hdc);
+
+
+			{
+				int whomTargetID3 = tempPass;
+
+				//BrushDarkBlue_set(hdc);
+				// Rectangle(hdc, 10, 10, 610, 80);
+
+				// BrushDarkPink_set(hdc);
+				//	Rectangle(hdc, 10, 100,	300, 200);
+
+
+				lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
+				// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+
+
+				DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				int offsetYtemp1 = 100;
+				//SelectObject(hdc, blue_thin_1);
+				window1Draw( 10, offsetYtemp1,
+					offsetYtemp1 + 100, 400);
+
+				int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
+
+				// BrushDarkPink_set(hdc);
+				tenmetu(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID3),
+					150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID3));// あとでダーク版に直す
+
+				int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
+				int yspan1 = carsoruHigh;
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
+				// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("武器"));
+				// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("防具"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装飾品"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("道具"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出る"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+			}
+
+
+			// MessageBox(NULL, TEXT("ギルドのテスト中。"), TEXT("キーテスト"), MB_OK);
+
+			//BrushDarkBlue_set(hdc);
+			//BrushPink_set(hdc);
+
+			lstrcpy(mojibuf, TEXT("武器屋テスト買う。"));
+			//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+
+
+
+			int offsetYtemp1 = 100;
+			//SelectObject(hdc, blue_thin_1);
+			window1Draw( 250, 100,
+				450, 150);
+
+
+			int BuySellX = 280;
+			int BuySellY = 120;
+
+			int carsoruHigh = 30;
+			int spanX = 50;
+
+			shopAct = 0; // 「買う」にカーソル
+
+			// BrushDarkPink_set(hdc);
+			tenmetu(BuySellX + spanX * (shopAct), offsetYtemp1 + 10,
+				BuySellX + 40 + spanX * (shopAct), offsetYtemp1 + 60);
+
+
+			lstrcpy(mojibuf, TEXT("買う"));
+			// TextOut(hdc, BuySellX, BuySellY, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(BuySellX, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("売る"));
+			//TextOut(hdc, BuySellX + spanX * 1, BuySellY, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(BuySellX + spanX * 1, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("中古"));
+			//TextOut(hdc, BuySellX + spanX * 2, BuySellY, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(BuySellX + spanX * 2, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("出る"));
+			//TextOut(hdc, BuySellX + spanX * 3, BuySellY, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(BuySellX + spanX * 3, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			// BrushBlue_set(hdc);
+
+			int GoldRanX = 480; int GoldRanY = 50;
+			// SelectObject(hdc, blue_thin_1);
+			window1Draw(GoldRanX, GoldRanY,
+				GoldRanX + 120, 110);
+
+			lstrcpy(mojibuf, TEXT("所持金"));
+			//TextOut(hdc, GoldRanX, GoldRanY + 10, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(GoldRanX, GoldRanY + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d G"), your_money);
+			// TextOut(hdc, GoldRanX, GoldRanY + 10 + 20, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(GoldRanX, GoldRanY + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			//SelectObject(hdc, blue_thin_1);
+			window1Draw(250, 170,
+				450, 400);
+
+			lstrcpy(mojibuf, TEXT("ここに商品や所持品が表示されます"));
+			// TextOut(hdc, 280, 170, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(280, 170, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("商品名"));
+			// TextOut(hdc, 280, 200, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(280, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("価格"));
+			// TextOut(hdc, 280 + 120, 200, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(280 + 120, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			lstrcpy(mojibuf, TEXT("在庫"));
+			// TextOut(hdc, 280 + 170, 200, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(280 + 170, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("所持数"));
+			// TextOut(hdc, 280 + 170 + 50, 200, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(280 + 170 + 50, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			//BrushPink_set(hdc);
+			tenmetu(280, 200 + 60 + 30 * (whomTargetID1),
+				320 + 40, offsetYtemp1 + 60 + 60 + 30 * (whomTargetID1));
+
+
+			if (0) {
+				for (int temp = 1; temp <= 2; temp = temp + 1) {
+
+					lstrcpy(mojibuf, weapon_def_list[temp].def_name);
+					// TextOut(hdc, 280, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(280, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+					lstrcpy(mojibuf, TEXT("50G"));
+					// TextOut(hdc, 280 + 120, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(280 + 120, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[temp].have_kosuu);
+					// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				}
+			}
+
+
+			struct sinaList {
+				int Grouptype;
+				int subID;
+			};
+
+			struct sinaList hinmoku[5]; // 構造体配列の宣言
+
+
+			if (mode_scene == MODE_Shop_weapon_buy) {
+				// 売り物の定義
+				// 1品目
+				// strcpy_s(  hinmoku[0].ItemName, 10 ,"毒消し"); 
+				hinmoku[0].Grouptype = wepoType;
+				hinmoku[0].subID = 1;
+
+				itemHairetu[0] = hinmoku[0].subID;
+				itemTypeHairetu[0] = hinmoku[0].Grouptype;
+
+				// 2品目   
+				hinmoku[1].Grouptype = wepoType;
+				hinmoku[1].subID = 2;
+				//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"鉄の剣"); 
+
+
+				// 3品目   
+				hinmoku[2].Grouptype = -99;
+				hinmoku[2].subID = -99;
+			}
+
+			if (mode_scene == MODE_Shop_armor_buy) {
+				// 売り物の定義
+				// 1品目
+			// strcpy_s(  hinmoku[0].ItemName, 10 ,"毒消し"); 
+				hinmoku[0].Grouptype = tateType;
+				hinmoku[0].subID = 1;
+
+
+				// 2品目   
+				hinmoku[1].Grouptype = tateType;
+				hinmoku[1].subID = 2;
+				//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"鉄の剣"); 
+
+
+				// 3品目   
+				hinmoku[2].Grouptype = kabutoType;
+				hinmoku[2].subID = 1;
+
+
+				// 4品目   
+				hinmoku[3].Grouptype = kabutoType;
+				hinmoku[3].subID = 2;
+
+
+				// 5品目   
+				hinmoku[4].Grouptype = -99;
+				hinmoku[4].subID = -99;
+			}
+
+
+			goukeiItem = 0;
+
+			for (int aaa = 0; aaa <= 8; aaa = aaa + 1) {
+				if (hinmoku[aaa].Grouptype == -99) {
+					break;
+				}
+
+				itemHairetu[aaa] = hinmoku[aaa].subID;
+				itemTypeHairetu[aaa] = hinmoku[aaa].Grouptype;
+
+				goukeiItem = goukeiItem + 1;
+			}
+
+
+
+
+			// 「売る」のあとに「買う」したときの表示文の残骸の一旦クリア用
+			for (int temp = 0; temp <= 6; temp = temp + 1) {
+				lstrcpy(mojibuf, TEXT("   "));
+				//TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+				DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			}
+
+
+			int koumoku_Y = 200;
+			int kasolOffsetY = 30;
+
+			for (int temp = 0; temp <= 3; temp = temp + 1) {
+
+				if (hinmoku[temp].Grouptype == -99) {
+					break;
+				}
+
+				if (hinmoku[temp].Grouptype == wepoType) {
+					lstrcpy(mojibuf, weapon_def_list[hinmoku[temp].subID].def_name);
+				}
+				if (hinmoku[temp].Grouptype == tateType) {
+					lstrcpy(mojibuf, shield_def_list[hinmoku[temp].subID].def_name);
+				}
+				if (hinmoku[temp].Grouptype == kabutoType) {
+					lstrcpy(mojibuf, helm_def_list[hinmoku[temp].subID].def_name);
+				}
+
+				// TextOut(hdc, 280, koumoku_Y + 30 + 30 * temp, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(280, koumoku_Y + 30 + 30 * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				lstrcpy(mojibuf, TEXT("50G"));
+				// TextOut(hdc, 280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				if (hinmoku[temp].Grouptype == wepoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[hinmoku[temp].subID].have_kosuu);
+				}
+				if (hinmoku[temp].Grouptype == kabutoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[hinmoku[temp].subID].have_kosuu);
+				}
+				if (hinmoku[temp].Grouptype == tateType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), shield_have_list[hinmoku[temp].subID].have_kosuu);
+				}
+				// TextOut(hdc, 280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+			} // for temp 終わり
+
+		}
+
+
+		if (mode_scene == MODE_Shop_weapon_sell || mode_scene == MODE_Shop_armor_sell) {
+			filterFlag = 1;
+			//Draw_map(hdc);
+
+
+
+			{
+				int whomTargetID3 = tempPass;
+
+				//BrushDarkBlue_set(hdc);
+				// Rectangle(hdc, 10, 10, 610, 80);
+
+				//BrushDarkPink_set(hdc);
+				//	Rectangle(hdc, 10, 100,	300, 200);
+
+
+				lstrcpy(mojibuf, TEXT("商店にhhh入りました。どこへ行きますか?"));
+				// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+				int offsetYtemp1 = 100;
+				// SelectObject(hdc, blue_thin_1);
+				window1Draw( 10, offsetYtemp1,
+					offsetYtemp1 + 100, 400);
+
+				int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
+
+				//BrushDarkPink_set(hdc);
+				tenmetu(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID3),
+					150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID3)); // あとでダーク化
+
+				int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
+				int yspan1 = carsoruHigh;
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先hhh"));
+				// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
+				
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("武器"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), mojibuf, lstrlen(mojibuf));
+
+
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("防具"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), mojibuf, lstrlen(mojibuf));
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装飾品"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), mojibuf, lstrlen(mojibuf));
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("道具"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), mojibuf, lstrlen(mojibuf));
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出る"));
+				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), mojibuf, lstrlen(mojibuf));
+				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			}
+
+
+
+
+
+
+			//SetBkMode(hdc, OPAQUE);
+			// SetBkMode(hdc, TRANSPARENT);
+
+			// MessageBox(NULL, TEXT("売却のテスト中。"), TEXT("キーテスト"), MB_OK);
+
+			//BrushDarkBlue_set(hdc);
+			//BrushPink_set(hdc);
+
+			lstrcpy(mojibuf, TEXT("武器屋テスト売る。"));
+			//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			int offsetYtemp1 = 100;
+			//SelectObject(hdc, blue_thin_1);
+			window1Draw( 250, 100,
+				450, 150);
+
+
+			int BuySellX = 280;
+			int BuySellY = 120;
+
+			int carsoruHigh = 30;
+			int spanX = 50;
+
+
+			shopAct = 1; // 「売る」にカーソル
+
+			//BrushDarkPink_set(hdc);
+			tenmetu(BuySellX + spanX * (shopAct), offsetYtemp1 + 10,
+				BuySellX + 40 + spanX * (shopAct), offsetYtemp1 + 60); // あとでダーク化
+
+
+			lstrcpy(mojibuf, TEXT("買う"));
+			// TextOut(hdc, BuySellX, BuySellY, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(BuySellX, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("売る"));
+			//TextOut(hdc, BuySellX + spanX * 1, BuySellY, mojibuf, lstrlen(mojibuf));
+
+
+			DrawFormatString(BuySellX + spanX * 1, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("中古"));
+			// TextOut(hdc, BuySellX + spanX * 2, BuySellY, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(BuySellX + spanX * 2, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			lstrcpy(mojibuf, TEXT("出る"));
+			// TextOut(hdc, BuySellX + spanX * 3, BuySellY, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(BuySellX + spanX * 3, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			//BrushBlue_set(hdc);
+			int GoldRanX = 480; int GoldRanY = 50;
+			//SelectObject(hdc, blue_thin_1);
+			window1Draw(GoldRanX, GoldRanY,
+				GoldRanX + 120, 110);
+
+
+			lstrcpy(mojibuf, TEXT("所持金"));
+			// TextOut(hdc, GoldRanX, GoldRanY + 10, mojibuf, lstrlen(mojibuf));
+
+
+			DrawFormatString(GoldRanX, GoldRanY + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d G"), your_money);
+			// TextOut(hdc, GoldRanX, GoldRanY + 10 + 20, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(GoldRanX, GoldRanY + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+			//SelectObject(hdc, blue_thin_1);
+			window1Draw(250, 170,
+				450, 400);
+
+			lstrcpy(mojibuf, TEXT("ここに商品や所持品が表示されます"));
+			// TextOut(hdc, 280, 170, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(280, 170, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			////////////// 何かのコピペの境
+
+
+			int spanY = 30;
+			int Y0 = 120;
+
+
+			int itemskip = 0;
+			goukeiItem = 0;
+
+			int itemIDcount = 0;
+			int column = 1; // 1に変更
+
+			int xcommon;
+			int ycommon;
+
+
+			// アイテム処理用
+			itemskip = 0;
+			int LimintTemp = goukeiItem;
+
+
+			// 使用品の配列代入
+			for (idTemp = 1; idTemp <= 3; idTemp = idTemp + 1)
+			{
+
+				if (item_have_list[idTemp].have_kosuu != 0) {
+
+					goukeiItem = goukeiItem + 1;
+
+					if (1) {
+						itemHairetu[itemIDcount] = idTemp;
+						itemTypeHairetu[itemIDcount] = siyouType;
+						itemIDcount = itemIDcount + 1;
+					}
+				}
+
+				if (item_have_list[idTemp].have_kosuu == 0 && idTemp != 3) {
+					itemskip = itemskip + 1;
+
+				}
+			} // 使用品の配列代入
+
+
+
+			itemskip = 0;
+			LimintTemp = goukeiItem;
+
+			// 武器の配列代入
+			for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+			{
+				if (weapon_have_list[idTemp].have_kosuu != 0) {
+
+					goukeiItem = goukeiItem + 1;
+
+					if (1) {
+						itemHairetu[itemIDcount] = idTemp;
+						itemTypeHairetu[itemIDcount] = wepoType;
+						itemIDcount = itemIDcount + 1;
+					}
+				}
+
+				if (weapon_have_list[idTemp].have_kosuu == 0 && idTemp != 2) {
+					itemskip = itemskip + 1;
+
+				}
+			} // 武器の配列代入
+
+
+
+			itemskip = 0;
+			LimintTemp = goukeiItem;
+
+			// シールドの配列代入
+			for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+			{
+				if (shield_have_list[idTemp].have_kosuu != 0) {
+					// MessageBox(NULL, TEXT("テストhelm"), TEXT("キーテスト"), MB_OK);
+
+					goukeiItem = goukeiItem + 1;
+
+					if (1) {
+						itemHairetu[itemIDcount] = idTemp;
+						itemTypeHairetu[itemIDcount] = tateType;
+						itemIDcount = itemIDcount + 1;
+					}
+
+				}
+
+				if (shield_have_list[idTemp - itemIDcount].have_kosuu == 0) {
+					itemskip = itemskip + 1;
+
+				}
+			} // シールド
+
+			itemskip = 0;
+			LimintTemp = goukeiItem;
+			// ヘルムの配列代入
+			for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
+			{
+				// MessageBox(NULL, TEXT("テスト22"), TEXT("キーテスト"), MB_OK);
+				if (helm_have_list[idTemp].have_kosuu != 0) {
+
+					goukeiItem = goukeiItem + 1;
+
+					if (1) {
+						itemHairetu[itemIDcount] = idTemp;
+						itemTypeHairetu[itemIDcount] = kabutoType;
+						itemIDcount = itemIDcount + 1;
+					}
+
+				}
+
+				if (helm_have_list[idTemp - itemIDcount].have_kosuu == 0) {
+					itemskip = itemskip + 1;
+
+				}
+			} // かぶとの配列代入
+
+			itemTypeHairetu[itemIDcount] = -99; // 終了を意味する数。
+
+
+			//BrushPink_set(hdc);
+			tenmetu( 280, 200 + 60 + 30 * (whomTargetID1),
+				320 + 40, offsetYtemp1 + 60 + 60 + 30 * (whomTargetID1));
+
+			//SetBkColor(hdc, RGB(0xFF, 0xFF, 0xFF));
+			//SetBkMode(hdc, OPAQUE);
+
+			// 見出し
+			if (1) {
+				lstrcpy(mojibuf, TEXT("商品名"));
+				//TextOut(hdc, 280, 200, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(280, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				lstrcpy(mojibuf, TEXT("価格"));
+				//TextOut(hdc, 280 + 120, 200, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(280 + 120, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				lstrcpy(mojibuf, TEXT("在庫"));
+				//TextOut(hdc, 280 + 170, 200, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(280 + 170, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				lstrcpy(mojibuf, TEXT("所持数"));
+				//TextOut(hdc, 280 + 170 + 50, 200, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(280 + 170 + 50, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+			
+			}
+
+
+			// ページ送り時の一旦クリア用
+			for (int temp = 0; temp <= 6; temp = temp + 1) {
+				lstrcpy(mojibuf, TEXT("   "));
+				// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1),  GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			}
+
+			if (1) {
+				for (int temp = 0; temp <= 10; temp = temp + 1) {
+
+
+					int temp2 = temp + pageSyori * 6;
+
+					if (itemTypeHairetu[temp2] == -99) {
+						lstrcpy(mojibuf, TEXT("   "));
+						//TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+
+						DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+						break;
+					}
+
+
+					if (itemTypeHairetu[temp2] == siyouType) {
+						lstrcpy(mojibuf, item_def_list[itemHairetu[temp2]].def_name);
+					}
+					if (itemTypeHairetu[temp2] == wepoType) {
+						lstrcpy(mojibuf, weapon_def_list[itemHairetu[temp2]].def_name);
+					}
+					if (itemTypeHairetu[temp2] == tateType) {
+						lstrcpy(mojibuf, shield_def_list[itemHairetu[temp2]].def_name);
+					}
+					if (itemTypeHairetu[temp2] == kabutoType) {
+						lstrcpy(mojibuf, helm_def_list[itemHairetu[temp2]].def_name);
+					}
+					// TextOut(hdc, 280, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+					DrawFormatString(280, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+					lstrcpy(mojibuf, TEXT("50G"));
+					// TextOut(hdc, 280 + 120, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(280 + 120, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+					// 個数欄の背景クリア用
+					lstrcpy(mojibuf, TEXT("   "));
+					// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+					if (itemTypeHairetu[temp2] == siyouType) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), item_have_list[itemHairetu[temp2]].have_kosuu);
+					}
+					if (itemTypeHairetu[temp2] == wepoType) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[itemHairetu[temp2]].have_kosuu);
+					}
+					if (itemTypeHairetu[temp2] == tateType) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), shield_have_list[itemHairetu[temp2]].have_kosuu);
+					}
+					if (itemTypeHairetu[temp2] == kabutoType) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[itemHairetu[temp2]].have_kosuu);
+					}
+
+					// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+					DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				}
+			}
+		} // sell end
+
+
+
 
 
 		if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_NOW || mode_scene == MODE_BATTLE_WIN) {
