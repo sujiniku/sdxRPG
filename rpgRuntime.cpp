@@ -2922,7 +2922,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int offsetYtemp1 = 100;
 			// SelectObject(hdc, blue_thin_1);
 			
-			window1Draw(10, offsetYtemp1, offsetYtemp1 + 100, 400);
+			window1Draw(10, offsetYtemp1, 200, offsetYtemp1 +300);
 
 			// Rectangle(hdc, 10, offsetYtemp1,offsetYtemp1 + 100, 400);
 
@@ -2935,6 +2935,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// Rectangle(hdc, 20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1), 150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1));
 
 
+
+			window1Draw(10, 80 , 100, 120);
 
 			int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
 			int yspan1 = carsoruHigh;
@@ -3010,6 +3012,67 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				mode_scene = MODE_MAP;
 				nyuuryokuMatiX = waitTime1;
 			}
+
+
+
+
+
+
+
+
+			// 十字キー入力時
+
+			int rangeMin = 0; int rangeMax = 3;
+
+			// カーソルを上に移動
+			{
+
+				// 移動の終了処理
+				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
+					keyEnableUp = 0;
+					nyuuryokuMatiUp = waitTime1;
+					selecting_mainmenu--;     // 上へ1マスだけ移動
+
+				}
+
+
+				if (selecting_mainmenu < rangeMin) {
+					selecting_mainmenu = rangeMin;
+				}
+
+				if (selecting_mainmenu >= rangeMax) {
+					selecting_mainmenu = rangeMax;
+				}
+			}
+
+			// カーソルを下に移動
+			{
+
+				// 移動の終了処理
+				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
+					keyEnableDown = 0;
+					nyuuryokuMatiDown = waitTime1;
+					selecting_mainmenu++;                       // 下へ1マスだけ移動
+				}
+
+
+				if (selecting_mainmenu < rangeMin ) {
+					selecting_mainmenu = rangeMin ;
+				}
+
+				if (selecting_mainmenu >= rangeMax) {
+					selecting_mainmenu = rangeMax ;
+				}
+
+			}
+
+
+			whomTargetID1 = selecting_mainmenu;
+
+
+
+
+
 
 		}
 
@@ -3290,6 +3353,64 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+
+
+				// 十字キー入力時
+
+				// カーソルを上に移動
+				{
+
+					// 移動の終了処理
+					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
+						keyEnableUp = 0;
+						nyuuryokuMatiUp = waitTime1;
+						selecting_mainmenu--;     // 上へ1マスだけ移動
+
+					}
+
+
+					if (selecting_mainmenu < 0) {
+						selecting_mainmenu = 0;
+					}
+
+					if (selecting_mainmenu >= 3) {
+						selecting_mainmenu = 3;
+					}
+				}
+
+				// カーソルを下に移動
+				{
+
+					// 移動の終了処理
+					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
+						keyEnableDown = 0;
+						nyuuryokuMatiDown = waitTime1;
+						selecting_mainmenu++;                       // 下へ1マスだけ移動
+					}
+
+
+					if (selecting_mainmenu < 1) {
+						selecting_mainmenu = 1;
+					}
+
+					if (selecting_mainmenu >= 3) {
+						selecting_mainmenu = 3;
+					}
+
+				}
+
+
+				whomTargetID1 = selecting_mainmenu;
+
+
+
+
+
 
 
 			}
@@ -3829,7 +3950,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//	Rectangle(hdc, 10, 100,	300, 200);
 
 
-				lstrcpy(mojibuf, TEXT("商店にhhh入りました。どこへ行きますか?"));
+				lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
 				// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
 
 				DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
@@ -3851,7 +3972,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
 				int yspan1 = carsoruHigh;
 
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先hhh"));
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
 				// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
 				
 				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
