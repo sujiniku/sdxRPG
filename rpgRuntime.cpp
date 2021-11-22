@@ -2594,8 +2594,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// キャラチップ描画
 		{
-			int charaChipWidthX = 30; // 直後ifの外でも使うのでブロック外で定義。
-			int charaChipWidthY = 30;
+			static int charaChipWidthX = 30; // 直後ifの外でも使うのでブロック外で定義。
+			static int charaChipWidthY = 30;
 
 			if (toubouTyokugo[(encount_monsters_id)-1] > 0 && enemy_alive[(encount_monsters_id)-1] == 1 && xPosi == monPosiX[1-1] && yPosi == monPosiY[1-1]) {
 
@@ -2608,32 +2608,83 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			// 個別の向きの画像で上書き
 
-			double baiX = waitTime1 / charaChipWidthX;
-			double baiY = waitTime1 / charaChipWidthY;
+			static double baiX = waitTime1 / charaChipWidthX;
+			static double baiY = waitTime1 / charaChipWidthY;
+
+			static int tempK = 1;
+
+
+
+			struct localFuncStruct
+			{
+				void localDraw1() {
+					DrawGraph(charaChipWidthX * xPosi + 0 + tempK * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY * yPosi, tempHandle, false);
+				}
+
+				void localDraw2() {
+					DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * yPosi + tempK * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
+
+				}
+			} localFunc;
+
+
+#define macroDraw1() DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false)
 
 			if (hero1_direction == rightward) {
-
+				tempK = 1;
 				tempHandle = charachipRightHandle;
-				DrawGraph(charaChipWidthX * xPosi + 0 + (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY * yPosi, tempHandle, false);
+				// localFunc.localDraw1();
+#define K 1
+				macroDraw1();
+				//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
+#undef K
 			}
 
 			if (hero1_direction == leftward) {
-				tempHandle = charachipLeftHandle;
-				DrawGraph(charaChipWidthX * xPosi + 0 - (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY * yPosi, tempHandle, false);
+				tempK = -1;
 
+				tempHandle = charachipLeftHandle;
+				// localFunc.localDraw1();
+
+#define K -1
+				macroDraw1();
+				//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
+#undef K
 			}
 
+#undef macroDraw1() 
 
+
+#define macroDraw2() DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
 
 			if (hero1_direction == downward) {
-				tempHandle = charachipDownHandle;
-				DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * yPosi + (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
+				tempK = 1;
 
+
+
+				tempHandle = charachipDownHandle;
+#define K 1
+				macroDraw2();
+				//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
+#undef K
+
+				//localFunc.localDraw2();
 			}
 
 			if (hero1_direction == upward) {
+				tempK = -1;
+
+
+
 				tempHandle = charachipUpHandle;
-				DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * yPosi - (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
+				//localFunc.localDraw2();
+#define K -1
+				macroDraw2();
+				//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
+#undef K
+
+#undef macroDraw2() 
+
 			}
 
 		}
@@ -2857,10 +2908,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					}
 
-
-
-
-
 				} // モンスター遭遇処理
 
 
@@ -2901,7 +2948,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			filterFlag = 1;
 			// Draw_map(hdc);
 
-			//window1Draw(winX1, winY1 + offsetY * j,				winX2, winY2 + offsetY * j);
+			//window1Draw(winX1, winY1 + offsetY * j,	winX2, winY2 + offsetY * j);
 
 
 			//BrushBlue_set(hdc);
@@ -2919,7 +2966,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-			int offsetYtemp1 = 100;
+			static int offsetYtemp1 = 100;
 			// SelectObject(hdc, blue_thin_1);
 			
 			window1Draw(10, offsetYtemp1, 200, offsetYtemp1 +300);
@@ -2938,35 +2985,44 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			window1Draw(10, 80 , 100, 120);
 
-			int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
-			int yspan1 = carsoruHigh;
+			static int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
+			static int yspan1 = carsoruHigh;
+
+			int temp = 0;
+
+			struct localFuncStruct
+			{
+				void localText(int temp) {
+					DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (temp), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				}
+			} localFunc;
 
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
-			//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
-			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
+			//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (temp), mojibuf, lstrlen(mojibuf));
+			localFunc.localText(temp);
 
 
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("ギルド"));
+			temp = 1;
 			//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), mojibuf, lstrlen(mojibuf));
-			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
+			localFunc.localText(temp);
 
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("宿屋"));
+			temp = 2;
 			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), mojibuf, lstrlen(mojibuf));
-			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
+			localFunc.localText(temp);
 
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("商店"));
+			temp = 3;
 			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), mojibuf, lstrlen(mojibuf));
-			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
+			localFunc.localText(temp);
 
 
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出る"));
+			temp = 4;
 			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), mojibuf, lstrlen(mojibuf));
-			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+			localFunc.localText(temp);
 
 
 
@@ -2999,14 +3055,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			}
 
-			// temp == tourokuNakama + 1    に相当
-		//	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("【外す】"));
-		//	TextOut(hdc, offsetXtemp1, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120, mojibuf, lstrlen(mojibuf));
+			// temp == tourokuNakama + 1    に相当		
+			// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("【外す】"));		
+			// TextOut(hdc, offsetXtemp1, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120, mojibuf, lstrlen(mojibuf));
 
 
 
 			if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1) {
-				townFlag = 1;
+				townFlag = 1; // タウン退出には、これが必要
 				
 				keyEnableX = 0;
 				mode_scene = MODE_MAP;
@@ -3014,9 +3070,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyEnableZ == 1 && whomTargetID1 == 3) {
+				townFlag = 1; // タウン退出には、これが必要
 
+				key_remain = 0;
+				//whomTargetID1 = whomCHARA - 1;
 
-
+				mode_scene = MODE_MAP;
+				beforeselect = 0;
+				keyEnableReset();
+			}
 
 
 
@@ -3026,53 +3089,34 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			// カーソルを上に移動
 			{
-
 				// 移動の終了処理
 				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
 					keyEnableUp = 0;
 					nyuuryokuMatiUp = waitTime1;
 					selecting_mainmenu--;     // 上へ1マスだけ移動
-
-				}
-
-
-				if (selecting_mainmenu < rangeMin) {
-					selecting_mainmenu = rangeMin;
-				}
-
-				if (selecting_mainmenu >= rangeMax) {
-					selecting_mainmenu = rangeMax;
 				}
 			}
 
 			// カーソルを下に移動
 			{
-
 				// 移動の終了処理
 				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
 					keyEnableDown = 0;
 					nyuuryokuMatiDown = waitTime1;
-					selecting_mainmenu++;                       // 下へ1マスだけ移動
+					selecting_mainmenu++;      // 下へ1マスだけ移動
 				}
-
-
-				if (selecting_mainmenu < rangeMin ) {
-					selecting_mainmenu = rangeMin ;
-				}
-
-				if (selecting_mainmenu >= rangeMax) {
-					selecting_mainmenu = rangeMax ;
-				}
-
 			}
 
+			// 共通の後処理
+			if (selecting_mainmenu < rangeMin) {
+				selecting_mainmenu = rangeMin;
+			}
+
+			if (selecting_mainmenu >= rangeMax) {
+				selecting_mainmenu = rangeMax;
+			}
 
 			whomTargetID1 = selecting_mainmenu;
-
-
-
-
-
 
 		}
 
@@ -3361,6 +3405,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				// 十字キー入力時
+				int rangeMin = 0; int rangeMax = 3;
 
 				// カーソルを上に移動
 				{
@@ -3374,12 +3419,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 
-					if (selecting_mainmenu < 0) {
-						selecting_mainmenu = 0;
+					if (selecting_mainmenu < rangeMin) {
+						selecting_mainmenu = rangeMin;
 					}
 
-					if (selecting_mainmenu >= 3) {
-						selecting_mainmenu = 3;
+					if (selecting_mainmenu >= rangeMax) {
+						selecting_mainmenu = rangeMax;
 					}
 				}
 
@@ -3394,12 +3439,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 
-					if (selecting_mainmenu < 1) {
-						selecting_mainmenu = 1;
+					if (selecting_mainmenu < rangeMin) {
+						selecting_mainmenu = rangeMin;
 					}
 
-					if (selecting_mainmenu >= 3) {
-						selecting_mainmenu = 3;
+					if (selecting_mainmenu >= rangeMax) {
+						selecting_mainmenu = rangeMax;
 					}
 
 				}
@@ -4976,6 +5021,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				// 十字キー入力時
+				int rangeMin = 0; int rangeMax = 3;
 
 				// カーソルを上に移動
 				{
@@ -4989,12 +5035,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 
-					if (selecting_mainmenu < 0) {
-						selecting_mainmenu = 0;
+					if (selecting_mainmenu < rangeMin) {
+						selecting_mainmenu = rangeMin;
 					}
 
-					if (selecting_mainmenu >= 3) {
-						selecting_mainmenu = 3;
+					if (selecting_mainmenu >= rangeMax) {
+						selecting_mainmenu = rangeMax;
 					}
 				}
 
@@ -5010,12 +5056,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 
-					if (selecting_mainmenu < 1) {
-						selecting_mainmenu = 1;
+					if (selecting_mainmenu < rangeMin) {
+						selecting_mainmenu = rangeMin;
 					}
 
-					if (selecting_mainmenu >= 3) {
-						selecting_mainmenu = 3;
+					if (selecting_mainmenu >= rangeMax) {
+						selecting_mainmenu = rangeMax;
 					}
 
 				}
