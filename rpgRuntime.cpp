@@ -2630,6 +2630,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 #define macroDraw1() DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false)
 
+		//	__inline void inDraw() { // エラー
+		//		DrawGraph(charaChipWidthX * xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY * yPosi, tempHandle, false);
+		//	}
+
 			if (hero1_direction == rightward) {
 				tempK = 1;
 				tempHandle = charachipRightHandle;
@@ -3067,6 +3071,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				keyEnableX = 0;
 				mode_scene = MODE_MAP;
 				nyuuryokuMatiX = waitTime1;
+
+				afterShop = 0;
 			}
 
 
@@ -3079,6 +3085,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				mode_scene = MODE_MAP;
 				beforeselect = 0;
 				keyEnableReset();
+
+				afterShop = 0;
 			}
 
 
@@ -3094,6 +3102,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					keyEnableUp = 0;
 					nyuuryokuMatiUp = waitTime1;
 					selecting_mainmenu--;     // 上へ1マスだけ移動
+
+					afterShop = 0;
 				}
 			}
 
@@ -3104,6 +3114,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					keyEnableDown = 0;
 					nyuuryokuMatiDown = waitTime1;
 					selecting_mainmenu++;      // 下へ1マスだけ移動
+
+					afterShop = 0;
 				}
 			}
 
@@ -3118,7 +3130,94 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			whomTargetID1 = selecting_mainmenu;
 
+
+
+
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && keyHaijyo == 0	) {
+
+				if (whomTargetID1 == 0) {
+
+					// pre_guild(hWnd);
+					mode_scene = MODE_Guild_Main;
+
+				}
+
+
+				// 宿
+				if (whomTargetID1 == 1) {
+
+					popFlagTown = 1;
+					afterShop = 1;
+					lstrcpy(popMsg, TEXT("全回復した。"));
+
+					int tempYado; // for で使う
+					// partyNinzuDone
+
+
+					int aaaa = 0;
+
+					for (aaaa = 0; aaaa <= partyNinzuDone - 1; aaaa = aaaa + 1) {
+
+						tempYado = partyNarabijyun[aaaa];
+						heros_def_list[tempYado].heros_hp = heros_def_list[tempYado].heros_hp_max;
+						// heros_def_list[tempYado].heros_mp = heros_def_list[tempYado].heros_mp_max;
+
+					}
+
+
+			// 商店
+					if (whomTargetID1 == 2) {
+
+						// MessageBox(NULL, TEXT("未実装。"), TEXT("キーテスト"), MB_OK);
+
+
+						whomTargetID1 = 0;
+						whomCHARA = whomTargetID1 + 1;
+						mode_scene = MODE_Shop_Main;
+
+
+					}
+
+					if (whomTargetID1 == 3) {
+
+						mode_scene = MODE_MAP;
+
+					}
+
+
+					// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
+
+					//mode_scene = MODE_BATTLE_NOW;
+
+				} // ターン開始 of 戦うコマンド
+
+
+
+
+
+
+
+
+
+
+		}// town
+
+
+
+
+
+
 		}
+
+
+
+
+
+
+
+
+
 
 
 		// if (mode_scene == MODE_Shop_Main && key_remain > 0) {
