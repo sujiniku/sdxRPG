@@ -3141,6 +3141,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					nyuuryokuMatiZ = waitTime1;
 
 					// pre_guild(hWnd);
+
+					Akihaikeisan();
+
+
 					mode_scene = MODE_Guild_Main;
 
 				}
@@ -3270,6 +3274,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1) {
 				//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
 
+				partyNinzuDone = partyNinzuTemp;
 				mode_scene = MODE_TOWN;
 
 				nyuuryokuMatiX = waitTime1;
@@ -3285,6 +3290,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				whomCHARA = hikaeNinzu; // また「外す」にあってるのは面倒なので 1つ下げる。
 
+				partyNinzuDone = partyNinzuTemp;
 				mode_scene = MODE_TOWN;
 
 				keyEnableZ = 0; // 必要
@@ -3292,6 +3298,150 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				key_remain = 1;
 				keyEnableReset();
 			}
+
+
+
+
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1 && whomCHARA != hikaeNinzu + 1 && nyuuryokuMatiZ <= 0) {
+
+
+				if (uwadumeFlag == 0) {
+
+					if (akikosuu >= 1 && whomCHARA - 1 <= tourokuNakama) {  // パーティ側の空き個数
+					// こっちはパーティ側の上書き用
+						if (heros_def_list[hikaeNarabijyun[whomCHARA - 1]].PartyIn == 0) {
+
+							heros_def_list[hikaeNarabijyun[whomCHARA - 1]].PartyIn = 1;
+
+							// 仕様変更により、順番を変えてもバグらない。
+							// 下記の順序を守ること・・・だった。守らないとバグだった。
+							partyNarabijyun[akiHairetu[0]] = whomCHARA - 1; // 先に代入
+							// 人数の更新
+							partyNinzuTemp = partyNinzuTemp + 1; // あとから人数を加算
+							hikaeNinzu = hikaeNinzu - 1;
+
+							akiHairetu[0] = akiHairetu[1];
+
+							uwagaki = 1;
+
+							akikosuu = akikosuu - 1;
+
+
+							keyEnableZ = 0;
+							nyuuryokuMatiZ = waitTime1 ;
+
+							mode_scene = MODE_Guild_Responce; // レスポンス中に空き配列の計算をするので残すこと
+
+					
+						}
+
+					}
+
+					if (akikosuu <= 0) {
+
+						mode_scene = MODE_Guild_Main;
+
+						
+					}
+
+
+					if (whomTargetID1hikae == tourokuNakama + 1) {
+						// partyNinzuDone = partyNinzuDone -1;
+
+						uwagaki = 1;
+
+						mode_scene = MODE_Guild_Remove;
+					}
+
+				}
+
+
+
+				if (uwadumeFlag == 1) {
+
+					// パーティ加入すると控え人数が変わるので、移動先モード判定は先に行う必要あり。
+					if (whomCHARA == hikaeNinzu + 1) {
+
+						uwagaki = 1;
+
+						mode_scene = MODE_Guild_Remove;
+
+
+						break; // 下記の加入モードをbreakで省略しないと行けないので、ここにbreak
+					}
+
+
+					// 以下、メインモード。
+
+					if (akikosuu >= 1 && whomCHARA - 1 <= tourokuNakama) {  // パーティ側の空き個数
+
+						
+
+					// こっちはパーティ側の上書き用
+						if (heros_def_list[hikaeNarabijyun[whomCHARA - 1]].PartyIn == 0) {
+
+
+							// MessageBox(NULL, TEXT("押され33。"), TEXT("キーテスト"), MB_OK);
+
+
+							heros_def_list[hikaeNarabijyun[whomCHARA - 1]].PartyIn = 1;
+
+							// 仕様変更により、順番を変えてもバグらない。
+							// 下記の順序を守ること・・・だった。守らないとバグだった。
+							partyNarabijyun[akiHairetu[0]] = hikaeNarabijyun[whomCHARA - 1]; // 先に代入
+							// 人数の更新
+							partyNinzuTemp = partyNinzuTemp + 1; // あとから人数を加算
+
+
+							hikaeNinzu = hikaeNinzu - 1;
+
+
+
+							akiHairetu[0] = akiHairetu[1];
+
+							uwagaki = 1;
+
+							akikosuu = akikosuu - 1;
+
+							mode_scene = MODE_Guild_Responce; // レスポンス中に空き配列の計算をするので残すこと
+
+						}
+					}
+
+
+					if (akikosuu <= 0) {
+						// MessageBox(NULL, TEXT("押され。"), TEXT("キーテスト"), MB_OK);
+
+						mode_scene = MODE_Guild_Main;
+
+
+					}
+
+
+					// ギルド突入時にも処理しているが、突入処理はここでは不要なので、こっちでも別途、実装。
+					// 控えメンバー側のリスト描画
+					hikaeKeisan();
+
+				}
+
+
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5051,7 +5201,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
 
-				DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "倒した"); // 文字を描画する
+				if (partyNinzuDone <= 2) {
+					DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "倒した"); // 文字を描画する
+				}
+
+				if (partyNinzuDone == 3) {
+					DrawFormatString(monMesX +100, 350 + 30, GetColor(255, 255, 255), "倒した"); // 文字を描画する
+				}
+
+
 
 				int senkaX = 250; int senkaY = 150;
 				window1Draw(senkaX, senkaY, senkaX + 150, senkaY + 120);
