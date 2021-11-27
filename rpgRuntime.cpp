@@ -1349,11 +1349,12 @@ void hikaesai() {
 			offsetYtemp1 + 100, 400);
 	}
 
-	if (mode_scene != MODE_Guild_Main) {
+	if (mode_scene == MODE_Guild_Main) {
 		// BrushDarkBlue_set(hdc);
 		window1Draw(10, offsetYtemp1,
 			offsetYtemp1 + 100, 400);
 	}
+
 
 	// Rectangle(hdc, 10, offsetYtemp1,		offsetYtemp1 + 100, 400);
 
@@ -3133,9 +3134,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && keyHaijyo == 0	) {
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1	) {
 
 				if (whomTargetID1 == 0) {
+					keyEnableZ = 0;
+					nyuuryokuMatiZ = waitTime1;
 
 					// pre_guild(hWnd);
 					mode_scene = MODE_Guild_Main;
@@ -3213,6 +3216,168 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+
+		if (mode_scene == MODE_Guild_Main) {
+			filterFlag = 1;
+			// Draw_map(hdc);
+
+			// MessageBox(NULL, TEXT("ギルドのテスト中。"), TEXT("キーテスト"), MB_OK);
+
+			// BrushBlue_set(hdc);
+			// Rectangle(hdc, 10, 10, 610, 80);
+
+			// BrushPink_set(hdc);
+			//	Rectangle(hdc, 10, 100,	300, 200);
+
+
+			filterFlag = 1;
+
+			hikaesai();
+			parsai();
+
+
+
+			lstrcpy(mojibuf, TEXT("誰を仲間にしますか？ 選んでください。"));
+			// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("Xボタンで退出。          "));
+			// TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			if (partyNinzuTemp <= 0) {
+
+				lstrcpy(mojibuf, TEXT("パーティ人数が1人以上必要です。"));
+				//TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+			}
+
+
+
+
+			_stprintf_s(
+				mojibuf, MAX_LENGTH, TEXT("%d"),
+				partyNinzuDone);
+			// TextOut(hdc, 280, 310, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(280, 310, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+			if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1) {
+				//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
+
+				mode_scene = MODE_TOWN;
+
+				nyuuryokuMatiX = waitTime1;
+				key_remain = 1;
+				keyEnableReset();
+			}
+
+
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1 && whomCHARA == hikaeNinzu + 1 && nyuuryokuMatiZ <= 0) {
+				//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
+
+				// keyHaijyo = 1;
+
+				whomCHARA = hikaeNinzu; // また「外す」にあってるのは面倒なので 1つ下げる。
+
+				mode_scene = MODE_TOWN;
+
+				keyEnableZ = 0; // 必要
+				nyuuryokuMatiZ = waitTime1; // これしないと、またギルド入る
+				key_remain = 1;
+				keyEnableReset();
+			}
+
+
+
+
+			if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
+				// MessageBox(NULL, TEXT("上が押されました。"), TEXT("キーテスト"), MB_OK);
+				whomCHARA = whomCHARA - 1;
+
+				if (whomCHARA > hikaeNinzu) {
+					whomCHARA = hikaeNinzu;
+				}
+
+
+				keyEnableUp = 0;
+				nyuuryokuMatiUp = waitTime1;
+			}
+
+
+			if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
+
+				keyEnableDown = 0;
+				nyuuryokuMatiDown = waitTime1;
+
+				// MessageBox(NULL, TEXT("↓が押されました。"), TEXT("キーテスト"), MB_OK);
+
+				whomCHARA = whomCHARA + 1;
+
+				if (whomCHARA > hikaeNinzu + 1) {
+					whomCHARA = hikaeNinzu + 1;
+				}
+
+			}
+
+			if (whomCHARA < 1) {
+				whomCHARA = 1;
+			}
+			whomTargetID1 = whomCHARA - 1;
+
+			beforeselect = whomCHARA;
+
+			whomTargetID1hikae = whomTargetID1;
+
+
+		}
+
+
+		if (mode_scene == MODE_Guild_Remove) {
+			//BrushBlue_set(hdc);
+			//BrushPink_set(hdc);
+
+			hikaesai();
+			parsai();
+
+		}
+
+
+		if (mode_scene == MODE_Guild_Responce) {
+
+			// MessageBox(NULL, TEXT("ギルドのテスト中。"), TEXT("キーテスト"), MB_OK);
+
+			//BrushBlue_set(hdc);
+			//BrushPink_set(hdc);
+
+			lstrcpy(mojibuf, TEXT("誰を仲間にしますか？ 選んでください。"));
+			// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			hikaesai();
+			parsai();
+
+
+			// ここが上書きされている。
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s が仲間に加わった。"), heros_def_list[whomTargetID1hikae].heros_name);
+			// TextOut(hdc, 280, 300, mojibuf, lstrlen(mojibuf));
+			DrawFormatString(280, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			lstrcpy(mojibuf, TEXT("Xボタンで退出。"));
+			// TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+			mode_scene = MODE_Guild_Main;
+		}
 
 
 
@@ -3317,98 +3482,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-		if (mode_scene == MODE_Guild_Main) {
-			filterFlag = 1;
-			// Draw_map(hdc);
-
-			// MessageBox(NULL, TEXT("ギルドのテスト中。"), TEXT("キーテスト"), MB_OK);
-
-			// BrushBlue_set(hdc);
-			// Rectangle(hdc, 10, 10, 610, 80);
-
-			// BrushPink_set(hdc);
-			//	Rectangle(hdc, 10, 100,	300, 200);
-
-
-			filterFlag = 1;
-
-			hikaesai();
-			parsai();
-
-
-
-			lstrcpy(mojibuf, TEXT("誰を仲間にしますか？ 選んでください。"));
-			// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("Xボタンで退出。          "));
-			// TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			if (partyNinzuTemp <= 0) {
-
-				lstrcpy(mojibuf, TEXT("パーティ人数が1人以上必要です。"));
-				//TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
-
-				DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-			}
-
-
-
-
-			_stprintf_s(
-				mojibuf, MAX_LENGTH, TEXT("%d"),
-				partyNinzuDone);
-			// TextOut(hdc, 280, 310, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(280, 310, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-		}
-
-
-		if (mode_scene == MODE_Guild_Remove) {
-			//BrushBlue_set(hdc);
-			//BrushPink_set(hdc);
-
-			hikaesai();
-			parsai();
-
-		}
-
-
-		if (mode_scene == MODE_Guild_Responce) {
-
-			// MessageBox(NULL, TEXT("ギルドのテスト中。"), TEXT("キーテスト"), MB_OK);
-
-			//BrushBlue_set(hdc);
-			//BrushPink_set(hdc);
-
-			lstrcpy(mojibuf, TEXT("誰を仲間にしますか？ 選んでください。"));
-			// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			hikaesai();
-			parsai();
-
-
-			// ここが上書きされている。
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s が仲間に加わった。"), heros_def_list[whomTargetID1hikae].heros_name);
-			// TextOut(hdc, 280, 300, mojibuf, lstrlen(mojibuf));
-			DrawFormatString(280, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("Xボタンで退出。"));
-			// TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			mode_scene = MODE_Guild_Main;
-		}
 
 
 
