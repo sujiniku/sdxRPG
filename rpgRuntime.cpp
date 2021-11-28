@@ -1366,15 +1366,25 @@ void hikaesai() {
 
 	if (mode_scene != MODE_Guild_Main) {
 		//BrushDarkPink_set(hdc);
+		tenmetuStop(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1hikae),
+			150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1hikae)); // あとでダーク化
+
 	}
 
-	tenmetu( 20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1hikae),
-		150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1hikae)); // あとでダーク化
+	if (mode_scene == MODE_Guild_Main) {
+		tenmetu(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1hikae),
+			150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1hikae)); 
 
+	}
+
+
+	
 	int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
 	int yspan1 = carsoruHigh;
 
+	window1Draw(offsetXtemp1 - 1 * 10, offsetYtemp1 - 20, offsetXtemp1 + 150, offsetYtemp1 + 10);
 	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("控えメンバー"));
+
 	// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
 
 	DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
@@ -1497,6 +1507,7 @@ void parsai() {
 	int offsetXtemp2 = 220; int offsetYtemp2 = 100;
 	//SelectObject(hdc, blue_thin_1);
 	// Rectangle(hdc, offsetXtemp2, offsetYtemp2,	offsetXtemp2 + 200, offsetYtemp2 + 300);
+
 	window1Draw(offsetXtemp2, offsetYtemp2, offsetXtemp2 + 200, offsetYtemp2 + 300);
 
 	int kasoruHeight = 50;
@@ -1510,17 +1521,21 @@ void parsai() {
 	if (mode_scene == MODE_Guild_Remove) {
 		//Rectangle(hdc, offsetXtemp2 + 10, offsetYtemp2 + 10 + 60 * (whomTargetID1party),offsetXtemp2 + 150, offsetYtemp2 + kasoruHeight + 10 + 60 * (whomTargetID1party));
 	
-		window1Draw(offsetXtemp2 + 10, offsetYtemp2 + 10 + 60 * (whomTargetID1party), offsetXtemp2 + 150, offsetYtemp2 + kasoruHeight + 10 + 60 * (whomTargetID1party));
+		tenmetu(offsetXtemp2 + 10, offsetYtemp2 + 10 + 60 * (whomTargetID1party), offsetXtemp2 + 150, offsetYtemp2 + kasoruHeight + 10 + 60 * (whomTargetID1party));
 	
 	}
 
 	int yspan1 = 50;
 
+
+	window1Draw(offsetXtemp2 +10, offsetYtemp2 - 20, offsetXtemp2 + 180, offsetYtemp2 + 10);
 	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("パーティメンバー"));
+
 	// TextOut(hdc, offsetXtemp2 + 30, -10 + offsetYtemp2 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
-
-
 	DrawFormatString(offsetXtemp2 + 30, -10 + offsetYtemp2 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
 
 
 	for (int temp = 0; temp <= partymax - 1; temp = temp + 1) {
@@ -3371,6 +3386,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						mode_scene = MODE_Guild_Remove;
 
 
+
+
+
+
 						break; // 下記の加入モードをbreakで省略しないと行けないので、ここにbreak
 					}
 
@@ -3434,61 +3453,49 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+			if (mode_scene == MODE_Guild_Main) { // remove時に共通動作を封じるため
 
 
 
+				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
+					// MessageBox(NULL, TEXT("上が押されました。"), TEXT("キーテスト"), MB_OK);
+					whomCHARA = whomCHARA - 1;
+
+					if (whomCHARA > hikaeNinzu) {
+						whomCHARA = hikaeNinzu;
+					}
 
 
-
-
-
-
-
-
-
-
-
-
-
-			if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
-				// MessageBox(NULL, TEXT("上が押されました。"), TEXT("キーテスト"), MB_OK);
-				whomCHARA = whomCHARA - 1;
-
-				if (whomCHARA > hikaeNinzu) {
-					whomCHARA = hikaeNinzu;
+					keyEnableUp = 0;
+					nyuuryokuMatiUp = waitTime1;
 				}
 
 
-				keyEnableUp = 0;
-				nyuuryokuMatiUp = waitTime1;
-			}
+				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
 
+					keyEnableDown = 0;
+					nyuuryokuMatiDown = waitTime1;
 
-			if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
+					// MessageBox(NULL, TEXT("↓が押されました。"), TEXT("キーテスト"), MB_OK);
 
-				keyEnableDown = 0;
-				nyuuryokuMatiDown = waitTime1;
+					whomCHARA = whomCHARA + 1;
 
-				// MessageBox(NULL, TEXT("↓が押されました。"), TEXT("キーテスト"), MB_OK);
+					if (whomCHARA > hikaeNinzu + 1) {
+						whomCHARA = hikaeNinzu + 1;
+					}
 
-				whomCHARA = whomCHARA + 1;
-
-				if (whomCHARA > hikaeNinzu + 1) {
-					whomCHARA = hikaeNinzu + 1;
 				}
 
+				if (whomCHARA < 1) {
+					whomCHARA = 1;
+				}
+				whomTargetID1 = whomCHARA - 1;
+
+				beforeselect = whomCHARA;
+
+				whomTargetID1hikae = whomTargetID1;
+
 			}
-
-			if (whomCHARA < 1) {
-				whomCHARA = 1;
-			}
-			whomTargetID1 = whomCHARA - 1;
-
-			beforeselect = whomCHARA;
-
-			whomTargetID1hikae = whomTargetID1;
-
-
 		}
 
 
