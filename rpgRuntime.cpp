@@ -3291,7 +3291,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				whomCHARA = hikaeNinzu; // また「外す」にあってるのは面倒なので 1つ下げる。
 
 				partyNinzuDone = partyNinzuTemp;
-				mode_scene = MODE_TOWN;
+
+				whomCHARA = 0;
+				mode_scene = MODE_Guild_Remove;
 
 				keyEnableZ = 0; // 必要
 				nyuuryokuMatiZ = waitTime1; // これしないと、またギルド入る
@@ -3332,7 +3334,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							mode_scene = MODE_Guild_Responce; // レスポンス中に空き配列の計算をするので残すこと
 
-					
+							
 						}
 
 					}
@@ -3349,6 +3351,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// partyNinzuDone = partyNinzuDone -1;
 
 						uwagaki = 1;
+
+						whomCHARA = 0;
 
 						mode_scene = MODE_Guild_Remove;
 					}
@@ -3494,6 +3498,86 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			hikaesai();
 			parsai();
+
+
+
+
+
+
+			if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1) {
+				//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
+
+				partyNinzuDone = partyNinzuTemp;
+				mode_scene = MODE_Guild_Main ;
+
+				nyuuryokuMatiX = waitTime1;
+				key_remain = 1;
+				keyEnableReset();
+			}
+
+
+
+
+			if ((CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1)
+				|| (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1)) {
+
+				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1  && nyuuryokuMatiUp <= 0   ) {
+					// MessageBox(NULL, TEXT("上が押されました。"), TEXT("キーテスト"), MB_OK);
+					whomCHARA = whomCHARA - 1;
+
+					if (whomCHARA > partyNinzuTemp) {
+						whomCHARA = partyNinzuTemp;
+					}
+
+
+					keyEnableUp = 0;
+					nyuuryokuMatiUp = waitTime1;
+				}
+
+
+				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1 && nyuuryokuMatiDown <= 0) {
+
+					keyEnableDown = 0;
+					nyuuryokuMatiDown = waitTime1;
+
+					// MessageBox(NULL, TEXT("↓が押されました。"), TEXT("キーテスト"), MB_OK);
+
+					whomCHARA = whomCHARA + 1;
+
+					if (whomCHARA > partyNinzuTemp + 1) {
+						whomCHARA = partyNinzuTemp + 1;
+					}
+
+				}
+
+				// 共通処理
+				if (whomCHARA < 1) {
+					whomCHARA = 1;
+				}
+				whomTargetID1 = whomCHARA - 1;
+
+				beforeselect = whomCHARA;
+
+				whomTargetID1party = whomTargetID1;
+
+
+
+			} // if ((CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		}
 
