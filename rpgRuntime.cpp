@@ -358,7 +358,7 @@ int FontYoffset = 30;
 
 int idTemp = 0;
 int battleID = 0;
-int globalTempA = 0;
+int sentoKoudoCount = 0;
 int timerFlag = 0;
 int enemyAlldeadFlag = 0;// 0なら、敵はまだ全滅してない。1で敵が全滅。
 
@@ -1241,7 +1241,7 @@ void heroside_attack() {
 	tekidame = 1;
 	damepyon = 0;
 
-	int pnCommon = partyNarabijyun[actionOrder[globalTempA]];
+	int pnCommon = partyNarabijyun[actionOrder[sentoKoudoCount]];
 
 	if (heros_def_list[pnCommon].heros_HP0_flag == 0) {
 		// 主人公たちの攻撃
@@ -1276,7 +1276,7 @@ void enemy_attack() {
 	/* 乱数の種 */
 		// wWinMain で定義済み
 
-	int pnCommon = partyNarabijyun[actionOrder[globalTempA]];
+	int pnCommon = partyNarabijyun[actionOrder[sentoKoudoCount]];
 
 	// ダメージ計算式
 	/* サイコロ */
@@ -3502,6 +3502,93 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+			if (CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1) {
+				//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
+
+				keyEnableZ = 0;
+				partyNinzuTemp = partyNinzuTemp - 1;
+
+				heros_def_list[partyNarabijyun[whomTargetID1party]].PartyIn = 0; // 先に控えをコピーしてから（次行）
+				partyNarabijyun[whomTargetID1party] = -1; // パーティ側をカラにする。
+
+
+				akikosuu = akikosuu + 1;
+
+
+				Akihaikeisan();
+
+
+				hikaeNinzu = hikaeNinzu + 1;
+				
+				// これが加わる
+				hikaeKeisan();
+
+
+
+
+
+
+
+
+				if (partyNinzuTemp >= 1) {
+
+
+
+					int skip = 0;
+					int kousinNarabijyun[partymax];
+
+					partyNinzuDone = partyNinzuTemp;
+					// MessageBox(NULL, TEXT("xxxxxxxが押されました。"), TEXT("キーテスト"), MB_OK);
+
+
+
+
+					for (int temp = 0; temp < partymax; temp++)
+					{
+						if (partyNarabijyun[temp] >= 0) {
+							kousinNarabijyun[temp - skip] = partyNarabijyun[temp];
+						}
+
+						if (partyNarabijyun[temp] < 0) {
+							skip = skip + 1;
+						}
+					}
+
+					for (int temp = 0; temp < partymax; temp++)
+					{
+						partyNarabijyun[temp] = kousinNarabijyun[temp];
+					}
+
+					//mode_scene = MODE_TOWN;
+
+					//InvalidateRect(hWnd, NULL, FALSE);
+					//UpdateWindow(hWnd);
+				}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				mode_scene = MODE_Guild_Main;
+
+
+				nyuuryokuMatiZ = waitTime1;
+				key_remain = 1;
+				keyEnableReset();
+			}
+
+
+
 
 
 			if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1) {
@@ -5089,6 +5176,35 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					mode_scene = MODE_BATTLE_NOW;
 
 				} // ターン開始 of 戦うコマンド
+
+
+
+				int battleMassBaseX = 150; int battleMassBaseY = 410 - 180; // 410 は「windowTempA」
+
+				// デバッグ文
+				if (debugFlag == 0) {
+					_stprintf_s(mojibuf, TEXT("gte %d"), sentoKoudoCount);
+					DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+					_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
+					DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+					_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[sentoKoudoCount]]);
+					DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+					_stprintf_s(mojibuf, TEXT("partyNin %d"), partyNinzuDone );
+					DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+
+				} // ここまでデバ文
+
+
+
 			} //  MODE_BATTLE_COMMAND
 
 
@@ -5097,33 +5213,57 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				int battleMassBaseX = 150; int battleMassBaseY = 410 - 180; // 410 は「windowTempA」
 
-				int pnCommon = partyNarabijyun[actionOrder[globalTempA]];
+				int pnCommon = partyNarabijyun[actionOrder[sentoKoudoCount]];
 
-				if (heros_def_list[pnCommon].heros_HP0_flag == 0) {
-					if (actionOrder[globalTempA] <= partyNinzuDone - 1) {
+
+
+				// デバッグ文
+				if (debugFlag == 0) {
+					_stprintf_s(mojibuf, TEXT("gte %d"), sentoKoudoCount);
+					DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+					_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
+					DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+					_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[sentoKoudoCount]]);
+					DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				} // ここまでデバ文
+
+				// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
+
+
+
+				if (actionOrder[sentoKoudoCount] <= partyNinzuDone - 1) {
+
+					if (heros_def_list[pnCommon].heros_HP0_flag == 0) {
 
 						_stprintf_s(mojibuf, TEXT("%s の攻撃！"), heros_def_list[pnCommon].heros_name);
 						DrawFormatString(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-						// デバッグ文
-						if (debugFlag == 1) {
-							_stprintf_s(mojibuf, TEXT("gte %d"), globalTempA);
-							_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[globalTempA]);
-							_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[globalTempA]]);							
-						} // ここまでデバ文
+
+
 
 					}
 				}
 
-				if (heros_def_list[partyNarabijyun[actionOrder[globalTempA]]].heros_HP0_flag == 1) {
-					if (actionOrder[globalTempA] <= partyNinzuDone - 1) {
-						_stprintf_s(mojibuf, TEXT("%s は戦闘不能で動けない"), heros_def_list[partyNarabijyun[actionOrder[globalTempA]]].heros_name);
+
+				if (actionOrder[sentoKoudoCount] <= partyNinzuDone - 1) {
+
+					if (heros_def_list[partyNarabijyun[actionOrder[sentoKoudoCount]]].heros_HP0_flag == 1) {
+
+
+						_stprintf_s(mojibuf, TEXT("%s は戦闘不能で動けない"), heros_def_list[partyNarabijyun[actionOrder[sentoKoudoCount]]].heros_name);
 						DrawFormatString(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 					}
 				}
 
-				if (actionOrder[globalTempA] >= partyNinzuDone) {
+
+
+				if (actionOrder[sentoKoudoCount] >= partyNinzuDone) {
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("敵の攻撃！ "));
 					DrawFormatString(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
@@ -5133,7 +5273,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "戦うテスト"); // 文字を描画する
 
-				if (PorEflag[globalTempA] == tekiPE) {
+				if (PorEflag[sentoKoudoCount] == tekiPE) {
 					if (encount_mons_alive == 1) {
 
 						// enemy atack で　tekidame =0 にされてる
@@ -5147,7 +5287,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 				}
 
-				if (PorEflag[globalTempA] == mikataPE) {
+				if (PorEflag[sentoKoudoCount] == mikataPE) {
 					{
 						// hero atack で　tekidame =1 にされてる
 						if (damepyon < 10 && tekidame == 1) {
@@ -5155,7 +5295,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 
-						if (heros_def_list[partyNarabijyun[actionOrder[globalTempA]]].heros_HP0_flag == 0) {
+						if (heros_def_list[partyNarabijyun[actionOrder[sentoKoudoCount]]].heros_HP0_flag == 0) {
 							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d ダメージ"), damage_HeroAttack);
 							DrawFormatString(monX + 10, monY - 30 - 5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 						}
@@ -5222,7 +5362,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			if (mode_scene == MODE_BATTLE_NOW && dameKei == 0) {
 
-				if (PorEflag[globalTempA] == 1	) {
+				if (PorEflag[sentoKoudoCount] == 1	) {
 
 					if (encount_mons_alive == 1) {
 						heroside_attack();
@@ -5230,7 +5370,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 				}
 
-				if (PorEflag[globalTempA] == tekiPE) {
+				if (PorEflag[sentoKoudoCount] == tekiPE) {
 					if (encount_mons_alive == 1) {
 
 						enemy_attack();
@@ -5239,7 +5379,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 			}
 
-			// 次行動者(globalTempA )をセット
+			// 次行動者(sentoKoudoCount )をセット
 			if (battlewait <= 0 && mode_scene == MODE_BATTLE_NOW && dameKei == 1) {
 				battlewait = 0;
 				dameKei = 0;
@@ -5254,24 +5394,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 				if (monster_hp > 0) {
 
-					if (globalTempA <= (partyNinzuDone - 1 + enemyNinzu - 1) + 1 && dameKei == 0) {
+					if (sentoKoudoCount <= (partyNinzuDone - 1 + enemyNinzu - 1) + 1 && dameKei == 0) {
 
 						// MessageBox(NULL, TEXT("aaa"), TEXT("場所テスト"), MB_OK);
 
-						globalTempA = globalTempA + 1;
+						sentoKoudoCount = sentoKoudoCount + 1;
 						battlewait = 60.0 * 2.0;
 					}
 
 
 
 					// ターン終了					
-					if (globalTempA >= (partyNinzuDone - 1 + enemyNinzu - 1) + 1 + 1) {
+					if (sentoKoudoCount >= (partyNinzuDone - 1 + enemyNinzu - 1) + 1 + 1) {
 
 						// MessageBox(NULL, TEXT("qwerty"), TEXT("場所テスト"), MB_OK);
 						damage_EnemyAttack = 0;
 						damage_HeroAttack = 0;
 
-						globalTempA = 0;
+						sentoKoudoCount = 0;
 
 						damepyon = 0;
 						mode_scene = MODE_BATTLE_COMMAND;											
@@ -5318,7 +5458,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				if (battlewait <= 0 && senkaFlag == 0) {
 
-					globalTempA = 0; // ターン終了処理
+					sentoKoudoCount = 0; // ターン終了処理
 
 					// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
 
@@ -5338,7 +5478,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				if (CheckHitKey(KEY_INPUT_Z) == 1 && senkaFlag == 1) {
-					globalTempA = 0; // ターン終了
+					sentoKoudoCount = 0; // ターン終了
 
 					keyEnableReset();
 					keyHaijyo = 0;
