@@ -1849,6 +1849,96 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 
 
 
+bool CheckZetc = CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1 && nyuuryokuMatiZ <= 0;
+
+void CheckZetcFunc(void) {
+	CheckZetc = CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1 && nyuuryokuMatiZ <= 0;
+
+}
+
+bool CheckXetc = CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1 && nyuuryokuMatiX <= 0;
+void CheckXetcFunc(void) {
+	CheckXetc = CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1 && nyuuryokuMatiX <= 0;
+
+}
+
+bool CheckUPetc = CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && nyuuryokuMatiUp <= 0;
+void CheckUPetcFunc(void) {
+	CheckUPetc = CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && nyuuryokuMatiUp <= 0;
+
+}
+
+void endUP() {
+
+	keyEnableUp = 0;
+	nyuuryokuMatiUp = waitTime1;
+	keyEnableReset();
+}
+
+void endUP2() {
+
+	keyEnableUp = 0;
+	nyuuryokuMatiUp = waitTime1;
+	// keyEnableReset();
+}
+
+
+
+void endZ() {
+
+	keyEnableZ = 0;
+	nyuuryokuMatiZ = waitTime1;
+	keyEnableReset();
+}
+
+void endX() {
+
+	keyEnableX = 0;
+	nyuuryokuMatiX = waitTime1;
+	keyEnableReset();
+}
+
+
+
+void endZ2() {
+
+	keyEnableZ = 0;
+	nyuuryokuMatiZ = waitTime1;
+	//keyEnableReset();
+}
+
+void endX2() {
+
+	keyEnableX = 0;
+	nyuuryokuMatiX = waitTime1;
+	//keyEnableReset();
+}
+
+
+
+bool CheckDOWNetc = CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1 && nyuuryokuMatiDown <= 0;
+void CheckDOWNetcFunc(void) {
+	CheckDOWNetc = CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1 && nyuuryokuMatiDown <= 0;
+
+}
+
+void endDOWN() {
+
+	keyEnableDown = 0;
+	nyuuryokuMatiDown = waitTime1;
+	keyEnableReset();
+}
+
+void endDOWN2() {
+
+	keyEnableDown = 0;
+	nyuuryokuMatiDown = waitTime1;
+	//keyEnableReset();
+}
+
+
+
+
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -2913,7 +3003,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							// mode_scene = MODE_BATTLE_COMMAND;
 
 							DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
-								GetColor(1, 1, 1), 1);
+								GetColor(1, 1, 1), 1); // こいつは黒背景
+							// window1Draw();
 							DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた"); // 文字を描画する
 
 
@@ -2923,7 +3014,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 					if (!(xPosi == monPosiX[1-1] && yPosi == monPosiY[1-1])) {
 						DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
-							GetColor(1, 1, 1), 1);
+							GetColor(1, 1, 1), 1); // こいつは黒背景
 						// DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "テスト用メッセージ"); // 文字を描画する
 
 					}
@@ -2944,10 +3035,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 			// if 残り待機がゼロで、さらにXボタンが押されたら、then メニュー画面に遷移
-			if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1) {
-				keyEnableX = 0;
+
+			CheckXetcFunc();
+			if (CheckXetc) {
+				// keyEnableX = 0;
 				mode_scene = MODE_MENU;
-				nyuuryokuMatiX = waitTime1;
+				endX();
+
 			}
 
 			int infoX = 100; int infoY = 250;
@@ -3081,28 +3175,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-			if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1) {
-				townFlag = 1; // タウン退出には、これが必要
-				
-				keyEnableX = 0;
-				mode_scene = MODE_MAP;
-				nyuuryokuMatiX = waitTime1;
 
-				afterShop = 0;
+
+			struct localFuncStruct2
+			{
+				void localExit() {
+					townFlag = 1; // タウン退出には、これが必要
+					mode_scene = MODE_MAP;
+					afterShop = 0;
+				}
+			} localFunc2;
+
+
+			CheckXetcFunc();
+			if (CheckXetc) {
+
+				localFunc2.localExit();
+				
+				endX();				
 			}
 
+			CheckZetcFunc();
+			if (CheckZetc && whomTargetID1 == 3) {
 
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyEnableZ == 1 && whomTargetID1 == 3) {
-				townFlag = 1; // タウン退出には、これが必要
+				localFunc2.localExit();
 
-				key_remain = 0;
-				//whomTargetID1 = whomCHARA - 1;
-
-				mode_scene = MODE_MAP;
-				beforeselect = 0;
-				keyEnableReset();
-
-				afterShop = 0;
+				endZ();				
 			}
 
 
@@ -3114,9 +3212,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// カーソルを上に移動
 			{
 				// 移動の終了処理
-				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
-					keyEnableUp = 0;
-					nyuuryokuMatiUp = waitTime1;
+				CheckUPetcFunc();
+				if (CheckUPetc) {
+
+					endUP();
+
+
 					selecting_mainmenu--;     // 上へ1マスだけ移動
 
 					afterShop = 0;
@@ -3126,9 +3227,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// カーソルを下に移動
 			{
 				// 移動の終了処理
-				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
-					keyEnableDown = 0;
-					nyuuryokuMatiDown = waitTime1;
+				CheckDOWNetcFunc();
+				if (CheckDOWNetc) {
+
+					endDOWN();
+
 					selecting_mainmenu++;      // 下へ1マスだけ移動
 
 					afterShop = 0;
@@ -3148,12 +3251,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+			CheckZetcFunc();
 
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1	) {
+			if (CheckZetc) {
 
 				if (whomTargetID1 == 0) {
-					keyEnableZ = 0;
-					nyuuryokuMatiZ = waitTime1;
+					
 
 					// pre_guild(hWnd);
 
@@ -3162,6 +3265,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					mode_scene = MODE_Guild_Main;
 
+					endZ();
 				}
 
 
@@ -3285,20 +3389,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DrawFormatString(280, 310, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
-			if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1) {
+			CheckXetcFunc();
+			if (CheckXetc) {
 				//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
 
 				partyNinzuDone = partyNinzuTemp;
 				mode_scene = MODE_TOWN;
 
-				nyuuryokuMatiX = waitTime1;
-				key_remain = 1;
-				keyEnableReset();
+				endX();
 			}
 
-
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1 && whomCHARA == hikaeNinzu + 1 && nyuuryokuMatiZ <= 0) {
+			CheckZetcFunc();
+			if (CheckZetc && whomCHARA == hikaeNinzu + 1 ) {
 				//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
 
 				// keyHaijyo = 1;
@@ -3310,16 +3412,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				whomCHARA = 0;
 				mode_scene = MODE_Guild_Remove;
 
-				keyEnableZ = 0; // 必要
-				nyuuryokuMatiZ = waitTime1; // これしないと、またギルド入る
-				key_remain = 1;
-				keyEnableReset();
+				endZ();
 			}
 
 
-
-
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1 && whomCHARA != hikaeNinzu + 1 && nyuuryokuMatiZ <= 0) {
+			CheckZetcFunc();
+			if (CheckZetc && whomCHARA != hikaeNinzu + 1) {
 
 
 				if (uwadumeFlag == 0) {
@@ -3344,8 +3442,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							akikosuu = akikosuu - 1;
 
 
-							keyEnableZ = 0;
-							nyuuryokuMatiZ = waitTime1 ;
+							endZ();
 
 							mode_scene = MODE_Guild_Responce; // レスポンス中に空き配列の計算をするので残すこと
 
@@ -3456,8 +3553,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (mode_scene == MODE_Guild_Main) { // remove時に共通動作を封じるため
 
 
-
-				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
+				CheckUPetcFunc();
+				if (CheckUPetc) {
 					// MessageBox(NULL, TEXT("上が押されました。"), TEXT("キーテスト"), MB_OK);
 					whomCHARA = whomCHARA - 1;
 
@@ -3466,15 +3563,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 
-					keyEnableUp = 0;
-					nyuuryokuMatiUp = waitTime1;
+					endUP();
 				}
 
 
-				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
+				CheckDOWNetcFunc();
+				if (CheckDOWNetc) {
 
-					keyEnableDown = 0;
-					nyuuryokuMatiDown = waitTime1;
+					
 
 					// MessageBox(NULL, TEXT("↓が押されました。"), TEXT("キーテスト"), MB_OK);
 
@@ -3484,7 +3580,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						whomCHARA = hikaeNinzu + 1;
 					}
 
+					endDOWN();
+
 				}
+
 
 				if (whomCHARA < 1) {
 					whomCHARA = 1;
@@ -3507,9 +3606,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			parsai();
 
 
-
-
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1) {
+			CheckZetcFunc();
+			if (CheckZetc ) {
 				//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
 
 				keyEnableZ = 0;
@@ -3573,49 +3671,33 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 				mode_scene = MODE_Guild_Main;
 
-
-				nyuuryokuMatiZ = waitTime1;
-				key_remain = 1;
-				keyEnableReset();
+				endZ();
 			}
 
 
 
 
 
-			if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1) {
+			CheckXetcFunc();
+			if (CheckXetc) {
 				//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
 
 				partyNinzuDone = partyNinzuTemp;
 				mode_scene = MODE_Guild_Main ;
 
-				nyuuryokuMatiX = waitTime1;
-				key_remain = 1;
-				keyEnableReset();
+				endX();
 			}
 
 
+			CheckUPetcFunc();
+			CheckDOWNetcFunc();
 
 
-			if ((CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1)
-				|| (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1)) {
+			if (CheckUPetc || CheckDOWNetc ) {
 
-				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1  && nyuuryokuMatiUp <= 0   ) {
+				if (CheckUPetc) {
 					// MessageBox(NULL, TEXT("上が押されました。"), TEXT("キーテスト"), MB_OK);
 					whomCHARA = whomCHARA - 1;
 
@@ -3624,15 +3706,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 
-					keyEnableUp = 0;
-					nyuuryokuMatiUp = waitTime1;
+					endUP();
 				}
 
 
-				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1 && nyuuryokuMatiDown <= 0) {
+				if (CheckDOWNetc) {
 
-					keyEnableDown = 0;
-					nyuuryokuMatiDown = waitTime1;
+					endDOWN();
 
 					// MessageBox(NULL, TEXT("↓が押されました。"), TEXT("キーテスト"), MB_OK);
 
@@ -3657,20 +3737,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			} // if ((CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 		}
@@ -5321,9 +5387,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				{
 
 					// 移動の終了処理
-					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
-						keyEnableUp = 0;
-						nyuuryokuMatiUp = waitTime1;
+					CheckUPetcFunc();
+					if (CheckUPetc) {
+						endUP();
+
 						selecting_mainmenu--;  // 上へ1マスだけ移動
 					}
 
@@ -5342,9 +5409,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				{
 
 					// 移動の終了処理
-					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
-						keyEnableDown = 0;
-						nyuuryokuMatiDown = waitTime1;
+					CheckDOWNetcFunc();
+					if (CheckDOWNetc) {
+						endDOWN();
+
 						selecting_mainmenu++;                       // 下へ1マスだけ移動
 					}
 
@@ -5588,9 +5656,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				{
 
 					// 移動の終了処理
-					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
+
+					CheckUPetcFunc();
+					if (CheckUPetc) {
+
 						keyEnableUp = 0;
 						nyuuryokuMatiUp = waitTime1;
+
 						selecting_mainmenu--;     // 上へ1マスだけ移動
 
 					}
@@ -5609,10 +5681,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// カーソルを下に移動
 				{
 
-					// 移動の終了処理
-					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
+					// 移動の下降処理
+					CheckDOWNetcFunc();
+					if (CheckDOWNetc) {
+
 						keyEnableDown = 0;
 						nyuuryokuMatiDown = waitTime1;
+
 						selecting_mainmenu++;    // 下へ1マスだけ移動
 					}
 
@@ -5624,11 +5699,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (selecting_mainmenu >= rangeMax) {
 						selecting_mainmenu = rangeMax;
 					}
+			}
 
-				}
 
-
-				if (CheckHitKey(KEY_INPUT_Z) == 1) {
+				CheckZetcFunc();
+				if (CheckZetc) {
+					endZ();
 
 					if (selecting_mainmenu == 1) {
 						//mode_scene = itemModeMain;
@@ -5933,16 +6009,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				keyEnableReset();
 			}
 
-
-			if (CheckHitKey(KEY_INPUT_X) == 1 && nyuuryokuMatiX <= 0 && keyEnableX == 1) {
+			CheckXetcFunc();
+			if (CheckXetc) {
 
 				{
 					key_remain = 0;
 					damepyon = 0;
 
 					mode_scene = MODE_MENU;
-					keyEnableX = 0;
-					nyuuryokuMatiX = waitTime1;
+
+					endX();
 				}
 				keyEnableUp = 0;
 
@@ -5986,6 +6062,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					keyEnableRight = 0;
 					nyuuryokuMatiRight = waitTime1;
+
 					selecting_mainmenu++;     // 下へ1マスだけ移動
 				}
 
@@ -6057,8 +6134,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					mode_scene = MODE_ITEM_WHOM; // 		
 				}
 
-				nyuuryokuMatiZ = waitTime1;
-				keyEnableZ = 0;
+				endZ2();
 			}
 
 
@@ -6067,16 +6143,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				mode_scene = MODE_ITEM_TYPE;
 
-				nyuuryokuMatiX = waitTime1;
-				key_remain = 1;
-				keyEnableReset();
+				endX();
 			}
 
 
 			// カーソルを上に移動
 			{
 				// 移動先予定地の入場可否の判定
-				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
+				CheckUPetcFunc();
+
+				if (CheckUPetc) {
 					keyEnableUp = 0;
 
 					nyuuryokuMatiUD = waitTime1;
@@ -6099,7 +6175,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// カーソルを下に移動
 			{
 				// 移動先予定地の入場可否の判定
-				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
+				CheckDOWNetcFunc();
+				if (CheckDOWNetc) {
 					keyEnableDown = 0;
 
 					nyuuryokuMatiUD = waitTime1;
@@ -6414,7 +6491,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// MessageBox(NULL, TEXT("ここにいる。"), TEXT("キーテスト"), MB_OK);
 			}
 
-			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyEnableZ == 1) {
+			CheckZetcFunc();
+			if (CheckZetc) {
 
 				key_remain = 0;
 				whomTargetID1 = whomCHARA - 1;
@@ -6423,6 +6501,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				beforeselect = 0;
 				keyEnableReset();
 			}
+
 
 			if (nyuuryokuMatiX > 0) {
 				nyuuryokuMatiX = nyuuryokuMatiX - 1;
@@ -6435,19 +6514,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			}
 
-
-			if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1) {
+			CheckXetcFunc();
+			if (CheckXetc) {
 
 				filterFlag = 0;
 				mode_scene = MODE_MENU;
 
-				nyuuryokuMatiX = waitTime1;
-				key_remain = 0;
-				keyEnableReset();
+				endX();
 			}
 
 
-			if (CheckHitKey(KEY_INPUT_UP) == 1) {
+			CheckUPetcFunc();
+			if (CheckUPetc) {
 
 				// MessageBox(NULL, TEXT("上が押されました。"),
 			// TEXT("キーテスト"), MB_OK);
@@ -6466,7 +6544,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
-			if (CheckHitKey(KEY_INPUT_DOWN) == 1) {
+			CheckDOWNetcFunc();
+			if (CheckDOWNetc) {
 
 				// MessageBox(NULL, TEXT("↓が押されました。"),
 				// TEXT("キーテスト"), MB_OK);
@@ -6700,16 +6779,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[mode3_scene];
 					}
 
-
-					if (CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1 && mode_scene == MODE_EQUIP_EDIT) {
+					CheckXetcFunc();
+					if (CheckXetc && mode_scene == MODE_EQUIP_EDIT) {
 
 						filterFlag = 0;
 						mode_scene = MODE_EQUIP_MAIN;
 						keyEnableReset();
 					}
 
-
-					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
+					CheckUPetcFunc();
+					if (CheckUPetc) {
 
 						// MessageBox(NULL, TEXT("上が押されました。"),
 					// TEXT("キーテスト"), MB_OK);
@@ -6726,8 +6805,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 
-					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
-
+					CheckDOWNetcFunc();
+					if (CheckDOWNetc) {
 						// MessageBox(NULL, TEXT("↓が押されました。"),
 						// TEXT("キーテスト"), MB_OK);
 						whatedit1 = whatedit1 + 1;
@@ -6828,8 +6907,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 					}
 
-
-					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
+					CheckUPetcFunc();
+					if (CheckUPetc) {
 
 						// MessageBox(NULL, TEXT("上が押されました。"),
 					// TEXT("キーテスト"), MB_OK);
@@ -6838,7 +6917,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (whatedit2 >= 5) {
 							whatedit2 = 5;
 						}
-						else if (whatedit2 < 01) {
+						else if (whatedit2 < 0+1) {
 							whatedit2 = 0;
 						}
 
@@ -6846,7 +6925,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 
-					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
+					CheckDOWNetcFunc();
+					if (CheckDOWNetc) {
 
 						whatedit2 = whatedit2 + 1;
 
@@ -6860,9 +6940,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						keyEnableReset();
 					}
 
-
-					if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyEnableZ == 1
-						&& mode_scene == MODE_EQUIP_EDIT2) {
+					CheckZetcFunc();
+					if (CheckZetc && mode_scene == MODE_EQUIP_EDIT2) {
 
 						keyEnableReset();
 
@@ -6965,10 +7044,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		if (mode_scene == skillMode) {
-			if (CheckHitKey(KEY_INPUT_X) == 1) {
+
+			CheckXetcFunc();
+			if (CheckXetc) {
 				mode_scene = MODE_MENU;
-				keyEnableX = 1; // 使い終わったのでゼロに戻す // 0ではなく1にしないとバグ
-				nyuuryokuMatiX = waitTime1;
+
+				endX2();
 
 				DrawFormatString(250, 250 + 50 * 2, GetColor(255, 255, 255), "特技から戻り"); // 文字を描画する
 
