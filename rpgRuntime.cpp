@@ -671,6 +671,18 @@ TCHAR mojibuf2[MAX_LENGTH] = TEXT("‚Í‚¶‚ß‚©‚ç");
 TCHAR mojibuf3[MAX_LENGTH] = TEXT("‚Í‚¶‚ß‚©‚ç");
 
 
+void textFunc1(int x, int y) {
+	DrawFormatString(x, y, GetColor(255, 255, 255), mojibuf);
+}
+
+
+#define GREEN 10,250,10
+void textFuncHeal(int x, int y) {
+	DrawFormatString(x, y, GetColor(GREEN), mojibuf);
+}
+
+
+
 static TCHAR filename_temp[100]; // ƒtƒ@ƒCƒ‹“Ç‚İ‘‚«‚Åg‚¤ˆê“I‚Èƒtƒ@ƒCƒ‹–¼
 
 
@@ -918,42 +930,49 @@ void menu_CharaSelectDraw() {
 		}
 
 
-		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[j]].heros_name);
-		DrawFormatString(StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s fgh"), heros_def_list[partyNarabijyun[j]].heros_name);
+		//DrawFormatString(StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+		textFunc1(StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j);
 
 		lstrcpy(mojibuf, TEXT("HP"));
-		DrawFormatString(StatsHPbaseX, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+		//DrawFormatString(StatsHPbaseX, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+		textFunc1(StatsHPbaseX, StatsHPbaseY + offsetY * j);
+
 
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_hp);
-		DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+		// DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+		textFunc1(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j);
 
 
 		int revwait = 120 - waitheal;
 
 		if (healflag == 1 && healkioku == j) {
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabijyun[j]].heros_hpdiff);
-			DrawFormatString(StatsHPbaseX + 30 +20, StatsHPbaseY -20 + offsetY * j  +20 - 2 * revwait, GetColor(10, 255, 10), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+			DrawFormatString(StatsHPbaseX + 30 +20, StatsHPbaseY -20 + offsetY * j  +20 - 2 * revwait, GetColor(GREEN), mojibuf); // ‚İ‚Ç‚è
+			//textFuncHeal(StatsHPbaseX + 30 + 20, StatsHPbaseY - 20 + offsetY * j + 20 - 2 * revwait);
 
 		}
 
 		if (healflag == 2 && healkioku == j) {
 
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabijyun[j]].heros_hpdiff);
-			DrawFormatString(StatsHPbaseX + 30 +20, StatsHPbaseY - 20 + offsetY * j - (60) / 6, GetColor(10, 255, 10), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
-
+			 DrawFormatString(StatsHPbaseX + 30 +20, StatsHPbaseY - 20 + offsetY * j - (60) / 6, GetColor(GREEN), mojibuf); // ‚İ‚Ç‚è
+			//textFuncHeal(StatsHPbaseX + 30 + 20, StatsHPbaseY - 20 + offsetY * j - (60) / 6);
 		}
 
 
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabijyun[j]].heros_hp_max);
-		DrawFormatString(StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+		//DrawFormatString(StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+		textFunc1(StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j);
 
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_HP0_flag);
-		DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
-
+		//DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+		textFunc1(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j);
 
 		if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag == 1) {
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("í“¬•s”\"));
-			DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+			//DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // •¶š‚ğ•`‰æ‚·‚é
+			textFunc1(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j);
 
 		}
 
