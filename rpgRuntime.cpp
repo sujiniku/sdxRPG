@@ -3075,10 +3075,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		if (mode_scene == MODE_TOWN) {
+
 			// MessageBox(NULL, TEXT("townのテスト中。"), TEXT("キーテスト"), MB_OK);
 
 
 			filterFlag = 1;
+
 			// Draw_map(hdc);
 
 			//window1Draw(winX1, winY1 + offsetY * j,	winX2, winY2 + offsetY * j);
@@ -3275,7 +3277,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (CheckZetc) {
 
 				if (whomTargetID1 == 0) {
-					
+
 
 					// pre_guild(hWnd);
 
@@ -3308,55 +3310,33 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// heros_def_list[tempYado].heros_mp = heros_def_list[tempYado].heros_mp_max;
 
 					}
+				} // 宿
 
 
-			// 商店
-					if (whomTargetID1 == 2) {
+				// 商店
+				if (whomTargetID1 == 2) {
 
-						// MessageBox(NULL, TEXT("未実装。"), TEXT("キーテスト"), MB_OK);
+					// MessageBox(NULL, TEXT("未実装。"), TEXT("キーテスト"), MB_OK);
 
-
-						whomTargetID1 = 0;
-						whomCHARA = whomTargetID1 + 1;
-						mode_scene = MODE_Shop_Main;
-
-
-					}
-
-					if (whomTargetID1 == 3) {
-
-						mode_scene = MODE_MAP;
-
-					}
+					whomTargetID1 = 0;
+					whomCHARA = whomTargetID1 + 1;
+					selecting_mainmenu = 0;
 
 
-					// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+					endZ();
+					mode_scene = MODE_Shop_Main;
 
+				}
 
-					//mode_scene = MODE_BATTLE_NOW;
+				if (whomTargetID1 == 3) {
+					endZ();
 
-				} // ターン開始 of 戦うコマンド
+					mode_scene = MODE_MAP;
 
+				}
+			}// check Z
 
-
-
-
-
-
-
-
-
-		}// town
-
-
-
-
-
-
-		}
-
-
-
+		} // town
 
 
 		if (mode_scene == MODE_Guild_Main) {
@@ -3804,6 +3784,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (mode_scene == MODE_Shop_Main) {
 			filterFlag = 1;
+
 			// Draw_map(hdc);
 
 			//BrushBlue_set(hdc);
@@ -3811,12 +3792,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			// BrushPink_set(hdc);
 			//	Rectangle(hdc, 10, 100,	300, 200);
-
-
-			lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
-			//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(130, 150, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 
@@ -3875,6 +3850,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+			lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
+			//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(130, 150, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
 			if (popFlagTown == 1) {
 
 				lstrcpy(mojibuf, TEXT("                                      "));
@@ -3891,7 +3875,150 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			tempPass = whomTargetID1;
 
-		}
+
+
+
+
+
+			// 十字キー入力時
+			int rangeMin = 0; int rangeMax = 4;
+
+			// カーソルを上に移動
+			{
+
+				// 移動の終了処理
+				if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
+					keyEnableUp = 0;
+					nyuuryokuMatiUp = waitTime1;
+					selecting_mainmenu--;     // 上へ1マスだけ移動
+
+				}
+
+
+				if (selecting_mainmenu < rangeMin) {
+					selecting_mainmenu = rangeMin;
+				}
+
+				if (selecting_mainmenu >= rangeMax) {
+					selecting_mainmenu = rangeMax;
+				}
+			}
+
+			// カーソルを下に移動
+			{
+
+				// 移動の終了処理
+				if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
+					keyEnableDown = 0;
+					nyuuryokuMatiDown = waitTime1;
+					selecting_mainmenu++;                       // 下へ1マスだけ移動
+				}
+
+
+				if (selecting_mainmenu < rangeMin) {
+					selecting_mainmenu = rangeMin;
+				}
+
+				if (selecting_mainmenu >= rangeMax) {
+					selecting_mainmenu = rangeMax;
+				}
+
+			}
+
+
+			whomTargetID1 = selecting_mainmenu;
+
+
+
+
+
+			CheckXetcFunc();
+			if (CheckXetc) {
+				// keyEnableX = 0;
+				mode_scene = MODE_TOWN ;
+				endX();
+
+			}
+
+
+
+
+			CheckZetcFunc();
+			if (CheckZetc) {
+
+				if (whomTargetID1 == 0) {
+
+
+					// pre_guild(hWnd);
+
+					Akihaikeisan();
+
+
+					mode_scene = MODE_Guild_Main;
+
+					endZ();
+				}
+
+
+				// 宿
+				if (whomTargetID1 == 1) {
+
+					popFlagTown = 1;
+					afterShop = 1;
+					lstrcpy(popMsg, TEXT("全回復した。"));
+
+					int tempYado; // for で使う
+					// partyNinzuDone
+
+
+					int aaaa = 0;
+
+					for (aaaa = 0; aaaa <= partyNinzuDone - 1; aaaa = aaaa + 1) {
+
+						tempYado = partyNarabijyun[aaaa];
+						heros_def_list[tempYado].heros_hp = heros_def_list[tempYado].heros_hp_max;
+						// heros_def_list[tempYado].heros_mp = heros_def_list[tempYado].heros_mp_max;
+
+					}
+				} // 宿
+
+
+				// 商店
+				if (whomTargetID1 == 2) {
+
+					// MessageBox(NULL, TEXT("未実装。"), TEXT("キーテスト"), MB_OK);
+
+					whomTargetID1 = 0;
+					whomCHARA = whomTargetID1 + 1;
+					selecting_mainmenu = 0;
+					mode_scene = MODE_Shop_Main;
+
+					endZ();
+				}
+
+				if (whomTargetID1 == 3) {
+					endZ();
+
+					mode_scene = MODE_MAP;
+
+				}
+
+
+				if (whomTargetID1 == 4) {
+					endZ();
+
+					mode_scene = MODE_TOWN;
+
+				}
+
+
+
+			}// check Z
+
+
+
+
+		} // shop
 
 
 
