@@ -3954,7 +3954,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					Akihaikeisan();
 
 
-					mode_scene = MODE_Guild_Main;
+					mode_scene = MODE_Shop_weapon_main;
 
 					endZ();
 				}
@@ -3963,23 +3963,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// èh
 				if (whomTargetID1 == 1) {
 
-					popFlagTown = 1;
-					afterShop = 1;
-					lstrcpy(popMsg, TEXT("ëSâÒïúÇµÇΩÅB"));
+					mode_scene = MODE_Shop_armor_main;
 
-					int tempYado; // for Ç≈égÇ§
-					// partyNinzuDone
-
-
-					int aaaa = 0;
-
-					for (aaaa = 0; aaaa <= partyNinzuDone - 1; aaaa = aaaa + 1) {
-
-						tempYado = partyNarabijyun[aaaa];
-						heros_def_list[tempYado].heros_hp = heros_def_list[tempYado].heros_hp_max;
-						// heros_def_list[tempYado].heros_mp = heros_def_list[tempYado].heros_mp_max;
-
-					}
 				} // èh
 
 
@@ -4293,12 +4278,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			DrawFormatString(280 + 170, 200, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
 
+			int stypeOffset = soubiOffset - 1; //10;
+			
 
 			if (mode_scene == MODE_Shop_weapon_main) {
 				for (int temp = 1; temp <= 2; temp = temp + 1) {
+					
+					int afterOffTemp = stypeOffset + 1;
 
-					lstrcpy(mojibuf, weapon_def_list[temp].def_name);
+
+					// lstrcpy(mojibuf, weapon_def_list[temp].def_name);
 					// TextOut(hdc, 280, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+					// soubihin[	temp	].Stype[afterOffTemp].def_name
+					
+					lstrcpy(mojibuf, soubihin[temp].Stype[afterOffTemp].def_name );
 
 					DrawFormatString(280, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
 
@@ -4315,7 +4308,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (mode_scene == MODE_Shop_armor_main) {
 				for (int temp = 1; temp <= 2; temp = temp + 1) {
 
-					lstrcpy(mojibuf, helm_def_list[temp].def_name);
+					int afterOffTemp = stypeOffset + 2;
+
+
+					lstrcpy(mojibuf, soubihin[temp].Stype[afterOffTemp].def_name);
 					// TextOut(hdc, 280, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
 
 
