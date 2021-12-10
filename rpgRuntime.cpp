@@ -4327,6 +4327,116 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 			}
 
+
+
+
+			// 十字キー入力時
+			int rangeMin = 0; int rangeMax = 4;
+
+
+			// カーソルを上に移動
+			{
+
+				// 移動の終了処理
+				if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyEnableLeft == 1) {
+					keyEnableLeft = 0;
+					nyuuryokuMatiLeft = waitTime1;
+					whomTargetID2--;     // 上へ1マスだけ移動
+
+				}
+
+
+				if (whomTargetID2 < rangeMin) {
+					whomTargetID2 = rangeMin;
+				}
+
+				if (whomTargetID2 >= rangeMax) {
+					whomTargetID2 = rangeMax;
+				}
+			}
+
+			// カーソルを下に移動
+			{
+
+				// 移動の終了処理
+				if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyEnableRight == 1) {
+					keyEnableRight = 0;
+					nyuuryokuMatiRight = waitTime1;
+					whomTargetID2++;                       // 下へ1マスだけ移動
+				}
+
+
+				if (whomTargetID2 < rangeMin) {
+					whomTargetID2 = rangeMin;
+				}
+
+				if (whomTargetID2 >= rangeMax) {
+					whomTargetID2 = rangeMax;
+				}
+
+			}
+
+
+
+			CheckZetcFunc();
+			if (CheckZetc) {
+
+
+				if (whomTargetID2 == 0) {
+					endZ();
+
+					mode_scene = MODE_Shop_weapon_buy;
+					
+				}
+
+
+				// 宿
+				if (whomTargetID2 == 1) {
+					endZ();
+
+					mode_scene = MODE_Shop_weapon_sell;
+
+				} // 宿
+
+
+				// 商店
+				if (whomTargetID2 == 2) {
+					endZ();
+
+					mode_scene = MODE_Shop_weapon_buyOld;
+				}
+
+				if (whomTargetID2 == 3) {
+					endZ();
+
+					mode_scene = MODE_Shop_Main ;
+
+				}
+
+
+
+			}// check Z
+
+
+
+
+			CheckXetcFunc();
+			if (CheckXetc) {
+				// keyEnableX = 0;
+				mode_scene = MODE_Shop_Main;
+				endX();
+
+			}
+
+
+
+
+
+
+
+
+
+
 		}
 
 
