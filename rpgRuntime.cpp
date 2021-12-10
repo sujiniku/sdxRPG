@@ -3949,20 +3949,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (whomTargetID1 == 0) {
 
 
-					// pre_guild(hWnd);
-
-					Akihaikeisan();
-
+					endZ();
 
 					mode_scene = MODE_Shop_weapon_main;
 
-					endZ();
 				}
 
 
 				// èh
 				if (whomTargetID1 == 1) {
 
+					endZ();
 					mode_scene = MODE_Shop_armor_main;
 
 				} // èh
@@ -4017,11 +4014,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// MessageBox(NULL, TEXT("ÉMÉãÉhÇÃÉeÉXÉgíÜÅB"), TEXT("ÉLÅ[ÉeÉXÉg"), MB_OK);
 
 
-
-
-
 			{
-
 				//BrushDarkBlue_set(hdc);
 				// Rectangle(hdc, 10, 10, 610, 80);
 
@@ -4094,10 +4087,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
-
-
-
-
 
 
 
@@ -4385,8 +4374,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (whomTargetID2 == 0) {
 					endZ();
 
-					mode_scene = MODE_Shop_weapon_buy;
-					
+					if (mode_scene == MODE_Shop_weapon_main){					
+						mode_scene = MODE_Shop_weapon_buy;				
+					}
+
+
+					if (mode_scene == MODE_Shop_armor_main) {
+						mode_scene = MODE_Shop_armor_buy;
+					}
+
+
 				}
 
 
@@ -4394,7 +4391,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (whomTargetID2 == 1) {
 					endZ();
 
-					mode_scene = MODE_Shop_weapon_sell;
+					if (mode_scene == MODE_Shop_weapon_main) {
+						mode_scene = MODE_Shop_weapon_sell;
+					}
+					if (mode_scene == MODE_Shop_armor_main) {
+						mode_scene = MODE_Shop_armor_sell;
+					}
 
 				} // èh
 
@@ -4403,7 +4405,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (whomTargetID2 == 2) {
 					endZ();
 
-					mode_scene = MODE_Shop_weapon_buyOld;
+					if (mode_scene == MODE_Shop_weapon_main) {
+						mode_scene = MODE_Shop_weapon_buyOld;
+					}
+					if (mode_scene == MODE_Shop_armor_main) {
+						mode_scene = MODE_Shop_armor_buyOld ;
+					}
+
 				}
 
 				if (whomTargetID2 == 3) {
@@ -4418,8 +4426,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}// check Z
 
 
-
-
 			CheckXetcFunc();
 			if (CheckXetc) {
 				// keyEnableX = 0;
@@ -4427,15 +4433,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				endX();
 
 			}
-
-
-
-
-
-
-
-
-
 
 		}
 
@@ -4749,6 +4746,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int koumoku_Y = 200;
 			int kasolOffsetY = 30;
 
+			/*
+			
+			
 			for (int temp = 0; temp <= 3; temp = temp + 1) {
 
 				if (hinmoku[temp].Grouptype == -99) {
@@ -4793,6 +4793,107 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			} // for temp èIÇÌÇË
+
+
+
+			
+			*/
+
+
+
+			int stypeOffset = soubiOffset - 1; //10;
+
+			if (mode_scene == MODE_Shop_weapon_buy) {
+				for (int temp = 1; temp <= 2; temp = temp + 1) {
+
+					int afterOffTemp = stypeOffset + 1;
+
+
+					// lstrcpy(mojibuf, weapon_def_list[temp].def_name);
+					// TextOut(hdc, 280, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+					// soubihin[	temp	].Stype[afterOffTemp].def_name
+
+					lstrcpy(mojibuf, soubihin[temp].Stype[afterOffTemp].def_name);
+
+					DrawFormatString(280, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
+
+
+					lstrcpy(mojibuf, TEXT("50G"));
+					// TextOut(hdc, 280 + 120, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(280 + 120, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
+
+				}
+			}
+
+
+			if (mode_scene == MODE_Shop_armor_buy) {
+				for (int temp = 1; temp <= 2; temp = temp + 1) {
+
+					int afterOffTemp = stypeOffset + 2;
+
+
+					lstrcpy(mojibuf, soubihin[temp].Stype[afterOffTemp].def_name);
+					// TextOut(hdc, 280, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+
+
+					DrawFormatString(280, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
+
+
+
+					lstrcpy(mojibuf, TEXT("50G"));
+					// TextOut(hdc, 280 + 120, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+
+					DrawFormatString(280 + 120, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
+
+				}
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			CheckXetcFunc();
+			if (CheckXetc) {
+				// keyEnableX = 0;
+				mode_scene = MODE_Shop_Main;
+				endX();
+
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		}
 
