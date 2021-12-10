@@ -4270,51 +4270,184 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int stypeOffset = soubiOffset - 1; //10;
 			
 
-			if (mode_scene == MODE_Shop_weapon_main) {
-				for (int temp = 1; temp <= 2; temp = temp + 1) {
-					
-					int afterOffTemp = stypeOffset + 1;
 
 
-					// lstrcpy(mojibuf, weapon_def_list[temp].def_name);
-					// TextOut(hdc, 280, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
-					// soubihin[	temp	].Stype[afterOffTemp].def_name
-					
-					lstrcpy(mojibuf, soubihin[temp].Stype[afterOffTemp].def_name );
-
-					DrawFormatString(280, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
 
 
-					lstrcpy(mojibuf, TEXT("50G"));
-					// TextOut(hdc, 280 + 120, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+			// u”„‚év‚Ì‚ ‚Æ‚Éu”ƒ‚¤v‚µ‚½‚Æ‚«‚Ì•\Ž¦•¶‚ÌŽcŠ[‚Ìˆê’UƒNƒŠƒA—p
+			for (int temp = 0; temp <= 6; temp = temp + 1) {
+				lstrcpy(mojibuf, TEXT("   "));
+				//TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
+				DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
 
-					DrawFormatString(280 + 120, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
 
-				}
+
 			}
 
+
+			int koumoku_Y = 200;
+			int kasolOffsetY = 30;
+
+			/*
+
+
+			for (int temp = 0; temp <= 3; temp = temp + 1) {
+
+				if (hinmoku[temp].Grouptype == -99) {
+					break;
+				}
+
+				if (hinmoku[temp].Grouptype == wepoType) {
+					lstrcpy(mojibuf, weapon_def_list[hinmoku[temp].subID].def_name);
+				}
+				if (hinmoku[temp].Grouptype == tateType) {
+					lstrcpy(mojibuf, shield_def_list[hinmoku[temp].subID].def_name);
+				}
+				if (hinmoku[temp].Grouptype == kabutoType) {
+					lstrcpy(mojibuf, helm_def_list[hinmoku[temp].subID].def_name);
+				}
+
+				// TextOut(hdc, 280, koumoku_Y + 30 + 30 * temp, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(280, koumoku_Y + 30 + 30 * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+				lstrcpy(mojibuf, TEXT("50G"));
+				// TextOut(hdc, 280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+
+				if (hinmoku[temp].Grouptype == wepoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[hinmoku[temp].subID].have_kosuu);
+				}
+				if (hinmoku[temp].Grouptype == kabutoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[hinmoku[temp].subID].have_kosuu);
+				}
+				if (hinmoku[temp].Grouptype == tateType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), shield_have_list[hinmoku[temp].subID].have_kosuu);
+				}
+				// TextOut(hdc, 280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+
+
+			} // for temp I‚í‚è
+
+
+
+
+			*/
+
+
+
+
+			struct sinaList {
+				int Grouptype;
+				int subID;
+			};
+
+			struct sinaList hinmoku[5]; // \‘¢‘Ì”z—ñ‚ÌéŒ¾
+
+
+			if (mode_scene == MODE_Shop_weapon_main) {
+				// ”„‚è•¨‚Ì’è‹`
+				// 1•i–Ú
+				// strcpy_s(  hinmoku[0].ItemName, 10 ,"“ÅÁ‚µ"); 
+				hinmoku[0].Grouptype = wepoType;
+				hinmoku[0].subID = 1;
+
+				itemHairetu[0] = hinmoku[0].subID;
+				itemTypeHairetu[0] = hinmoku[0].Grouptype;
+
+				// 2•i–Ú   
+				hinmoku[1].Grouptype = wepoType;
+				hinmoku[1].subID = 2;
+				//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"“S‚ÌŒ•"); 
+
+
+				// 3•i–Ú   
+				hinmoku[2].Grouptype = -99;
+				hinmoku[2].subID = -99;
+			}
 
 			if (mode_scene == MODE_Shop_armor_main) {
-				for (int temp = 1; temp <= 2; temp = temp + 1) {
-
-					int afterOffTemp = stypeOffset + 2;
-
-
-					lstrcpy(mojibuf, soubihin[temp].Stype[afterOffTemp].def_name);
-					// TextOut(hdc, 280, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+				// ”„‚è•¨‚Ì’è‹`
+				// 1•i–Ú
+			// strcpy_s(  hinmoku[0].ItemName, 10 ,"“ÅÁ‚µ"); 
+				hinmoku[0].Grouptype = tateType;
+				hinmoku[0].subID = 1;
 
 
-					DrawFormatString(280, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+				// 2•i–Ú   
+				hinmoku[1].Grouptype = tateType;
+				hinmoku[1].subID = 2;
+				//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"“S‚ÌŒ•"); 
+
+
+				// 3•i–Ú   
+				hinmoku[2].Grouptype = kabutoType;
+				hinmoku[2].subID = 1;
+
+
+				// 4•i–Ú   
+				hinmoku[3].Grouptype = kabutoType;
+				hinmoku[3].subID = 2;
+
+
+				// 5•i–Ú   
+				hinmoku[4].Grouptype = -99;
+				hinmoku[4].subID = -99;
+			}
 
 
 
-					lstrcpy(mojibuf, TEXT("50G"));
-					// TextOut(hdc, 280 + 120, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+			// int stypeOffset = soubiOffset - 1; //10;
+			int afterOffTemp = stypeOffset + 1;
 
-					DrawFormatString(280 + 120, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+			for (int temp = 0; temp <= 3; temp = temp + 1) {
+
+				if (hinmoku[temp].Grouptype == -99) {
+					break;
+				}
+
+				lstrcpy(mojibuf, soubihin[hinmoku[temp].subID].Stype[hinmoku[temp].Grouptype].def_name);
+
+				// TextOut(hdc, 280, koumoku_Y + 30 + 30 * temp, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(280, koumoku_Y + 30 + 30 * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+				lstrcpy(mojibuf, TEXT("50G"));
+				// TextOut(hdc, 280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+
+				if (hinmoku[temp].Grouptype == wepoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[hinmoku[temp].subID].have_kosuu);
+
 
 				}
-			}
+				if (hinmoku[temp].Grouptype == kabutoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[hinmoku[temp].subID].have_kosuu);
+				}
+				if (hinmoku[temp].Grouptype == tateType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), shield_have_list[hinmoku[temp].subID].have_kosuu);
+				}
+				// TextOut(hdc, 280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+
+
+			} // for temp I‚í‚è
+
+
 
 
 
@@ -4800,56 +4933,54 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			*/
 
 
-
 			int stypeOffset = soubiOffset - 1; //10;
-
-			if (mode_scene == MODE_Shop_weapon_buy) {
-				for (int temp = 1; temp <= 2; temp = temp + 1) {
-
-					int afterOffTemp = stypeOffset + 1;
+			int afterOffTemp = stypeOffset + 1;
 
 
-					// lstrcpy(mojibuf, weapon_def_list[temp].def_name);
-					// TextOut(hdc, 280, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
-					// soubihin[	temp	].Stype[afterOffTemp].def_name
+			for (int temp = 0; temp <= 3; temp = temp + 1) {
 
-					lstrcpy(mojibuf, soubihin[temp].Stype[afterOffTemp].def_name);
+				if (hinmoku[temp].Grouptype == -99) {
+					break;
+				}
 
-					DrawFormatString(280, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+				lstrcpy(mojibuf, soubihin[hinmoku[temp].subID].Stype[hinmoku[temp].Grouptype ].def_name);
+
+				// TextOut(hdc, 280, koumoku_Y + 30 + 30 * temp, mojibuf, lstrlen(mojibuf));
+				DrawFormatString(280, koumoku_Y + 30 + 30 * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
 
 
-					lstrcpy(mojibuf, TEXT("50G"));
-					// TextOut(hdc, 280 + 120, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
+				lstrcpy(mojibuf, TEXT("50G"));
+				// TextOut(hdc, 280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
 
-					DrawFormatString(280 + 120, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+				DrawFormatString(280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+
+				if (hinmoku[temp].Grouptype == wepoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[hinmoku[temp].subID].have_kosuu);
+					
 
 				}
-			}
-
-
-			if (mode_scene == MODE_Shop_armor_buy) {
-				for (int temp = 1; temp <= 2; temp = temp + 1) {
-
-					int afterOffTemp = stypeOffset + 2;
-
-
-					lstrcpy(mojibuf, soubihin[temp].Stype[afterOffTemp].def_name);
-					// TextOut(hdc, 280, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
-
-
-					DrawFormatString(280, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
-
-
-
-					lstrcpy(mojibuf, TEXT("50G"));
-					// TextOut(hdc, 280 + 120, 200 + 30 * temp, mojibuf, lstrlen(mojibuf));
-
-					DrawFormatString(280 + 120, 200 + 30 * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
-
+				if (hinmoku[temp].Grouptype == kabutoType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[hinmoku[temp].subID].have_kosuu);
 				}
-			}
+				if (hinmoku[temp].Grouptype == tateType) {
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), shield_have_list[hinmoku[temp].subID].have_kosuu);
+				}
+				// TextOut(hdc, 280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
 
 
+
+
+			} // for temp I‚í‚è
+
+
+
+
+
+			
 
 
 
