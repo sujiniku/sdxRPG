@@ -8,7 +8,7 @@
 #include <math.h>  // 切り上げ計算で使用
 
 int mapEneNum = 1;
-
+int buyrange=0;
 
 int waitheal = 0; // 回復の表示中の長さ
 int damepyon = 0; // 戦闘中にダメージをピョンと動かすアレ
@@ -4264,8 +4264,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy(mojibuf, TEXT("在庫"));
 			// TextOut(hdc, 280 + 170, 200, mojibuf, lstrlen(mojibuf));
 
-
 			DrawFormatString(280 + 170, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+			lstrcpy(mojibuf, TEXT("所持数"));
+			// TextOut(hdc, 280 + 170 + 50, 200, mojibuf, lstrlen(mojibuf));
+
+			DrawFormatString(280 + 170 + 50, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
 
 			int stypeOffset = soubiOffset - 1; //10;
 			
@@ -4407,10 +4418,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// int stypeOffset = soubiOffset - 1; //10;
 			int afterOffTemp = stypeOffset + 1;
 
+			// int range;
 
-			for (int temp = 0; temp <= 3; temp = temp + 1) {
+			for (int temp = 0; temp <= 5; temp = temp + 1) {
 
 				if (hinmoku[temp].Grouptype == -99) {
+
+					buyrange = temp -1;
+
 					break;
 				}
 
@@ -4850,9 +4865,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			goukeiItem = 0;
+			
 
 			for (int aaa = 0; aaa <= 8; aaa = aaa + 1) {
 				if (hinmoku[aaa].Grouptype == -99) {
+					//range = aaa;
 					break;
 				}
 
@@ -4940,6 +4957,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			for (int temp = 0; temp <= 3; temp = temp + 1) {
 
 				if (hinmoku[temp].Grouptype == -99) {
+					buyrange = temp;
 					break;
 				}
 
@@ -5013,12 +5031,35 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
+			CheckUPetcFunc();
+			if (CheckUPetc) {
+				keyEnableUp = 0;
+				nyuuryokuMatiUp = waitTime1;
+				whomTargetID1 = whomTargetID1 - 1;
+
+			}
 
 
+			CheckDOWNetcFunc();
+			if (CheckDOWNetc) {
+				keyEnableDown = 0;
+				nyuuryokuMatiDown = waitTime1;
+
+				whomTargetID1 = whomTargetID1 + 1;
+
+			}
 
 
+			if (whomTargetID1 < 0){
+				whomTargetID1 = 0;
+
+			}
 
 
+			if (whomTargetID1 > buyrange) {
+				whomTargetID1 = buyrange;
+
+			}
 
 
 
