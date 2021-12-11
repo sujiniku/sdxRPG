@@ -4462,7 +4462,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			} // for temp èIÇÌÇË
 
-
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), buyrange );
+			DrawFormatString(280 + 100 * 3 + 50, koumoku_Y + 30 + kasolOffsetY * 5, GetColor(255, 255, 255), mojibuf   ); // ï∂éöÇï`âÊÇ∑ÇÈ
 
 
 
@@ -4902,6 +4903,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			for (int temp = 0; temp <= 3; temp = temp + 1) {
 
 				if (hinmoku[temp].Grouptype == -99) {
+				
+				    // buyrange = temp -1;
 					break;
 				}
 
@@ -4954,10 +4957,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int afterOffTemp = stypeOffset + 1;
 
 
-			for (int temp = 0; temp <= 3; temp = temp + 1) {
+			for (int temp = 0; temp <= 5; temp = temp + 1) {
 
 				if (hinmoku[temp].Grouptype == -99) {
-					buyrange = temp;
+					buyrange = temp -1;
 					break;
 				}
 
@@ -4995,6 +4998,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			} // for temp èIÇÌÇË
 
 
+
+
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), buyrange);
+			DrawFormatString(280 + 100 * 3 + 50, koumoku_Y + 30 + kasolOffsetY * 5, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
 
 
 
