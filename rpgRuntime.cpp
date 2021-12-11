@@ -5032,7 +5032,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			CheckXetcFunc();
 			if (CheckXetc) {
 				// keyEnableX = 0;
-				mode_scene = MODE_Shop_Main;
+
+				if (mode_scene == MODE_Shop_weapon_buy) {
+					mode_scene = MODE_Shop_weapon_main;
+				}
+				if (mode_scene == MODE_Shop_armor_buy ) {
+					mode_scene = MODE_Shop_armor_main ;
+				}
+
+				// mode_scene = MODE_Shop_Main;
+
 				endX();
 
 			}
