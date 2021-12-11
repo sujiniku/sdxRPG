@@ -347,6 +347,10 @@ int goukeiItem = 0;
 int whomCHARA = 1;
 int whomTargetID1 = 0;
 int whomTargetID2 = 0;
+int whomTargetID3 = 0;
+int whomTargetID4 = 0;
+int whomTargetID5 = 0;
+
 
 int whomTargetID1party = 0;
 int whomTargetID1hikae = 0;
@@ -4093,51 +4097,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 十字キー入力時
 				int rangeMin = 0; int rangeMax = 3;
 
-				// カーソルを上に移動
-				{
-
-					// 移動の終了処理
-					if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
-						keyEnableUp = 0;
-						nyuuryokuMatiUp = waitTime1;
-						selecting_mainmenu--;     // 上へ1マスだけ移動
-
-					}
-
-
-					if (selecting_mainmenu < rangeMin) {
-						selecting_mainmenu = rangeMin;
-					}
-
-					if (selecting_mainmenu >= rangeMax) {
-						selecting_mainmenu = rangeMax;
-					}
-				}
-
-				// カーソルを下に移動
-				{
-
-					// 移動の終了処理
-					if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
-						keyEnableDown = 0;
-						nyuuryokuMatiDown = waitTime1;
-						selecting_mainmenu++;                       // 下へ1マスだけ移動
-					}
-
-
-					if (selecting_mainmenu < rangeMin) {
-						selecting_mainmenu = rangeMin;
-					}
-
-					if (selecting_mainmenu >= rangeMax) {
-						selecting_mainmenu = rangeMax;
-					}
-
-				}
-
-
-				whomTargetID1 = selecting_mainmenu;
-
 
 
 
@@ -4472,7 +4431,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int rangeMin = 0; int rangeMax = 4;
 
 
-			// カーソルを上に移動
+			// カーソルをmigiに移動
 			{
 
 				// 移動の終了処理
@@ -4493,7 +4452,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 			}
 
-			// カーソルを下に移動
+			// カーソルをhidariに移動
 			{
 
 				// 移動の終了処理
@@ -4513,6 +4472,75 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 			}
+
+
+
+			if (
+				(CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1)
+				||
+				(CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1)
+				) {
+
+
+				//MessageBox(NULL, TEXT("デバッグ。"), TEXT("テスト"), MB_OK);
+
+
+
+				// カーソルをueに移動
+					{
+
+						// 移動の終了処理
+						if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1) {
+							keyEnableUp = 0;
+							nyuuryokuMatiUp = waitTime1;
+
+
+
+							whomTargetID1--;     // 上へ1マスだけ移動
+
+						}
+
+
+						if (whomTargetID1 < rangeMin) {
+							whomTargetID1 = rangeMin;
+						}
+
+						if (whomTargetID1 >= rangeMax) {
+							whomTargetID1 = rangeMax;
+						}
+					}
+
+					// カーソルをsitaに移動
+					{
+
+						// 移動の終了処理
+						if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1) {
+							keyEnableDown = 0;
+							nyuuryokuMatiDown = waitTime1;
+							whomTargetID1++;                       // 下へ1マスだけ移動
+						}
+
+
+						if (whomTargetID1 < rangeMin) {
+							whomTargetID1 = rangeMin;
+						}
+
+						if (whomTargetID1 >= rangeMax) {
+							whomTargetID1 = rangeMax;
+						}	
+					}
+
+
+					if (whomTargetID1 == 0) {
+						mode_scene = MODE_Shop_weapon_main;
+					}
+					if (whomTargetID1 == 1) {
+						mode_scene = MODE_Shop_armor_main;
+					}
+
+
+
+			} // ue or sita
 
 
 
@@ -4617,7 +4645,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
 
 				// BrushDarkPink_set(hdc);
-				tenmetu(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID3),
+				tenmetuStop(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID3),
 					150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID3));// あとでダーク版に直す
 
 				int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
@@ -4776,8 +4804,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			//BrushPink_set(hdc);
-			tenmetu(280, 200 + 60 + 30 * (whomTargetID1),
-				320 + 40, offsetYtemp1 + 60 + 60 + 30 * (whomTargetID1));
+			tenmetu(280, 200 + 60 + 30 * (whomTargetID4),
+				320 + 40, offsetYtemp1 + 60 + 60 + 30 * (whomTargetID4));
 
 
 			if (0) {
@@ -5051,7 +5079,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (CheckUPetc) {
 				keyEnableUp = 0;
 				nyuuryokuMatiUp = waitTime1;
-				whomTargetID1 = whomTargetID1 - 1;
+				whomTargetID4 = whomTargetID4 - 1;
 
 			}
 
@@ -5061,19 +5089,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				keyEnableDown = 0;
 				nyuuryokuMatiDown = waitTime1;
 
-				whomTargetID1 = whomTargetID1 + 1;
+				whomTargetID4 = whomTargetID4 + 1;
 
 			}
 
 
-			if (whomTargetID1 < 0){
-				whomTargetID1 = 0;
+			if (whomTargetID4 < 0){
+				whomTargetID4 = 0;
 
 			}
 
 
-			if (whomTargetID1 > buyrange) {
-				whomTargetID1 = buyrange;
+			if (whomTargetID4 > buyrange) {
+				whomTargetID4 = buyrange;
 
 			}
 
