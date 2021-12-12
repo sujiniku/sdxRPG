@@ -290,13 +290,13 @@ int pageSyori = 0;
 
 // アイテム種類番号
 const int itemOffset = 10;// 0～9番はシステム処理用に確保
-int siyouType = itemOffset;  // =10
+const int siyouType = itemOffset;  // =10
 
 const int soubiOffset = 11; // wepoTypeと同番号だが、拡張性や可読性を考え、別変数を用意
 
-int wepoType = soubiOffset ; // 11
-int tateType = soubiOffset + 1; // 12;
-int kabutoType = soubiOffset + 2; // 13;
+const int wepoType = soubiOffset ; // 11
+const int tateType = soubiOffset + 1; // 12;
+const int kabutoType = soubiOffset + 2; // 13;
 
 int PorEflag[20];
 
@@ -5260,10 +5260,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			itemskip = 0;
 			LimintTemp = goukeiItem;
 
+			//int locType2;
+
 			// 武器の配列代入
 			for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
 			{
-				if (weapon_have_list[idTemp].have_kosuu != 0) {
+				if ((soubiSyoji[idTemp].Stype[wepoType]).have_kosuu != 0) {
 
 					goukeiItem = goukeiItem + 1;
 
@@ -5274,7 +5276,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 				}
 
-				if (weapon_have_list[idTemp].have_kosuu == 0 && idTemp != 2) {
+				if ((soubiSyoji[idTemp].Stype[wepoType]).have_kosuu == 0 && idTemp != 2) {
 					itemskip = itemskip + 1;
 
 				}
@@ -5288,7 +5290,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// シールドの配列代入
 			for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
 			{
-				if (shield_have_list[idTemp].have_kosuu != 0) {
+				if ((soubiSyoji[idTemp].Stype[tateType]).have_kosuu != 0) {
 					// MessageBox(NULL, TEXT("テストhelm"), TEXT("キーテスト"), MB_OK);
 
 					goukeiItem = goukeiItem + 1;
@@ -5301,7 +5303,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 
-				if (shield_have_list[idTemp - itemIDcount].have_kosuu == 0) {
+				if ((soubiSyoji[idTemp - itemIDcount].Stype[tateType]).have_kosuu == 0) {
+				//shield_have_list[idTemp - itemIDcount].have_kosuu == 0) {
 					itemskip = itemskip + 1;
 
 				}
@@ -5313,7 +5316,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			for (idTemp = 1; idTemp <= 2; idTemp = idTemp + 1)
 			{
 				// MessageBox(NULL, TEXT("テスト22"), TEXT("キーテスト"), MB_OK);
-				if (helm_have_list[idTemp].have_kosuu != 0) {
+				if ((soubiSyoji[idTemp].Stype[kabutoType]).have_kosuu != 0) {
 
 					goukeiItem = goukeiItem + 1;
 
@@ -5325,7 +5328,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 
-				if (helm_have_list[idTemp - itemIDcount].have_kosuu == 0) {
+				if ((soubiSyoji[idTemp - itemIDcount].Stype[kabutoType]).have_kosuu == 0) {
 					itemskip = itemskip + 1;
 
 				}
@@ -5395,19 +5398,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						break;
 					}
 
+					int locType2 = itemTypeHairetu[temp2]; // itemHairetu ではない。 Type なし
+
 
 					if (itemTypeHairetu[temp2] == siyouType) {
+						// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
 						lstrcpy(mojibuf, item_def_list[itemHairetu[temp2]].def_name);
 					}
-					if (itemTypeHairetu[temp2] == wepoType) {
-						lstrcpy(mojibuf, weapon_def_list[itemHairetu[temp2]].def_name);
+
+					// else をつけないと、なぜかsiyouhin 情報を壊す
+					else if (itemTypeHairetu[temp2] == wepoType || tateType || kabutoType) {
+						lstrcpy(mojibuf, (soubihin[itemHairetu[temp2]].Stype[locType2]).def_name);
 					}
-					if (itemTypeHairetu[temp2] == tateType) {
-						lstrcpy(mojibuf, shield_def_list[itemHairetu[temp2]].def_name);
-					}
-					if (itemTypeHairetu[temp2] == kabutoType) {
-						lstrcpy(mojibuf, helm_def_list[itemHairetu[temp2]].def_name);
-					}
+					
+
 					// TextOut(hdc, 280, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
 					DrawFormatString(280, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
@@ -5429,22 +5434,96 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					if (itemTypeHairetu[temp2] == siyouType) {
 						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), item_have_list[itemHairetu[temp2]].have_kosuu);
+
+						//_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), itemTypeHairetu[temp2]);
+
+
 					}
-					if (itemTypeHairetu[temp2] == wepoType) {
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[itemHairetu[temp2]].have_kosuu);
+
+					// else をつけないと、なぜかsiyouhin 情報を壊す
+					else if (itemTypeHairetu[temp2] == wepoType || tateType || kabutoType) {
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), (soubiSyoji[itemHairetu[temp2]].Stype[locType2]).have_kosuu  );
+						
+						// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), itemTypeHairetu[temp2]);
+						// lstrcpy(mojibuf, ( soubiSyoji[itemHairetu[temp2]].Stype[locType2]).have_kosuu);
 					}
-					if (itemTypeHairetu[temp2] == tateType) {
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), shield_have_list[itemHairetu[temp2]].have_kosuu);
-					}
-					if (itemTypeHairetu[temp2] == kabutoType) {
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[itemHairetu[temp2]].have_kosuu);
-					}
+
+
 
 					// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
 					DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 				}
 			}
+
+
+
+
+
+
+			CheckZetcFunc();
+			if (CheckZetc) {
+
+
+				int temp2 = whomTargetID1 + pageSyori * 6;
+
+				// MessageBox(NULL, TEXT("なかルーチン"), TEXT("キーテスト"), MB_OK);
+				// mode_scene = MODE_Shop_Main;
+
+				sinamonoList = 1;
+				// 売る処理
+
+				if (itemTypeHairetu[temp2] == siyouType) {
+					item_have_list[itemHairetu[temp2]].have_kosuu = item_have_list[itemHairetu[temp2]].have_kosuu - 1;
+					your_money = your_money + 50;
+				}
+				if (itemTypeHairetu[temp2] == wepoType) {
+					weapon_have_list[itemHairetu[temp2]].have_kosuu = weapon_have_list[itemHairetu[temp2]].have_kosuu - 1;
+					your_money = your_money + 50;
+				}
+				if (itemTypeHairetu[temp2] == tateType) {
+					shield_have_list[itemHairetu[temp2]].have_kosuu = shield_have_list[itemHairetu[temp2]].have_kosuu - 1;
+				}
+				if (itemTypeHairetu[temp2] == kabutoType) {
+					helm_have_list[itemHairetu[temp2]].have_kosuu = helm_have_list[itemHairetu[temp2]].have_kosuu - 1;
+					your_money = your_money + 50;
+				}
+
+
+				endZ();
+
+			}
+
+
+
+			CheckXetcFunc();
+			if (CheckXetc) {
+				// keyEnableX = 0;
+
+				if (mode_scene == MODE_Shop_weapon_sell) {
+					mode_scene = MODE_Shop_weapon_main;
+				}
+				if (mode_scene == MODE_Shop_armor_sell) {
+					mode_scene = MODE_Shop_armor_main;
+				}
+
+				// mode_scene = MODE_Shop_Main;
+
+				endX();
+
+			}
+
+
+
+
+
+
+
+
+
+
+
+
 		} // sell end
 
 
