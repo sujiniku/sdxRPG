@@ -2011,6 +2011,219 @@ void hinmokuView() {
 
 
 
+
+
+int offsetYtemp1 = 100;
+
+
+void shopCommon1(){
+
+
+	int offsetYtemp1 = 100;
+	// SelectObject(hdc, blue_thin_1);
+
+	// Rectangle(hdc, 10, offsetYtemp1, offsetYtemp1 + 100, 400);
+
+	window1Draw(10, offsetYtemp1, offsetYtemp1 + 100, 400);
+
+
+	int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
+
+	// BrushDarkPink_set(hdc);
+	tenmetu(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1),
+		150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1)); // あとでダークに直す
+
+
+
+	int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
+	int yspan1 = carsoruHigh;
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
+	// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
+
+	DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("武器"));
+	//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), mojibuf, lstrlen(mojibuf));
+
+
+	DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("防具"));
+	//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), mojibuf, lstrlen(mojibuf));
+
+
+	DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装飾品"));
+	
+	DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("道具"));
+	//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), mojibuf, lstrlen(mojibuf));
+
+
+
+	DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出る3"));
+	//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), mojibuf, lstrlen(mojibuf));
+
+
+	DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+
+}
+
+int whomtargetID2;
+
+void shopCommon2() {
+
+	lstrcpy(mojibuf, TEXT("武器屋テスト売る。"));
+	//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+
+	DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+	
+	//SelectObject(hdc, blue_thin_1);
+	window1Draw(250, 100,
+		450, 150);
+
+
+	int BuySellX = 280;
+	int BuySellY = 120;
+
+	int carsoruHigh = 30;
+	int spanX = 50;
+
+
+	//1; // 「売る」にカーソル
+
+	//BrushDarkPink_set(hdc);
+	tenmetu(BuySellX + spanX * (shopAct), offsetYtemp1 + 10,
+		BuySellX + 40 + spanX * (shopAct), offsetYtemp1 + 60); // あとでダーク化
+
+
+	lstrcpy(mojibuf, TEXT("買う"));
+	// TextOut(hdc, BuySellX, BuySellY, mojibuf, lstrlen(mojibuf));
+
+	DrawFormatString(BuySellX, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	lstrcpy(mojibuf, TEXT("売る"));
+	//TextOut(hdc, BuySellX + spanX * 1, BuySellY, mojibuf, lstrlen(mojibuf));
+
+
+	DrawFormatString(BuySellX + spanX * 1, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+	lstrcpy(mojibuf, TEXT("中古"));
+	// TextOut(hdc, BuySellX + spanX * 2, BuySellY, mojibuf, lstrlen(mojibuf));
+
+	DrawFormatString(BuySellX + spanX * 2, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+	lstrcpy(mojibuf, TEXT("出る"));
+	// TextOut(hdc, BuySellX + spanX * 3, BuySellY, mojibuf, lstrlen(mojibuf));
+
+	DrawFormatString(BuySellX + spanX * 3, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+	//BrushBlue_set(hdc);
+	int GoldRanX = 480; int GoldRanY = 50;
+	//SelectObject(hdc, blue_thin_1);
+	window1Draw(GoldRanX, GoldRanY,
+		GoldRanX + 120, 110);
+
+
+	lstrcpy(mojibuf, TEXT("所持金"));
+	// TextOut(hdc, GoldRanX, GoldRanY + 10, mojibuf, lstrlen(mojibuf));
+
+
+	DrawFormatString(GoldRanX, GoldRanY + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d G"), your_money);
+	// TextOut(hdc, GoldRanX, GoldRanY + 10 + 20, mojibuf, lstrlen(mojibuf));
+
+	DrawFormatString(GoldRanX, GoldRanY + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+	//SelectObject(hdc, blue_thin_1);
+	window1Draw(250, 170,
+		450, 400);
+
+	lstrcpy(mojibuf, TEXT("ここに商品や所持品が表示されます"));
+	// TextOut(hdc, 280, 170, mojibuf, lstrlen(mojibuf));
+
+	DrawFormatString(280, 170, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+
+
+
+
+}
+
+// int offsetYtemp1 = 100;
+
+void shopCommon3() {
+
+
+	//BrushPink_set(hdc);
+	//tenmetu(280, 200 + 60 + 30 * (whomTargetID1),		320 + 40, offsetYtemp1 + 60 + 60 + 30 * (whomTargetID1));
+
+	//SetBkColor(hdc, RGB(0xFF, 0xFF, 0xFF));
+	//SetBkMode(hdc, OPAQUE);
+
+	// 見出し
+	if (1) {
+		lstrcpy(mojibuf, TEXT("商品名"));
+		//TextOut(hdc, 280, 200, mojibuf, lstrlen(mojibuf));
+		DrawFormatString(280, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+		lstrcpy(mojibuf, TEXT("価格"));
+		//TextOut(hdc, 280 + 120, 200, mojibuf, lstrlen(mojibuf));
+		DrawFormatString(280 + 120, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+		lstrcpy(mojibuf, TEXT("在庫"));
+		//TextOut(hdc, 280 + 170, 200, mojibuf, lstrlen(mojibuf));
+		DrawFormatString(280 + 170, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+		lstrcpy(mojibuf, TEXT("所持数"));
+		//TextOut(hdc, 280 + 170 + 50, 200, mojibuf, lstrlen(mojibuf));
+		DrawFormatString(280 + 170 + 50, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+	}
+
+
+
+
+
+}
+
+
+
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -3846,61 +4059,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// BrushPink_set(hdc);
 			//	Rectangle(hdc, 10, 100,	300, 200);
 
-
-
-			int offsetYtemp1 = 100;
-			// SelectObject(hdc, blue_thin_1);
-			// Rectangle(hdc, 10, offsetYtemp1,				offsetYtemp1 + 100, 400);
-
-			window1Draw(10, offsetYtemp1, offsetYtemp1 + 100, 400);
-
-
-			int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
-
-			//BrushPink_set(hdc);
-			// Rectangle(hdc, 20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1), 150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1));
-
-			tenmetu(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1), 150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1));
-
-
-			int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
-			int yspan1 = carsoruHigh;
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
-			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("武器"));
-			//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("防具"));
-			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), mojibuf, lstrlen(mojibuf));
-			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装飾品"));
-			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), mojibuf, lstrlen(mojibuf));
-			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("道具"));
-			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出る"));
-			// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
+			shopCommon1();
 
 
 			lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
@@ -4081,65 +4240,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
-				int offsetYtemp1 = 100;
-				// SelectObject(hdc, blue_thin_1);
-
-				// Rectangle(hdc, 10, offsetYtemp1, offsetYtemp1 + 100, 400);
-
-				window1Draw(10, offsetYtemp1, offsetYtemp1 + 100, 400);
-
-
-				int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
-
-				// BrushDarkPink_set(hdc);
-				tenmetu( 20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1),
-					150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1)); // あとでダークに直す
-
-
+				shopCommon1();
 
 				int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
+				int carsoruHigh = 30;
 				int yspan1 = carsoruHigh;
 
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
-				// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("武器"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), mojibuf, lstrlen(mojibuf));
-
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("防具"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), mojibuf, lstrlen(mojibuf));
-
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装飾品"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), mojibuf, lstrlen(mojibuf));
-
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("道具"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), mojibuf, lstrlen(mojibuf));
-
-
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出る"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), mojibuf, lstrlen(mojibuf));
-
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				//DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 
@@ -4184,50 +4291,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-
-
-			int offsetYtemp1 = 100;
-			//SelectObject(hdc, blue_thin_1);
-			window1Draw( 250, 100,   450, 150);
-
-
-			int BuySellX = 280;
-			int BuySellY = 120;
-
-			int carsoruHigh = 30;
-			int spanX = 50;
-
-			// BrushPink_set(hdc);
-
-			tenmetu(BuySellX + spanX * (whomTargetID2), offsetYtemp1 + 10,
-				320 + spanX * (whomTargetID2), offsetYtemp1 + 60);
-
-
-			lstrcpy(mojibuf, TEXT("買う"));
-			// TextOut(hdc, BuySellX, BuySellY, mojibuf, lstrlen(mojibuf));
-
-
-			DrawFormatString(BuySellX, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("売る"));
-			// TextOut(hdc, BuySellX + spanX * 1, BuySellY, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(BuySellX + spanX * 1, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("中古"));
-			// TextOut(hdc, BuySellX + spanX * 2, BuySellY, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(BuySellX + spanX * 2, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("出る"));
-			// TextOut(hdc, BuySellX + spanX * 3, BuySellY, mojibuf, lstrlen(mojibuf));
-
-
-			DrawFormatString(BuySellX + spanX * 3, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
+			shopAct = whomTargetID2;
+			shopCommon2();
 
 
 			int GoldRanX = 480; int GoldRanY = 50;
@@ -4255,35 +4320,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DrawFormatString(280, 170, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-			lstrcpy(mojibuf, TEXT("商品名"));
-			// TextOut(hdc, 280, 200, mojibuf, lstrlen(mojibuf));
-
-
-			DrawFormatString(280, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("価格"));
-			// TextOut(hdc, 280 + 120, 200, mojibuf, lstrlen(mojibuf));
-
-
-			DrawFormatString(280 + 120, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("在庫"));
-			// TextOut(hdc, 280 + 170, 200, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(280 + 170, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-
-			lstrcpy(mojibuf, TEXT("所持数"));
-			// TextOut(hdc, 280 + 170 + 50, 200, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(280 + 170 + 50, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
+			shopCommon3();
 
 
 			int stypeOffset = soubiOffset - 1; //10;
@@ -4307,59 +4344,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int koumoku_Y = 200;
 			int kasolOffsetY = 30;
 
-			/*
-
-
-			for (int temp = 0; temp <= 3; temp = temp + 1) {
-
-				if (hinmoku[temp].Grouptype == -99) {
-					break;
-				}
-
-				if (hinmoku[temp].Grouptype == wepoType) {
-					lstrcpy(mojibuf, weapon_def_list[hinmoku[temp].subID].def_name);
-				}
-				if (hinmoku[temp].Grouptype == tateType) {
-					lstrcpy(mojibuf, shield_def_list[hinmoku[temp].subID].def_name);
-				}
-				if (hinmoku[temp].Grouptype == kabutoType) {
-					lstrcpy(mojibuf, helm_def_list[hinmoku[temp].subID].def_name);
-				}
-
-				// TextOut(hdc, 280, koumoku_Y + 30 + 30 * temp, mojibuf, lstrlen(mojibuf));
-				DrawFormatString(280, koumoku_Y + 30 + 30 * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-				lstrcpy(mojibuf, TEXT("50G"));
-				// TextOut(hdc, 280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
-
-				DrawFormatString(280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-				if (hinmoku[temp].Grouptype == wepoType) {
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[hinmoku[temp].subID].have_kosuu);
-				}
-				if (hinmoku[temp].Grouptype == kabutoType) {
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[hinmoku[temp].subID].have_kosuu);
-				}
-				if (hinmoku[temp].Grouptype == tateType) {
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), shield_have_list[hinmoku[temp].subID].have_kosuu);
-				}
-				// TextOut(hdc, 280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
-
-				DrawFormatString(280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-
-			} // for temp 終わり
-
-
-
-
-			*/
-
+			
 
 
 
@@ -4639,59 +4624,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-				int offsetYtemp1 = 100;
-				//SelectObject(hdc, blue_thin_1);
-				window1Draw( 10, offsetYtemp1,
-					offsetYtemp1 + 100, 400);
-
-				int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
-
-				// BrushDarkPink_set(hdc);
-				tenmetuStop(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID3),
-					150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID3));// あとでダーク版に直す
-
-				int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
-				int yspan1 = carsoruHigh;
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
-				// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-				
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("武器"));
-				// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), mojibuf, lstrlen(mojibuf));
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("防具"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), mojibuf, lstrlen(mojibuf));
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装飾品"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), mojibuf, lstrlen(mojibuf));
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("道具"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), mojibuf, lstrlen(mojibuf));
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出る"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), mojibuf, lstrlen(mojibuf));
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
+				shopCommon1();
 			}
 
 
@@ -4700,110 +4633,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//BrushDarkBlue_set(hdc);
 			//BrushPink_set(hdc);
 
-			lstrcpy(mojibuf, TEXT("武器屋テスト買う。"));
-			//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
+			shopAct=0;
+			shopCommon2();
 
-
-
-			int offsetYtemp1 = 100;
-			//SelectObject(hdc, blue_thin_1);
-			window1Draw( 250, 100,
-				450, 150);
-
-
-			int BuySellX = 280;
-			int BuySellY = 120;
-
-			int carsoruHigh = 30;
-			int spanX = 50;
-
-			shopAct = 0; // 「買う」にカーソル
-
-			// BrushDarkPink_set(hdc);
-			tenmetu(BuySellX + spanX * (shopAct), offsetYtemp1 + 10,
-				BuySellX + 40 + spanX * (shopAct), offsetYtemp1 + 60);
-
-
-			lstrcpy(mojibuf, TEXT("買う"));
-			// TextOut(hdc, BuySellX, BuySellY, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(BuySellX, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("売る"));
-			//TextOut(hdc, BuySellX + spanX * 1, BuySellY, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(BuySellX + spanX * 1, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("中古"));
-			//TextOut(hdc, BuySellX + spanX * 2, BuySellY, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(BuySellX + spanX * 2, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("出る"));
-			//TextOut(hdc, BuySellX + spanX * 3, BuySellY, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(BuySellX + spanX * 3, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			// BrushBlue_set(hdc);
-
-			int GoldRanX = 480; int GoldRanY = 50;
-			// SelectObject(hdc, blue_thin_1);
-			window1Draw(GoldRanX, GoldRanY,
-				GoldRanX + 120, 110);
-
-			lstrcpy(mojibuf, TEXT("所持金"));
-			//TextOut(hdc, GoldRanX, GoldRanY + 10, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(GoldRanX, GoldRanY + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d G"), your_money);
-			// TextOut(hdc, GoldRanX, GoldRanY + 10 + 20, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(GoldRanX, GoldRanY + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-			//SelectObject(hdc, blue_thin_1);
-			window1Draw(250, 170,
-				450, 400);
-
-			lstrcpy(mojibuf, TEXT("ここに商品や所持品が表示されます"));
-			// TextOut(hdc, 280, 170, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(280, 170, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("商品名"));
-			// TextOut(hdc, 280, 200, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(280, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("価格"));
-			// TextOut(hdc, 280 + 120, 200, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(280 + 120, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-			lstrcpy(mojibuf, TEXT("在庫"));
-			// TextOut(hdc, 280 + 170, 200, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(280 + 170, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("所持数"));
-			// TextOut(hdc, 280 + 170 + 50, 200, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(280 + 170 + 50, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
+			shopCommon3();
 
 			//BrushPink_set(hdc);
 			tenmetu(280, 200 + 60 + 30 * (whomTargetID4),
@@ -5056,161 +4889,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
+				shopCommon1();
 
-
-				int offsetYtemp1 = 100;
-				// SelectObject(hdc, blue_thin_1);
-				window1Draw( 10, offsetYtemp1,
-					offsetYtemp1 + 100, 400);
-
-				int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
-
-				//BrushDarkPink_set(hdc);
-				tenmetu(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID3),
-					150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID3)); // あとでダーク化
-
-				int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
-				int yspan1 = carsoruHigh;
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
-				// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
-				
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("武器"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), mojibuf, lstrlen(mojibuf));
-
-
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("防具"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), mojibuf, lstrlen(mojibuf));
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (2), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装飾品"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), mojibuf, lstrlen(mojibuf));
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (3), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("道具"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), mojibuf, lstrlen(mojibuf));
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (4), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出る"));
-				//TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), mojibuf, lstrlen(mojibuf));
-				DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
+				// 十字キー入力時
+				int rangeMin = 0; int rangeMax = 3;
 			}
 
 
 
 
 
-
-			//SetBkMode(hdc, OPAQUE);
-			// SetBkMode(hdc, TRANSPARENT);
-
-			// MessageBox(NULL, TEXT("売却のテスト中。"), TEXT("キーテスト"), MB_OK);
-
-			//BrushDarkBlue_set(hdc);
-			//BrushPink_set(hdc);
-
-			lstrcpy(mojibuf, TEXT("武器屋テスト売る。"));
-			//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			int offsetYtemp1 = 100;
-			//SelectObject(hdc, blue_thin_1);
-			window1Draw( 250, 100,
-				450, 150);
-
-
-			int BuySellX = 280;
-			int BuySellY = 120;
-
-			int carsoruHigh = 30;
-			int spanX = 50;
-
-
-			shopAct = 1; // 「売る」にカーソル
-
-			//BrushDarkPink_set(hdc);
-			tenmetu(BuySellX + spanX * (shopAct), offsetYtemp1 + 10,
-				BuySellX + 40 + spanX * (shopAct), offsetYtemp1 + 60); // あとでダーク化
-
-
-			lstrcpy(mojibuf, TEXT("買う"));
-			// TextOut(hdc, BuySellX, BuySellY, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(BuySellX, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("売る"));
-			//TextOut(hdc, BuySellX + spanX * 1, BuySellY, mojibuf, lstrlen(mojibuf));
-
-
-			DrawFormatString(BuySellX + spanX * 1, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			lstrcpy(mojibuf, TEXT("中古"));
-			// TextOut(hdc, BuySellX + spanX * 2, BuySellY, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(BuySellX + spanX * 2, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-			lstrcpy(mojibuf, TEXT("出る"));
-			// TextOut(hdc, BuySellX + spanX * 3, BuySellY, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(BuySellX + spanX * 3, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-			//BrushBlue_set(hdc);
-			int GoldRanX = 480; int GoldRanY = 50;
-			//SelectObject(hdc, blue_thin_1);
-			window1Draw(GoldRanX, GoldRanY,
-				GoldRanX + 120, 110);
-
-
-			lstrcpy(mojibuf, TEXT("所持金"));
-			// TextOut(hdc, GoldRanX, GoldRanY + 10, mojibuf, lstrlen(mojibuf));
-
-
-			DrawFormatString(GoldRanX, GoldRanY + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d G"), your_money);
-			// TextOut(hdc, GoldRanX, GoldRanY + 10 + 20, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(GoldRanX, GoldRanY + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-
-			//SelectObject(hdc, blue_thin_1);
-			window1Draw(250, 170,
-				450, 400);
-
-			lstrcpy(mojibuf, TEXT("ここに商品や所持品が表示されます"));
-			// TextOut(hdc, 280, 170, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(280, 170, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
+			shopCommon2();
 
 			////////////// 何かのコピペの境
 
@@ -5345,30 +5034,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//SetBkMode(hdc, OPAQUE);
 
 			// 見出し
-			if (1) {
-				lstrcpy(mojibuf, TEXT("商品名"));
-				//TextOut(hdc, 280, 200, mojibuf, lstrlen(mojibuf));
-				DrawFormatString(280, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-				lstrcpy(mojibuf, TEXT("価格"));
-				//TextOut(hdc, 280 + 120, 200, mojibuf, lstrlen(mojibuf));
-				DrawFormatString(280 + 120, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-				lstrcpy(mojibuf, TEXT("在庫"));
-				//TextOut(hdc, 280 + 170, 200, mojibuf, lstrlen(mojibuf));
-				DrawFormatString(280 + 170, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-				lstrcpy(mojibuf, TEXT("所持数"));
-				//TextOut(hdc, 280 + 170 + 50, 200, mojibuf, lstrlen(mojibuf));
-				DrawFormatString(280 + 170 + 50, 200, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-			
-			}
+			shopCommon3();
 
 
 			// ページ送り時の一旦クリア用
