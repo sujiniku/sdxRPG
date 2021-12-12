@@ -696,7 +696,7 @@ static int selecting_OP = 1;
 
 static int cursol_stop;
 //static 
-int your_money = 0; // これstatic にすると、戦闘終了後にバグる。
+int your_money = 10000; // これstatic にすると、戦闘終了後にバグる。
 
 
 
@@ -5005,18 +5005,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-				if (hinmoku[temp].Grouptype == wepoType) {
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), weapon_have_list[hinmoku[temp].subID].have_kosuu);
-					
-
-				}
-				if (hinmoku[temp].Grouptype == kabutoType) {
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), helm_have_list[hinmoku[temp].subID].have_kosuu);
-				}
-				if (hinmoku[temp].Grouptype == tateType) {
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), shield_have_list[hinmoku[temp].subID].have_kosuu);
-				}
-				// TextOut(hdc, 280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), (soubiSyoji[hinmoku[temp].subID].Stype[hinmoku[temp].Grouptype]).have_kosuu);
 
 				DrawFormatString(280 + 100 * 2 + 50, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
@@ -5033,10 +5022,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+			CheckZetcFunc();
+			if (CheckZetc) {
 			
+				int locType2 = itemTypeHairetu[whomTargetID4];
+				// 買う処理
+				if (your_money >= 50) {
+					
+					(soubiSyoji[itemHairetu[whomTargetID4]].Stype[locType2]).have_kosuu =
+						(soubiSyoji[itemHairetu[whomTargetID4]].Stype[locType2]).have_kosuu + 1;
 
+					// weapon_have_list[itemHairetu[whomTargetID1]].have_kosuu = weapon_have_list[itemHairetu[whomTargetID1]].have_kosuu + 1;
+					your_money = your_money - 50;
 
-
+				}
+				// 売る処理
+				// 売り物なし
+			
+			
+				endZ();
+			
+			}
 
 
 
