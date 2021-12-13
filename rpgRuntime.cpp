@@ -2265,7 +2265,77 @@ void shopCommon4(){
 
 
 
+void shopData() {
 
+
+
+	if (whomTargetID1 == 0) {
+		// 売り物の定義
+		// 1品目
+		// strcpy_s(  hinmoku[0].ItemName, 10 ,"毒消し"); 
+		hinmoku[0].Grouptype = wepoType;
+		hinmoku[0].subID = 1;
+
+		itemHairetu[0] = hinmoku[0].subID;
+		itemTypeHairetu[0] = hinmoku[0].Grouptype;
+
+		// 2品目   
+		hinmoku[1].Grouptype = wepoType;
+		hinmoku[1].subID = 2;
+		//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"鉄の剣"); 
+
+
+		// 3品目   
+		hinmoku[2].Grouptype = -99;
+		hinmoku[2].subID = -99;
+	}
+
+	if (whomTargetID1 == 1) {
+		// 売り物の定義
+		// 1品目
+	// strcpy_s(  hinmoku[0].ItemName, 10 ,"毒消し"); 
+		hinmoku[0].Grouptype = tateType;
+		hinmoku[0].subID = 1;
+
+
+		// 2品目   
+		hinmoku[1].Grouptype = tateType;
+		hinmoku[1].subID = 2;
+		//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"鉄の剣"); 
+
+
+		// 3品目   
+		hinmoku[2].Grouptype = kabutoType;
+		hinmoku[2].subID = 1;
+
+
+		// 4品目   
+		hinmoku[3].Grouptype = kabutoType;
+		hinmoku[3].subID = 2;
+
+
+		// 5品目   
+		hinmoku[4].Grouptype = -99;
+		hinmoku[4].subID = -99;
+	}
+
+
+	goukeiItem = 0;
+
+
+	for (int aaa = 0; aaa <= 8; aaa = aaa + 1) {
+		if (hinmoku[aaa].Grouptype == -99) {
+			//range = aaa;
+			break;
+		}
+
+		itemHairetu[aaa] = hinmoku[aaa].subID;
+		itemTypeHairetu[aaa] = hinmoku[aaa].Grouptype;
+
+		goukeiItem = goukeiItem + 1;
+	}
+
+}
 
 
 
@@ -4114,74 +4184,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			shopCommon4();
 
-
-			if (whomTargetID1 == 0) {
-				// 売り物の定義
-				// 1品目
-				// strcpy_s(  hinmoku[0].ItemName, 10 ,"毒消し"); 
-				hinmoku[0].Grouptype = wepoType;
-				hinmoku[0].subID = 1;
-
-				itemHairetu[0] = hinmoku[0].subID;
-				itemTypeHairetu[0] = hinmoku[0].Grouptype;
-
-				// 2品目   
-				hinmoku[1].Grouptype = wepoType;
-				hinmoku[1].subID = 2;
-				//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"鉄の剣"); 
-
-
-				// 3品目   
-				hinmoku[2].Grouptype = -99;
-				hinmoku[2].subID = -99;
-			}
-
-			if (whomTargetID1 == 1) {
-				// 売り物の定義
-				// 1品目
-			// strcpy_s(  hinmoku[0].ItemName, 10 ,"毒消し"); 
-				hinmoku[0].Grouptype = tateType;
-				hinmoku[0].subID = 1;
-
-
-				// 2品目   
-				hinmoku[1].Grouptype = tateType;
-				hinmoku[1].subID = 2;
-				//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"鉄の剣"); 
-
-
-				// 3品目   
-				hinmoku[2].Grouptype = kabutoType;
-				hinmoku[2].subID = 1;
-
-
-				// 4品目   
-				hinmoku[3].Grouptype = kabutoType;
-				hinmoku[3].subID = 2;
-
-
-				// 5品目   
-				hinmoku[4].Grouptype = -99;
-				hinmoku[4].subID = -99;
-			}
-
-
-			goukeiItem = 0;
-
-
-			for (int aaa = 0; aaa <= 8; aaa = aaa + 1) {
-				if (hinmoku[aaa].Grouptype == -99) {
-					//range = aaa;
-					break;
-				}
-
-				itemHairetu[aaa] = hinmoku[aaa].subID;
-				itemTypeHairetu[aaa] = hinmoku[aaa].Grouptype;
-
-				goukeiItem = goukeiItem + 1;
-			}
-
-
+			shopData();
 
 
 			// 「売る」のあとに「買う」したときの表示文の残骸の一旦クリア用
@@ -4486,60 +4489,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-
-
-			if (mode_scene == MODE_Shop_weapon_main) {
-				// 売り物の定義
-				// 1品目
-				// strcpy_s(  hinmoku[0].ItemName, 10 ,"毒消し"); 
-				hinmoku[0].Grouptype = wepoType;
-				hinmoku[0].subID = 1;
-
-				itemHairetu[0] = hinmoku[0].subID;
-				itemTypeHairetu[0] = hinmoku[0].Grouptype;
-
-				// 2品目   
-				hinmoku[1].Grouptype = wepoType;
-				hinmoku[1].subID = 2;
-				//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"鉄の剣"); 
-
-
-				// 3品目   
-				hinmoku[2].Grouptype = -99;
-				hinmoku[2].subID = -99;
-			}
-
-			if (mode_scene == MODE_Shop_armor_main) {
-				// 売り物の定義
-				// 1品目
-			// strcpy_s(  hinmoku[0].ItemName, 10 ,"毒消し"); 
-				hinmoku[0].Grouptype = tateType;
-				hinmoku[0].subID = 1;
-
-
-				// 2品目   
-				hinmoku[1].Grouptype = tateType;
-				hinmoku[1].subID = 2;
-				//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"鉄の剣"); 
-
-
-				// 3品目   
-				hinmoku[2].Grouptype = kabutoType;
-				hinmoku[2].subID = 1;
-
-
-				// 4品目   
-				hinmoku[3].Grouptype = kabutoType;
-				hinmoku[3].subID = 2;
-
-
-				// 5品目   
-				hinmoku[4].Grouptype = -99;
-				hinmoku[4].subID = -99;
-			}
-
-
+			shopData();
 
 			// int stypeOffset = soubiOffset - 1; //10;
 			int afterOffTemp = stypeOffset + 1;
@@ -4787,76 +4737,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-
-
-			if (mode_scene == MODE_Shop_weapon_buy) {
-				// 売り物の定義
-				// 1品目
-				// strcpy_s(  hinmoku[0].ItemName, 10 ,"毒消し"); 
-				hinmoku[0].Grouptype = wepoType;
-				hinmoku[0].subID = 1;
-
-				itemHairetu[0] = hinmoku[0].subID;
-				itemTypeHairetu[0] = hinmoku[0].Grouptype;
-
-				// 2品目   
-				hinmoku[1].Grouptype = wepoType;
-				hinmoku[1].subID = 2;
-				//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"鉄の剣"); 
-
-
-				// 3品目   
-				hinmoku[2].Grouptype = -99;
-				hinmoku[2].subID = -99;
-			}
-
-			if (mode_scene == MODE_Shop_armor_buy) {
-				// 売り物の定義
-				// 1品目
-			// strcpy_s(  hinmoku[0].ItemName, 10 ,"毒消し"); 
-				hinmoku[0].Grouptype = tateType;
-				hinmoku[0].subID = 1;
-
-
-				// 2品目   
-				hinmoku[1].Grouptype = tateType;
-				hinmoku[1].subID = 2;
-				//strcpy_s( ItemYouso[1][1].ItemName, 10 ,"鉄の剣"); 
-
-
-				// 3品目   
-				hinmoku[2].Grouptype = kabutoType;
-				hinmoku[2].subID = 1;
-
-
-				// 4品目   
-				hinmoku[3].Grouptype = kabutoType;
-				hinmoku[3].subID = 2;
-
-
-				// 5品目   
-				hinmoku[4].Grouptype = -99;
-				hinmoku[4].subID = -99;
-			}
-
-
-			goukeiItem = 0;
-
-
-			for (int aaa = 0; aaa <= 8; aaa = aaa + 1) {
-				if (hinmoku[aaa].Grouptype == -99) {
-					//range = aaa;
-					break;
-				}
-
-				itemHairetu[aaa] = hinmoku[aaa].subID;
-				itemTypeHairetu[aaa] = hinmoku[aaa].Grouptype;
-
-				goukeiItem = goukeiItem + 1;
-			}
-
-
+			shopData();
 
 
 			// 「売る」のあとに「買う」したときの表示文の残骸の一旦クリア用
