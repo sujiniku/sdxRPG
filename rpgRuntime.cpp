@@ -2046,6 +2046,9 @@ void shopCommon1(){
 	int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
 	int yspan1 = carsoruHigh;
 
+
+	window1Draw(offsetXtemp1 -20, offsetYtemp1 -20, offsetXtemp1 + 70, offsetYtemp1 + 20);
+
 	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("行き先"));
 	// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
 
@@ -2087,10 +2090,10 @@ int whomtargetID2;
 
 void shopCommon2() {
 
-	lstrcpy(mojibuf, TEXT("武器屋テスト売る。"));
+	//lstrcpy(mojibuf, TEXT("武器屋テスト売る。"));
 	//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
 
-	DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+	//DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 	
 	//SelectObject(hdc, blue_thin_1);
@@ -4213,7 +4216,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
 			//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
 
-			DrawFormatString(130, 150, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+			int XXX = 150; int YYY = 50;
+			window1Draw(XXX - 10, YYY - 10, XXX + 300, YYY + 30);
+			DrawFormatString(XXX, YYY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 
@@ -4385,7 +4390,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
 				// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
 
-				DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				//DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 				shopCommon1();
@@ -4430,14 +4435,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//BrushPink_set(hdc);
 
 			if (mode_scene == MODE_Shop_weapon_main) {
-				lstrcpy(mojibuf, TEXT("武器屋テスト。"));
+				//lstrcpy(mojibuf, TEXT("武器屋テスト。"));
 			}
 			if (mode_scene == MODE_Shop_armor_main) {
-				lstrcpy(mojibuf, TEXT("防具屋テスト。"));
+				//lstrcpy(mojibuf, TEXT("防具屋テスト。"));
 			}
 			//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
 
-			DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+			//DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 			shopAct = whomTargetID2;
 			shopCommon2();
@@ -4711,7 +4716,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
 
 
-				DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				//DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 
@@ -4887,7 +4892,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
 				// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
 
-				DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				//DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 				shopCommon1();
