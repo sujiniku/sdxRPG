@@ -2088,7 +2088,7 @@ void shopCommon1(){
 
 int whomtargetID2;
 
-void shopCommon2() {
+void shopCommand() {
 
 	//lstrcpy(mojibuf, TEXT("武器屋テスト売る。"));
 	//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
@@ -2098,7 +2098,7 @@ void shopCommon2() {
 	
 	//SelectObject(hdc, blue_thin_1);
 	window1Draw(250, 100,
-		450, 150);
+		480, 150);
 
 
 	int BuySellX = 280;
@@ -2149,44 +2149,11 @@ void shopCommon2() {
 	DrawFormatString(BuySellX + spanX * 3, BuySellY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
-	//BrushBlue_set(hdc);
-	int GoldRanX = 480; int GoldRanY = 50;
-	//SelectObject(hdc, blue_thin_1);
-	window1Draw(GoldRanX, GoldRanY,
-		GoldRanX + 120, 110);
-
-
-	lstrcpy(mojibuf, TEXT("所持金"));
-	// TextOut(hdc, GoldRanX, GoldRanY + 10, mojibuf, lstrlen(mojibuf));
-
-
-	DrawFormatString(GoldRanX, GoldRanY + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d G"), your_money);
-	// TextOut(hdc, GoldRanX, GoldRanY + 10 + 20, mojibuf, lstrlen(mojibuf));
-
-	DrawFormatString(GoldRanX, GoldRanY + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-	//SelectObject(hdc, blue_thin_1);
-	window1Draw(250, 170,
-		450, 400);
-
-	lstrcpy(mojibuf, TEXT("ここに商品や所持品が表示されます"));
-	// TextOut(hdc, 280, 170, mojibuf, lstrlen(mojibuf));
-
-	DrawFormatString(280, 170, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
 }
 
 // int offsetYtemp1 = 100;
 
-void shopCommon3() {
+void shopKoumoku() {
 
 
 	//BrushPink_set(hdc);
@@ -2226,18 +2193,17 @@ void shopCommon3() {
 
 
 
-void shopCommon4(){
+void shopGoldRan(){
 
 
 	//BrushBlue_set(hdc);
-	int GoldRanX = 480; int GoldRanY = 50;
-	//SelectObject(hdc, blue_thin_1);
+	int GoldRanX = 490; int GoldRanY = 50;
+
 	window1Draw(GoldRanX, GoldRanY,
 		GoldRanX + 120, 110);
 
 
 	lstrcpy(mojibuf, TEXT("所持金"));
-	// TextOut(hdc, GoldRanX, GoldRanY + 10, mojibuf, lstrlen(mojibuf));
 
 
 	DrawFormatString(GoldRanX, GoldRanY + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
@@ -2245,16 +2211,21 @@ void shopCommon4(){
 
 
 	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d G"), your_money);
-	// TextOut(hdc, GoldRanX, GoldRanY + 10 + 20, mojibuf, lstrlen(mojibuf));
 
 	DrawFormatString(GoldRanX, GoldRanY + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 
 
+}
+
+
+
+void shopHinBack() {
+
+
 	//SelectObject(hdc, blue_thin_1);
-	window1Draw(250, 170,
-		450, 400);
+	window1Draw(250, 170, 560, 400);
 
 	lstrcpy(mojibuf, TEXT("ここに商品や所持品が表示されます"));
 	// TextOut(hdc, 280, 170, mojibuf, lstrlen(mojibuf));
@@ -2263,9 +2234,6 @@ void shopCommon4(){
 
 
 }
-
-
-
 
 
 void shopData() {
@@ -4182,10 +4150,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			shopCommon1();
 			
-			shopCommon3();
+			
 
-
-			shopCommon4();
+			
+			shopGoldRan();
+		
 
 			shopData();
 
@@ -4194,9 +4163,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			for (int temp = 0; temp <= 6; temp = temp + 1) {
 				lstrcpy(mojibuf, TEXT("   "));
 				//TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
-				DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
+				//DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 			}
 
@@ -4204,9 +4171,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int koumoku_Y = 200;
 			int kasolOffsetY = 30;
 
+			
+
+			//shopCommand();
+			
+			shopHinBack();
+			shopKoumoku();
+
 			hinmokuView();
+			
 
-
+			
 
 
 
@@ -4229,7 +4204,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				lstrcpy(mojibuf, TEXT("                                      "));
 				// TextOut(hdc, 130, 150, mojibuf, lstrlen(mojibuf));
 				
-				DrawFormatString(130, 150, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				//DrawFormatString(130, 150, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 				lstrcpy(mojibuf, popMsg);
@@ -4445,35 +4420,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 			shopAct = whomTargetID2;
-			shopCommon2();
+			shopCommand();
 
 
-			int GoldRanX = 480; int GoldRanY = 50;
-			//SelectObject(hdc, blue_thin_1);
-			window1Draw(GoldRanX, GoldRanY,		GoldRanX + 120, 110);
+			shopGoldRan();
 
-			lstrcpy(mojibuf, TEXT("所持金"));
-			// TextOut(hdc, GoldRanX, GoldRanY + 10, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(GoldRanX, GoldRanY + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d G"), your_money);
-			// TextOut(hdc, GoldRanX, GoldRanY + 10 + 20, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(GoldRanX, GoldRanY + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			// SelectObject(hdc, blue_thin_1);
-			window1Draw(250, 170,	450, 400);
-
-			lstrcpy(mojibuf, TEXT("ここに商品や所持品が表示されます"));
-			// TextOut(hdc, 280, 170, mojibuf, lstrlen(mojibuf));
-
-			DrawFormatString(280, 170, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-			shopCommon3();
+			//shopKoumoku();
 
 
 			int stypeOffset = soubiOffset - 1; //10;
@@ -4500,6 +4452,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int afterOffTemp = stypeOffset + 1;
 
 			// int range;
+
+			shopHinBack();
+			shopKoumoku();
 
 			hinmokuView();
 
@@ -4724,15 +4679,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
-			// MessageBox(NULL, TEXT("ギルドのテスト中。"), TEXT("キーテスト"), MB_OK);
-
-			//BrushDarkBlue_set(hdc);
-			//BrushPink_set(hdc);
-
 			shopAct=0;
-			shopCommon2();
 
-			shopCommon3();
+			shopGoldRan();
+			shopCommand();
+
+			shopHinBack();
+			shopKoumoku();
+			
+
+
+			
 
 			//BrushPink_set(hdc);
 			tenmetu(280, 200 + 60 + 30 * (whomTargetID4),
@@ -4756,16 +4713,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
-
+			hinmokuView();
 
 
 
 
 			int koumoku_Y = 200;
 			int kasolOffsetY = 30;
-
-
-			hinmokuView();
 
 
 
@@ -4905,7 +4859,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-			shopCommon2();
+			shopCommand();
+
+			shopHinBack();
 
 			////////////// 何かのコピペの境
 
@@ -5040,7 +4996,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//SetBkMode(hdc, OPAQUE);
 
 			// 見出し
-			shopCommon3();
+			shopKoumoku();
 
 
 			// ページ送り時の一旦クリア用
