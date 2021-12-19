@@ -4989,8 +4989,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			//BrushPink_set(hdc);
-			tenmetu( 280, 200 + 60 + 30 * (whomTargetID1),
-				320 + 40, offsetYtemp1 + 60 + 60 + 30 * (whomTargetID1));
+			tenmetu( 280, 200 + 60 + 30 * (whomTargetID4),
+				320 + 40, offsetYtemp1 + 60 + 60 + 30 * (whomTargetID4));
 
 			//SetBkColor(hdc, RGB(0xFF, 0xFF, 0xFF));
 			//SetBkMode(hdc, OPAQUE);
@@ -5088,12 +5088,40 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+			CheckUPetcFunc();
+			if (CheckUPetc) {
+				keyEnableUp = 0;
+				nyuuryokuMatiUp = waitTime1;
+				whomTargetID4 = whomTargetID4 - 1;
+
+			}
+
+
+			CheckDOWNetcFunc();
+			if (CheckDOWNetc) {
+				keyEnableDown = 0;
+				nyuuryokuMatiDown = waitTime1;
+
+				whomTargetID4 = whomTargetID4 + 1;
+
+			}
+
+
+
+
+
+
+
+
+
+
+
 
 			CheckZetcFunc();
 			if (CheckZetc) {
 
 
-				int temp2 = whomTargetID1 + pageSyori * 6;
+				int temp2 = whomTargetID4 + pageSyori * 6;
 
 				// MessageBox(NULL, TEXT("なかルーチン"), TEXT("キーテスト"), MB_OK);
 				// mode_scene = MODE_Shop_Main;
@@ -5101,21 +5129,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				sinamonoList = 1;
 				// 売る処理
 
+				//if (your_money >= 50) {
+
 				if (itemTypeHairetu[temp2] == siyouType) {
 					item_have_list[itemHairetu[temp2]].have_kosuu = item_have_list[itemHairetu[temp2]].have_kosuu - 1;
 					your_money = your_money + 50;
 				}
-				if (itemTypeHairetu[temp2] == wepoType) {
-					weapon_have_list[itemHairetu[temp2]].have_kosuu = weapon_have_list[itemHairetu[temp2]].have_kosuu - 1;
+				else {
+
+					int locType2 = itemTypeHairetu[whomTargetID4];
+
+
+					//
+					(soubiSyoji[itemHairetu[whomTargetID4]].Stype[locType2]).have_kosuu =
+						(soubiSyoji[itemHairetu[whomTargetID4]].Stype[locType2]).have_kosuu - 1;
+
+					// weapon_have_list[itemHairetu[whomTargetID1]].have_kosuu = weapon_have_list[itemHairetu[whomTargetID1]].have_kosuu + 1;
 					your_money = your_money + 50;
 				}
-				if (itemTypeHairetu[temp2] == tateType) {
-					shield_have_list[itemHairetu[temp2]].have_kosuu = shield_have_list[itemHairetu[temp2]].have_kosuu - 1;
-				}
-				if (itemTypeHairetu[temp2] == kabutoType) {
-					helm_have_list[itemHairetu[temp2]].have_kosuu = helm_have_list[itemHairetu[temp2]].have_kosuu - 1;
-					your_money = your_money + 50;
-				}
+				
+
 
 
 				endZ();
