@@ -836,8 +836,7 @@ void item_select() {
 	if (selecting_item < 1) {
 		selecting_item = 1;
 	}
-
-	if (selecting_item > goukeiItem) {
+	else if (selecting_item > goukeiItem) {
 		selecting_item = goukeiItem;
 	}
 
@@ -6351,15 +6350,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyEnableZ == 1) {
 
-				whatuse = itemHairetu[selecting_item - 1]; // 
+				whatuse = itemHairetu[selecting_item - 1]; //
 
 				key_remain = 0;
 
+				int tempItemPro = 0;
 				if (whatuse == -99) {
-					break; // 		
+					tempItemPro = 1;
+					// break; // 	DXライブラリだとアプリ終了っぽいのでコメントアウト	
 				}
-
-				if (mode_scene == MODE_ITEM_MENU) {
+			
+				if (mode_scene == MODE_ITEM_MENU && tempItemPro == 0) {
 					mode_scene = MODE_ITEM_WHOM; // 		
 				}
 
@@ -6390,13 +6391,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					// 個別の処理
 					if (itemHairetu[1] == -99) {
-						break; // 		
+						MessageBox(NULL, TEXT("ueが押されました。"), TEXT("キーテスト"), MB_OK);
+						// break; //
 					}
 					selecting_item = selecting_item - 2; // 方向ごとに違う
 
 					// これはリファクタせずにカッコ内に入れたままにすること if文の外に出せないので
 					item_select();
 					moving = 0;
+
+					MessageBox(NULL, TEXT("ueが押されました。"), TEXT("キーテスト"), MB_OK);
+
 				}
 			}
 
@@ -6415,13 +6420,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// 個別の処理
 
 					if (itemHairetu[1] == -99) {
-						break; // 		
+						MessageBox(NULL, TEXT("sitaが押されました。"), TEXT("キーテスト"), MB_OK);
+						// break; //
 					}
 					selecting_item = selecting_item + 2; // 方向ごとに違う
 
 					// これはリファクタせずにカッコ内に入れたままにすること
 					item_select();
 					moving = 0;
+					//MessageBox(NULL, TEXT("sitaが押されました。"), TEXT("キーテスト"), MB_OK);
 				}
 			}
 
@@ -6438,7 +6445,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					//
 					if (itemHairetu[1] == -99) {
-						break; // 		
+						//break; //
 					}
 					selecting_item = selecting_item + 1; // 方向ごとに違う
 
@@ -6461,7 +6468,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					//
 					if (itemHairetu[1] == -99) {
-						break; // 		
+						//break; // 		
 					}
 					selecting_item = selecting_item - 1; // 方向ごとに違う
 
