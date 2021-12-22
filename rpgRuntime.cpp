@@ -833,10 +833,10 @@ int dameKei = 0; // ダメージ計算を1回数だけ行うためのフラグ
 // アイテムメニューでのカーソル位置の計算用
 void item_select() {
 
-	if (selecting_item < 1) {
+	if (selecting_item < 1 || goukeiItem == 0) {
 		selecting_item = 1;
 	}
-	else if (selecting_item > goukeiItem) {
+	else if (selecting_item > goukeiItem ) {
 		selecting_item = goukeiItem;
 	}
 
@@ -6383,11 +6383,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				CheckUPetcFunc();
 
 				if (CheckUPetc) {
-					keyEnableUp = 0;
-
-					nyuuryokuMatiUD = waitTime1;
-					nyuuryokuMatiUp = waitTime1;
-					nyuuryokuMatiDown = waitTime1;
+					endUP();
 
 					// 個別の処理
 					if (itemHairetu[1] == -99) {
@@ -6398,9 +6394,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					// これはリファクタせずにカッコ内に入れたままにすること if文の外に出せないので
 					item_select();
-					moving = 0;
+					//moving = 0;
 
-					MessageBox(NULL, TEXT("ueが押されました。"), TEXT("キーテスト"), MB_OK);
+					//MessageBox(NULL, TEXT("ueが押されました。"), TEXT("キーテスト"), MB_OK);
 
 				}
 			}
@@ -6411,11 +6407,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 移動先予定地の入場可否の判定
 				CheckDOWNetcFunc();
 				if (CheckDOWNetc) {
-					keyEnableDown = 0;
-
-					nyuuryokuMatiUD = waitTime1;
-					nyuuryokuMatiUp = waitTime1;
-					nyuuryokuMatiDown = waitTime1;
+					endDOWN();
 
 					// 個別の処理
 
@@ -6427,7 +6419,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					// これはリファクタせずにカッコ内に入れたままにすること
 					item_select();
-					moving = 0;
+					//moving = 0;
 					//MessageBox(NULL, TEXT("sitaが押されました。"), TEXT("キーテスト"), MB_OK);
 				}
 			}
@@ -6451,7 +6443,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					// これはリファクタせずにカッコ内に入れたままにすること
 					item_select();
-					moving = 0;
+					//moving = 0;
 				}
 
 			}
@@ -6468,13 +6460,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					//
 					if (itemHairetu[1] == -99) {
-						//break; // 		
+						//break; //
 					}
 					selecting_item = selecting_item - 1; // 方向ごとに違う
 
 					// これはリファクタせずにカッコ内に入れたままにすること
 					item_select();
-					moving = 0;
+					//moving = 0;
 				}
 			}
 
