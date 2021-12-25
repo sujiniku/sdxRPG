@@ -5093,6 +5093,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				nyuuryokuMatiUp = waitTime1;
 				whomTargetID4 = whomTargetID4 - 1;
 
+
+				if (whomTargetID4 >= goukeiItem - 1) {
+					whomTargetID4 = goukeiItem - 1;
+				}
+
+				else if ((pageSyori > 0) && (whomTargetID4 < 0)) {
+					pageSyori = pageSyori - 1;
+					whomTargetID4 = 5;
+				}
+				else if ((pageSyori == 0) && (whomTargetID4 < 0)) {
+					pageSyori = 0;
+					whomTargetID4 = 0;
+				}
+
+				if (goukeiItem <= 0) {
+					// MessageBox(NULL, TEXT("ページ戻し処理の調査テスト"), TEXT("キーテスト"), MB_OK);
+					whomTargetID4 = 0;
+				}
+
+
+
 			}
 
 
@@ -5106,9 +5127,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 
+			int temp2 = whomTargetID4 + pageSyori * 6;
+			if (temp2 >= goukeiItem) {
+				whomTargetID4 = whomTargetID4 - 1;
+			}
+
+			if (whomTargetID4 >= goukeiItem - 1) {
+				whomTargetID4 = goukeiItem - 1;
+			}
+			else if (whomTargetID4 < 0) {
+				whomTargetID4 = 0;
+			}
 
 
+			if (whomTargetID4 >= 6) {
+				//MessageBox(NULL, TEXT("ページ送り処理の調査テスト"), TEXT("キーテスト"), MB_OK);
+				pageSyori = 1;
+				whomTargetID4 = 0;
+			}
 
+			if (goukeiItem <= 0) {
+				// MessageBox(NULL, TEXT("ページ送り処理の調査テスト"), TEXT("キーテスト"), MB_OK);
+				whomTargetID4 = 0;
+			}
 
 
 
