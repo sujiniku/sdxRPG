@@ -4628,13 +4628,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 
-				if (whomTargetID2 == 3) {
+				if (whomTargetID2 == 3
+					&&
+					whomTargetID1 == 4
+
+					) {
+					endZ();
+
+					mode_scene = MODE_TOWN;
+		//	townFlag = 1; // タウン退出には、これが必要
+		//	mode_scene = MODE_MAP;
+
+				}
+
+
+				if (whomTargetID2 == 3
+					&& 
+					whomTargetID1 != 4
+
+					) {
 					endZ();
 
 					mode_scene = MODE_Shop_Main ;
 
 				}
 
+				
 
 
 			}// check Z
