@@ -5863,7 +5863,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			int shiftY = 80;
 			// ウィンドウ欄
 
-			window1Draw(HPX, HPY, HPX + 150, HPY + 100 *2);
+			if (partyNinzuDone < 3) {
+				window1Draw(HPX, HPY, HPX + 150, HPY + 100 * 2);
+			}
+
+			if (partyNinzuDone >= 3){
+				window1Draw(HPX, HPY, HPX + 150, HPY + 80 * partyNinzuDone);
+			}
+
 
 			for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
 				DrawFormatString(HPX + 20, HPY + 20 * 0 + shiftY * temp, GetColor(255, 255, 255), "%s", heros_def_list[partyNarabijyun[temp]].heros_name); // 文字を描画する			
