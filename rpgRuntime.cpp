@@ -5945,7 +5945,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				// 十字キー入力時
-				int rangeMin = 0; int rangeMax = 3;
+				int rangeMin = 1; int rangeMax = 3;
 
 				// カーソルを上に移動
 				{
