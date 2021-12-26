@@ -228,6 +228,8 @@ int tempHandle;
 int destMovable;
 
 
+int shopMijissou = 1;
+
 enum direction { upward, rightward, downward, leftward };
 enum direction hero1_direction = downward;
 
@@ -239,6 +241,10 @@ enum mode {
 	MODE_Shop_Main, MODE_Shop_weapon_main, MODE_Shop_weapon_buy, MODE_Shop_weapon_sell, MODE_Shop_weapon_buyOld,
 	MODE_Shop_armor_main, MODE_Shop_armor_buy, MODE_Shop_armor_sell, MODE_Shop_armor_buyOld,
 	MODE_Shop_akusesari_main, MODE_Shop_item_main,
+
+
+
+
 
 	MODE_MENU,
 
@@ -2237,6 +2243,14 @@ void shopHinBack() {
 
 void shopData() {
 
+	if (shopMijissou == 1) {
+		// 売り物の定義
+		// 1品目
+		// 非表示
+		hinmoku[0].Grouptype = -99;
+		hinmoku[0].subID = -99;
+		
+	}
 
 
 	if (whomTargetID1 == 0) {
@@ -2304,6 +2318,7 @@ void shopData() {
 
 		goukeiItem = goukeiItem + 1;
 	}
+
 
 }
 
@@ -4285,8 +4300,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			CheckZetcFunc();
 			if (CheckZetc) {
 
+				// buki
 				if (whomTargetID1 == 0) {
-
+					shopMijissou = 0;
 
 					endZ();
 
@@ -4295,8 +4311,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 
-				// 宿
+				// bougu
 				if (whomTargetID1 == 1) {
+					shopMijissou = 0;
 
 					endZ();
 					mode_scene = MODE_Shop_armor_main;
@@ -4304,28 +4321,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				} // 宿
 
 
-				// 商店
+				// sousyoku
 				if (whomTargetID1 == 2) {
-
-					// MessageBox(NULL, TEXT("未実装。"), TEXT("キーテスト"), MB_OK);
-
-					whomTargetID1 = 0;
-					whomCHARA = whomTargetID1 + 1;
-					selecting_mainmenu = 0;
-					mode_scene = MODE_Shop_Main;
+					shopMijissou = 1;
 
 					endZ();
+					MessageBox(NULL, TEXT("未実装。"), TEXT("キーテスト"), MB_OK);
+					
 				}
 
+				// dougu
 				if (whomTargetID1 == 3) {
+					shopMijissou = 1;
+
 					endZ();
-
-					mode_scene = MODE_MAP;
-
+					MessageBox(NULL, TEXT("未実装。"), TEXT("キーテスト"), MB_OK);
+					
 				}
 
 
 				if (whomTargetID1 == 4) {
+					shopMijissou = 0;
+
 					endZ();
 
 					mode_scene = MODE_TOWN;
@@ -4569,12 +4586,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 					if (whomTargetID1 == 0) {
+						shopMijissou = 0;
 						mode_scene = MODE_Shop_weapon_main;
 					}
 					if (whomTargetID1 == 1) {
+						shopMijissou = 0;
 						mode_scene = MODE_Shop_armor_main;
 					}
-
+					if (whomTargetID1 > 1) {
+						shopMijissou = 1;
+						mode_scene = MODE_Shop_armor_main;
+					}
 
 
 			} // ue or sita
@@ -4588,12 +4610,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (whomTargetID2 == 0) {
 					endZ();
 
-					if (mode_scene == MODE_Shop_weapon_main){					
+					if (mode_scene == MODE_Shop_weapon_main && shopMijissou == 0){
 						mode_scene = MODE_Shop_weapon_buy;				
 					}
 
 
-					if (mode_scene == MODE_Shop_armor_main) {
+					if (mode_scene == MODE_Shop_armor_main && shopMijissou == 0) {
 						mode_scene = MODE_Shop_armor_buy;
 					}
 
@@ -4601,7 +4623,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 
-				// 宿
+				// sell
 				if (whomTargetID2 == 1) {
 					endZ();
 
@@ -4612,7 +4634,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						mode_scene = MODE_Shop_armor_sell;
 					}
 
-				} // 宿
+				} // sell
 
 
 				// 商店
@@ -4620,10 +4642,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					endZ();
 
 					if (mode_scene == MODE_Shop_weapon_main) {
-						mode_scene = MODE_Shop_weapon_buyOld;
+						//mode_scene = MODE_Shop_weapon_buyOld;
 					}
 					if (mode_scene == MODE_Shop_armor_main) {
-						mode_scene = MODE_Shop_armor_buyOld ;
+						//mode_scene = MODE_Shop_armor_buyOld ;
 					}
 
 				}
@@ -4633,6 +4655,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					whomTargetID1 == 4
 
 					) {
+					
 					endZ();
 
 					mode_scene = MODE_TOWN;
