@@ -2011,6 +2011,26 @@ void hinmokuView() {
 
 	} // for temp I‚í‚è
 
+	if (shopMijissou == 1) {
+
+		int temp = 1;
+
+		lstrcpy(mojibuf, TEXT("–¢ŽÀ‘•"));
+		// TextOut(hdc, 280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, mojibuf, lstrlen(mojibuf));
+
+		DrawFormatString(280 + 120, koumoku_Y + 30 + kasolOffsetY * temp, GetColor(255, 255, 255), mojibuf); // •¶Žš‚ð•`‰æ‚·‚é
+
+
+
+	}
+
+
+
+
+
+
+
+
 }
 
 
@@ -4282,6 +4302,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			whomTargetID1 = selecting_mainmenu;
 
+			if (whomTargetID1 == 0) {
+				shopMijissou = 0;
+				//mode_scene = MODE_Shop_weapon_main;
+			}
+			if (whomTargetID1 == 1) {
+				shopMijissou = 0;
+				//mode_scene = MODE_Shop_armor_main;
+			}
+			if (whomTargetID1 > 1) {
+				shopMijissou = 1;
+				//mode_scene = MODE_Shop_armor_main;
+			}
 
 
 
