@@ -2365,6 +2365,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int mapchip1Handle = LoadGraph("GameData\\mapchip\\mapchip_grass.bmp");
 	int mapchip2Handle = LoadGraph("GameData\\mapchip\\mapchip_wall.bmp");
 
+
+
+	int treechip1Handle = LoadGraph("GameData\\mapchip\\tree.png");
+
+
+
+
+
+
 	int monsHandle[10];
 	int slimeHandle = LoadGraph("GameData\\monster_graphic\\slime.png");
 	int koboHandle = LoadGraph("GameData\\monster_graphic\\kobo.png");
@@ -3205,7 +3214,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			}
 
+
+
+
+
+
+
 		}
+
+
+
+		int treex = 5; int treey = 4;
+
+		DrawGraph(mapChipWidthX* treex, mapChipWidthY * (treey - 1) -5, treechip1Handle, true);
+
+
+
 
 
 		if (mode_scene == MODE_MAP) {
@@ -3221,6 +3245,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyEnableRight == 1 && moving == 0) {
 							if (map1table[yPosi][xPosi + 1] == 1) { destMovable = 0; }
 							if (map1table[yPosi][xPosi + 1] == 0) { destMovable = 1; }
+
+							if (yPosi == treey && xPosi + 1 == treex) { destMovable = 0; }
 
 							// 入場可能ならフラグ設定
 							if (destMovable == 1) {
@@ -3257,6 +3283,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							if (map1table[yPosi][xPosi - 1] == 1) { destMovable = 0; }
 							if (map1table[yPosi][xPosi - 1] == 0) { destMovable = 1; }
 
+							if (yPosi == treey && xPosi - 1 == treex) { destMovable = 0; }
+
 							// 入場可能ならフラグ設定
 							if (destMovable == 1) {
 								moving = 1;
@@ -3290,6 +3318,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1 && moving == 0) {
 							if (map1table[yPosi + 1][xPosi] == 1) { destMovable = 0; }
 							if (map1table[yPosi + 1][xPosi] == 0) { destMovable = 1; }
+
+							if (yPosi +1 == treey && xPosi == treex) { destMovable = 0; }
 
 							// 入場可能ならフラグ設定
 							if (destMovable == 1) {
@@ -3332,6 +3362,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && moving == 0) {
 							if (map1table[yPosi - 1][xPosi] == 1) { destMovable = 0; }
 							if (map1table[yPosi - 1][xPosi] == 0) { destMovable = 1; }
+
+							if (yPosi - 1 == treey && xPosi == treex) { destMovable = 0; }
+
 
 							// 入場可能ならフラグ設定
 							if (destMovable == 1) {
