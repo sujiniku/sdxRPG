@@ -3157,7 +3157,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//		DrawGraph(charaChipWidthX * xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY * yPosi, tempHandle, false);
 		//	}
 
-			if (hero1_direction == rightward) {
+			if (hero1_direction == rightward && moving == 1) {
 				tempK = 1;
 				tempHandle = charachipRightHandle;
 				// localFunc.localDraw1();
@@ -3167,24 +3167,58 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #undef K
 			}
 
-			if (hero1_direction == leftward) {
+
+			else if (hero1_direction == rightward && moving != 1) {
+				tempK = 1;
+				tempHandle = charachipRightHandle;
+				// localFunc.localDraw1();
+#define K 0
+				macroDraw1();
+				//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
+#undef K
+			}
+
+
+
+
+
+
+
+			if (hero1_direction == leftward && moving == 1) {
 				tempK = -1;
 
 				tempHandle = charachipLeftHandle;
 				// localFunc.localDraw1();
 
-#define K -1
+#define K -1 
 				macroDraw1();
 				//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
 #undef K
 			}
+
+			else if (hero1_direction == leftward && moving != 1) {
+				tempK = -1;
+
+				tempHandle = charachipLeftHandle;
+				// localFunc.localDraw1();
+
+#define K 0 
+				macroDraw1();
+				//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
+#undef K
+			}
+
+
+
+
+
 
 #undef macroDraw1() 
 
 
 #define macroDraw2() DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
 
-			if (hero1_direction == downward) {
+			if (hero1_direction == downward && moving ==1) {
 				tempK = 1;
 
 
@@ -3198,7 +3232,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//localFunc.localDraw2();
 			}
 
-			if (hero1_direction == upward) {
+
+			else if (hero1_direction == downward && moving != 1) {
+				tempK = -1;
+
+
+
+				tempHandle = charachipDownHandle;
+				//localFunc.localDraw2();
+#define K 0
+				macroDraw2();
+				//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
+#undef K
+			}
+
+
+
+
+
+
+			if (hero1_direction == upward && moving == 1) {
 				tempK = -1;
 
 
@@ -3209,12 +3262,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				macroDraw2();
 				//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
 #undef K
+			}
 
-#undef macroDraw2() 
+			else if (hero1_direction == upward && moving != 1) {
+				tempK = -1;
 
+
+
+				tempHandle = charachipUpHandle;
+				//localFunc.localDraw2();
+#define K 0
+				macroDraw2();
+				//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
+#undef K
 			}
 
 
+
+#undef macroDraw2() 
 
 
 
@@ -3237,12 +3302,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			{
 				int mapsizeX = 10; int mapsizeY = 7;
 				
+
 				{ // 移動のモジュール
 
 					// キャラを右に移動
 					if (xPosi < mapsizeX && yPosi < mapsizeY + 1 ) { // y判定 が+1 してるのはデバッグ用
 						// 移動先予定地の入場可否の判定
 						if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyEnableRight == 1 && moving == 0) {
+							hero1_direction = rightward;
+
 							if (map1table[yPosi][xPosi + 1] == 1) { destMovable = 0; }
 							if (map1table[yPosi][xPosi + 1] == 0) { destMovable = 1; }
 
@@ -3251,7 +3319,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							// 入場可能ならフラグ設定
 							if (destMovable == 1) {
 								moving = 1;
-								hero1_direction = rightward;
+								
 								keyEnableRight = 0;
 								nyuuryokuMatiLR = waitTime1;
 							}
@@ -3280,6 +3348,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (xPosi < mapsizeX + 1 && yPosi < mapsizeY + 1 ) {      // y判定 が+1 してるのはデバッグ用
 						// 移動先予定地の入場可否の判定
 						if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyEnableLeft == 1 && moving == 0) {
+							hero1_direction = leftward;
+
 							if (map1table[yPosi][xPosi - 1] == 1) { destMovable = 0; }
 							if (map1table[yPosi][xPosi - 1] == 0) { destMovable = 1; }
 
@@ -3288,7 +3358,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							// 入場可能ならフラグ設定
 							if (destMovable == 1) {
 								moving = 1;
-								hero1_direction = leftward;
+								
 								keyEnableLeft = 0;
 								nyuuryokuMatiLR = waitTime1;
 							}
@@ -3316,6 +3386,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (xPosi < mapsizeX  && yPosi < mapsizeY ) {
 						// 移動先予定地の入場可否の判定
 						if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1 && moving == 0) {
+							hero1_direction = downward;
+
 							if (map1table[yPosi + 1][xPosi] == 1) { destMovable = 0; }
 							if (map1table[yPosi + 1][xPosi] == 0) { destMovable = 1; }
 
@@ -3324,7 +3396,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							// 入場可能ならフラグ設定
 							if (destMovable == 1) {
 								moving = 1;
-								hero1_direction = downward;
+								
 								keyEnableDown = 0;
 
 
@@ -3360,6 +3432,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (xPosi < mapsizeX  && yPosi < mapsizeY + 1) {
 						// 移動先予定地の入場可否の判定
 						if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && moving == 0) {
+							hero1_direction = upward;
+
 							if (map1table[yPosi - 1][xPosi] == 1) { destMovable = 0; }
 							if (map1table[yPosi - 1][xPosi] == 0) { destMovable = 1; }
 
@@ -3369,7 +3443,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							// 入場可能ならフラグ設定
 							if (destMovable == 1) {
 								moving = 1;
-								hero1_direction = upward;
+								
 								keyEnableUp = 0;
 
 								nyuuryokuMatiUD = waitTime1;
