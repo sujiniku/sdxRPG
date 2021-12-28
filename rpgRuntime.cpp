@@ -3413,7 +3413,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							nyuuryokuMatiUD = nyuuryokuMatiUD - 1;
 						}
 						// ˆÚ“®‚ÌI—¹ˆ—
-						if (hero1_direction == downward && nyuuryokuMatiUD <= 0) {
+						if (hero1_direction == downward && nyuuryokuMatiUD <= 0 && moving == 1) {
 							keyEnableDown = 1;
 
 							nyuuryokuMatiUD = waitTime1;
