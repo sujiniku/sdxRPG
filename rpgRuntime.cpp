@@ -166,6 +166,37 @@ int map1table[10][10] = {
 };
 
 
+
+
+
+int maptreetable[20][20] = {
+	{ 0,0,0,0,0,0,0,0,0,0 }, //0 y
+{ 0,0,0,0,0,0,0,0,0,0 }, //1
+{ 0,0,0,0,0,0,0,0,0,0 }, //2
+{ 0,0,0,0,0,0,0,0,0,0 }, //3
+{ 0,0,0,0,0,0,0,0,0,0 }, //4
+{ 0,0,0,0,0,0,0,0,0,0 }, //5
+{ 0,0,0,0,0,0,0,0,0,0 }  //6
+};
+
+
+int maptukotable[20][20] = {
+	{ 0,0,0,0,0,0,0,0,0,0 }, //0 y
+{ 0,0,0,0,0,0,0,0,0,0 }, //1
+{ 0,0,0,0,0,0,0,0,0,0 }, //2
+{ 0,0,0,0,0,0,0,0,0,0 }, //3
+{ 0,0,0,0,0,0,0,0,0,0 }, //4
+{ 0,0,0,0,0,0,0,0,0,0 }, //5
+{ 0,0,0,0,0,0,0,0,0,0 }  //6
+};
+
+
+
+
+
+
+
+
 int x_mapDraw = 0;
 int y_mapDraw = 0;
 
@@ -2918,6 +2949,45 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+
+	struct treetype {
+		int posiX;
+		int posiY;
+	};
+
+	static struct treetype treehen[20]; // 構造体配列の宣言
+
+	treehen[0] = { 5,4 };
+
+	int treex = 5; int treey = 4;
+
+	for (int temp = 0; temp <= 0; temp = temp + 1) {
+		//DrawGraph(mapChipWidthX * treehen[temp].posiX, mapChipWidthY * (treehen[temp].posiY - 1) - 5, treechip1Handle, true);
+
+		maptreetable[treehen[temp].posiY][treehen[temp].posiX] = 1;
+	}
+
+
+	for (int y = 0; y <= 7; y = y + 1) {
+		for (int x = 0; x <= 10; x = x + 1) {
+
+			if (maptreetable[y][x] == 0) {
+				maptukotable[y][x] = map1table[y][x];
+			}
+
+			if (maptreetable[y][x] == 1) {
+				maptukotable[y][x] = 1; // 通行が不可能
+			}
+		}
+	}
+
+
+
+
+
+
+
+
 	while (1) {
 		if (ProcessMessage() != 0) { // メッセージ処理
 			break;//ウィンドウの×ボタンが押されたらループを抜ける
@@ -3289,12 +3359,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-		int treex = 5; int treey = 4;
 
-		DrawGraph(mapChipWidthX* treex, mapChipWidthY * (treey - 1) -5, treechip1Handle, true);
+		for (int temp = 0; temp <= 0; temp = temp + 1) {
+			DrawGraph(mapChipWidthX * treehen[temp].posiX, mapChipWidthY * (treehen[temp].posiY - 1) - 5, treechip1Handle, true);
+
+			//maptreetable[treehen[temp].posiY][treehen[temp].posiX] = 1;
+		}
 
 
 
+		//maptreetable[][]=1;
 
 
 		if (mode_scene == MODE_MAP) {
@@ -3302,6 +3376,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			{
 				int mapsizeX = 10; int mapsizeY = 7;
 				
+
+
+
 
 				{ // 移動のモジュール
 
@@ -3311,10 +3388,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyEnableRight == 1 && moving == 0) {
 							hero1_direction = rightward;
 
-							if (map1table[yPosi][xPosi + 1] == 1) { destMovable = 0; }
-							if (map1table[yPosi][xPosi + 1] == 0) { destMovable = 1; }
+							if (maptukotable[yPosi][xPosi + 1] == 1) { destMovable = 0; }
+							if (maptukotable[yPosi][xPosi + 1] == 0) { destMovable = 1; }
 
-							if (yPosi == treey && xPosi + 1 == treex) { destMovable = 0; }
+							//if (yPosi == treehen[0].posiY && xPosi + 1 == treehen[0].posiX ) { destMovable = 0; }
 
 							// 入場可能ならフラグ設定
 							if (destMovable == 1) {
@@ -3350,10 +3427,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (CheckHitKey(KEY_INPUT_LEFT) == 1 && keyEnableLeft == 1 && moving == 0) {
 							hero1_direction = leftward;
 
-							if (map1table[yPosi][xPosi - 1] == 1) { destMovable = 0; }
-							if (map1table[yPosi][xPosi - 1] == 0) { destMovable = 1; }
+							if (maptukotable[yPosi][xPosi - 1] == 1) { destMovable = 0; }
+							if (maptukotable[yPosi][xPosi - 1] == 0) { destMovable = 1; }
 
-							if (yPosi == treey && xPosi - 1 == treex) { destMovable = 0; }
+							//if (yPosi == treehen[0].posiY && xPosi - 1 == treehen[0].posiX) { destMovable = 0; }
 
 							// 入場可能ならフラグ設定
 							if (destMovable == 1) {
@@ -3388,10 +3465,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (CheckHitKey(KEY_INPUT_DOWN) == 1 && keyEnableDown == 1 && moving == 0) {
 							hero1_direction = downward;
 
-							if (map1table[yPosi + 1][xPosi] == 1) { destMovable = 0; }
-							if (map1table[yPosi + 1][xPosi] == 0) { destMovable = 1; }
+							if (maptukotable[yPosi + 1][xPosi] == 1) { destMovable = 0; }
+							if (maptukotable[yPosi + 1][xPosi] == 0) { destMovable = 1; }
 
-							if (yPosi +1 == treey && xPosi == treex) { destMovable = 0; }
+							//if (yPosi +1 == treehen[0].posiY && xPosi == treehen[0].posiX) { destMovable = 0; }
 
 							// 入場可能ならフラグ設定
 							if (destMovable == 1) {
@@ -3434,10 +3511,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && moving == 0) {
 							hero1_direction = upward;
 
-							if (map1table[yPosi - 1][xPosi] == 1) { destMovable = 0; }
-							if (map1table[yPosi - 1][xPosi] == 0) { destMovable = 1; }
+							if (maptukotable[yPosi - 1][xPosi] == 1) { destMovable = 0; }
+							if (maptukotable[yPosi - 1][xPosi] == 0) { destMovable = 1; }
 
-							if (yPosi - 1 == treey && xPosi == treex) { destMovable = 0; }
+							//if (yPosi - 1 == treehen[0].posiY && xPosi == treehen[0].posiX) { destMovable = 0; }
 
 
 							// 入場可能ならフラグ設定
