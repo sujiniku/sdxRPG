@@ -3514,6 +3514,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							if (maptukotable[yPosi - 1][xPosi] == 1) { destMovable = 0; }
 							if (maptukotable[yPosi - 1][xPosi] == 0) { destMovable = 1; }
 
+							//int temp = 1;
+							for(int temp=1; temp <=2; temp =temp+1){
+								if (yPosi - 1 == monPosiY[temp - 1] && xPosi == monPosiX[temp - 1] 
+									&& toubouTyokugo[temp - 1] == 0 && enemy_alive[temp - 1] == 1) {
+									
+									destMovable = 0;
+
+									mapEneNum = temp; //  2;// enemy_alive などで使う
+
+
+									int taiou[10] = { 2,1,0,0,0,0 }; // エンカウント0番目は敵id2(コボルト)が出現、の意味
+
+									encount_monsters_id = taiou[temp - 1]; // ブロック固有の要素
+									DrawGraph(300, 95, monsHandle[encount_monsters_id - 1], true);
+
+
+									battle_start();
+								}
+
+							}
+
+
+
 							//if (yPosi - 1 == treehen[0].posiY && xPosi == treehen[0].posiX) { destMovable = 0; }
 
 
