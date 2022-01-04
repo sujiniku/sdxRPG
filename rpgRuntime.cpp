@@ -238,8 +238,8 @@ int keyEnableX = 0;
 int keyEnableZ = 0;
 
 
-int waitTime1 = 60;
-int waitTime2 = 30;
+const int waitTime1 = 40;
+const int waitTime2 = 30;
 
 
 int nyuuryokuMatiLR = waitTime1;
@@ -3088,15 +3088,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// マップ描画
 
-		static int mapChipWidthX = 30;
-		static int mapChipWidthY = 30;
+		static int mapChipWidthX = 32;
+		static int mapChipWidthY = 32;
 
 
-		static int charaChipWidthX = 30; // 直後ifの外でも使うのでブロック外で定義。
-		static int charaChipWidthY = 30;
+		static int charaChipWidthX = 32; // 直後ifの外でも使うのでブロック外で定義。
+		static int charaChipWidthY = 32;
 
-		static double baiX = waitTime1 / charaChipWidthX;
-		static double baiY = waitTime1 / charaChipWidthY;
+		static double baiX = waitTime1 / charaChipWidthX; static double baiY = waitTime1 / charaChipWidthY;
 
 		static int tempK = 1;
 
@@ -3157,7 +3156,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						tempHandle = charachipRightHandle;
 						// localFunc.localDraw1();
 #define K 1
-						DrawGraph(charaChipWidthX * xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY * (yPosi - 1), hitoHandle, true);
+						// DrawGraph(charaChipWidthX * xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / (baiX+1.5), charaChipWidthY * (yPosi - 1), hitoHandle, true);
+
+						// static double ttttt = nyuuryokuMatiLR / waitTime1;
+						DrawGraph(charaChipWidthX* xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR)/ waitTime1, charaChipWidthY* (yPosi - 1), hitoHandle, true);
+
+
+
 
 						//macroDraw1();
 						//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
@@ -3170,7 +3175,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						tempHandle = charachipRightHandle;
 						// localFunc.localDraw1();
 #define K 0
-						DrawGraph(charaChipWidthX * xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY * (yPosi - 1), hitoHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY* (yPosi - 1), hitoHandle, true);
+
 
 						//macroDraw1();
 						//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
@@ -3190,7 +3196,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// localFunc.localDraw1();
 
 #define K -1 
-						DrawGraph(charaChipWidthX * xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY * (yPosi - 1), hitoHandle, true);
+						DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoHandle, true);
 
 						//macroDraw1();
 						//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
@@ -3204,7 +3210,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// localFunc.localDraw1();
 
 #define K 0 
-						DrawGraph(charaChipWidthX * xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY * (yPosi - 1), hitoHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY* (yPosi - 1), hitoHandle, true);
+
+
 
 						//macroDraw1();
 						//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
@@ -3228,7 +3236,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						tempHandle = charachipDownHandle;
 #define K 1
-						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi -1) + K * (waitTime1 - nyuuryokuMatiUD) / baiY, hitoHandle, true);
+						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
 
 						//macroDraw2();
 						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
@@ -3246,7 +3254,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						tempHandle = charachipDownHandle;
 						//localFunc.localDraw2();
 #define K 0
-						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * (waitTime1 - nyuuryokuMatiUD) / baiY, hitoHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
 
 						//macroDraw2();
 						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
@@ -3266,7 +3274,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						tempHandle = charachipUpHandle;
 						//localFunc.localDraw2();
 #define K -1
-						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * (waitTime1 - nyuuryokuMatiUD) / baiY, hitoHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
 
 						//macroDraw2();
 						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
@@ -3281,7 +3289,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						tempHandle = charachipUpHandle;
 						//localFunc.localDraw2();
 #define K 0
-						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * (waitTime1 - nyuuryokuMatiUD) / baiY, hitoHandle, true);
+						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
 
 						//macroDraw2();
 						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
@@ -3298,16 +3306,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-
-
-
-
 				// 下に移動中のとき、これないと下半身が消える
 
-				if (y_mapDraw == yPosi +1 && x_mapDraw == xPosi && hero1_direction == downward && moving == 1) {
-
-
+				if (y_mapDraw == yPosi + 1 && x_mapDraw == xPosi && hero1_direction == downward && moving == 1) {
 
 
 #define macroDraw2() DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
@@ -3319,7 +3320,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						tempHandle = charachipDownHandle;
 #define K 1
-						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * (waitTime1 - nyuuryokuMatiUD) / baiY, hitoHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
 
 						//macroDraw2();
 						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
@@ -3361,18 +3362,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			} // for (x_mapDraw = 0; x_mapDraw <= 9; ++x_mapDraw)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -3547,9 +3536,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					{ // 移動のモジュール
 
+
+
+
+
+
+						enum nextDirect { up, down, right, left, non };
+						enum nextDirect nextDirect_var = non;
+						int nextDirFlag = 0;
+
+						if(CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyEnableRight == 1 && moving == 1 && nextDirFlag == 0 && nyuuryokuMatiLR <5) {
+							nextDirect_var = right;
+						
+						}
+
+
+
+
 						// キャラを右に移動
 						if (xPosi < mapsizeX && yPosi < mapsizeY + 1) { // y判定 が+1 してるのはデバッグ用
 							// 移動先予定地の入場可否の判定
+
 							if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyEnableRight == 1 && moving == 0) {
 								hero1_direction = rightward;
 
@@ -3595,9 +3602,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							if (hero1_direction == rightward && moving == 1 && nyuuryokuMatiLR <= 0) {
 								keyEnableRight = 1; // moving 回復までに時間が掛かるので、ここは1に。
 
-								nyuuryokuMatiLR = waitTime1;
-								nyuuryokuMatiLeft = waitTime1;
-								nyuuryokuMatiRight = waitTime1;
+								nyuuryokuMatiLR = waitTime1  ;
+								nyuuryokuMatiLeft = waitTime1  ;
+								nyuuryokuMatiRight = waitTime1  ;
 
 
 								xPosi++;     // 右へ1マスだけ移動
@@ -7858,44 +7865,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
