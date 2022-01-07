@@ -3229,24 +3229,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 #define macroDraw2() DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
 
-					if (hero1_direction == downward && moving == 1) {
-						tempK = 1;
 
-
-
-						tempHandle = charachipDownHandle;
-#define K 1
-						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
-
-						//macroDraw2();
-						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
-#undef K
-
-				//localFunc.localDraw2();
-					}
-
-
-					else if (hero1_direction == downward && moving != 1) {
+					// à⁄ìÆÇµÇƒÇ»Ç¢â∫å¸Ç´ÇÕécÇ≥Ç»Ç¢Ç∆ï\é¶Ç™è¡Ç¶ÇÈ
+					if (hero1_direction == downward && moving != 1) {
 						tempK = -1;
 
 
@@ -3328,30 +3313,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				//localFunc.localDraw2();
 					}
-
-
-					else if (hero1_direction == downward && moving != 1) {
-						tempK = -1;
-
-
-
-						tempHandle = charachipDownHandle;
-						//localFunc.localDraw2();
-#define K 0
-						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * (waitTime1 - nyuuryokuMatiUD) / baiY, hitoHandle, true);
-
-						//macroDraw2();
-						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
-#undef K
-					}
-
-
-
-
-
-
-
-
 
 #undef macroDraw2() 
 
