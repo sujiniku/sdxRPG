@@ -1917,22 +1917,22 @@ void itemList(struct tykou soubuhin[10], struct tykou2 soubiSyoji[20], int kasol
 
 
 
-bool CheckZetc = CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1 && nyuuryokuMatiZ <= 0;
+bool CheckZetc = CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1 && nyuuryokuMatiZ <= 0; // if文で使う
 
 void CheckZetcFunc(void) {
-	CheckZetc = CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1 && nyuuryokuMatiZ <= 0;
+	CheckZetc = CheckHitKey(KEY_INPUT_Z) == 1 && keyEnableZ == 1 && nyuuryokuMatiZ <= 0; // これは更新用
 
 }
 
-bool CheckXetc = CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1 && nyuuryokuMatiX <= 0;
+bool CheckXetc = CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1 && nyuuryokuMatiX <= 0; // if文で使う
 void CheckXetcFunc(void) {
-	CheckXetc = CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1 && nyuuryokuMatiX <= 0;
+	CheckXetc = CheckHitKey(KEY_INPUT_X) == 1 && keyEnableX == 1 && nyuuryokuMatiX <= 0; // これは更新用
 
 }
 
-bool CheckUPetc = CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && nyuuryokuMatiUp <= 0;
+bool CheckUPetc = CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp != 1 && nyuuryokuMatiUp <= 0; // if文で使う
 void CheckUPetcFunc(void) {
-	CheckUPetc = CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && nyuuryokuMatiUp <= 0;
+	CheckUPetc = CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && nyuuryokuMatiUp <= 0; // これは更新用
 
 }
 
@@ -3042,11 +3042,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		}
 
+		// バグ防止 キー入力可能なら待機の必要ないので
+		if (keyEnableUp == 1) {
+			nyuuryokuMatiUp = 0;
 
-		if (keyEnableUp == 0 && nyuuryokuMatiUp > 0) {
+		}
+		if (keyEnableDown == 1) {
+			nyuuryokuMatiDown = 0;
+
+		}
+
+
+		if (keyEnableUp == 0 ) {
 			nyuuryokuMatiUp = nyuuryokuMatiUp - 1;
 
 		}
+
 		if (nyuuryokuMatiUp <= 0) {
 			nyuuryokuMatiUp = 0;
 			keyEnableUp = 1;
@@ -6006,6 +6017,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("gte %d"), sentoKoudoCount);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
+						_stprintf_s(mojibuf, TEXT("nmUP %d"), nyuuryokuMatiUp );
+						DrawFormatString(battleMassBaseX + 200 + 80 * 1 , battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+						_stprintf_s(mojibuf, TEXT("keUP %d"), keyEnableUp);
+						DrawFormatString(battleMassBaseX + 200 + 80 * 2 , battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
 						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
@@ -6135,8 +6153,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						// 移動の終了処理
 						CheckUPetcFunc();
-						if (CheckUPetc) {
+
+						// if (CheckUPetc) {
+						if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && nyuuryokuMatiUp <= 0) {
 							endUP();
+
+							// MessageBox(NULL, TEXT("上キー2テスト。"), TEXT("場所テスト"), MB_OK);
+
 
 							selecting_mainmenu--;  // 上へ1マスだけ移動
 						}
