@@ -2439,6 +2439,40 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int charachipRightHandle = LoadGraph("GameData\\charachip\\hero_dot_right.bmp");
 
 
+
+
+
+
+
+	int hitoHandle = LoadGraph("GameData\\charachip\\chara.png");
+	int hitoM1Handle = LoadGraph("GameData\\charachip\\chara.png");
+	int hitoM2Handle = LoadGraph("GameData\\charachip\\chara.png");
+
+	int hitoMigiHandle = LoadGraph("GameData\\charachip\\chara_right.png");
+	int hitoMigiM1Handle = LoadGraph("GameData\\charachip\\chara_right_m1.png");
+	int hitoMigiM2Handle = LoadGraph("GameData\\charachip\\chara_right_m2.png");
+
+
+	int hitoHidariHandle = LoadGraph("GameData\\charachip\\chara_left.png");
+	int hitoHidariM1Handle = LoadGraph("GameData\\charachip\\chara_left.png");
+	int hitoHidariM2Handle = LoadGraph("GameData\\charachip\\chara_left.png");
+
+
+
+	int hitoUpHandle = LoadGraph("GameData\\charachip\\chara_up.png");
+	int hitoUpM1Handle = LoadGraph("GameData\\charachip\\chara_up.png");
+	int hitoUpM2Handle = LoadGraph("GameData\\charachip\\chara_up.png");
+
+
+
+
+
+
+
+
+
+
+
 	// ÉAÉCÉeÉÄÇÃèÓïÒ
 	int tourokuItem = 3;
 	for (int temp = 0; temp <= tourokuItem; temp++) {
@@ -3111,18 +3145,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		static int tempK = 1;
 
 
-		int hitoHandle = LoadGraph("GameData\\charachip\\chara.png");
-
-		int hitoMigiHandle = LoadGraph("GameData\\charachip\\chara_right.png");
-
-		int hitoMigiM1Handle = LoadGraph("GameData\\charachip\\chara_right_m1.png");
-
-
-		int hitoHidariHandle = LoadGraph("GameData\\charachip\\chara_left.png");
-
-		int hitoUpHandle = LoadGraph("GameData\\charachip\\chara_up.png");
-
-
 
 		for (y_mapDraw = 0; y_mapDraw <= 6; ++y_mapDraw)
 		{
@@ -3178,15 +3200,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						// static double ttttt = nyuuryokuMatiLR / waitTime1;
 						
-						if (nyuuryokuMatiLR > 20 ) {
+						if (nyuuryokuMatiLR > 40 - 14 * 1 ) {
 							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoMigiM1Handle, true);
 						}
 
-						else if (nyuuryokuMatiLR <= 20) {
-							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoMigiHandle, true);
+						if (nyuuryokuMatiLR >= 40 - 14 * 2 && nyuuryokuMatiLR <= 40 - 14 * 1 ) {
+							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoMigiM2Handle, true);
 						}
 
-
+						if (nyuuryokuMatiLR < 40 - 14 * 2 ) {
+							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoMigiHandle, true);
+						}
 
 						//macroDraw1();
 						//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
