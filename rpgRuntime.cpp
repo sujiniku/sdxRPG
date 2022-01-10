@@ -3113,7 +3113,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		int hitoHandle = LoadGraph("GameData\\charachip\\chara.png");
 
+		int hitoMigiHandle = LoadGraph("GameData\\charachip\\chara_right.png");
 
+		int hitoMigiM1Handle = LoadGraph("GameData\\charachip\\chara_right_m1.png");
+
+
+		int hitoHidariHandle = LoadGraph("GameData\\charachip\\chara_left.png");
+
+		int hitoUpHandle = LoadGraph("GameData\\charachip\\chara_up.png");
 
 
 
@@ -3170,8 +3177,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// DrawGraph(charaChipWidthX * xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / (baiX+1.5), charaChipWidthY * (yPosi - 1), hitoHandle, true);
 
 						// static double ttttt = nyuuryokuMatiLR / waitTime1;
-						DrawGraph(charaChipWidthX* xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR)/ waitTime1, charaChipWidthY* (yPosi - 1), hitoHandle, true);
+						
+						if (nyuuryokuMatiLR > 20 ) {
+							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoMigiM1Handle, true);
+						}
 
+						else if (nyuuryokuMatiLR <= 20) {
+							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoMigiHandle, true);
+						}
 
 
 
@@ -3181,12 +3194,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 
+
+
+
 					else if (hero1_direction == rightward && moving != 1) {
 						tempK = 1;
 						tempHandle = charachipRightHandle;
 						// localFunc.localDraw1();
 #define K 0
-						DrawGraph(charaChipWidthX* xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY* (yPosi - 1), hitoHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY* (yPosi - 1), hitoMigiHandle, true);
 
 
 						//macroDraw1();
@@ -3207,7 +3223,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// localFunc.localDraw1();
 
 #define K -1 
-						DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoHandle, true);
+						DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoHidariHandle, true);
 
 						//macroDraw1();
 						//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
@@ -3221,7 +3237,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// localFunc.localDraw1();
 
 #define K 0 
-						DrawGraph(charaChipWidthX* xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY* (yPosi - 1), hitoHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY* (yPosi - 1), hitoHidariHandle, true);
 
 
 
@@ -3270,7 +3286,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						tempHandle = charachipUpHandle;
 						//localFunc.localDraw2();
 #define K -1
-						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoUpHandle, true);
 
 						//macroDraw2();
 						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
@@ -3285,7 +3301,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						tempHandle = charachipUpHandle;
 						//localFunc.localDraw2();
 #define K 0
-						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
+						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoUpHandle, true);
 
 						//macroDraw2();
 						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
