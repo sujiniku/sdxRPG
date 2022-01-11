@@ -3146,6 +3146,118 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+
+
+
+		// マップ中にあるモンスターシンボルやら町やらのマス位置をあらわす構造体
+		// マップイベント用に使いたい
+		struct Posi_def
+		{
+			int PosiX;
+			int PosiY;
+
+			// int tempHandle; // すでにグローバル変数で同様の数を定義ずみ
+		};
+
+		static struct Posi_def* tempEvAdr;
+
+
+		// 町は背景に準じるので、モンスターより先に描画。しかしマップイベントであるので、背景とは区別の必要あり。
+		// マップイベントのタウン用
+
+		static struct Posi_def town[15];
+
+		tempHandle = townchipDownHandle;
+
+
+		for (int temp = 0; temp <= 0; temp = temp + 1) {
+
+			// 町座標
+			// 2,5
+
+			town[temp].PosiX = town_X;
+			town[temp].PosiY = town_Y;
+
+		}
+
+		int tempTourokusuu1;
+
+		tempTourokusuu1 = 1;
+
+		tempEvAdr = town;
+
+		struct localFuncStruct
+		{
+			void localDraw(int temp) {
+				 DrawGraph(mapChipWidthX * (*(tempEvAdr + temp)).PosiX, mapChipWidthY * (*(tempEvAdr + temp)).PosiY, tempHandle, false);
+				
+				// DrawGraph(mapChipWidthX * town[temp].PosiX, mapChipWidthY * town[temp].PosiY, tempHandle, false);
+
+			}
+
+
+		} localFunc;
+
+		// マップ側の町のドット
+		for (int temp = 0; temp <= tempTourokusuu1 - 1; temp = temp + 1) {
+
+			// 町画像
+			localFunc.localDraw(temp);
+			//DrawGraph(mapChipWidthX * (*(tempEvAdr+temp)).PosiX, mapChipWidthY * (*(tempEvAdr+temp)).PosiY, tempHandle, false);
+
+		}
+
+
+
+		// モンスターの位置情報
+		static struct Posi_def monEv[15];
+
+
+		tempHandle = monchipDownHandle;
+
+		for (int temp = 1; temp <= 2; temp = temp + 1) {
+			//if (enemy_alive[mapEneNum] == 1) {
+
+			monEv[temp - 1].PosiX = monPosiX[temp - 1];
+			monEv[temp - 1].PosiY = monPosiY[temp - 1];
+
+		}
+
+
+		tempEvAdr = monEv;
+
+		// マップ側のモンスターのドット
+		// tempTouroku はモンスター登録数
+		tempTourokusuu1 = 2;
+
+		for (int temp = 0; temp <= tempTourokusuu1 - 1; temp = temp + 1) {
+			//if (enemy_alive[mapEneNum] == 1) {
+
+				// 逃亡用の復活 猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
+			if (toubouTyokugo[temp] == 0) {
+				// モンスター画像
+				localFunc.localDraw(temp);
+
+			}
+
+			if (toubouTyokugo[temp] > 0 && enemy_alive[temp] == 1) {
+				// モンスター画像
+
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+				localFunc.localDraw(temp);
+
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			}
+
+			//}
+		}
+
+
+
+
+
+
+
 		for (y_mapDraw = 0; y_mapDraw <= 6; ++y_mapDraw)
 		{
 			for (x_mapDraw = 0; x_mapDraw <= 9; ++x_mapDraw)
@@ -3170,8 +3282,39 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+				for (int temp = 0; temp <= 0; temp = temp + 1) {
+					if (y_mapDraw == town[temp].PosiY  && x_mapDraw == town[temp].PosiX) {
+
+						tempHandle = townchipDownHandle;
+
+						DrawGraph(mapChipWidthX * town[temp].PosiX, mapChipWidthY * town[temp].PosiY, tempHandle, false);
+					}
+				}
 
 
+
+				for (int temp = 0; temp <= 1; temp = temp + 1) {
+					if (y_mapDraw == monEv[temp].PosiY && x_mapDraw == monEv[temp].PosiX) {
+						
+						tempHandle = monchipDownHandle;
+
+						if (toubouTyokugo[temp] == 0) {
+							// モンスター画像
+							localFunc.localDraw(temp);
+
+						}
+
+						if (toubouTyokugo[temp] > 0 && enemy_alive[temp] == 1) {
+							// モンスター画像
+
+							//tempHandle = monchipDownHandle;
+							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+							localFunc.localDraw(temp);
+
+							SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+						}
+					}
+				}
 
 
 
@@ -3387,107 +3530,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-
-
-
-		// マップ中にあるモンスターシンボルやら町やらのマス位置をあらわす構造体
-		// マップイベント用に使いたい
-		struct Posi_def
-		{
-			int PosiX;
-			int PosiY;
-
-			// int tempHandle; // すでにグローバル変数で同様の数を定義ずみ
-		};
-
-		static struct Posi_def* tempEvAdr;
-
-
-		// 町は背景に準じるので、モンスターより先に描画。しかしマップイベントであるので、背景とは区別の必要あり。
-		// マップイベントのタウン用
-		static struct Posi_def town[15];
-
-		tempHandle = townchipDownHandle;
-
-
-		for (int temp = 0; temp <= 0; temp = temp + 1) {
-
-			// 町座標
-			// 2,5
-			town[temp].PosiX = town_X;
-			town[temp].PosiY = town_Y;
-
-		}
-
-		int tempTourokusuu1;
-
-		tempTourokusuu1 = 1;
-
-		tempEvAdr = town;
-
-		struct localFuncStruct
-		{
-			void localDraw(int temp) {
-				DrawGraph(mapChipWidthX * (*(tempEvAdr + temp)).PosiX, mapChipWidthY * (*(tempEvAdr + temp)).PosiY, tempHandle, false);
-			}
-
-
-		} localFunc;
-
-		// マップ側の町のドット
-		for (int temp = 0; temp <= tempTourokusuu1 - 1; temp = temp + 1) {
-
-			// 町画像
-			localFunc.localDraw(temp);
-			//DrawGraph(mapChipWidthX * (*(tempEvAdr+temp)).PosiX, mapChipWidthY * (*(tempEvAdr+temp)).PosiY, tempHandle, false);
-
-		}
-
-
-
-		// モンスターの位置情報
-		static struct Posi_def monEv[15];
-
-
-		tempHandle = monchipDownHandle;
-
-		for (int temp = 1; temp <= 2; temp = temp + 1) {
-			//if (enemy_alive[mapEneNum] == 1) {
-
-			monEv[temp - 1].PosiX = monPosiX[temp - 1];
-			monEv[temp - 1].PosiY = monPosiY[temp - 1];
-
-		}
-
-
-		tempEvAdr = monEv;
-
-		// マップ側のモンスターのドット
-		// tempTouroku はモンスター登録数
-		tempTourokusuu1 = 2;
-
-		for (int temp = 0; temp <= tempTourokusuu1 - 1; temp = temp + 1) {
-			//if (enemy_alive[mapEneNum] == 1) {
-
-				// 逃亡用の復活 猶予カウンターをモンスター生存フラグとして流用してるので、下記になる
-			if (toubouTyokugo[temp] == 0) {
-				// モンスター画像
-				localFunc.localDraw(temp);
-
-			}
-
-			if (toubouTyokugo[temp] > 0 && enemy_alive[temp] == 1) {
-				// モンスター画像
-
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-				localFunc.localDraw(temp);
-
-				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-			}
-
-			//}
-		}
 
 
 
