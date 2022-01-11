@@ -2424,19 +2424,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-	int monchipDownHandle = LoadGraph("GameData\\charachip\\enemy_dot.bmp");
+	int monchipDownHandle = LoadGraph("GameData\\charachip\\enemy_dot.png");
 	int blackchipHandle = LoadGraph("GameData\\charachip\\blackchip.bmp");
 
 
-	int blackbackHandle = LoadGraph("GameData\\picture\\blackBigBack.bmp");
+	//int blackbackHandle = LoadGraph("GameData\\picture\\blackBigBack.bmp");
 
-	int townchipDownHandle = LoadGraph("GameData\\charachip\\town_dot.bmp");
+	int townchipDownHandle = LoadGraph("GameData\\charachip\\town_dot.png");
 
 
-	int charachipUpHandle = LoadGraph("GameData\\charachip\\hero_dot_up.bmp");
-	int charachipDownHandle = LoadGraph("GameData\\charachip\\hero_dot_down.bmp");
-	int charachipLeftHandle = LoadGraph("GameData\\charachip\\hero_dot_left.bmp");
-	int charachipRightHandle = LoadGraph("GameData\\charachip\\hero_dot_right.bmp");
+	//int charachipUpHandle = LoadGraph("GameData\\charachip\\hero_dot_up.bmp");
+	//int charachipDownHandle = LoadGraph("GameData\\charachip\\hero_dot_down.bmp");
+	//int charachipLeftHandle = LoadGraph("GameData\\charachip\\hero_dot_left.bmp");
+	//int charachipRightHandle = LoadGraph("GameData\\charachip\\hero_dot_right.bmp");
 
 
 
@@ -3189,9 +3189,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		struct localFuncStruct
 		{
 			void localDraw(int temp) {
-				 DrawGraph(mapChipWidthX * (*(tempEvAdr + temp)).PosiX, mapChipWidthY * (*(tempEvAdr + temp)).PosiY, tempHandle, false);
+				 DrawGraph(mapChipWidthX * (*(tempEvAdr + temp)).PosiX, mapChipWidthY * (*(tempEvAdr + temp)).PosiY, tempHandle, true);
 				
-				// DrawGraph(mapChipWidthX * town[temp].PosiX, mapChipWidthY * town[temp].PosiY, tempHandle, false);
+				// DrawGraph(mapChipWidthX * town[temp].PosiX, mapChipWidthY * town[temp].PosiY, tempHandle, true);
 
 			}
 
@@ -3336,7 +3336,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						tempK = 1;
 
 
-						tempHandle = charachipRightHandle;
+						//tempHandle = charachipRightHandle;
 						// localFunc.localDraw1();
 #define K 1
 						// DrawGraph(charaChipWidthX * xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / (baiX+1.5), charaChipWidthY * (yPosi - 1), hitoHandle, true);
@@ -3366,7 +3366,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					else if (hero1_direction == rightward && moving != 1) {
 						tempK = 1;
-						tempHandle = charachipRightHandle;
+						//tempHandle = charachipRightHandle;
 						// localFunc.localDraw1();
 #define K 0
 						DrawGraph(charaChipWidthX* xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY* (yPosi - 1), hitoMigiHandle, true);
@@ -3386,7 +3386,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (hero1_direction == leftward && moving == 1) {
 						tempK = -1;
 
-						tempHandle = charachipLeftHandle;
+						//tempHandle = charachipLeftHandle;
 						// localFunc.localDraw1();
 
 #define K -1 
@@ -3400,7 +3400,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					else if (hero1_direction == leftward && moving != 1) {
 						tempK = -1;
 
-						tempHandle = charachipLeftHandle;
+						//tempHandle = charachipLeftHandle;
 						// localFunc.localDraw1();
 
 #define K 0 
@@ -3430,7 +3430,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-						tempHandle = charachipDownHandle;
+						//tempHandle = charachipDownHandle;
 						//localFunc.localDraw2();
 #define K 0
 						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
@@ -3450,7 +3450,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-						tempHandle = charachipUpHandle;
+						//tempHandle = charachipUpHandle;
 						//localFunc.localDraw2();
 #define K -1
 						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoUpHandle, true);
@@ -3465,7 +3465,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-						tempHandle = charachipUpHandle;
+						//tempHandle = charachipUpHandle;
 						//localFunc.localDraw2();
 #define K 0
 						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoUpHandle, true);
@@ -3497,7 +3497,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-						tempHandle = charachipDownHandle;
+						// tempHandle = charachipDownHandle;
 #define K 1
 						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
 
