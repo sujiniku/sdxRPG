@@ -122,9 +122,6 @@ void tenmetuStop(int X1, int Y1, int X2, int Y2) {
 }
 
 
-/*
-
-
 
 int Key[256]; // ÉLÅ[Ç™âüÇ≥ÇÍÇƒÇ¢ÇÈÉtÉåÅ[ÉÄêîÇäiî[Ç∑ÇÈ
 
@@ -142,8 +139,6 @@ int gpUpdateKey() {
 	}
 	return 0;
 }
-
-*/
 
 
 int jumpRyoku1 = 50;
@@ -2430,7 +2425,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	int monchipDownHandle = LoadGraph("GameData\\charachip\\enemy_dot.png");
-	// int blackchipHandle = LoadGraph("GameData\\charachip\\blackchip.bmp");
+	int blackchipHandle = LoadGraph("GameData\\charachip\\blackchip.bmp");
 
 
 	//int blackbackHandle = LoadGraph("GameData\\picture\\blackBigBack.bmp");
@@ -2449,9 +2444,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-	int hitoHandle = LoadGraph("GameData\\charachip\\chara_down.png");
-	int hitoM1Handle = LoadGraph("GameData\\charachip\\chara_down.png");
-	int hitoM2Handle = LoadGraph("GameData\\charachip\\chara_down.png");
+	int hitoHandle = LoadGraph("GameData\\charachip\\chara.png");
+	int hitoM1Handle = LoadGraph("GameData\\charachip\\chara.png");
+	int hitoM2Handle = LoadGraph("GameData\\charachip\\chara.png");
 
 	int hitoMigiHandle = LoadGraph("GameData\\charachip\\chara_right.png");
 	int hitoMigiM1Handle = LoadGraph("GameData\\charachip\\chara_right_m1.png");
@@ -2459,8 +2454,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	int hitoHidariHandle = LoadGraph("GameData\\charachip\\chara_left.png");
-	int hitoHidariM1Handle = LoadGraph("GameData\\charachip\\chara_left.png");
-	int hitoHidariM2Handle = LoadGraph("GameData\\charachip\\chara_left.png");
+	int hitoHidariM1Handle = LoadGraph("GameData\\charachip\\chara_left_m1.png");
+	int hitoHidariM2Handle = LoadGraph("GameData\\charachip\\chara_left_m2.png");
 
 
 
@@ -3061,7 +3056,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		ClearDrawScreen();
 
-
 		if (keyEnableZ == 0 && nyuuryokuMatiZ > 0) {
 			nyuuryokuMatiZ = nyuuryokuMatiZ - 1;
 
@@ -3093,7 +3087,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 
-		if (keyEnableUp == 0) {
+		if (keyEnableUp == 0 ) {
 			nyuuryokuMatiUp = nyuuryokuMatiUp - 1;
 
 		}
@@ -3195,8 +3189,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		struct localFuncStruct
 		{
 			void localDraw(int temp) {
-				DrawGraph(mapChipWidthX * (*(tempEvAdr + temp)).PosiX, mapChipWidthY * (*(tempEvAdr + temp)).PosiY, tempHandle, true);
-
+				 DrawGraph(mapChipWidthX * (*(tempEvAdr + temp)).PosiX, mapChipWidthY * (*(tempEvAdr + temp)).PosiY, tempHandle, true);
+				
 				// DrawGraph(mapChipWidthX * town[temp].PosiX, mapChipWidthY * town[temp].PosiY, tempHandle, true);
 
 			}
@@ -3289,7 +3283,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				for (int temp = 0; temp <= 0; temp = temp + 1) {
-					if (y_mapDraw == town[temp].PosiY && x_mapDraw == town[temp].PosiX) {
+					if (y_mapDraw == town[temp].PosiY  && x_mapDraw == town[temp].PosiX) {
 
 						tempHandle = townchipDownHandle;
 
@@ -3301,7 +3295,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				for (int temp = 0; temp <= 1; temp = temp + 1) {
 					if (y_mapDraw == monEv[temp].PosiY && x_mapDraw == monEv[temp].PosiX) {
-
+						
 						tempHandle = monchipDownHandle;
 
 						if (toubouTyokugo[temp] == 0) {
@@ -3348,16 +3342,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// DrawGraph(charaChipWidthX * xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / (baiX+1.5), charaChipWidthY * (yPosi - 1), hitoHandle, true);
 
 						// static double ttttt = nyuuryokuMatiLR / waitTime1;
-
-						if (nyuuryokuMatiLR > 40 - 14 * 1) {
+						
+						if (nyuuryokuMatiLR > 40 - 14 * 1 ) {
 							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoMigiM1Handle, true);
 						}
 
-						if (nyuuryokuMatiLR >= 40 - 14 * 2 && nyuuryokuMatiLR <= 40 - 14 * 1) {
+						if (nyuuryokuMatiLR >= 40 - 14 * 2 && nyuuryokuMatiLR <= 40 - 14 * 1 ) {
 							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoMigiM2Handle, true);
 						}
 
-						if (nyuuryokuMatiLR < 40 - 14 * 2) {
+						if (nyuuryokuMatiLR < 40 - 14 * 2 ) {
 							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoMigiHandle, true);
 						}
 
@@ -3375,7 +3369,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						//tempHandle = charachipRightHandle;
 						// localFunc.localDraw1();
 #define K 0
-						DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoMigiHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY* (yPosi - 1), hitoMigiHandle, true);
+
 
 
 						//macroDraw1();
@@ -3396,7 +3391,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// localFunc.localDraw1();
 
 #define K -1 
-						DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoHidariHandle, true);
+						//DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoHidariHandle, true);
+
+
+						if (nyuuryokuMatiLR > 40 - 14 * 1) {
+							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoHidariM1Handle, true);
+						}
+
+						if (nyuuryokuMatiLR >= 40 - 14 * 2 && nyuuryokuMatiLR <= 40 - 14 * 1) {
+							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoHidariM2Handle, true);
+						}
+
+						if (nyuuryokuMatiLR < 40 - 14 * 2) {
+							DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoHidariHandle, true);
+						}
+
 
 						//macroDraw1();
 						//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
@@ -3410,9 +3419,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// localFunc.localDraw1();
 
 #define K 0 
-						DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoHidariHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY* (yPosi - 1), hitoHidariHandle, true);
 
 
+	
 
 						//macroDraw1();
 						//DrawGraph(charaChipWidthX* xPosi + 0 + K * (waitTime1 - nyuuryokuMatiLR) / baiX, charaChipWidthY* yPosi, tempHandle, false);
@@ -3439,7 +3449,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						//tempHandle = charachipDownHandle;
 						//localFunc.localDraw2();
 #define K 0
-						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
 
 						//macroDraw2();
 						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
@@ -3459,7 +3469,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						//tempHandle = charachipUpHandle;
 						//localFunc.localDraw2();
 #define K -1
-						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoUpHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoUpHandle, true);
 
 						//macroDraw2();
 						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
@@ -3505,7 +3515,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						// tempHandle = charachipDownHandle;
 #define K 1
-						DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
+						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoHandle, true);
 
 						//macroDraw2();
 						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* yPosi + K * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
@@ -3540,6 +3550,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+		// ÉLÉÉÉâÉ`ÉbÉvï`âÊ
+		{
+
 			if (toubouTyokugo[(encount_monsters_id)-1] > 0 && enemy_alive[(encount_monsters_id)-1] == 1 && xPosi == monPosiX[1 - 1] && yPosi == monPosiY[1 - 1]) {
 
 				// ì¶ñSéûÇ…èdÇ»Ç¡ÇƒÇ‡ÉÇÉìÉXÉ^Å[ï\é¶ÇµÇ»Ç¢ÇÊÇ§Ç…Ç∑ÇÈèàóù
@@ -3563,7 +3576,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * yPosi + tempK * (waitTime1 - nyuuryokuMatiUD) / baiY, tempHandle, false);
 
 				}
-			} localFunc2;
+			} localFunc;
 
 
 
@@ -3602,9 +3615,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						enum nextDirect nextDirect_var = non;
 						int nextDirFlag = 0;
 
-						if (CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyEnableRight == 1 && moving == 1 && nextDirFlag == 0 && nyuuryokuMatiLR < 5) {
+						if(CheckHitKey(KEY_INPUT_RIGHT) == 1 && keyEnableRight == 1 && moving == 1 && nextDirFlag == 0 && nyuuryokuMatiLR <5) {
 							nextDirect_var = right;
-
+						
 						}
 
 
@@ -3659,9 +3672,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							if (hero1_direction == rightward && moving == 1 && nyuuryokuMatiLR <= 0) {
 								keyEnableRight = 1; // moving âÒïúÇ‹Ç≈Ç…éûä‘Ç™ä|Ç©ÇÈÇÃÇ≈ÅAÇ±Ç±ÇÕ1Ç…ÅB
 
-								nyuuryokuMatiLR = waitTime1;
-								nyuuryokuMatiLeft = waitTime1;
-								nyuuryokuMatiRight = waitTime1;
+								nyuuryokuMatiLR = waitTime1  ;
+								nyuuryokuMatiLeft = waitTime1  ;
+								nyuuryokuMatiRight = waitTime1  ;
 
 
 								xPosi++;     // âEÇ÷1É}ÉXÇæÇØà⁄ìÆ
@@ -6102,11 +6115,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("gte %d"), sentoKoudoCount);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
 
-						_stprintf_s(mojibuf, TEXT("nmUP %d"), nyuuryokuMatiUp);
-						DrawFormatString(battleMassBaseX + 200 + 80 * 1, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
+						_stprintf_s(mojibuf, TEXT("nmUP %d"), nyuuryokuMatiUp );
+						DrawFormatString(battleMassBaseX + 200 + 80 * 1 , battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
 
 						_stprintf_s(mojibuf, TEXT("keUP %d"), keyEnableUp);
-						DrawFormatString(battleMassBaseX + 200 + 80 * 2, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
+						DrawFormatString(battleMassBaseX + 200 + 80 * 2 , battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // ï∂éöÇï`âÊÇ∑ÇÈ
 
 
 						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
@@ -7921,6 +7934,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			key_remain = 1;
 
 			ScreenFlip(); //ó†âÊñ Çï\âÊñ Ç…îΩâf
+		}
 
 	}
 
