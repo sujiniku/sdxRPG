@@ -2467,8 +2467,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	int hitoUpHandle = LoadGraph("GameData\\charachip\\chara_up.png");
-	int hitoUpM1Handle = LoadGraph("GameData\\charachip\\chara_up.png");
-	int hitoUpM2Handle = LoadGraph("GameData\\charachip\\chara_up.png");
+	int hitoUpM1Handle = LoadGraph("GameData\\charachip\\chara_up_m1.png");
+	int hitoUpM2Handle = LoadGraph("GameData\\charachip\\chara_up_m2.png");
 
 
 
@@ -3476,7 +3476,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						//tempHandle = charachipUpHandle;
 						//localFunc.localDraw2();
 #define K -1
-						DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoUpHandle, true);
+						//DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoUpHandle, true);
+
+
+						if (nyuuryokuMatiUD > 40 - 14 * 1) {
+							DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoUpHandle, true);
+
+							
+							//DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoSitaHandle, true);
+							//DrawGraph(charaChipWidthX * xPosi + 0 + K * charaChipWidthX * (waitTime1 - nyuuryokuMatiLR) / waitTime1, charaChipWidthY * (yPosi - 1), hitoHidariM1Handle, true);
+						}
+
+						if (nyuuryokuMatiUD >= 40 - 14 * 2 && nyuuryokuMatiUD <= 40 - 14 * 1) {
+							DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoUpM1Handle, true);
+
+							//DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoSitaM1Handle, true);
+						}
+
+						if (nyuuryokuMatiUD < 40 - 14 * 2) {
+							DrawGraph(charaChipWidthX* xPosi + 0, charaChipWidthY* (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoUpM2Handle, true);
+
+							//DrawGraph(charaChipWidthX * xPosi + 0, charaChipWidthY * (yPosi - 1) + K * charaChipWidthY * (waitTime1 - nyuuryokuMatiUD) / waitTime1, hitoSitaM2Handle, true);
+						}
 
 
 
