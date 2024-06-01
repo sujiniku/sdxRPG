@@ -7,6 +7,13 @@
 
 #include <math.h>  // 切り上げ計算で使用
 
+
+int koudouKiroku[10];
+int magicKiroku[10];
+int sentouNaninme =0;
+
+
+
 int magicAtkFlag = 0;
 
 int magicSel = 0;
@@ -6226,7 +6233,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-						_stprintf_s(mojibuf, TEXT("partyNin %d"), partyNinzuDone);
+						_stprintf_s(mojibuf, TEXT("partyNin %d"), partyNinzuDone); //sentouNaninme
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 					} // ここまでデバ文
@@ -6264,6 +6271,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					}
 
+					_stprintf_s(mojibuf, TEXT("%s"), heros_def_list[sentouNaninme].heros_name ); //sentouNaninme
+
+					DrawFormatString(tem1X + 100, tem1Y + 30 , GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
 
 
 					// ターン開始 of 戦うコマンド
@@ -6272,21 +6283,35 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						if (selecting_mainmenu == ComdTemp[0] + 1 ) {
 
-							// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 
-							TimeKasolCount = 0;
+							if (sentouNaninme < partyNinzuDone) {
+								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+								sentouNaninme = sentouNaninme +1;
 
-							keyHaijyo = 1;
-							battlewait = 100;
+								TimeKasolCount = 0;
 
-							dameKei = 0;
+							}
 
-							damage_EnemyAttack = 0;
-							damage_HeroAttack = 0;
+							if (sentouNaninme >= partyNinzuDone ) {
+								// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 
-							magicAtkFlag = 0;
+								TimeKasolCount = 0;
 
-							mode_scene = MODE_BATTLE_NOW;
+								keyHaijyo = 1;
+								battlewait = 100;
+
+								dameKei = 0;
+
+								damage_EnemyAttack = 0;
+								damage_HeroAttack = 0;
+
+								magicAtkFlag = 0;
+
+								mode_scene = MODE_BATTLE_NOW;
+							}
+
+
+
 
 						} // ターン開始 of 戦うコマンド
 
@@ -6320,21 +6345,45 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// && mode_scene == MODE_BATTLE_COMMAND // これが無いと連打でターン再開してしまう // 上記コマンド一覧と統合のため除去
 						) {
 
-						// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+						if (sentouNaninme == 0) {
+							// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 
-						TimeKasolCount = 20;
+							TimeKasolCount = 20;
 
-						keyHaijyo = 0;
-						battlewait = 100;
+							keyHaijyo = 0;
+							battlewait = 100;
 
-						dameKei = 0;
+							dameKei = 0;
 
-						damage_EnemyAttack = 0;
-						damage_HeroAttack = 0;
+							damage_EnemyAttack = 0;
+							damage_HeroAttack = 0;
 
 
-						mode_scene = MODE_BATTLE_COMMAND;
-						//mode_scene = MODE_BATTLE_NOW;
+							mode_scene = MODE_BATTLE_COMMAND;
+							//mode_scene = MODE_BATTLE_NOW;
+						}
+
+
+						if (sentouNaninme > 0) {
+							// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
+							TimeKasolCount = 0;
+
+							keyHaijyo = 0;
+							battlewait = 100;
+
+							dameKei = 0;
+
+							damage_EnemyAttack = 0;
+							damage_HeroAttack = 0;
+
+
+							sentouNaninme = sentouNaninme - 1;
+							//mode_scene = MODE_BATTLE_COMMAND;
+							//mode_scene = MODE_BATTLE_NOW;
+						}
+
+
 
 					} // ターン開始 of 戦うコマンド
 
@@ -6673,6 +6722,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (monster_hp <= 0) {
 						// MessageBox(NULL, TEXT("敵倒した3。"), TEXT("場所テスト"), MB_OK);
 
+						sentouNaninme = 0;
 						mode_scene = MODE_BATTLE_WIN;
 						battlewait = 60.0 * 2.0;
 
@@ -6700,6 +6750,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							sentoKoudoCount = 0;
 
 							damepyon = 0;
+
+							//
+							sentouNaninme = 0;
 							mode_scene = MODE_BATTLE_COMMAND2;
 						}
 					}
