@@ -6242,6 +6242,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							damage_EnemyAttack = 0;
 							damage_HeroAttack = 0;
 
+							magicAtkFlag = 0;
+
 							mode_scene = MODE_BATTLE_NOW;
 
 						} // ターン開始 of 戦うコマンド
@@ -6357,7 +6359,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// ターン開始 of 戦うコマンド
 					if (CheckHitKey(KEY_INPUT_Z) == 1 && keyHaijyo == 0 && TimeKasolCount > 20	) {
 
-						if (selecting_mainmenu == ComdTemp[0] + 1) {
+						int magicTemp = (ComdTemp[0] + 1);
+
+						if (selecting_mainmenu == magicTemp  || selecting_mainmenu == magicTemp + 1) {
 
 							TimeKasolCount = 0;
 
@@ -6371,36 +6375,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 							magicAtkFlag = 1;
-							magicSel = 0;
+							magicSel = selecting_mainmenu -(magicTemp); //0
 
 
 							mode_scene = MODE_BATTLE_NOW;
 
 						} // ターン開始 of 戦うコマンド
 
-						if (selecting_mainmenu == ComdTemp[0] + 2) {							
-							// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 
-							TimeKasolCount = 0;
-
-							keyHaijyo = 1;
-							battlewait = 100;
-
-							dameKei = 0;
-
-							damage_EnemyAttack = 0;
-							damage_HeroAttack = 0;
-
-
-
-							magicAtkFlag = 1;
-
-							magicSel = 1;
-
-
-							mode_scene = MODE_BATTLE_NOW;
-
-						} // ターン開始 of 戦うコマンド
 					}
 
 
