@@ -298,7 +298,9 @@ enum mode {
 
 	MODE_SAVE_MENU, MODE_saving_Now,
 
-	MODE_BATTLE_COMMAND, MODE_BATTLE_COMMAND2, MODE_BATTLE_NOW, MODE_BATTLE_WIN, BATTLE_Agility_proc,
+	MODE_BATTLE_COMMAND, MODE_BATTLE_COMMAND2, MODE_BATTLE_MAGIC,			
+	MODE_BATTLE_NOW, MODE_BATTLE_WIN, BATTLE_Agility_proc,
+
 
 	MODE_Guild_Main, MODE_Guild_Responce, MODE_Guild_Remove,
 
@@ -5869,7 +5871,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-			if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_COMMAND2 || mode_scene == MODE_BATTLE_NOW || mode_scene == MODE_BATTLE_WIN) {
+			if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_COMMAND2 || mode_scene == MODE_BATTLE_MAGIC || mode_scene == MODE_BATTLE_NOW || mode_scene == MODE_BATTLE_WIN) {
 
 				int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
 				DrawBox(monMesX, monMesY, monMesX + 250, monMesY + 40,
@@ -5877,7 +5879,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				DrawFormatString(monMesX, 350, GetColor(255, 255, 255), "モンスターが現れた"); // 文字を描画する
 
 				// モンスター画像 
-				if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_COMMAND2 || mode_scene == MODE_BATTLE_NOW) {
+				if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_COMMAND2 || mode_scene == MODE_BATTLE_MAGIC || mode_scene == MODE_BATTLE_NOW) {
 
 					{
 						DrawGraph(300, 95, monsHandle[encount_monsters_id - 1], true);
@@ -6185,11 +6187,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("partyNin %d"), partyNinzuDone);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-
-
-
-
-
 					} // ここまでデバ文
 
 
@@ -6229,10 +6226,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					// ターン開始 of 戦うコマンド
 					if (CheckHitKey(KEY_INPUT_Z) == 1 && keyHaijyo == 0 && TimeKasolCount > 20
-						// && mode_scene == MODE_BATTLE_COMMAND // これが無いと連打でターン再開してしまう // 上記コマンド一覧と統合のため除去
 						) {
-
-
 
 						if (selecting_mainmenu == ComdTemp[0] + 1 ) {
 
@@ -6248,8 +6242,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							damage_EnemyAttack = 0;
 							damage_HeroAttack = 0;
 
-
-							//mode_scene = MODE_BATTLE_COMMAND2;
 							mode_scene = MODE_BATTLE_NOW;
 
 						} // ターン開始 of 戦うコマンド
@@ -6260,7 +6252,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							TimeKasolCount = 0;
 
-							keyHaijyo = 1;
+							keyHaijyo = 0;
 							battlewait = 100;
 
 							dameKei = 0;
@@ -6268,9 +6260,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							damage_EnemyAttack = 0;
 							damage_HeroAttack = 0;
 
-
-							//mode_scene = MODE_BATTLE_COMMAND2;
-							mode_scene = MODE_BATTLE_NOW;
+							mode_scene = MODE_BATTLE_MAGIC;
 
 						} // ターン開始 of 戦うコマンド
 
@@ -6288,7 +6278,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 
-						TimeKasolCount = 0;
+						TimeKasolCount = 20;
 
 						keyHaijyo = 0;
 						battlewait = 100;
@@ -6329,22 +6319,191 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("partyNin %d"), partyNinzuDone);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
+					} // ここまでデバ文
 
+				} //  MODE_BATTLE_COMMAND2
+
+
+
+				if (mode_scene == MODE_BATTLE_MAGIC) {
+					int tem1X = 100; int Xwidth = 100;
+					int tem1Y = 240;
+
+					int yohakuY = 10;
+					window1Draw(tem1X - yohakuY, tem1Y - yohakuY,
+						tem1X + Xwidth + yohakuY, tem1Y + 40 + 40 + yohakuY);
+
+					// カーソル
+					tenmetu(tem1X, tem1Y + (selecting_mainmenu - 1) * 40,
+						tem1X + Xwidth, tem1Y + 10 + (selecting_mainmenu - 1) * 40 + 30);
+
+
+					int ComdTemp[5]; // のちのターン開始if文で流用するので配列定義
+
+					for (int temp = 0; temp <= 1; temp = temp + 1) {
+
+						ComdTemp[temp] = temp;
+
+						if (ComdTemp[temp] == 0) { _stprintf_s(mojibuf, MAX_LENGTH, TEXT("ファイア")); }
+						if (ComdTemp[temp] == 1) { _stprintf_s(mojibuf, MAX_LENGTH, TEXT("アイス")); }
+
+						DrawFormatString(tem1X + 20, tem1Y + 10 + 40 * ComdTemp[temp], GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+					}
+
+
+					//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
+					// ターン開始 of 戦うコマンド
+					if (CheckHitKey(KEY_INPUT_Z) == 1 && keyHaijyo == 0 && TimeKasolCount > 20	) {
+
+						if (selecting_mainmenu == ComdTemp[0] + 1) {
+
+							TimeKasolCount = 0;
+
+							keyHaijyo = 1;
+							battlewait = 100;
+
+							dameKei = 0;
+
+							damage_EnemyAttack = 0;
+							damage_HeroAttack = 0;
+
+							mode_scene = MODE_BATTLE_NOW;
+
+						} // ターン開始 of 戦うコマンド
+
+						if (selecting_mainmenu == ComdTemp[0] + 2) {							
+							// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
+							TimeKasolCount = 0;
+
+							keyHaijyo = 1;
+							battlewait = 100;
+
+							dameKei = 0;
+
+							damage_EnemyAttack = 0;
+							damage_HeroAttack = 0;
+
+							mode_scene = MODE_BATTLE_NOW;
+
+						} // ターン開始 of 戦うコマンド
+					}
+
+
+
+					// キャンセル
+					if (CheckHitKey(KEY_INPUT_X) == 1 && keyHaijyo == 0 && TimeKasolCount > 20	) {
+
+						// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
+						TimeKasolCount = 0;
+
+						keyHaijyo = 0;
+						battlewait = 100;
+
+						dameKei = 0;
+
+						damage_EnemyAttack = 0;
+						damage_HeroAttack = 0;
+
+
+						mode_scene = MODE_BATTLE_COMMAND2;
+						//mode_scene = MODE_BATTLE_NOW;
+
+					} // ターン開始 of 戦うコマンド
+
+
+					int battleMassBaseX = 150; int battleMassBaseY = 410 - 180; // 410 は「windowTempA」
+
+					// デバッグ文
+					if (debugFlag == 0) {
+						_stprintf_s(mojibuf, TEXT("gte %d"), sentoKoudoCount);
+						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+						_stprintf_s(mojibuf, TEXT("nmUP %d"), nyuuryokuMatiUp);
+						DrawFormatString(battleMassBaseX + 200 + 80 * 1, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+						_stprintf_s(mojibuf, TEXT("keUP %d"), keyEnableUp);
+						DrawFormatString(battleMassBaseX + 200 + 80 * 2, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
+						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[sentoKoudoCount]]);
+						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+						_stprintf_s(mojibuf, TEXT("partyNin %d"), partyNinzuDone);
+						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 
 
 					} // ここまでデバ文
 
+					//MessageBox(NULL, TEXT("test。"), TEXT("magic end 場所テスト"), MB_OK);
+
+				} //  MODE_BATTLE_magic
 
 
-				} //  MODE_BATTLE_COMMAND
+				// 十字キー入力時
+				if (keyHaijyo == 0) {
+					// カーソルを上に移動
+
+					{
+
+						// 移動の終了処理
+						CheckUPetcFunc();
+
+						// if (CheckUPetc) {
+						if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && nyuuryokuMatiUp <= 0) {
+							endUP();
+
+							// MessageBox(NULL, TEXT("上キー2テスト。"), TEXT("場所テスト"), MB_OK);
 
 
+							selecting_mainmenu--;  // 上へ1マスだけ移動
+						}
+
+						// 数値が微妙に違うので、リファクタ統合するな
+						if (selecting_mainmenu < 0) {
+							selecting_mainmenu = 0;
+						}
+
+						if (selecting_mainmenu >= 3) {
+							selecting_mainmenu = 3;
+						}
+					}
 
 
+					// カーソルを下に移動
+					{
+
+						// 移動の終了処理
+						CheckDOWNetcFunc();
+						if (CheckDOWNetc) {
+							endDOWN();
+
+							selecting_mainmenu++;                       // 下へ1マスだけ移動
+						}
 
 
+						if (selecting_mainmenu < 1) {
+							selecting_mainmenu = 1;
+						}
+
+						if (selecting_mainmenu >= 3) {
+							selecting_mainmenu = 3;
+						}
+
+					}
+				} //if (keyHaijyo == 0)
+
+
+				battlewait = battlewait - 1;
 
 
 
@@ -6446,61 +6605,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-				// 十字キー入力時
-				if (keyHaijyo == 0) {
-					// カーソルを上に移動
 
-					{
-
-						// 移動の終了処理
-						CheckUPetcFunc();
-
-						// if (CheckUPetc) {
-						if (CheckHitKey(KEY_INPUT_UP) == 1 && keyEnableUp == 1 && nyuuryokuMatiUp <= 0) {
-							endUP();
-
-							// MessageBox(NULL, TEXT("上キー2テスト。"), TEXT("場所テスト"), MB_OK);
-
-
-							selecting_mainmenu--;  // 上へ1マスだけ移動
-						}
-
-						// 数値が微妙に違うので、リファクタ統合するな
-						if (selecting_mainmenu < 0) {
-							selecting_mainmenu = 0;
-						}
-
-						if (selecting_mainmenu >= 3) {
-							selecting_mainmenu = 3;
-						}
-					}
-
-
-					// カーソルを下に移動
-					{
-
-						// 移動の終了処理
-						CheckDOWNetcFunc();
-						if (CheckDOWNetc) {
-							endDOWN();
-
-							selecting_mainmenu++;                       // 下へ1マスだけ移動
-						}
-
-
-						if (selecting_mainmenu < 1) {
-							selecting_mainmenu = 1;
-						}
-
-						if (selecting_mainmenu >= 3) {
-							selecting_mainmenu = 3;
-						}
-
-					}
-				} //if (keyHaijyo == 0)
-
-
-				battlewait = battlewait - 1;
 
 
 
