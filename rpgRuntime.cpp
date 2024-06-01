@@ -2784,7 +2784,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		//= {id, LV, HPM, };
 			{ 1, 1, 13  , },
-			{ 2, 1, 90,}
+			{ 2, 1, 400,}
 
 	};
 
@@ -6228,27 +6228,58 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 					// ターン開始 of 戦うコマンド
-					if (CheckHitKey(KEY_INPUT_Z) == 1 && selecting_mainmenu == ComdTemp[0] + 1 && keyHaijyo == 0 && TimeKasolCount >20
+					if (CheckHitKey(KEY_INPUT_Z) == 1 && keyHaijyo == 0 && TimeKasolCount > 20
 						// && mode_scene == MODE_BATTLE_COMMAND // これが無いと連打でターン再開してしまう // 上記コマンド一覧と統合のため除去
 						) {
 
-						// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
-
-						TimeKasolCount = 0;
-
-						keyHaijyo = 1;
-						battlewait = 100;
-
-						dameKei = 0;
-
-						damage_EnemyAttack = 0;
-						damage_HeroAttack = 0;
 
 
-						//mode_scene = MODE_BATTLE_COMMAND2;
-						mode_scene = MODE_BATTLE_NOW;
+						if (selecting_mainmenu == ComdTemp[0] + 1 ) {
 
-					} // ターン開始 of 戦うコマンド
+							// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
+							TimeKasolCount = 0;
+
+							keyHaijyo = 1;
+							battlewait = 100;
+
+							dameKei = 0;
+
+							damage_EnemyAttack = 0;
+							damage_HeroAttack = 0;
+
+
+							//mode_scene = MODE_BATTLE_COMMAND2;
+							mode_scene = MODE_BATTLE_NOW;
+
+						} // ターン開始 of 戦うコマンド
+
+						if (selecting_mainmenu == ComdTemp[0] + 2) {
+
+							// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
+							TimeKasolCount = 0;
+
+							keyHaijyo = 1;
+							battlewait = 100;
+
+							dameKei = 0;
+
+							damage_EnemyAttack = 0;
+							damage_HeroAttack = 0;
+
+
+							//mode_scene = MODE_BATTLE_COMMAND2;
+							mode_scene = MODE_BATTLE_NOW;
+
+						} // ターン開始 of 戦うコマンド
+
+
+
+					}
+
+
+
 
 					// キャンセル
 					if (CheckHitKey(KEY_INPUT_X) == 1 &&  keyHaijyo == 0 && TimeKasolCount > 20
@@ -6529,7 +6560,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							sentoKoudoCount = 0;
 
 							damepyon = 0;
-							mode_scene = MODE_BATTLE_COMMAND;
+							mode_scene = MODE_BATTLE_COMMAND2;
 						}
 					}
 					keyHaijyo = 0;
