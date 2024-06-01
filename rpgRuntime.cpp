@@ -7,6 +7,12 @@
 
 #include <math.h>  // 切り上げ計算で使用
 
+int magicAtkFlag = 0;
+
+int magicSel = 0;
+int magicAtkDef[50] = {1000,100};
+
+
 int mapEneNum = 1;
 int buyrange = 0;
 
@@ -1320,7 +1326,14 @@ void heroside_attack() {
 		// wWinMain で定義済み
 
 		/* サイコロ */
-		damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara];
+		if(magicAtkFlag == 0){
+			damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara];	
+		}
+
+		if (magicAtkFlag == 1) {
+				damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara] + magicAtkDef[magicSel];
+		}
+
 
 		// 敵にダメージ
 		monster_hp = monster_hp - damage_HeroAttack;
@@ -1350,8 +1363,8 @@ void enemy_attack() {
 
 	// ダメージ計算式
 	/* サイコロ */
-	damage_EnemyAttack = rand() % (6 / 2) + 10 + 2 * monster_def_list[encount_monsters_id - 1].mon_attackPower
-		- heros_def_list[partyNarabijyun[0]].heros_para[syubiPara];
+		damage_EnemyAttack = rand() % (6 / 2) + 10 + 2 * monster_def_list[encount_monsters_id - 1].mon_attackPower
+			- heros_def_list[partyNarabijyun[0]].heros_para[syubiPara];
 
 
 	if (damage_EnemyAttack <= 0) {
@@ -5854,20 +5867,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 
-
-
-
-
-
-
-
-
-
-
-
 			} // sell end
-
-
 
 
 
@@ -6369,6 +6369,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							damage_EnemyAttack = 0;
 							damage_HeroAttack = 0;
 
+
+							magicAtkFlag = 1;
+							magicSel = 0;
+
+
 							mode_scene = MODE_BATTLE_NOW;
 
 						} // ターン開始 of 戦うコマンド
@@ -6385,6 +6390,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							damage_EnemyAttack = 0;
 							damage_HeroAttack = 0;
+
+
+
+							magicAtkFlag = 1;
+
+							magicSel = 1;
+
 
 							mode_scene = MODE_BATTLE_NOW;
 
