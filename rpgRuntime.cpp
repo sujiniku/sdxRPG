@@ -10,7 +10,26 @@
 int magicAtkFlag = 0;
 
 int magicSel = 0;
-int magicAtkDef[50] = {1000,100};
+
+
+int magicAtkDef[15] = {1000,100};
+
+TCHAR magicList[15][30] = {
+	{TEXT("ファイア")},
+	{TEXT("アイス")}
+};
+
+struct magic_def
+{
+	int def_id;
+	TCHAR def_name[30];
+	int power;
+};
+
+static struct magic_def magic_def_list[8];
+
+
+
 
 
 int mapEneNum = 1;
@@ -1331,10 +1350,11 @@ void heroside_attack() {
 		}
 
 		if (magicAtkFlag == 1) {
-				damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara] + magicAtkDef[magicSel];
+				damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara] + magic_def_list[magicSel].power ;
 		}
 
-
+		// 
+		// 
 		// 敵にダメージ
 		monster_hp = monster_hp - damage_HeroAttack;
 
@@ -2668,6 +2688,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			continue;
 		}
 	}
+
+
+
+	for (int temp = 0; temp <= 10; temp = temp + 1) {
+
+		if (temp == 0) {
+			magic_def_list[temp].def_id = temp;
+			lstrcpy(magic_def_list[temp].def_name, TEXT("ファイア"));
+			magic_def_list[temp].power = 1000;
+			continue; // 計算時間の節約のため
+		}
+
+		if (temp == 1) {
+			magic_def_list[temp].def_id = temp;
+			lstrcpy(magic_def_list[temp].def_name, TEXT("アイス"));
+			magic_def_list[temp].power = 100;
+			continue; // 計算時間の節約のため
+		}
+
+	}
+
+
 
 
 	//所持アイテムの個数などの初期値
@@ -6344,11 +6386,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					for (int temp = 0; temp <= 1; temp = temp + 1) {
 
-						ComdTemp[temp] = temp;
+						// magicList											
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), magic_def_list[temp].def_name);	
 
-						if (ComdTemp[temp] == 0) { _stprintf_s(mojibuf, MAX_LENGTH, TEXT("ファイア")); }
-						if (ComdTemp[temp] == 1) { _stprintf_s(mojibuf, MAX_LENGTH, TEXT("アイス")); }
-
+						ComdTemp[temp] = temp; // これ消すと表示位置がズレるので残せ
 						DrawFormatString(tem1X + 20, tem1Y + 10 + 40 * ComdTemp[temp], GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 					}
@@ -6361,7 +6402,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						int magicTemp = (ComdTemp[0] + 1);
 
-						if (selecting_mainmenu == magicTemp  || selecting_mainmenu == magicTemp + 1) {
+						if (selecting_mainmenu >= magicTemp  && selecting_mainmenu <= magicTemp + 1) {
 
 							TimeKasolCount = 0;
 
@@ -6375,7 +6416,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 							magicAtkFlag = 1;
-							magicSel = selecting_mainmenu -(magicTemp); //0
+							magicSel = selecting_mainmenu -(magicTemp); 
 
 
 							mode_scene = MODE_BATTLE_NOW;
