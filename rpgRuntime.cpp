@@ -9,12 +9,15 @@
 
 
 int koudouKiroku[10];
+int koudouAtk = 0; int koudouMgk = 1;
+
+
 int magicKiroku[10];
 int sentouNaninme =0;
 
 
+int magicAtkFlag[10] ;
 
-int magicAtkFlag = 0;
 
 int magicSel = 0;
 
@@ -1352,12 +1355,15 @@ void heroside_attack() {
 		// wWinMain で定義済み
 
 		/* サイコロ */
-		if(magicAtkFlag == 0){
+
+		// koudouKiroku[sentouNaninme] = koudouMgk;
+
+		if(koudouKiroku[pnCommon] == koudouAtk) {
 			damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara];	
 		}
 
-		if (magicAtkFlag == 1) {
-				damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara] + magic_def_list[magicSel].power ;
+		if (koudouKiroku[pnCommon] == koudouMgk) {
+				damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara] + magic_def_list[magicKiroku[pnCommon]].power ;
 		}
 
 		// 
@@ -6297,16 +6303,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								damage_EnemyAttack = 0;
 								damage_HeroAttack = 0;
 
-								magicAtkFlag = 0;
+								
+								koudouKiroku[sentouNaninme] = koudouAtk;
 
 								mode_scene = MODE_BATTLE_NOW;
 							}
 
 							if (sentouNaninme < partyNinzuDone -1) {
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
-								sentouNaninme = sentouNaninme + 1;
 
+
+								koudouKiroku[sentouNaninme] = koudouAtk;
+
+								sentouNaninme = sentouNaninme + 1;
 								TimeKasolCount = 0;
+
+								
 
 							} // ターン開始 of 戦うコマンド							
 						}
@@ -6321,7 +6333,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								TimeKasolCount = 0;
 
 								mode_scene = MODE_BATTLE_MAGIC;
-
+								koudouKiroku[sentouNaninme] = koudouMgk;
+								magicAtkFlag[sentouNaninme] = 0;
 							}
 
 							if (sentouNaninme >= partyNinzuDone) {
@@ -6330,7 +6343,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								TimeKasolCount = 0;
 
 								mode_scene = MODE_BATTLE_MAGIC;
-
+								koudouKiroku[sentouNaninme] = koudouMgk;
+								magicAtkFlag[sentouNaninme] = 0;
 							}
 							// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 						} // ターン開始 of 戦うコマンド
@@ -6416,6 +6430,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+
+
+
 					} // ここまでデバ文
 
 				} //  MODE_BATTLE_COMMAND2
@@ -6473,12 +6490,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							damage_HeroAttack = 0;
 
 
-							magicAtkFlag = 1;
-							magicSel = selecting_mainmenu -(magicTemp); 
-
+							
+							magicSel = selecting_mainmenu -(magicTemp);
 
 
 							if (sentouNaninme < partyNinzuDone) {
+
+
+								magicKiroku[sentouNaninme] = magicSel;
+								magicAtkFlag[sentouNaninme] = 1;
+
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 								sentouNaninme = sentouNaninme + 1;
 
@@ -6499,7 +6520,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								TimeKasolCount = 0;
 								mode_scene = MODE_BATTLE_NOW;
-
+								magicKiroku[sentouNaninme] = magicSel;
+								magicAtkFlag[sentouNaninme] = 1;
 							}
 
 
@@ -6642,6 +6664,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[sentoKoudoCount]]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+						int pnCommon = partyNarabijyun[actionOrder[sentoKoudoCount]];
+						_stprintf_s(mojibuf, TEXT("pnCommon %d"), pnCommon);
+						DrawFormatString(battleMassBaseX + 200 + 150, battleMassBaseY + 50 * 4 - 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 					} // ここまでデバ文
