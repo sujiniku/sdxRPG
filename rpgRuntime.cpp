@@ -6325,8 +6325,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								TimeKasolCount = 0;
 
 								
-								selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] ;
+								selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] + 1;
 
+								// selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] ;
 
 							} // ターン開始 of 戦うコマンド							
 						}
@@ -6342,6 +6343,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								TimeKasolCount = 0;
 
+								selecting_mainmenu = zenkaiBcKasol_2[sentouNaninme] + 1;
 								mode_scene = MODE_BATTLE_MAGIC;
 								koudouKiroku[sentouNaninme] = koudouMgk;
 								magicAtkFlag[sentouNaninme] = 0;
@@ -6351,10 +6353,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 
 								TimeKasolCount = 0;
-
+							
+								selecting_mainmenu = zenkaiBcKasol_2[sentouNaninme] + 1;
 								mode_scene = MODE_BATTLE_MAGIC;
 								koudouKiroku[sentouNaninme] = koudouMgk;
 								magicAtkFlag[sentouNaninme] = 0;
+
+								
 							}
 							// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 						} // ターン開始 of 戦うコマンド
@@ -6439,8 +6444,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						DrawFormatString(battleMassBaseX + 200+150, battleMassBaseY + 50 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
+						_stprintf_s(mojibuf, TEXT("zkB[sN] %d"), zenkaiBcKasol_1[sentouNaninme] );
+						DrawFormatString(battleMassBaseX + 200 + 150, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+						_stprintf_s(mojibuf, TEXT("zkB2[sN] %d"), zenkaiBcKasol_2[sentouNaninme]);
+						DrawFormatString(battleMassBaseX + 200 + 150, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
+
+						// zenkaiBcKasol_1[sentouNaninme]
 
 
 
@@ -6504,26 +6516,30 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							
 							magicSel = selecting_mainmenu -(magicTemp);
 
+							zenkaiBcKasol_2[sentouNaninme] = magicSel;
 
 							if (sentouNaninme < partyNinzuDone) {
 
-
+								
 								magicKiroku[sentouNaninme] = magicSel;
 								magicAtkFlag[sentouNaninme] = 1;
 
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 								sentouNaninme = sentouNaninme + 1;
+								selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] + 1;
 
 								keyHaijyo = 0;
 
 								TimeKasolCount = 0;
 								mode_scene = MODE_BATTLE_COMMAND2;
 
+								
+								
 							}
 
 
 							
-							if (sentouNaninme >= partyNinzuDone) {
+							 if (sentouNaninme >= partyNinzuDone ) {
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 								//sentouNaninme = sentouNaninme + 1;
 
@@ -6533,6 +6549,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								mode_scene = MODE_BATTLE_NOW;
 								magicKiroku[sentouNaninme] = magicSel;
 								magicAtkFlag[sentouNaninme] = 1;
+
+								selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] + 1;
 							}
 
 
