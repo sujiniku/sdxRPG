@@ -6406,6 +6406,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 							sentouNaninme = sentouNaninme - 1;
+
+							selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] + 1;
 							//mode_scene = MODE_BATTLE_COMMAND;
 							//mode_scene = MODE_BATTLE_NOW;
 						}
