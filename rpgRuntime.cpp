@@ -1153,6 +1153,8 @@ void battle_start() {
 	selecting_battle_mainmenu = 1;
 	enemyAlldeadFlag = 0;
 
+	selecting_mainmenu = 1;
+
 	mode_scene = MODE_BATTLE_COMMAND;
 
 }
@@ -6213,7 +6215,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						damage_EnemyAttack = 0;
 						damage_HeroAttack = 0;
 
-
+						selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] +1;
 						mode_scene = MODE_BATTLE_COMMAND2;
 						//mode_scene = MODE_BATTLE_NOW;
 
@@ -6292,7 +6294,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						if (selecting_mainmenu == ComdTemp[0] + 1 ) {
 
-							zenkaiBcKasol_1[sentouNaninme] = selecting_mainmenu;
+							zenkaiBcKasol_1[sentouNaninme] = selecting_mainmenu -1;
 
 							if (sentouNaninme >= partyNinzuDone-1) {
 								// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
@@ -6332,7 +6334,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						else if (selecting_mainmenu == ComdTemp[0] + 2) {
 
-							zenkaiBcKasol_1[sentouNaninme] = selecting_mainmenu;
+							zenkaiBcKasol_1[sentouNaninme] = selecting_mainmenu -1;
 
 							if (sentouNaninme < partyNinzuDone) {
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
@@ -6377,6 +6379,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							damage_EnemyAttack = 0;
 							damage_HeroAttack = 0;
 
+							selecting_mainmenu = 1;
 
 							mode_scene = MODE_BATTLE_COMMAND;
 							//mode_scene = MODE_BATTLE_NOW;
@@ -6822,7 +6825,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							//
 							sentouNaninme = 0;
 
-							selecting_mainmenu = zenkaiBcKasol_1[0];
+							selecting_mainmenu = zenkaiBcKasol_1[0] +1;
+
+//							selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme];
 
 							mode_scene = MODE_BATTLE_COMMAND2;
 						}
