@@ -7,6 +7,9 @@
 
 #include <math.h>  // 切り上げ計算で使用
 
+int zenkaiBcKasol_1[10];
+int zenkaiBcKasol_2[10];
+
 
 int koudouKiroku[10];
 int koudouAtk = 0; int koudouMgk = 1;
@@ -6289,6 +6292,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						if (selecting_mainmenu == ComdTemp[0] + 1 ) {
 
+							zenkaiBcKasol_1[sentouNaninme] = selecting_mainmenu;
 
 							if (sentouNaninme >= partyNinzuDone-1) {
 								// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
@@ -6319,12 +6323,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								TimeKasolCount = 0;
 
 								
+								selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] ;
+
 
 							} // ターン開始 of 戦うコマンド							
 						}
 
 
-						if (selecting_mainmenu == ComdTemp[0] + 2) {
+						else if (selecting_mainmenu == ComdTemp[0] + 2) {
+
+							zenkaiBcKasol_1[sentouNaninme] = selecting_mainmenu;
 
 							if (sentouNaninme < partyNinzuDone) {
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
@@ -6813,6 +6821,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							//
 							sentouNaninme = 0;
+
+							selecting_mainmenu = zenkaiBcKasol_1[0];
+
 							mode_scene = MODE_BATTLE_COMMAND2;
 						}
 					}
@@ -6901,7 +6912,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 				if (toubouSeikou == 1) {
-					DrawFormatString(monMesX, 350 + 30, GetColor(255, 255, 255), "逃げるのに成功"); // 画面に表示されるのは、こっち
+					DrawFormatString(monMesX +50, 350 + 30, GetColor(255, 255, 255), "逃げるのに成功"); // 画面に表示されるのは、こっち
 
 				}
 
