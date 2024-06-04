@@ -1578,38 +1578,6 @@ void hikaesai() {
 
 	}
 
-	// デバッグ文
-	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Hikae[0]: %d"), hikaeNarabijyun[0]);
-	// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50, mojibuf, lstrlen(mojibuf));
-
-
-	DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Hikae[1]: %d"), hikaeNarabijyun[1]);
-	// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 1, mojibuf, lstrlen(mojibuf));
-
-	DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 1, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("控え人数: %d"), hikaeNinzu);
-	// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 2, mojibuf, lstrlen(mojibuf));
-
-
-	DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("whomCH: %d"), whomCHARA);
-	// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 3, mojibuf, lstrlen(mojibuf));
-
-	DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("P人数: %d"), partyNinzuTemp);
-	// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 4, mojibuf, lstrlen(mojibuf));
-
-	DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 }
 
@@ -4386,6 +4354,41 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				parsai();
 
 
+				// デバッグ文
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Hikae[0]: %d"), hikaeNarabijyun[0]);
+				// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50, mojibuf, lstrlen(mojibuf));
+
+				int offsetXtemp1 = 30; // カーソル高さと同じなのは偶然。
+				int yspan1 = 50;
+
+				DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("Hikae[1]: %d"), hikaeNarabijyun[1]);
+				// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 1, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 1, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("控え人数: %d"), hikaeNinzu);
+				// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 2, mojibuf, lstrlen(mojibuf));
+
+
+				DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("whomCH: %d"), whomCHARA);
+				// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 3, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("P人数: %d"), partyNinzuTemp);
+				// TextOut(hdc, offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 4, mojibuf, lstrlen(mojibuf));
+
+				DrawFormatString(offsetXtemp1 + 100, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120 - 50 + 20 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
 
 				lstrcpy(mojibuf, TEXT("誰を仲間にしますか？ 選んでください。"));
 				// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
@@ -4402,7 +4405,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					lstrcpy(mojibuf, TEXT("パーティ人数が1人以上必要です。"));
 					//TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
 
-					DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+					DrawFormatString(280, 350 +40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 				}
 
@@ -4686,10 +4689,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							}
 						}
 
-						for (int temp = 0; temp < partymax; temp++)
+						for (int temp = 0; temp < partyNinzuTemp; temp++)
 						{
 							partyNarabijyun[temp] = kousinNarabijyun[temp];
 						}
+
+
+
+						for (int temp = partyNinzuTemp; temp < 5; temp++)
+						{
+							// MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
+
+							partyNarabijyun[temp] = -2;
+						}
+
 
 						//mode_scene = MODE_TOWN;
 
