@@ -6215,7 +6215,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						damage_EnemyAttack = 0;
 						damage_HeroAttack = 0;
 
-						selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] +1;
+						selecting_mainmenu = zenkaiBcKasol_1[partyNarabijyun[sentouNaninme]] +1;
 						mode_scene = MODE_BATTLE_COMMAND2;
 						//mode_scene = MODE_BATTLE_NOW;
 
@@ -6282,7 +6282,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					}
 
-					_stprintf_s(mojibuf, TEXT("%s"), heros_def_list[sentouNaninme].heros_name ); //sentouNaninme
+					_stprintf_s(mojibuf, TEXT("%s"), heros_def_list[partyNarabijyun[sentouNaninme]].heros_name ); //sentouNaninme
 
 					DrawFormatString(tem1X + 100, tem1Y + 30 , GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
@@ -6294,7 +6294,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						if (selecting_mainmenu == ComdTemp[0] + 1 ) {
 
-							zenkaiBcKasol_1[sentouNaninme] = selecting_mainmenu -1;
+							zenkaiBcKasol_1[partyNarabijyun[sentouNaninme]] = selecting_mainmenu -1;
 
 							if (sentouNaninme >= partyNinzuDone-1) {
 								// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
@@ -6325,7 +6325,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								TimeKasolCount = 0;
 
 								
-								selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] + 1;
+								selecting_mainmenu = zenkaiBcKasol_1[partyNarabijyun[sentouNaninme]] + 1;
 
 								// selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] ;
 
@@ -6343,7 +6343,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								TimeKasolCount = 0;
 
-								selecting_mainmenu = zenkaiBcKasol_2[sentouNaninme] + 1;
+								selecting_mainmenu = zenkaiBcKasol_2[partyNarabijyun[sentouNaninme]] + 1;
 								mode_scene = MODE_BATTLE_MAGIC;
 								koudouKiroku[sentouNaninme] = koudouMgk;
 								magicAtkFlag[sentouNaninme] = 0;
@@ -6354,7 +6354,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								TimeKasolCount = 0;
 							
-								selecting_mainmenu = zenkaiBcKasol_2[sentouNaninme] + 1;
+								selecting_mainmenu = zenkaiBcKasol_2[partyNarabijyun[sentouNaninme]] + 1;
 								mode_scene = MODE_BATTLE_MAGIC;
 								koudouKiroku[sentouNaninme] = koudouMgk;
 								magicAtkFlag[sentouNaninme] = 0;
@@ -6407,7 +6407,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							sentouNaninme = sentouNaninme - 1;
 
-							selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] + 1;
+							selecting_mainmenu = zenkaiBcKasol_1[partyNarabijyun[sentouNaninme]] + 1;
 							//mode_scene = MODE_BATTLE_COMMAND;
 							//mode_scene = MODE_BATTLE_NOW;
 						}
@@ -6490,7 +6490,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 
-					_stprintf_s(mojibuf, TEXT("%s"), heros_def_list[sentouNaninme].heros_name); //sentouNaninme
+					_stprintf_s(mojibuf, TEXT("%s"), heros_def_list[partyNarabijyun[sentouNaninme]].heros_name); //sentouNaninme
 
 					DrawFormatString(tem1X + 100, tem1Y + 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
@@ -6518,7 +6518,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							
 							magicSel = selecting_mainmenu -(magicTemp);
 
-							zenkaiBcKasol_2[sentouNaninme] = magicSel;
+							zenkaiBcKasol_2[partyNarabijyun[sentouNaninme]] = magicSel;
 
 							if (sentouNaninme < partyNinzuDone) {
 
@@ -6552,7 +6552,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								magicKiroku[sentouNaninme] = magicSel;
 								magicAtkFlag[sentouNaninme] = 1;
 
-								selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] + 1;
+								selecting_mainmenu = zenkaiBcKasol_1[partyNarabijyun[sentouNaninme]] + 1;
 							}
 
 
