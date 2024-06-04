@@ -4555,6 +4555,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								mode_scene = MODE_Guild_Responce; // レスポンス中に空き配列の計算をするので残すこと
 
+								keyEnableZ = 0;
+								nyuuryokuMatiZ = waitTime1;
+
 							}
 						}
 
