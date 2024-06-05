@@ -4474,7 +4474,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								endZ();
 
-								mode_scene = MODE_Guild_Responce; // レスポンス中に空き配列の計算をするので残すこと
+								// mode_scene = MODE_Guild_Responce; // レスポンス中に空き配列の計算をするので残すこと
 
 
 							}
@@ -4553,7 +4553,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								akikosuu = akikosuu - 1;
 
-								mode_scene = MODE_Guild_Responce; // レスポンス中に空き配列の計算をするので残すこと
+								// mode_scene = MODE_Guild_Responce; // レスポンス中に空き配列の計算をするので残すこと
+
+
+								hikaesai();
+								parsai();
+
 
 								keyEnableZ = 0;
 								nyuuryokuMatiZ = waitTime1;
@@ -4640,7 +4645,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				CheckZetcFunc();
-				if (CheckZetc) {
+				if (CheckZetc && partyNinzuTemp >= 1) {
 					//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
 
 					keyEnableZ = 0;
