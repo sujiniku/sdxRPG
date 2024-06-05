@@ -1373,8 +1373,7 @@ void heroside_attack() {
 				damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara] + magic_def_list[magicKiroku[pnCommon]].power ;
 		}
 
-		// 
-		// 
+
 		// 敵にダメージ
 		monster_hp = monster_hp - damage_HeroAttack;
 
@@ -5961,7 +5960,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			} // sell end
 
 
-
+			// ソートの実行はこの共通部分で行っている
 			if (mode_scene == MODE_BATTLE_COMMAND || mode_scene == MODE_BATTLE_COMMAND2 || mode_scene == MODE_BATTLE_MAGIC || mode_scene == MODE_BATTLE_NOW || mode_scene == MODE_BATTLE_WIN) {
 
 				int monMesX = 400; int monMesY = 350; // メッセージ欄の表示位置
@@ -6037,33 +6036,49 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 
-
-				for (idTemp = 0; idTemp <= partyNinzuDone - 1; idTemp = idTemp + 1)
+				/*
+				// 登録キャラ数が多くなると置換は無駄になるが、置換しないと後述の戦闘用ソートのコードが長くなるので仕方ない。
+				for (idTemp = 0; idTemp <= 5; idTemp = idTemp + 1)
 				{
 					// パーティにいないキャラごと、読み取る。
 					// パーティキャラの抽出は、後工程で行う。
 					mikataAgility[idTemp] = heros_def_list[idTemp].heros_agility;
 				}
+				*/
 
 
 				// これ戦闘用ソート
-				for (idTemp = 0; idTemp <= partyNinzuDone - 1; idTemp = idTemp + 1)
+				for (idTemp = 0; idTemp <= partyNinzuTemp - 1; idTemp = idTemp + 1)
 				{
 					// ここでパーティキャラだけ素早さを抽出している。mikataAgi は非パーティキャラを含んでるので、この工程が必要。
-					sankaAgility[idTemp] = mikataAgility[partyNarabijyun[idTemp]]; // sankaAgil はまだ並び替え前
+					sankaAgility[idTemp] = heros_def_list[
+						
+						partyNarabijyun[idTemp]
+					
+					].heros_agility;
+						
+						
+						
+						// mikataAgility[partyNarabijyun[idTemp]]; // sankaAgil はまだ並び替え前
 
 				}
+				// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
+
+
+				// 
+
 
 				for (idTemp = 0; idTemp <= enemyNinzu - 1; idTemp = idTemp + 1)
 				{
-					sankaAgility[partyNinzuDone + idTemp] = tekiTairetuAgility[idTemp];
+					sankaAgility[partyNinzuTemp + idTemp] = tekiTairetuAgility[idTemp];
 
 				}
 
+				// sankaAgility[0] = mikataAgility[partyNarabijyun[0]]; // テスト用 これすらも反応しない
 
 				for (int loctempQ = 0; loctempQ <= partyNinzuDone + enemyNinzu - 1; ++loctempQ)
 				{
-					iremonoAgilityHairetu[loctempQ] = sankaAgility[loctempQ]; // iremonoAgi と sanka は同内容
+					iremonoAgilityHairetu[loctempQ] = sankaAgility[loctempQ]; // iremonoAgi と sanka はこの時点では同内容
 
 					iremonoOrderHairetu[loctempQ] = loctempQ;
 				} // 初期値の代入
@@ -6271,12 +6286,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[sentoKoudoCount]]);
+						// _stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[sentoKoudoCount]]);
+						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[0]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 						_stprintf_s(mojibuf, TEXT("partyNin %d"), partyNinzuDone); //sentouNaninme
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+						_stprintf_s(mojibuf, TEXT("sanAgi %d"), sankaAgility[0]); //sentouNaninme
+						DrawFormatString(battleMassBaseX + 200-50 +60, battleMassBaseY + 50 * 4 -20 -300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+						_stprintf_s(mojibuf, TEXT("ireAgi %d"), iremonoAgilityHairetu[0]); //sentouNaninme
+						DrawFormatString(battleMassBaseX + 200 - 50 +90 +60, battleMassBaseY + 50 * 4 - 20 -300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+						_stprintf_s(mojibuf, TEXT("P先頭ID %d"), partyNarabijyun[0]); //sentouNaninme
+						DrawFormatString(battleMassBaseX + 200 - 50 + 90 + 60 , battleMassBaseY + 50 * 4 - 20 - 300 -40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+						// partyNarabijyun[idTemp]
+						//sankaAgility[idTemp]
 
 					} // ここまでデバ文
 
@@ -6545,17 +6577,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							damage_EnemyAttack = 0;
 							damage_HeroAttack = 0;
 
-
-							
+				
 							magicSel = selecting_mainmenu -(magicTemp);
 
 							zenkaiBcKasol_2[partyNarabijyun[sentouNaninme]] = magicSel;
 
 							if (sentouNaninme < partyNinzuDone) {
 
-								
-								magicKiroku[sentouNaninme] = magicSel;
-								magicAtkFlag[sentouNaninme] = 1;
+								// partyNarabijyun[actionOrder[sentoKoudoCount]
+								magicKiroku[partyNarabijyun[sentouNaninme]] = magicSel;
+								magicAtkFlag[partyNarabijyun[sentouNaninme]] = 1;
 
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 								sentouNaninme = sentouNaninme + 1;
@@ -6566,7 +6597,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								TimeKasolCount = 0;
 								mode_scene = MODE_BATTLE_COMMAND2;
 
-								
 								
 							}
 
@@ -6580,8 +6610,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								TimeKasolCount = 0;
 								mode_scene = MODE_BATTLE_NOW;
-								magicKiroku[sentouNaninme] = magicSel;
-								magicAtkFlag[sentouNaninme] = 1;
+								magicKiroku[partyNarabijyun[sentouNaninme]] = magicSel;
+								magicAtkFlag[partyNarabijyun[sentouNaninme]] = 1;
 
 								selecting_mainmenu = zenkaiBcKasol_1[partyNarabijyun[sentouNaninme]] + 1;
 							}
