@@ -4470,7 +4470,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								// 仕様変更により、順番を変えてもバグらない。
 								// 下記の順序を守ること・・・だった。守らないとバグだった。
-								partyNarabijyun[akiHairetu[0]] = whomCHARA - 1; // 先に代入
+								partyNarabijyun[partyNinzuTemp] = whomCHARA - 1; // 先に代入
 								// 人数の更新
 								partyNinzuTemp = partyNinzuTemp + 1; // あとから人数を加算
 								hikaeNinzu = hikaeNinzu - 1;
@@ -6032,7 +6032,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					lstrcpy(mojibuf, TEXT("素早さ"));
 					DrawFormatString(20 + iTemp * offsetBattleX, windowTempA - chara_window_size_x + 40 + 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), sankaAgility[tempVAl]);
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[tempVAl].heros_agility);
 					DrawFormatString(50 + iTemp * offsetBattleX + 30, windowTempA - chara_window_size_x + 40 + 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 				}
@@ -6746,18 +6746,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							_stprintf_s(mojibuf, TEXT("%s の攻撃！"), heros_def_list[pnCommon].heros_name);
 							DrawFormatString(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-
 						}
-					}
 
-
-					if (actionOrder[sentoKoudoCount] <= partyNinzuDone - 1) {
 
 						if (heros_def_list[partyNarabijyun[actionOrder[sentoKoudoCount]]].heros_HP0_flag == 1) {
-
 
 							_stprintf_s(mojibuf, TEXT("%s は戦闘不能で動けない"), heros_def_list[partyNarabijyun[actionOrder[sentoKoudoCount]]].heros_name);
 							DrawFormatString(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
