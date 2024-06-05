@@ -1207,6 +1207,8 @@ void Akihaikeisan() {
 		}
 	}
 
+	akiHairetu[0] = partyNinzuTemp;
+
 }
 
 
@@ -4398,6 +4400,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				lstrcpy(mojibuf, TEXT("Xボタンで退出。          "));
 				// TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
 				DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("akihai0 : %d"), akiHairetu[0]);
+				DrawFormatString(280, 350 -40- 20*1, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("akihai1 : %d"), akiHairetu[1]);
+				DrawFormatString(280, 350 - 40 - 20 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 				if (partyNinzuTemp <= 0) {
