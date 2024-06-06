@@ -322,8 +322,6 @@ enum mode {
 
 
 
-
-
 	MODE_MENU,
 
 	MODE_narabikae_select1, MODE_narabikae_select2,
@@ -357,11 +355,6 @@ enum mode2 {
 enum mode2 mode2_scene = MODE2_EQUIP_HAND1;
 
 int mode3_scene = 0;
-
-//int itemkosuuyoki[10] = { 5,3,4 };
-//int yakusouKosuu = 5;
-//int dokukesiKosuu = 3;
-//int soesiKosuu = 4;
 
 
 int NaraSele1 = 0;
@@ -517,9 +510,9 @@ int sankaNinzu = partyNinzuDone + enemyNinzu;
 int hikaeNinzu = 2;
 
 
-int partyNarabijyun[15] = { 0,1,-1,-1, -1 }; // パーティ隊列の並び替えの処理に使う予定
-int partyNarabijyunBefore[15];
-int partyNarabijyunAfter[15];
+int partyNarabi_ID[15] = { 0,1,-1,-1, -1 }; // パーティ隊列の並び替えの処理に使う予定
+int partyNarabi_IDBefore[15];
+int partyNarabi_IDAfter[15];
 
 
 
@@ -573,7 +566,6 @@ struct soubi_def
 	int equip_type;
 	int equipPower[20];// 攻撃力や防御力などに使用
 
-
 };
 
 
@@ -585,7 +577,6 @@ struct weapon_def
 	int material;
 	int equip_type;
 	int equipPower;// 攻撃力
-
 
 };
 
@@ -615,7 +606,6 @@ struct helm_def
 	int material;
 	int equip_type;
 	int equipPower;// 攻撃力
-
 };
 
 
@@ -633,7 +623,6 @@ struct armor_def
 	int material;
 	int equip_type;
 	int equipPower;// 攻撃力
-
 
 };
 
@@ -888,9 +877,6 @@ int map2table[10][10] = {
 };
 
 
-// int MapTrans_position_x_map2to_map1 = 2;
-// int MapTrans_position_y_map2to_map1 = 0;
-
 
 static int selecting_battle_mainmenu = 1;
 
@@ -939,7 +925,7 @@ void item_select() {
 
 	if (selecting_itemBefore != selecting_itemAfter) {
 		//InvalidateRect(hWnd, NULL, FALSE);
-		//UpdateWindow(hWnd);
+		//UpdateWindow(hWnd); // winAPI用に残す
 	}
 }
 
@@ -980,11 +966,8 @@ void menu_CharaSelectDraw() {
 	// 画像の読み込み「image2」は変数名。これが背景フィルター。
 	if (filterFlag == 0) {
 
-		//Image image2(L"filter.png");
-
 		// 画像の描画。 ダミー変数 graphics を仲介して描画する必要がある.
 
-		//graphics.DrawImage(&image2, 0, 0, image2.GetWidth(), image2.GetHeight());
 		filterFlag = 1;
 	}
 
@@ -1019,48 +1002,40 @@ void menu_CharaSelectDraw() {
 		}
 
 
-		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s fgh"), heros_def_list[partyNarabijyun[j]].heros_name);
-		//DrawFormatString(StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s fgh"), heros_def_list[partyNarabi_ID[j]].heros_name);
 		textFunc1(StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j);
 
 		lstrcpy(mojibuf, TEXT("HP"));
-		//DrawFormatString(StatsHPbaseX, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 		textFunc1(StatsHPbaseX, StatsHPbaseY + offsetY * j);
 
-
-		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_hp);
-		// DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabi_ID[j]].heros_hp);
 		textFunc1(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j);
 
 
 		int revwait = 120 - waitheal;
 
 		if (healflag == 1 && healkioku == j) {
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabijyun[j]].heros_hpdiff);
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabi_ID[j]].heros_hpdiff);
 			DrawFormatString(StatsHPbaseX + 30 + 20, StatsHPbaseY - 20 + offsetY * j + 20 - 2 * revwait, GetColor(GREEN), mojibuf); // みどり
-			//textFuncHeal(StatsHPbaseX + 30 + 20, StatsHPbaseY - 20 + offsetY * j + 20 - 2 * revwait);
 
 		}
 
 		if (healflag == 2 && healkioku == j) {
 
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabijyun[j]].heros_hpdiff);
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), healti); // heros_def_list[partyNarabi_ID[j]].heros_hpdiff);
 			DrawFormatString(StatsHPbaseX + 30 + 20, StatsHPbaseY - 20 + offsetY * j - (60) / 6, GetColor(GREEN), mojibuf); // みどり
-		   //textFuncHeal(StatsHPbaseX + 30 + 20, StatsHPbaseY - 20 + offsetY * j - (60) / 6);
+
 		}
 
 
-		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabijyun[j]].heros_hp_max);
-		//DrawFormatString(StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabi_ID[j]].heros_hp_max);
 		textFunc1(StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j);
 
-		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_HP0_flag);
-		//DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabi_ID[j]].heros_HP0_flag);
 		textFunc1(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j);
 
-		if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag == 1) {
+		if (heros_def_list[partyNarabi_ID[j]].heros_HP0_flag == 1) {
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("戦闘不能"));
-			//DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 			textFunc1(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j);
 
 		}
@@ -1075,11 +1050,8 @@ void menu_CharaSelectDraw2() {
 	// 画像の読み込み「image2」は変数名。これが背景フィルター。
 	if (filterFlag == 0) {
 
-		//Image image2(L"filter.png");
-
 		// 画像の描画。 ダミー変数 graphics を仲介して描画する必要がある.
 
-		//graphics.DrawImage(&image2, 0, 0, image2.GetWidth(), image2.GetHeight());
 		filterFlag = 1;
 	}
 
@@ -1108,23 +1080,23 @@ void menu_CharaSelectDraw2() {
 			}
 		}
 
-		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[j]].heros_name);
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabi_ID[j]].heros_name);
 		DrawFormatString(StatsHPbaseX, StatsHPbaseY - 25 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 		lstrcpy(mojibuf, TEXT("HP"));
 		DrawFormatString(StatsHPbaseX, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_hp);
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabi_ID[j]].heros_hp);
 		DrawFormatString(StatsHPbaseX + 30, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabijyun[j]].heros_hp_max);
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("/ %d"), heros_def_list[partyNarabi_ID[j]].heros_hp_max);
 		DrawFormatString(StatsHPbaseX + 30 * 2, StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[j]].heros_HP0_flag);
+		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabi_ID[j]].heros_HP0_flag);
 		DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-		if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag == 1) {
+		if (heros_def_list[partyNarabi_ID[j]].heros_HP0_flag == 1) {
 
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("戦闘不能"));
 			DrawFormatString(StatsHPbaseX, StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
@@ -1185,21 +1157,19 @@ void check_encount_enemy(HWND hWnd) {
 
 void Akihaikeisan() {
 
-	// int kousinNarabijyun[5];
-
 	partyNinzuDone = partyNinzuTemp;
 
 
 	int skip = 0;
 	for (int temp = 0; temp < partymax; temp++)
 	{
-		if (partyNarabijyun[temp] >= 0) {
+		if (partyNarabi_ID[temp] >= 0) {
 
-			// わからんが、たぶん大事なので残す
-			// kousinNarabijyun[temp - skip] = partyNarabijyun[temp];
+			// わからんが、たぶん難しいので残す
+			// kousinNarabijyun[temp - skip] = partyNarabi_ID[temp];
 		}
 
-		if (partyNarabijyun[temp] < 0) {
+		if (partyNarabi_ID[temp] < 0) {
 
 			akiHairetu[skip] = temp;
 
@@ -1273,9 +1243,7 @@ void pre_guild() {
 int townFlag = 0; // これないと、タウンからでても、タウンに入り続ける
 
 void check_encount_town() {
-
-
-	//if (where_map == 1 && chara_x == town_X && chara_y == town_Y) {
+	
 	if (townFlag == 0 && where_map == 1 && xPosi == town_X && yPosi == town_Y) {
 
 		// MessageBox(NULL, TEXT("kansuのテスト中。"), TEXT("キーテスト"), MB_OK);
@@ -1284,8 +1252,7 @@ void check_encount_town() {
 		lstrcpy(popMsg, TEXT("パーティの編成をできます。"));
 
 		mode_scene = MODE_TOWN;
-		// pre_guild(); // のちのちのギルド実装のため残す
-
+		
 	}
 }
 
@@ -1353,9 +1320,9 @@ void heroside_attack() {
 	tekidame = 1;
 	damepyon = 0;
 
-	int pnCommon = partyNarabijyun[actionOrder[sentoKoudoCount]];
+	int pnCommon_ID = partyNarabi_ID[actionOrder[sentoKoudoCount]];
 
-	if (heros_def_list[pnCommon].heros_HP0_flag == 0) {
+	if (heros_def_list[pnCommon_ID].heros_HP0_flag == 0) {
 		// 主人公たちの攻撃
 
 		/* 乱数の種 */
@@ -1363,14 +1330,12 @@ void heroside_attack() {
 
 		/* サイコロ */
 
-		// koudouKiroku[sentouNaninme] = koudouMgk;
-
-		if(koudouKiroku[pnCommon] == koudouAtk) {
-			damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara];	
+		if(koudouKiroku[pnCommon_ID] == koudouAtk) {
+			damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon_ID].heros_para[kougekiPara];	
 		}
 
-		if (koudouKiroku[pnCommon] == koudouMgk) {
-				damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon].heros_para[kougekiPara] + magic_def_list[magicKiroku[pnCommon]].power ;
+		if (koudouKiroku[pnCommon_ID] == koudouMgk) {
+				damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon_ID].heros_para[kougekiPara] + magic_def_list[magicKiroku[pnCommon_ID]].power ;
 		}
 
 
@@ -1398,12 +1363,12 @@ void enemy_attack() {
 	/* 乱数の種 */
 		// wWinMain で定義済み
 
-	int pnCommon = partyNarabijyun[actionOrder[sentoKoudoCount]];
+	int pnCommon_ID = partyNarabi_ID[actionOrder[sentoKoudoCount]];
 
 	// ダメージ計算式
 	/* サイコロ */
 		damage_EnemyAttack = rand() % (6 / 2) + 10 + 2 * monster_def_list[encount_monsters_id - 1].mon_attackPower
-			- heros_def_list[partyNarabijyun[0]].heros_para[syubiPara];
+			- heros_def_list[partyNarabi_ID[0]].heros_para[syubiPara];
 
 
 	if (damage_EnemyAttack <= 0) {
@@ -1411,30 +1376,30 @@ void enemy_attack() {
 	}
 
 	// 隊列1人目にダメージ
-	if (heros_def_list[partyNarabijyun[0]].heros_HP0_flag != 1) {
+	if (heros_def_list[partyNarabi_ID[0]].heros_HP0_flag != 1) {
 
-		heros_def_list[partyNarabijyun[0]].heros_hp = heros_def_list[partyNarabijyun[0]].heros_hp - damage_EnemyAttack;
+		heros_def_list[partyNarabi_ID[0]].heros_hp = heros_def_list[partyNarabi_ID[0]].heros_hp - damage_EnemyAttack;
 		uketKyara = 1;
 	}
 
-	if (heros_def_list[partyNarabijyun[0]].heros_HP0_flag == 1 && partyNinzuDone >= 2) {
+	if (heros_def_list[partyNarabi_ID[0]].heros_HP0_flag == 1 && partyNinzuDone >= 2) {
 
-		heros_def_list[partyNarabijyun[1]].heros_hp = heros_def_list[partyNarabijyun[1]].heros_hp - damage_EnemyAttack;
+		heros_def_list[partyNarabi_ID[1]].heros_hp = heros_def_list[partyNarabi_ID[1]].heros_hp - damage_EnemyAttack;
 		uketKyara = 2;
 	}
 
-	if (heros_def_list[partyNarabijyun[0]].heros_HP0_flag == 1
+	if (heros_def_list[partyNarabi_ID[0]].heros_HP0_flag == 1
 		&& partyNinzuDone >= 3
-		&& heros_def_list[partyNarabijyun[1]].heros_HP0_flag == 1) {
+		&& heros_def_list[partyNarabi_ID[1]].heros_HP0_flag == 1) {
 
-		heros_def_list[partyNarabijyun[2]].heros_hp = heros_def_list[partyNarabijyun[2]].heros_hp - damage_EnemyAttack;
+		heros_def_list[partyNarabi_ID[2]].heros_hp = heros_def_list[partyNarabi_ID[2]].heros_hp - damage_EnemyAttack;
 		uketKyara = 3;
 	}
 
 	int tempVal;
 	for (int temp = 0; temp <= partyNinzuDone - 1; ++temp) {
 		// MessageBox(NULL, TEXT("いまfoそこ。"), TEXT("キーテスト"), MB_OK);
-		tempVal = partyNarabijyun[temp];
+		tempVal = partyNarabi_ID[temp];
 
 		if (heros_def_list[tempVal].heros_hp < 1) {
 			heros_def_list[tempVal].heros_hp = 0;
@@ -1453,41 +1418,27 @@ void enemy_attack() {
 
 void hikaesai() {
 	filterFlag = 1;
-	// Draw_map(hdc); // 応急処置。できれば、hbitmapuをグローバル変数にしたいが、方法が分からない。
-	// もし処理速度に問題が生じるようなら、背景色を（マップ背景描画をやめて）黒に変更。
-
-
-	//Draw_map(hdc);
-
-
-
 
 	int offsetYtemp1 = 100;
-	//SelectObject(hdc, blue_thin_1);
 
 	if (mode_scene != MODE_Guild_Main) {
-		// BrushDarkBlue_set(hdc);
+
 		darkwindow1Draw(10, offsetYtemp1,
 			offsetYtemp1 + 100, 400);
 	}
 
 	if (mode_scene == MODE_Guild_Main) {
-		// BrushDarkBlue_set(hdc);
+
 		window1Draw(10, offsetYtemp1,
 			offsetYtemp1 + 100, 400);
 	}
 
 
-	// Rectangle(hdc, 10, offsetYtemp1,		offsetYtemp1 + 100, 400);
-
-
-
 	int carsoruHigh = 50; // 文字スパンとカーソル高さは同じにすること
 
-	//BrushPink_set(hdc);
 
 	if (mode_scene != MODE_Guild_Main) {
-		//BrushDarkPink_set(hdc);
+
 		tenmetuStop(20, offsetYtemp1 + 10 + carsoruHigh * (whomTargetID1hikae),
 			150 + 30, offsetYtemp1 + 60 + carsoruHigh * (whomTargetID1hikae)); // あとでダーク化
 
@@ -1507,8 +1458,6 @@ void hikaesai() {
 	window1Draw(offsetXtemp1 - 1 * 10, offsetYtemp1 - 20, offsetXtemp1 + 150, offsetYtemp1 + 10);
 	_stprintf_s(mojibuf, MAX_LENGTH, TEXT("控えメンバー"));
 
-	// TextOut(hdc, offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), mojibuf, lstrlen(mojibuf));
-
 	DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (0), GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -1522,21 +1471,14 @@ void hikaesai() {
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("出動中: %s"), heros_def_list[temp].heros_name);
 			}
 
-			// TextOut(hdc, offsetXtemp1, 30 - 10 + yspan1 * (temp)+120, mojibuf, lstrlen(mojibuf));
-
 			DrawFormatString(offsetXtemp1, 30 - 10 + yspan1 * (temp)+120, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
 		}
 
 
 		// temp == tourokuNakama + 1    に相当
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("【外す】"));
-		// TextOut(hdc, offsetXtemp1, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120, mojibuf, lstrlen(mojibuf));
 
 		DrawFormatString(offsetXtemp1, 30 - 10 + yspan1 * (tourokuNakama + 1) + 120, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
 	}
 
 
@@ -1546,7 +1488,6 @@ void hikaesai() {
 
 		// 控え終わり記号の -1 まで読み込んでるので、読み込み回数は控え人数よりも1回多い
 		for (int temp = 0; temp <= hikaeNinzu; temp = temp + 1) { // tempは0から数えてるので、2項目が hikaeNinzu;
-		// for (int temp = 0; temp <= 1; temp = temp + 1) { // 2項目が hikaeNinzu;
 
 			if (hikaeNarabijyun[temp] > -1) { // 右辺が0だと主人公が非表示になってしまう
 
@@ -1559,21 +1500,14 @@ void hikaesai() {
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("編成中: %s"), heros_def_list[hikaeNarabijyun[temp]].heros_name);
 				} // デバッグ用にメッセージを「編成」に変えてる。
 
-				// TextOut(hdc, offsetXtemp1, 30 - 10 + yspan1 * (temp)+120, mojibuf, lstrlen(mojibuf));
-
 				DrawFormatString(offsetXtemp1, 30 - 10 + yspan1 * (temp)+120, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-
-
-
 			}
-
 		}
 
 
 		// temp == tourokuNakama + 1    に相当
 		_stprintf_s(mojibuf, MAX_LENGTH, TEXT("【外す】"));
-		// TextOut(hdc, offsetXtemp1, 30 - 10 + yspan1 * (skip)+120, mojibuf, lstrlen(mojibuf));
 
 		DrawFormatString(offsetXtemp1, 30 - 10 + yspan1 * (skip)+120, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
@@ -1630,11 +1564,11 @@ void parsai() {
 
 	for (int temp = 0; temp <= partymax - 1; temp = temp + 1) {
 
-		if (partyNarabijyun[temp] >= 0) {
-			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabijyun[temp]].heros_name);
+		if (partyNarabi_ID[temp] >= 0) {
+			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s"), heros_def_list[partyNarabi_ID[temp]].heros_name);
 		}
 
-		if (partyNarabijyun[temp] < 0) {
+		if (partyNarabi_ID[temp] < 0) {
 			_stprintf_s(mojibuf, MAX_LENGTH, TEXT("【空き枠】"));
 		}
 
@@ -2967,8 +2901,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (temp == 2) {
 			lstrcpy(heros_def_list[temp].heros_name, TEXT("ゴンザレス"));
-			heros_def_list[temp].heros_hp = 5; // 55;
-			heros_def_list[temp].heros_hp_max = 55;
+			heros_def_list[temp].heros_hp = 500; // 55;
+			heros_def_list[temp].heros_hp_max = 550;
 			heros_def_list[temp].heros_agility = 55;
 
 			heros_def_list[temp].heros_exp = 0;
@@ -2981,8 +2915,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (temp == 3) {
 			lstrcpy(heros_def_list[temp].heros_name, TEXT("ペドロ"));
-			heros_def_list[temp].heros_hp = 10;// 12;
-			heros_def_list[temp].heros_hp_max = 34;
+			heros_def_list[temp].heros_hp = 100;// 12;
+			heros_def_list[temp].heros_hp_max = 340;
 			heros_def_list[temp].heros_agility = 23;
 
 			heros_def_list[temp].heros_exp = 0;
@@ -3010,9 +2944,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	akikosuu = partymax - partyNinzuDone;
 
-	partyNarabijyun[0] = 0; // 
-	partyNarabijyun[1] = 1;
-	partyNarabijyun[2] = -1; // マイナス番なら、そこで終了
+	partyNarabi_ID[0] = 0; // 
+	partyNarabi_ID[1] = 1;
+	partyNarabi_ID[2] = -1; // マイナス番なら、そこで終了
 
 	// ニューゲームの時点で、戦闘不能フラグを更新
 	for (int temp = 0; temp < tourokuNakama; ++temp) {
@@ -4302,7 +4236,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						for (aaaa = 0; aaaa <= partyNinzuDone - 1; aaaa = aaaa + 1) {
 
-							tempYado = partyNarabijyun[aaaa];
+							tempYado = partyNarabi_ID[aaaa];
 							heros_def_list[tempYado].heros_hp = heros_def_list[tempYado].heros_hp_max;
 							// heros_def_list[tempYado].heros_mp = heros_def_list[tempYado].heros_mp_max;
 
@@ -4469,7 +4403,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								// 仕様変更により、順番を変えてもバグらない。
 								// 下記の順序を守ること・・・だった。守らないとバグだった。
-								partyNarabijyun[partyNinzuTemp] = whomCHARA - 1; // 先に代入
+								partyNarabi_ID[partyNinzuTemp] = whomCHARA - 1; // 先に代入
 								// 人数の更新
 								partyNinzuTemp = partyNinzuTemp + 1; // あとから人数を加算
 								hikaeNinzu = hikaeNinzu - 1;
@@ -4547,7 +4481,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								// 仕様変更により、順番を変えてもバグらない。
 								// 下記の順序を守ること・・・だった。守らないとバグだった。
-								partyNarabijyun[akiHairetu[0]] = hikaeNarabijyun[whomCHARA - 1]; // 先に代入
+								partyNarabi_ID[akiHairetu[0]] = hikaeNarabijyun[whomCHARA - 1]; // 先に代入
 								// 人数の更新
 								partyNinzuTemp = partyNinzuTemp + 1; // あとから人数を加算
 
@@ -4660,8 +4594,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					keyEnableZ = 0;
 					partyNinzuTemp = partyNinzuTemp - 1;
 
-					heros_def_list[partyNarabijyun[whomTargetID1party]].PartyIn = 0; // 先に控えをコピーしてから（次行）
-					partyNarabijyun[whomTargetID1party] = -1; // パーティ側をカラにする。
+					heros_def_list[partyNarabi_ID[whomTargetID1party]].PartyIn = 0; // 先に控えをコピーしてから（次行）
+					partyNarabi_ID[whomTargetID1party] = -1; // パーティ側をカラにする。
 
 
 					akikosuu = akikosuu + 1;
@@ -4697,18 +4631,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						for (int temp = 0; temp < partymax; temp++)
 						{
-							if (partyNarabijyun[temp] >= 0) {
-								kousinNarabijyun[temp - skip] = partyNarabijyun[temp];
+							if (partyNarabi_ID[temp] >= 0) {
+								kousinNarabijyun[temp - skip] = partyNarabi_ID[temp];
 							}
 
-							if (partyNarabijyun[temp] < 0) {
+							if (partyNarabi_ID[temp] < 0) {
 								skip = skip + 1;
 							}
 						}
 
 						for (int temp = 0; temp < partyNinzuTemp; temp++)
 						{
-							partyNarabijyun[temp] = kousinNarabijyun[temp];
+							partyNarabi_ID[temp] = kousinNarabijyun[temp];
 						}
 
 
@@ -4717,7 +4651,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						{
 							// MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
 
-							partyNarabijyun[temp] = -2;
+							partyNarabi_ID[temp] = -2;
 						}
 
 
@@ -6011,7 +5945,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					window1Draw(10 + iTemp * offsetBattleX, 350,
 						10 + iTemp * offsetBattleX + 150, 470);
 
-					tempVAl = partyNarabijyun[iTemp];
+					tempVAl = partyNarabi_ID[iTemp];
 
 
 					/* キャラのステータス */
@@ -6053,13 +5987,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// ここでパーティキャラだけ素早さを抽出している。mikataAgi は非パーティキャラを含んでるので、この工程が必要。
 					sankaAgility[idTemp] = heros_def_list[
 						
-						partyNarabijyun[idTemp]
+						partyNarabi_ID[idTemp]
 					
 					].heros_agility;
 						
 						
 						
-						// mikataAgility[partyNarabijyun[idTemp]]; // sankaAgil はまだ並び替え前
+						// mikataAgility[partyNarabi_ID[idTemp]]; // sankaAgil はまだ並び替え前
 
 				}
 				// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
@@ -6074,7 +6008,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 
-				// sankaAgility[0] = mikataAgility[partyNarabijyun[0]]; // テスト用 これすらも反応しない
+				// sankaAgility[0] = mikataAgility[partyNarabi_ID[0]]; // テスト用 これすらも反応しない
 
 				for (int loctempQ = 0; loctempQ <= partyNinzuDone + enemyNinzu - 1; ++loctempQ)
 				{
@@ -6261,7 +6195,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						damage_EnemyAttack = 0;
 						damage_HeroAttack = 0;
 
-						selecting_mainmenu = zenkaiBcKasol_1[partyNarabijyun[sentouNaninme]] +1;
+						selecting_mainmenu = zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] +1;
 						mode_scene = MODE_BATTLE_COMMAND2;
 						//mode_scene = MODE_BATTLE_NOW;
 
@@ -6286,8 +6220,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-						// _stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[sentoKoudoCount]]);
-						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[0]);
+						// _stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabi_ID[actionOrder[sentoKoudoCount]]);
+						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabi_ID[0]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -6303,11 +6237,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						DrawFormatString(battleMassBaseX + 200 - 50 +90 +60, battleMassBaseY + 50 * 4 - 20 -300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-						_stprintf_s(mojibuf, TEXT("P先頭ID %d"), partyNarabijyun[0]); //sentouNaninme
+						_stprintf_s(mojibuf, TEXT("P先頭ID %d"), partyNarabi_ID[0]); //sentouNaninme
 						DrawFormatString(battleMassBaseX + 200 - 50 + 90 + 60 , battleMassBaseY + 50 * 4 - 20 - 300 -40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-						// partyNarabijyun[idTemp]
+						// partyNarabi_ID[idTemp]
 						//sankaAgility[idTemp]
 
 					} // ここまでデバ文
@@ -6345,7 +6279,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					}
 
-					_stprintf_s(mojibuf, TEXT("%s"), heros_def_list[partyNarabijyun[sentouNaninme]].heros_name ); //sentouNaninme
+					_stprintf_s(mojibuf, TEXT("%s"), heros_def_list[partyNarabi_ID[sentouNaninme]].heros_name ); //sentouNaninme
 
 					DrawFormatString(tem1X + 100, tem1Y + 30 , GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
@@ -6357,7 +6291,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						if (selecting_mainmenu == ComdTemp[0] + 1 ) {
 
-							zenkaiBcKasol_1[partyNarabijyun[sentouNaninme]] = selecting_mainmenu -1;
+							zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] = selecting_mainmenu -1;
 
 							if (sentouNaninme >= partyNinzuDone-1) {
 								// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
@@ -6388,7 +6322,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								TimeKasolCount = 0;
 
 								
-								selecting_mainmenu = zenkaiBcKasol_1[partyNarabijyun[sentouNaninme]] + 1;
+								selecting_mainmenu = zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] + 1;
 
 								// selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] ;
 
@@ -6406,7 +6340,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								TimeKasolCount = 0;
 
-								selecting_mainmenu = zenkaiBcKasol_2[partyNarabijyun[sentouNaninme]] + 1;
+								selecting_mainmenu = zenkaiBcKasol_2[partyNarabi_ID[sentouNaninme]] + 1;
 								mode_scene = MODE_BATTLE_MAGIC;
 								koudouKiroku[sentouNaninme] = koudouMgk;
 								magicAtkFlag[sentouNaninme] = 0;
@@ -6417,7 +6351,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								TimeKasolCount = 0;
 							
-								selecting_mainmenu = zenkaiBcKasol_2[partyNarabijyun[sentouNaninme]] + 1;
+								selecting_mainmenu = zenkaiBcKasol_2[partyNarabi_ID[sentouNaninme]] + 1;
 								mode_scene = MODE_BATTLE_MAGIC;
 								koudouKiroku[sentouNaninme] = koudouMgk;
 								magicAtkFlag[sentouNaninme] = 0;
@@ -6470,7 +6404,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							sentouNaninme = sentouNaninme - 1;
 
-							selecting_mainmenu = zenkaiBcKasol_1[partyNarabijyun[sentouNaninme]] + 1;
+							selecting_mainmenu = zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] + 1;
 							//mode_scene = MODE_BATTLE_COMMAND;
 							//mode_scene = MODE_BATTLE_NOW;
 						}
@@ -6497,7 +6431,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[sentoKoudoCount]]);
+						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabi_ID[actionOrder[sentoKoudoCount]]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -6553,7 +6487,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 
-					_stprintf_s(mojibuf, TEXT("%s"), heros_def_list[partyNarabijyun[sentouNaninme]].heros_name); //sentouNaninme
+					_stprintf_s(mojibuf, TEXT("%s"), heros_def_list[partyNarabi_ID[sentouNaninme]].heros_name); //sentouNaninme
 
 					DrawFormatString(tem1X + 100, tem1Y + 30, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
@@ -6580,13 +6514,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				
 							magicSel = selecting_mainmenu -(magicTemp);
 
-							zenkaiBcKasol_2[partyNarabijyun[sentouNaninme]] = magicSel;
+							zenkaiBcKasol_2[partyNarabi_ID[sentouNaninme]] = magicSel;
 
 							if (sentouNaninme < partyNinzuDone) {
 
-								// partyNarabijyun[actionOrder[sentoKoudoCount]
-								magicKiroku[partyNarabijyun[sentouNaninme]] = magicSel;
-								magicAtkFlag[partyNarabijyun[sentouNaninme]] = 1;
+								// partyNarabi_ID[actionOrder[sentoKoudoCount]
+								magicKiroku[partyNarabi_ID[sentouNaninme]] = magicSel;
+								magicAtkFlag[partyNarabi_ID[sentouNaninme]] = 1;
 
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 								sentouNaninme = sentouNaninme + 1;
@@ -6610,10 +6544,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								TimeKasolCount = 0;
 								mode_scene = MODE_BATTLE_NOW;
-								magicKiroku[partyNarabijyun[sentouNaninme]] = magicSel;
-								magicAtkFlag[partyNarabijyun[sentouNaninme]] = 1;
+								magicKiroku[partyNarabi_ID[sentouNaninme]] = magicSel;
+								magicAtkFlag[partyNarabi_ID[sentouNaninme]] = 1;
 
-								selecting_mainmenu = zenkaiBcKasol_1[partyNarabijyun[sentouNaninme]] + 1;
+								selecting_mainmenu = zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] + 1;
 							}
 
 
@@ -6663,7 +6597,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[sentoKoudoCount]]);
+						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabi_ID[actionOrder[sentoKoudoCount]]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -6742,7 +6676,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					int battleMassBaseX = 150; int battleMassBaseY = 410 - 180; // 410 は「windowTempA」
 
-					int pnCommon = partyNarabijyun[actionOrder[sentoKoudoCount]];
+					int pnCommon_ID = partyNarabi_ID[actionOrder[sentoKoudoCount]];
 
 
 
@@ -6754,12 +6688,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabijyun[actionOrder[sentoKoudoCount]]);
+						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabi_ID[actionOrder[sentoKoudoCount]]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-						int pnCommon = partyNarabijyun[actionOrder[sentoKoudoCount]];
-						_stprintf_s(mojibuf, TEXT("pnCommon %d"), pnCommon);
+						int pnCommon_ID = partyNarabi_ID[actionOrder[sentoKoudoCount]];
+						_stprintf_s(mojibuf, TEXT("pnCommon_ID %d"), pnCommon_ID);
 						DrawFormatString(battleMassBaseX + 200 + 150, battleMassBaseY + 50 * 4 - 40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -6772,16 +6706,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					if (actionOrder[sentoKoudoCount] <= partyNinzuDone - 1) {
 
-						if (heros_def_list[pnCommon].heros_HP0_flag == 0) {
+						if (heros_def_list[pnCommon_ID].heros_HP0_flag == 0) {
 
-							_stprintf_s(mojibuf, TEXT("%s の攻撃！"), heros_def_list[pnCommon].heros_name);
+							_stprintf_s(mojibuf, TEXT("%s の攻撃！"), heros_def_list[pnCommon_ID].heros_name);
 							DrawFormatString(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 						}
 
 
-						if (heros_def_list[partyNarabijyun[actionOrder[sentoKoudoCount]]].heros_HP0_flag == 1) {
+						if (heros_def_list[partyNarabi_ID[actionOrder[sentoKoudoCount]]].heros_HP0_flag == 1) {
 
-							_stprintf_s(mojibuf, TEXT("%s は戦闘不能で動けない"), heros_def_list[partyNarabijyun[actionOrder[sentoKoudoCount]]].heros_name);
+							_stprintf_s(mojibuf, TEXT("%s は戦闘不能で動けない"), heros_def_list[partyNarabi_ID[actionOrder[sentoKoudoCount]]].heros_name);
 							DrawFormatString(battleMassBaseX, battleMassBaseY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 						}
@@ -6821,20 +6755,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							}
 
 
-							if (heros_def_list[partyNarabijyun[actionOrder[sentoKoudoCount]]].heros_HP0_flag == 0) {
+							if (heros_def_list[partyNarabi_ID[actionOrder[sentoKoudoCount]]].heros_HP0_flag == 0) {
 								_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d ダメージ"), damage_HeroAttack);
 								DrawFormatString(monX + 10, monY - 30 - 5 * damepyon, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 							}
 
 						}
 					}
-
 				}// now
-
-
-
-
-
 
 
 
@@ -6870,7 +6798,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						mode_scene = MODE_BATTLE_WIN;
 						battlewait = 60.0 * 2.0;
 
-						// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
 					}
 					if (monster_hp > 0) {
 
@@ -6895,12 +6822,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							damepyon = 0;
 
-							//
 							sentouNaninme = 0;
 
 							selecting_mainmenu = zenkaiBcKasol_1[0] +1;
-
-//							selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme];
 
 							mode_scene = MODE_BATTLE_COMMAND2;
 						}
@@ -6958,7 +6882,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							// 登録キャラが多い場合を想定して（歴史SLGなど）、全キャラは走査しない。							
 							// MessageBox(NULL, TEXT("敵倒した。"), TEXT("場所テスト"), MB_OK);
 
-							heros_def_list[partyNarabijyun[temp]].heros_exp = heros_def_list[partyNarabijyun[temp]].heros_exp + monster_def_list[encount_monsters_id - 1].mon_exp;
+							heros_def_list[partyNarabi_ID[temp]].heros_exp = heros_def_list[partyNarabi_ID[temp]].heros_exp + monster_def_list[encount_monsters_id - 1].mon_exp;
 
 						}
 						senkaFlag = 1;
@@ -6991,7 +6915,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				if (toubouSeikou == 1) {
 					DrawFormatString(monMesX +50, 350 + 30, GetColor(255, 255, 255), "逃げるのに成功"); // 画面に表示されるのは、こっち
-
 				}
 
 				if (toubouSeikou == 1 && TimeKasolCount == 60) {
@@ -7017,10 +6940,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 				for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
-					DrawFormatString(HPX + 20, HPY + 20 * 0 + shiftY * temp, GetColor(255, 255, 255), "%s", heros_def_list[partyNarabijyun[temp]].heros_name); // 文字を描画する			
-					DrawFormatString(HPX + 20, HPY + 20 * 1 + shiftY * temp, GetColor(255, 255, 255), "HP %d / %d", heros_def_list[partyNarabijyun[temp]].heros_hp, heros_def_list[partyNarabijyun[temp]].heros_hp_max); // 文字を描画する
-					DrawFormatString(HPX + 20 * 3, HPY + 20 * 2 + shiftY * temp, GetColor(255, 255, 255), "EXP %d", heros_def_list[partyNarabijyun[temp]].heros_exp); // 文字を描画する
-
+					DrawFormatString(HPX + 20, HPY + 20 * 0 + shiftY * temp, GetColor(255, 255, 255), "%s", heros_def_list[partyNarabi_ID[temp]].heros_name); // 文字を描画する			
+					DrawFormatString(HPX + 20, HPY + 20 * 1 + shiftY * temp, GetColor(255, 255, 255), "HP %d / %d", heros_def_list[partyNarabi_ID[temp]].heros_hp, heros_def_list[partyNarabi_ID[temp]].heros_hp_max); // 文字を描画する
+					DrawFormatString(HPX + 20 * 3, HPY + 20 * 2 + shiftY * temp, GetColor(255, 255, 255), "EXP %d", heros_def_list[partyNarabi_ID[temp]].heros_exp); // 文字を描画する
 				}
 
 
@@ -7042,7 +6964,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (nyuuryokuMatiX <= 0) {
 					keyEnableX = 1;
 					nyuuryokuMatiX = 0;
-
 				}
 
 
@@ -7183,7 +7104,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 									fprintf(fp2, "パーティ人数: %d \n", partyNinzuDone);
 									for (int temp = 0; temp <= partyNinzuDone - 1; ++temp) {
-										fprintf(fp2, "パーティ %d 人目のID: %d \n", temp + 1, partyNarabijyun[temp]);
+										fprintf(fp2, "パーティ %d 人目のID: %d \n", temp + 1, partyNarabi_ID[temp]);
 									}
 
 									fprintf(fp2, "控え人数: %d \n", hikaeNinzu);
@@ -7193,17 +7114,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 									// ロードの都合により、HPのforは最大HPのforとは統合しないこと。
 									for (int temp = 0; temp <= partyNinzuDone - 1; ++temp) {
-										fprintf(fp2, "パーティ内キャラ %d 番目の現HP: %d \n", temp + 1, heros_def_list[partyNarabijyun[temp]].heros_hp);
+										fprintf(fp2, "パーティ内キャラ %d 番目の現HP: %d \n", temp + 1, heros_def_list[partyNarabi_ID[temp]].heros_hp);
 									}
 
 									for (int temp = 0; temp <= partyNinzuDone - 1; ++temp) {
-										fprintf(fp2, "パーティ内キャラ %d 番目の最大HP: %d \n", temp + 1, heros_def_list[partyNarabijyun[temp]].heros_hp_max);
+										fprintf(fp2, "パーティ内キャラ %d 番目の最大HP: %d \n", temp + 1, heros_def_list[partyNarabi_ID[temp]].heros_hp_max);
 									}
 
 
 									for (int temp = 0; temp <= partyNinzuDone - 1; ++temp) {
 										fprintf(fp2, "パーティキャラ %d 番目の武器: %d \n", temp + 1, weapon_def_list[
-											heros_def_list[partyNarabijyun[temp]].heros_weapon1].def_id);
+											heros_def_list[partyNarabi_ID[temp]].heros_weapon1].def_id);
 									}
 
 
@@ -7278,8 +7199,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							// MessageBox(NULL, TEXT("並び替えをするためのコマンド（※未実装）。"), TEXT("テスト"), MB_OK);
 
 							for (int temp = 0; temp <= partyNinzuDone - 1; temp = temp + 1) {
-								partyNarabijyunBefore[temp] = partyNarabijyun[temp];
-								partyNarabijyunAfter[temp] = partyNarabijyun[temp];
+								partyNarabi_IDBefore[temp] = partyNarabi_ID[temp];
+								partyNarabi_IDAfter[temp] = partyNarabi_ID[temp];
 							}
 
 							whomTargetID1 = 0;
@@ -7506,11 +7427,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// ここまで、背景フィルターで隠される。
 
-				// Graphics 型の命令の読み込みのためにダミー変数 graphics を宣言.
-				//Graphics graphics(hdc);
-
-				// 画像の描画。 ダミー変数 graphics を仲介して描画する必要がある.
-				//graphics.DrawImage(&image1, 0, 0, image1.GetWidth(), image1.GetHeight());
 
 				// 画像の読み込み「image2」は変数名。これが背景フィルター。
 				if (filterFlag == 0) {
@@ -7528,8 +7444,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-
 			if (mode_scene == MODE_ITEM_MENU || mode_scene == MODE_ITEMweapon_MENU) {
 
 				itemList(soubihin, soubiSyoji, 1);
@@ -7538,7 +7452,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			// こっちはボタン操作
 			if ((mode_scene == MODE_ITEM_MENU || mode_scene == MODE_ITEMweapon_MENU) && key_remain > 0) {
-
 
 				if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && keyEnableZ == 1) {
 
@@ -7586,7 +7499,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						// これはリファクタせずにカッコ内に入れたままにすること if文の外に出せないので
 						item_select();
-						//moving = 0;
 
 						//MessageBox(NULL, TEXT("ueが押されました。"), TEXT("キーテスト"), MB_OK);
 
@@ -7611,7 +7523,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						// これはリファクタせずにカッコ内に入れたままにすること
 						item_select();
-						//moving = 0;
+
 						//MessageBox(NULL, TEXT("sitaが押されました。"), TEXT("キーテスト"), MB_OK);
 					}
 				}
@@ -7635,7 +7547,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						// これはリファクタせずにカッコ内に入れたままにすること
 						item_select();
-						//moving = 0;
+
 					}
 
 				}
@@ -7650,7 +7562,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						nyuuryokuMatiLeft = waitTime1;
 						nyuuryokuMatiRight = waitTime1;
 
-						//
+
 						if (itemHairetu[1] == -99) {
 							//break; //
 						}
@@ -7658,7 +7570,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						// これはリファクタせずにカッコ内に入れたままにすること
 						item_select();
-						//moving = 0;
+
 					}
 				}
 
@@ -7708,7 +7620,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					// 不死鳥の尾の効果
 					if (whatuse == 3) {
-						heros_def_list[partyNarabijyun[whomTargetID1]].heros_HP0_flag = 0;
+						heros_def_list[partyNarabi_ID[whomTargetID1]].heros_HP0_flag = 0;
 
 					}
 
@@ -7716,17 +7628,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// 回復の共通処理
 					if (item_have_list[whatuse].have_kosuu > 0) {
 
-						tempVal = partyNarabijyun[whomTargetID1];
+						tempVal = partyNarabi_ID[whomTargetID1];
 
 						if (heros_def_list[tempVal].heros_hp < heros_def_list[tempVal].heros_hp_max) {
 							item_have_list[whatuse].have_kosuu = item_have_list[whatuse].have_kosuu - 1;
 
 
-
 							healflag = 1; waitheal = 120;
 
-
-							healkioku = partyNarabijyun[whomTargetID1];
+							healkioku = partyNarabi_ID[whomTargetID1];
 						}
 
 						healti = item_def_list[whatuse].healti;
@@ -7745,8 +7655,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (item_have_list[whatuse].have_kosuu > 0) {
 
 
-						if (heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp > heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp_max) {
-							heros_def_list[partyNarabijyun[whomTargetID1]].heros_hp = heros_def_list[whomTargetID1].heros_hp_max;
+						if (heros_def_list[partyNarabi_ID[whomTargetID1]].heros_hp > heros_def_list[partyNarabi_ID[whomTargetID1]].heros_hp_max) {
+							heros_def_list[partyNarabi_ID[whomTargetID1]].heros_hp = heros_def_list[whomTargetID1].heros_hp_max;
 						}
 
 
@@ -7760,7 +7670,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					nyuuryokuMatiX = waitTime1;
 					nyuuryokuMatiZ = waitTime1;
-				} // if (CheckHitKey(KEY_INPUT_Z) == 1
+				} // if (CheckHitKey(KEY_INPUT_Z) == 1 && nyuuryokuMatiZ <= 0 && key_remain == 1) {
 
 
 				if (CheckHitKey(KEY_INPUT_X) == 1 && nyuuryokuMatiX <= 0) {
@@ -7847,7 +7757,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						_stprintf_s(
 							mojibuf, MAX_LENGTH, TEXT("%s"),
-							heros_def_list[partyNarabijyun[j]].heros_name);
+							heros_def_list[partyNarabi_ID[j]].heros_name);
 
 						DrawFormatString(StatsHPbaseX,
 							StatsHPbaseY - 25 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
@@ -7859,7 +7769,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						_stprintf_s(
 							mojibuf, MAX_LENGTH, TEXT("%d"),
-							heros_def_list[partyNarabijyun[j]].heros_hp);
+							heros_def_list[partyNarabi_ID[j]].heros_hp);
 
 						DrawFormatString(StatsHPbaseX + 30,
 							StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
@@ -7867,7 +7777,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						_stprintf_s(
 							mojibuf, MAX_LENGTH, TEXT("/ %d"),
-							heros_def_list[partyNarabijyun[j]].heros_hp_max);
+							heros_def_list[partyNarabi_ID[j]].heros_hp_max);
 
 						DrawFormatString(StatsHPbaseX + 30 * 2,
 							StatsHPbaseY + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
@@ -7875,13 +7785,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						_stprintf_s(
 							mojibuf, MAX_LENGTH, TEXT("%d"),
-							heros_def_list[partyNarabijyun[j]].heros_HP0_flag);
+							heros_def_list[partyNarabi_ID[j]].heros_HP0_flag);
 
 						DrawFormatString(StatsHPbaseX,
 							StatsHPbaseY + 40 + offsetY * j, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-						if (heros_def_list[partyNarabijyun[j]].heros_HP0_flag == 1) {
+						if (heros_def_list[partyNarabi_ID[j]].heros_HP0_flag == 1) {
 							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("戦闘不能"));
 
 							DrawFormatString(StatsHPbaseX,
@@ -7894,7 +7804,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							DrawFormatString(130 * 2, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 						}
 					}
-
 					// そのキャラの装備項目の選択がサブモード
 
 				}// グラフィック関係
@@ -8015,7 +7924,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 文字
 				int soubiYbase = 110; int soubiYper = 20;
 
-				lstrcpy(mojibuf, heros_def_list[partyNarabijyun[whomTargetID1]].heros_name);
+				lstrcpy(mojibuf, heros_def_list[partyNarabi_ID[whomTargetID1]].heros_name);
 
 				DrawFormatString(15, soubiYbase + soubiYper * 0, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
@@ -8030,7 +7939,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						lstrcpy(mojibuf2,
 
 							soubihin[
-								heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[afterOffTemp]
+								heros_def_list[partyNarabi_ID[whomTargetID1]].heroSoubi[afterOffTemp]
 							].Stype[afterOffTemp].def_name);
 
 					}
@@ -8040,7 +7949,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						lstrcpy(mojibuf2,
 
 							soubihin[
-								heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[afterOffTemp]
+								heros_def_list[partyNarabi_ID[whomTargetID1]].heroSoubi[afterOffTemp]
 							].Stype[afterOffTemp].def_name);
 					}
 
@@ -8048,7 +7957,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						lstrcpy(mojibuf1, TEXT("頭"));
 						lstrcpy(mojibuf2,
 							soubihin[
-								heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[afterOffTemp]
+								heros_def_list[partyNarabi_ID[whomTargetID1]].heroSoubi[afterOffTemp]
 							].Stype[afterOffTemp].def_name);
 
 					}
@@ -8083,7 +7992,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				lstrcpy(mojibuf1, TEXT("攻撃力"));
 				DrawFormatString(15, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf1); // 文字を描画する
 
-				_stprintf_s(mojibuf2, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[kougekiPara]);
+				_stprintf_s(mojibuf2, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabi_ID[whomTargetID1]].heros_para[kougekiPara]);
 				DrawFormatString(90 + 50, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf2); // 文字を描画する
 
 
@@ -8091,7 +8000,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				lstrcpy(mojibuf1, TEXT("守備力"));
 				DrawFormatString(15, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf1); // 文字を描画する
 
-				_stprintf_s(mojibuf2, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[syubiPara]);
+				_stprintf_s(mojibuf2, MAX_LENGTH, TEXT("%d"), heros_def_list[partyNarabi_ID[whomTargetID1]].heros_para[syubiPara]);
 				DrawFormatString(90 + 50, soubiYbase + soubiYper * temp, GetColor(255, 255, 255), mojibuf2); // 文字を描画する
 
 
@@ -8106,22 +8015,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					int locType;
 
 					locType = soubiOffset + whatedit1;
-					/*
-					// 下記は上記のリファクタ
 
-					if (whatedit1 == 0) {
-						locType = wepoType;
-					}
-					if (whatedit1 == 1) {
-						locType = tateType;
-					}
-					if (whatedit1 == 2) {
-						locType = kabutoType;
-					}
-					*/
-
-
-					int tempSoubi = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType];
+					int tempSoubi = heros_def_list[partyNarabi_ID[whomTargetID1]].heroSoubi[locType];
 
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("装備威力 %d"), 0); // 未定義エラーを防ぐための初期化
 
@@ -8145,7 +8040,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("iHw2: %d"), itemHairetu[whatedit2]);
 					DrawFormatString(15 + 130, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("wHL: %d"), weapon_have_list[heros_def_list[partyNarabijyun[whomTargetID1]].heros_weapon1].have_def_id);
+					_stprintf_s(mojibuf, MAX_LENGTH, TEXT("wHL: %d"), weapon_have_list[heros_def_list[partyNarabi_ID[whomTargetID1]].heros_weapon1].have_def_id);
 					DrawFormatString(15 + 130 + 100, 350 + 10 + 20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 				}
@@ -8196,7 +8091,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 							mode3_scene = whatedit1 + 11; // 装備品データベースは11番から
-							whatedit2 = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[mode3_scene];
+							whatedit2 = heros_def_list[partyNarabi_ID[whomTargetID1]].heroSoubiKasol[mode3_scene];
 						}
 
 						CheckXetcFunc();
@@ -8254,7 +8149,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						filterFlag = 0;
 
-						heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubiKasol[mode3_scene] = whatedit2;
+						heros_def_list[partyNarabi_ID[whomTargetID1]].heroSoubiKasol[mode3_scene] = whatedit2;
 
 
 						mode_scene = MODE_EQUIP_EDIT;
@@ -8370,12 +8265,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							int temp;
 
-							int hensu = heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType];
+							int hensu = heros_def_list[partyNarabi_ID[whomTargetID1]].heroSoubi[locType];
 
 
 							if (locType == wepoType) {
 								// 攻撃力の更新
-								heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[kougekiPara] =
+								heros_def_list[partyNarabi_ID[whomTargetID1]].heros_para[kougekiPara] =
 									(soubihin[itemHairetu[whatedit2]].Stype[locType]).equipPower[kougekiPara];
 
 							}
@@ -8394,45 +8289,39 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							}
 							if (whatedit2 >= goukeiItem) {
-								// 何も選択してない状態なので、何も減らない
-								//weapon_have_list[whatedit2 + 1].have_kosuu = weapon_have_list[whatedit2 + 1].have_kosuu - 1;  // カーソル選択中だった武器が1個減る
+								// 何も選択してない状態なので、何も減らない								
 							}
 
 
 							if (whatedit2 < goukeiItem) {
-								heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType] =
+								heros_def_list[partyNarabi_ID[whomTargetID1]].heroSoubi[locType] =
 
 									soubihin[itemHairetu[whatedit2]].Stype[locType].def_id; // 
 
 							}
 							if (whatedit2 >= goukeiItem) {
-								heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType] =
+								heros_def_list[partyNarabi_ID[whomTargetID1]].heroSoubi[locType] =
 									soubihin[0].Stype[locType].def_id; // 装備の更新をしたい
 							}
 
 
-
-							/////////////
+							//
 
 							if (locType == tateType || locType == kabutoType) {
 
 								// 防具の更新 // すでにしてある
 
-								//(soubihin[heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[locType]].Stype[locType]).equipPower[syubiPara] =
-								//	(soubihin[heros_def_list[itemHairetu[whatedit2]].heroSoubi[locType]].Stype[locType]).equipPower[syubiPara]
-								//	;
-
 
 								// 防御力の更新
-								heros_def_list[partyNarabijyun[whomTargetID1]].heros_para[syubiPara] = // 現在の値
+								heros_def_list[partyNarabi_ID[whomTargetID1]].heros_para[syubiPara] = // 現在の値
 
-									(soubihin[(heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[tateType])].Stype[tateType]).equipPower[syubiPara]
-									+ (soubihin[(heros_def_list[partyNarabijyun[whomTargetID1]].heroSoubi[kabutoType])].Stype[kabutoType]).equipPower[syubiPara]
+									(soubihin[(heros_def_list[partyNarabi_ID[whomTargetID1]].heroSoubi[tateType])].Stype[tateType]).equipPower[syubiPara]
+									+ (soubihin[(heros_def_list[partyNarabi_ID[whomTargetID1]].heroSoubi[kabutoType])].Stype[kabutoType]).equipPower[syubiPara]
 									;
 
 							}
 
-							//////////
+
 
 							(soubiSyoji[0].Stype[locType]).have_kosuu = 0;
 
