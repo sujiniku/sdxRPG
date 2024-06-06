@@ -6954,6 +6954,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					whomTargetID1 = whomCHARA - 1;
 
 					beforeselect = whomCHARA;
+
+
+					keyEnableUp = 0;
+					nyuuryokuMatiUp = 20;
 				}
 
 
@@ -6970,6 +6974,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					whomTargetID1 = whomCHARA - 1;
 
 					beforeselect = whomCHARA;
+
+					keyEnableDown = 0;
+					nyuuryokuMatiDown = 20;
 				}
 
 			} // アイテム対象者フロントの終わり
@@ -6988,16 +6995,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					// 背景の青
 
-					window1Draw(10, 350, 500, 400);
+					int mesWinY = 40;
+					window1Draw(10, mesWinY, 500, mesWinY + 50);
 
-					lstrcpy(mojibuf,
-						TEXT("装備を変更するキャラを選んでください。"));
-
-					DrawFormatString(15, 350 + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+					lstrcpy(mojibuf,TEXT("装備を変更するキャラを選んでください。"));
+					DrawFormatString(15, mesWinY + 10, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 					for (int j = 0; j <= partyNinzuDone - 1; ++j) {
-						// 背景の青
+						// PT 背景の青
 
 						window1Draw(10, 100 + offsetY * j, 300, 200 + offsetY * j);
 
@@ -7124,6 +7130,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 					beforeselect = whomCHARA;
+
+
+					keyEnableUp = 0;
+					nyuuryokuMatiUp = 20;
 				}
 
 
@@ -7144,6 +7154,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 					beforeselect = whomCHARA;
+
+
+					keyEnableDown = 0;
+					nyuuryokuMatiDown = 20;
 				}
 
 			} // equip モードの終わり
