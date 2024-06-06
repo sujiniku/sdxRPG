@@ -5614,8 +5614,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								selecting_mainmenu = zenkaiBcKasol_2[partyNarabi_ID[sentouNaninme]] + 1;
 								mode_scene = MODE_BATTLE_MAGIC;
-								koudouKiroku[sentouNaninme] = koudouMgk;
-								magicAtkFlag[sentouNaninme] = 0;
+								koudouKiroku[partyNarabi_ID[sentouNaninme]] = koudouMgk;
+								magicAtkFlag[partyNarabi_ID[sentouNaninme]] = 0;
 							}
 
 							if (sentouNaninme >= partyNinzuDone) {
@@ -5625,9 +5625,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							
 								selecting_mainmenu = zenkaiBcKasol_2[partyNarabi_ID[sentouNaninme]] + 1;
 								mode_scene = MODE_BATTLE_MAGIC;
-								koudouKiroku[sentouNaninme] = koudouMgk;
-								magicAtkFlag[sentouNaninme] = 0;
-
+								koudouKiroku[partyNarabi_ID[sentouNaninme]] = koudouMgk;
+								magicAtkFlag[partyNarabi_ID[sentouNaninme]] = 0;
 								
 							}
 							// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
