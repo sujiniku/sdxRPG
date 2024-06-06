@@ -3958,8 +3958,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (CheckZetc && whomCHARA == hikaeNinzu + 1) {
 					//MessageBox(NULL, TEXT("Xが押されました。"), TEXT("キーテスト"), MB_OK);
 
-					// keyHaijyo = 1;
-
 					whomCHARA = hikaeNinzu; // また「外す」にあってるのは面倒なので 1つ下げる。
 
 					partyNinzuDone = partyNinzuTemp;
@@ -3986,6 +3984,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								// 仕様変更により、順番を変えてもバグらない。
 								// 下記の順序を守ること・・・だった。守らないとバグだった。
 								partyNarabi_ID[partyNinzuTemp] = whomCHARA - 1; // 先に代入
+
 								// 人数の更新
 								partyNinzuTemp = partyNinzuTemp + 1; // あとから人数を加算
 								hikaeNinzu = hikaeNinzu - 1;
@@ -3999,9 +3998,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 								endZ();
 
-								// mode_scene = MODE_Guild_Responce; // レスポンス中に空き配列の計算をするので残すこと
-
-
 							}
 
 						}
@@ -4010,12 +4006,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							mode_scene = MODE_Guild_Main;
 
-
 						}
 
 
 						if (whomTargetID1hikae == tourokuNakama + 1) {
-							// partyNinzuDone = partyNinzuDone -1;
 
 							uwagaki = 1;
 
@@ -4036,10 +4030,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							uwagaki = 1;
 
 							mode_scene = MODE_Guild_Remove;
-
-
-
-
 
 
 							break; // 下記の加入モードをbreakで省略しないと行けないので、ここにbreak
@@ -4064,6 +4054,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								// 仕様変更により、順番を変えてもバグらない。
 								// 下記の順序を守ること・・・だった。守らないとバグだった。
 								partyNarabi_ID[akiHairetu[0]] = hikaeNarabi_ID[whomCHARA - 1]; // 先に代入
+
 								// 人数の更新
 								partyNinzuTemp = partyNinzuTemp + 1; // あとから人数を加算
 
@@ -4077,9 +4068,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								uwagaki = 1;
 
 								akikosuu = akikosuu - 1;
-
-								// mode_scene = MODE_Guild_Responce; // レスポンス中に空き配列の計算をするので残すこと
-
 
 								hikaesai();
 								parsai();
@@ -4097,7 +4085,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							mode_scene = MODE_Guild_Main;
 
-
 						}
 
 
@@ -4106,15 +4093,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						hikaeKeisan();
 
 					}
-
-
 				}
 
 
-
-
 				if (mode_scene == MODE_Guild_Main) { // remove時に共通動作を封じるため
-
 
 					CheckUPetcFunc();
 					if (CheckUPetc) {
@@ -4125,15 +4107,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							whomCHARA = hikaeNinzu;
 						}
 
-
 						endUP();
 					}
 
 
 					CheckDOWNetcFunc();
 					if (CheckDOWNetc) {
-
-
 
 						// MessageBox(NULL, TEXT("↓が押されました。"), TEXT("キーテスト"), MB_OK);
 
@@ -4162,8 +4141,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 			if (mode_scene == MODE_Guild_Remove) {
-				//BrushBlue_set(hdc);
-				//BrushPink_set(hdc);
 
 				hikaesai();
 				parsai();
@@ -4191,25 +4168,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					// これが加わる
 					hikaeKeisan();
 
-
-
-
-
-
-
-
 					if (partyNinzuTemp >= 1) {
-
-
 
 						int skip = 0;
 						int kousinNarabijyun[partymax];
 
 						partyNinzuDone = partyNinzuTemp;
 						// MessageBox(NULL, TEXT("xxxxxxxが押されました。"), TEXT("キーテスト"), MB_OK);
-
-
-
 
 						for (int temp = 0; temp < partymax; temp++)
 						{
@@ -4236,11 +4201,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							partyNarabi_ID[temp] = -2;
 						}
 
-
-						//mode_scene = MODE_TOWN;
-
-						//InvalidateRect(hWnd, NULL, FALSE);
-						//UpdateWindow(hWnd);
 					}
 
 
@@ -4319,9 +4279,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// MessageBox(NULL, TEXT("ギルドのテスト中。"), TEXT("キーテスト"), MB_OK);
 
-				//BrushBlue_set(hdc);
-				//BrushPink_set(hdc);
-
 				lstrcpy(mojibuf, TEXT("誰を仲間にしますか？ 選んでください。"));
 				// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
 				DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
@@ -4333,47 +4290,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// ここが上書きされている。
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%s が仲間に加わった。"), heros_def_list[whomTargetID1hikae].heros_name);
-				// TextOut(hdc, 280, 300, mojibuf, lstrlen(mojibuf));
 				DrawFormatString(280, 300, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-
 				lstrcpy(mojibuf, TEXT("Xボタンで退出。"));
-				// TextOut(hdc, 280, 350, mojibuf, lstrlen(mojibuf));
-
 				DrawFormatString(280, 350, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
 
 				mode_scene = MODE_Guild_Main;
 			}
 
-
-
-
-
-
-
-			// if (mode_scene == MODE_Shop_Main && key_remain > 0) {
-
-
-
 			if (mode_scene == MODE_Shop_Main) {
 				filterFlag = 1;
 
-				// Draw_map(hdc);
-
-				//BrushBlue_set(hdc);
-				// Rectangle(hdc, 10, 10, 610, 80);
-
-				// BrushPink_set(hdc);
-				//	Rectangle(hdc, 10, 100,	300, 200);
-
 				shopCommon1();
 
-
-
-
 				shopGoldRan();
-
 
 				shopData();
 
@@ -4381,8 +4311,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 「売る」のあとに「買う」したときの表示文の残骸の一旦クリア用
 				for (int temp = 0; temp <= 6; temp = temp + 1) {
 					lstrcpy(mojibuf, TEXT("   "));
-					//TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
-					//DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 				}
 
@@ -4391,49 +4319,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				int kasolOffsetY = 30;
 
 
-
-				//shopCommand();
-
 				shopHinBack();
 				shopKoumoku();
 
 				hinmokuView();
 
 
-
-
-
-
-
-
-
 				lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
-				//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
 
 				int XXX = 150; int YYY = 50;
 				window1Draw(XXX - 10, YYY - 10, XXX + 300, YYY + 30);
 				DrawFormatString(XXX, YYY, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
-
-
 				if (popFlagTown == 1) {
 
+					// これを消せるか、あとでテスト
 					lstrcpy(mojibuf, TEXT("                                      "));
-					// TextOut(hdc, 130, 150, mojibuf, lstrlen(mojibuf));
-
-					//DrawFormatString(130, 150, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
 					lstrcpy(mojibuf, popMsg);
-					//TextOut(hdc, 130, 150, mojibuf, lstrlen(mojibuf));
-
 
 				}
 
 				tempPass = whomTargetID1;
-
 
 
 
@@ -4493,11 +4400,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 				if (whomTargetID1 == 1) {
 					shopMijissou = 0;
-					//mode_scene = MODE_Shop_armor_main;
 				}
 				if (whomTargetID1 > 1) {
 					shopMijissou = 1;
-					//mode_scene = MODE_Shop_armor_main;
 				}
 
 
@@ -4505,7 +4410,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				CheckXetcFunc();
 				if (CheckXetc) {
-					// keyEnableX = 0;
 					mode_scene = MODE_TOWN;
 					endX();
 
@@ -4566,40 +4470,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					}
 
-
-
 				}// check Z
-
-
-
-
 			} // shop
-
-
-
 
 
 
 			if (mode_scene == MODE_Shop_weapon_main || mode_scene == MODE_Shop_armor_main) {
 				filterFlag = 1;
-				// Draw_map(hdc);
-
-				// MessageBox(NULL, TEXT("ギルドのテスト中。"), TEXT("キーテスト"), MB_OK);
-
 
 				{
-					//BrushDarkBlue_set(hdc);
-					// Rectangle(hdc, 10, 10, 610, 80);
-
-					// BrushDarkPink_set(hdc);
-					//	Rectangle(hdc, 10, 100,	300, 200);
-
 
 					lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
-					// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
-
-					//DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
 
 					shopCommon1();
 
@@ -4607,18 +4488,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					int carsoruHigh = 30;
 					int yspan1 = carsoruHigh;
 
-					//DrawFormatString(offsetXtemp1, -10 + offsetYtemp1 + yspan1 * (5), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
 					// 十字キー入力時
 					int rangeMin = 0; int rangeMax = 3;
-
-
-
-
-
-
 
 				}
 
@@ -4627,30 +4498,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (popFlagTown == 1) {
 
 					lstrcpy(mojibuf, TEXT("                                      "));
-					// TextOut(hdc, 130, 150, mojibuf, lstrlen(mojibuf));
-
 					DrawFormatString(130, 150, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
+					// 消せるか後でテスト
 					lstrcpy(mojibuf, popMsg);
-					//TextOut(hdc, 130, 150, mojibuf, lstrlen(mojibuf));
-
 
 				}
 
-
-
-				//BrushBlue_set(hdc);
-				//BrushPink_set(hdc);
 
 				if (mode_scene == MODE_Shop_weapon_main) {
-					//lstrcpy(mojibuf, TEXT("武器屋テスト。"));
+
 				}
 				if (mode_scene == MODE_Shop_armor_main) {
-					//lstrcpy(mojibuf, TEXT("防具屋テスト。"));
-				}
-				//TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
 
-				//DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+				}
 
 				shopAct = whomTargetID2;
 				shopCommand();
@@ -4658,33 +4519,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				shopGoldRan();
 
-				//shopKoumoku();
-
 
 				int stypeOffset = soubiOffset - 1; //10;
 
 
 
-
-					//BrushPink_set(hdc);
-
-
-				// tenmetu(280, 200 + 60 + 30 * (whomTargetID4),				320 + 40, offsetYtemp1 + 60 + 60 + 30 * (whomTargetID4));
-
-
-
-
-
-
-
-
-
 				shopData();
 
-				// int stypeOffset = soubiOffset - 1; //10;
 				int afterOffTemp = stypeOffset + 1;
-
-				// int range;
 
 				shopHinBack();
 				shopKoumoku();
@@ -4694,7 +4536,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// デバッグ用
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), buyrange);
 				DrawFormatString(280 + 100 * 3 + 50, koumoku_Y + 30 + kasolOffsetY * 5, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
 
 
 
@@ -4876,8 +4717,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						endZ();
 
 						mode_scene = MODE_TOWN;
-						//	townFlag = 1; // タウン退出には、これが必要
-						//	mode_scene = MODE_MAP;
 
 					}
 
@@ -4912,26 +4751,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			if (mode_scene == MODE_Shop_weapon_buy || (mode_scene == MODE_Shop_armor_buy)) {
 				filterFlag = 1;
-				//Draw_map(hdc);
-
 
 				{
 					int whomTargetID3 = tempPass;
-
-					//BrushDarkBlue_set(hdc);
-					// Rectangle(hdc, 10, 10, 610, 80);
-
-					// BrushDarkPink_set(hdc);
-					//	Rectangle(hdc, 10, 100,	300, 200);
-
-
-					lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
-					// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
-
-
-					//DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
 
 					shopCommon1();
 				}
@@ -4946,14 +4768,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				shopKoumoku();
 
 
-
-
-
-				//BrushPink_set(hdc);
 				tenmetu(280, 200 + 60 + 30 * (whomTargetID4),
 					320 + 40, offsetYtemp1 + 60 + 60 + 30 * (whomTargetID4));
-
-
 
 
 
@@ -4967,7 +4783,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
-
 				}
 
 
@@ -4975,11 +4790,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
 				int koumoku_Y = 200;
 				int kasolOffsetY = 30;
-
-
 
 
 				_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), buyrange);
@@ -5010,27 +4822,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 				CheckXetcFunc();
 				if (CheckXetc) {
-					// keyEnableX = 0;
 
 					if (mode_scene == MODE_Shop_weapon_buy) {
 						mode_scene = MODE_Shop_weapon_main;
@@ -5038,8 +4831,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (mode_scene == MODE_Shop_armor_buy) {
 						mode_scene = MODE_Shop_armor_main;
 					}
-
-					// mode_scene = MODE_Shop_Main;
 
 					endX();
 
@@ -5076,46 +4867,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 
-
-
-
-
-
-
 			}
 
 
 			if (mode_scene == MODE_Shop_weapon_sell || mode_scene == MODE_Shop_armor_sell) {
 				filterFlag = 1;
-				//Draw_map(hdc);
-
-
 
 				{
 					int whomTargetID3 = tempPass;
-
-					//BrushDarkBlue_set(hdc);
-					// Rectangle(hdc, 10, 10, 610, 80);
-
-					//BrushDarkPink_set(hdc);
-					//	Rectangle(hdc, 10, 100,	300, 200);
-
-
-					lstrcpy(mojibuf, TEXT("商店に入りました。どこへ行きますか?"));
-					// TextOut(hdc, 130, 50, mojibuf, lstrlen(mojibuf));
-
-					//DrawFormatString(130, 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
 
 					shopCommon1();
 
 					// 十字キー入力時
 					int rangeMin = 0; int rangeMax = 3;
 				}
-
-
-
-
 
 				shopCommand();
 
@@ -5213,7 +4978,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 					if ((soubiSyoji[idTemp - itemIDcount].Stype[tateType]).have_kosuu == 0) {
-						//shield_have_list[idTemp - itemIDcount].have_kosuu == 0) {
+
 						itemskip = itemskip + 1;
 
 					}
@@ -5250,8 +5015,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				tenmetu(280, 200 + 60 + 30 * (whomTargetID4),
 					320 + 40, offsetYtemp1 + 60 + 60 + 30 * (whomTargetID4));
 
-				//SetBkColor(hdc, RGB(0xFF, 0xFF, 0xFF));
-				//SetBkMode(hdc, OPAQUE);
 
 				// 見出し
 				shopKoumoku();
@@ -5260,11 +5023,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// ページ送り時の一旦クリア用
 				for (int temp = 0; temp <= 6; temp = temp + 1) {
 					lstrcpy(mojibuf, TEXT("   "));
-					// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
 
 					DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
 
 				}
 
@@ -5276,10 +5036,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						if (itemTypeHairetu[temp2] == -99) {
 							lstrcpy(mojibuf, TEXT("   "));
-							//TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
 
 							DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
 
 							break;
 						}
@@ -5298,22 +5056,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							lstrcpy(mojibuf, (soubihin[itemHairetu[temp2]].Stype[locType2]).def_name);
 						}
 
-
-						// TextOut(hdc, 280, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
 						DrawFormatString(280, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 						lstrcpy(mojibuf, TEXT("50G"));
-						// TextOut(hdc, 280 + 120, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
-
 						DrawFormatString(280 + 120, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 
 						// 個数欄の背景クリア用
 						lstrcpy(mojibuf, TEXT("   "));
-						// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
-
 						DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -5321,28 +5073,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (itemTypeHairetu[temp2] == siyouType) {
 							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), item_have_list[itemHairetu[temp2]].have_kosuu);
 
-							//_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), itemTypeHairetu[temp2]);
-
-
 						}
 
 						// else をつけないと、なぜかsiyouhin 情報を壊す
 						else if (itemTypeHairetu[temp2] == wepoType || tateType || kabutoType) {
 							_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), (soubiSyoji[itemHairetu[temp2]].Stype[locType2]).have_kosuu);
 
-							// _stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d "), itemTypeHairetu[temp2]);
-							// lstrcpy(mojibuf, ( soubiSyoji[itemHairetu[temp2]].Stype[locType2]).have_kosuu);
 						}
 
-
-
-						// TextOut(hdc, 280 + 100 * 2 + 50, 200 + 30 * (temp + 1), mojibuf, lstrlen(mojibuf));
 						DrawFormatString(280 + 100 * 2 + 50, 200 + 30 * (temp + 1), GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 					}
 				}
-
-
 
 
 
@@ -5370,8 +5112,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						// MessageBox(NULL, TEXT("ページ戻し処理の調査テスト"), TEXT("キーテスト"), MB_OK);
 						whomTargetID4 = 0;
 					}
-
-
 
 				}
 
@@ -5412,10 +5152,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-
-
-
-
 				CheckZetcFunc();
 				if (CheckZetc) {
 
@@ -5423,12 +5159,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					int temp2 = whomTargetID4 + pageSyori * 6;
 
 					// MessageBox(NULL, TEXT("なかルーチン"), TEXT("キーテスト"), MB_OK);
-					// mode_scene = MODE_Shop_Main;
 
 					sinamonoList = 1;
 					// 売る処理
-
-					//if (your_money >= 50) {
 
 					if (itemTypeHairetu[temp2] == siyouType) {
 						item_have_list[itemHairetu[temp2]].have_kosuu = item_have_list[itemHairetu[temp2]].have_kosuu - 1;
@@ -5438,27 +5171,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						int locType2 = itemTypeHairetu[whomTargetID4];
 
-
-						//
 						(soubiSyoji[itemHairetu[whomTargetID4]].Stype[locType2]).have_kosuu =
 							(soubiSyoji[itemHairetu[whomTargetID4]].Stype[locType2]).have_kosuu - 1;
 
-						// weapon_have_list[itemHairetu[whomTargetID1]].have_kosuu = weapon_have_list[itemHairetu[whomTargetID1]].have_kosuu + 1;
 						your_money = your_money + 50;
 					}
 
-
-
-
 					endZ();
-
 				}
 
 
 
 				CheckXetcFunc();
 				if (CheckXetc) {
-					// keyEnableX = 0;
 
 					if (mode_scene == MODE_Shop_weapon_sell) {
 						mode_scene = MODE_Shop_weapon_main;
@@ -5466,8 +5191,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					if (mode_scene == MODE_Shop_armor_sell) {
 						mode_scene = MODE_Shop_armor_main;
 					}
-
-					// mode_scene = MODE_Shop_Main;
 
 					endX();
 
@@ -5552,45 +5275,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				}
 
-				/*
-				// 登録キャラ数が多くなると置換は無駄になるが、置換しないと後述の戦闘用ソートのコードが長くなるので仕方ない。
-				for (idTemp = 0; idTemp <= 5; idTemp = idTemp + 1)
-				{
-					// パーティにいないキャラごと、読み取る。
-					// パーティキャラの抽出は、後工程で行う。
-					mikataAgility[idTemp] = heros_def_list[idTemp].heros_agility;
-				}
-				*/
-
-
+				
 				// これ戦闘用ソート
 				for (idTemp = 0; idTemp <= partyNinzuTemp - 1; idTemp = idTemp + 1)
 				{
-					// ここでパーティキャラだけ素早さを抽出している。mikataAgi は非パーティキャラを含んでるので、この工程が必要。
+					// ここでパーティキャラだけ素早さを抽出している。
 					sankaAgility[idTemp] = heros_def_list[
-						
 						partyNarabi_ID[idTemp]
-					
 					].heros_agility;
-						
-						
-						
-						// mikataAgility[partyNarabi_ID[idTemp]]; // sankaAgil はまだ並び替え前
-
+					
 				}
+
 				// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
-
-
-				// 
-
 
 				for (idTemp = 0; idTemp <= enemyNinzu - 1; idTemp = idTemp + 1)
 				{
 					sankaAgility[partyNinzuTemp + idTemp] = tekiTairetuAgility[idTemp];
 
 				}
-
-				// sankaAgility[0] = mikataAgility[partyNarabi_ID[0]]; // テスト用 これすらも反応しない
 
 				for (int loctempQ = 0; loctempQ <= partyNinzuDone + enemyNinzu - 1; ++loctempQ)
 				{
@@ -5651,7 +5353,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				{
 					if (actionOrder[loctempA] <= partyNinzuDone - 1) {
 						PorEflag[loctempA] = mikataPE;
-						// actionOrder[loctempA] = actionOrder[loctempA];
+						// actionOrder[loctempA] はそのまま
 					}
 
 					if (actionOrder[loctempA] > partyNinzuDone - 1) {
@@ -5708,25 +5410,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 					lstrcpy(mojibuf, TEXT("PE f"));
-
 					DrawFormatString(agilityProcMonitorX - 10, agilityProcMonitorY + 40 + 30 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 					for (int tempMonitor = 0; tempMonitor <= sankaNinzu - 1; ++tempMonitor) {
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), PorEflag[tempMonitor]);
 
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), PorEflag[tempMonitor]);
 						DrawFormatString(agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 40 + 30 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 					}
 
 					lstrcpy(mojibuf, TEXT("Ac tp"));
-
 					DrawFormatString(agilityProcMonitorX - 10, agilityProcMonitorY + 40 + 30 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 					for (int tempMonitor = 0; tempMonitor <= sankaNinzu - 1; ++tempMonitor) {
-						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), actionOrder[tempMonitor]);
 
+						_stprintf_s(mojibuf, MAX_LENGTH, TEXT("%d"), actionOrder[tempMonitor]);
 						DrawFormatString(agilityProcMonitorX + 30 + tempMonitor * 30, agilityProcMonitorY + 40 + 30 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 					}
@@ -5779,7 +5479,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						selecting_mainmenu = zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] +1;
 						mode_scene = MODE_BATTLE_COMMAND2;
-						//mode_scene = MODE_BATTLE_NOW;
 
 					} // ターン開始 of 戦うコマンド
 
@@ -5822,17 +5521,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("P先頭ID %d"), partyNarabi_ID[0]); //sentouNaninme
 						DrawFormatString(battleMassBaseX + 200 - 50 + 90 + 60 , battleMassBaseY + 50 * 4 - 20 - 300 -40, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-
-						// partyNarabi_ID[idTemp]
-						//sankaAgility[idTemp]
-
 					} // ここまでデバ文
 
 
 
 				} //  MODE_BATTLE_COMMAND
-
-
 
 
 				if (mode_scene == MODE_BATTLE_COMMAND2) {
@@ -5906,8 +5599,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								
 								selecting_mainmenu = zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] + 1;
 
-								// selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] ;
-
 							} // ターン開始 of 戦うコマンド							
 						}
 
@@ -5918,7 +5609,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							if (sentouNaninme < partyNinzuDone) {
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
-								//sentouNaninme = sentouNaninme + 1;
 
 								TimeKasolCount = 0;
 
@@ -5966,7 +5656,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							selecting_mainmenu = 1;
 
 							mode_scene = MODE_BATTLE_COMMAND;
-							//mode_scene = MODE_BATTLE_NOW;
+
 						}
 
 
@@ -5987,8 +5677,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							sentouNaninme = sentouNaninme - 1;
 
 							selecting_mainmenu = zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] + 1;
-							//mode_scene = MODE_BATTLE_COMMAND;
-							//mode_scene = MODE_BATTLE_NOW;
+
 						}
 
 
@@ -6030,11 +5719,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						_stprintf_s(mojibuf, TEXT("zkB2[sN] %d"), zenkaiBcKasol_2[sentouNaninme]);
 						DrawFormatString(battleMassBaseX + 200 + 150, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
-						// zenkaiBcKasol_1[sentouNaninme]
-
 
 
 					} // ここまでデバ文
@@ -6157,7 +5841,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 						mode_scene = MODE_BATTLE_COMMAND2;
-						//mode_scene = MODE_BATTLE_NOW;
 
 					} // ターン開始 of 戦うコマンド
 
@@ -6185,9 +5868,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						_stprintf_s(mojibuf, TEXT("partyNin %d"), partyNinzuDone);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-
 
 					} // ここまでデバ文
 
@@ -6649,9 +6329,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						if (selecting_mainmenu == 3) {
 							MessageBox(NULL, TEXT("特技を使うためのコマンド（※未実装）。"), TEXT("テスト"), MB_OK);
 
-							// 今後の未実装部分なので消すな
-							// mode_scene = MODE_SKILL_MAIN;
-
 						}
 
 						if (selecting_mainmenu == 4) {
@@ -7013,11 +6690,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 画像の読み込み「image2」は変数名。これが背景フィルター。
 				if (filterFlag == 0) {
 
-					//Image image2(L"filter.png");
-
-					// 画像の描画。 ダミー変数 graphics を仲介して描画する必要がある.
-
-					//graphics.DrawImage(&image2, 0, 0, image2.GetWidth(), image2.GetHeight());
 					filterFlag = 1;
 				}
 
