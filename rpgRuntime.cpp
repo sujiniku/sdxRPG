@@ -17,11 +17,6 @@ int koudouAtk = 0; int koudouMgk = 1;
 
 int magicKiroku[10];
 int sentouNaninme =0;
-
-
-int magicAtkFlag[10] ;
-
-
 int magicSel = 0;
 
 
@@ -1337,7 +1332,7 @@ void heroside_attack() {
 		if (koudouKiroku[pnCommon_ID] == koudouMgk) {
 				damage_HeroAttack = rand() % 6 + 2 + heros_def_list[pnCommon_ID].heros_para[kougekiPara] + magic_def_list[magicKiroku[pnCommon_ID]].power ;
 		}
-
+		// partyNarabi_ID[sentouNaninme]
 
 		// 敵にダメージ
 		monster_hp = monster_hp - damage_HeroAttack;
@@ -2415,7 +2410,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (temp == 1) {
 			magic_def_list[temp].def_id = temp;
 			lstrcpy(magic_def_list[temp].def_name, TEXT("アイス"));
-			magic_def_list[temp].power = 100;
+			magic_def_list[temp].power = -200; // 100
 			continue; // 計算時間の節約のため
 		}
 
@@ -5488,7 +5483,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					// デバッグ文
 					if (debugFlag == 0) {
-						_stprintf_s(mojibuf, TEXT("gte %d"), sentoKoudoCount);
+						_stprintf_s(mojibuf, TEXT("SKC %d"), sentoKoudoCount);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 						_stprintf_s(mojibuf, TEXT("nmUP %d"), nyuuryokuMatiUp );
@@ -5501,8 +5496,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-						// _stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabi_ID[actionOrder[sentoKoudoCount]]);
-						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabi_ID[0]);
+						// _stprintf_s(mojibuf, TEXT("PaS並び %d"), partyNarabi_ID[actionOrder[sentoKoudoCount]]);
+						_stprintf_s(mojibuf, TEXT("PaS並び %d"), partyNarabi_ID[0]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -5582,7 +5577,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								damage_HeroAttack = 0;
 
 								
-								koudouKiroku[sentouNaninme] = koudouAtk;
+								koudouKiroku[partyNarabi_ID[sentouNaninme]] = koudouAtk;
 
 								mode_scene = MODE_BATTLE_NOW;
 							}
@@ -5591,7 +5586,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 
 
-								koudouKiroku[sentouNaninme] = koudouAtk;
+								koudouKiroku[partyNarabi_ID[sentouNaninme]] = koudouAtk;
 
 								sentouNaninme = sentouNaninme + 1;
 								TimeKasolCount = 0;
@@ -5605,7 +5600,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						else if (selecting_mainmenu == ComdTemp[0] + 2) {
 
-							zenkaiBcKasol_1[sentouNaninme] = selecting_mainmenu -1;
+							zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] = selecting_mainmenu -1;
 
 							if (sentouNaninme < partyNinzuDone) {
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
@@ -5615,7 +5610,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								selecting_mainmenu = zenkaiBcKasol_2[partyNarabi_ID[sentouNaninme]] + 1;
 								mode_scene = MODE_BATTLE_MAGIC;
 								koudouKiroku[partyNarabi_ID[sentouNaninme]] = koudouMgk;
-								magicAtkFlag[partyNarabi_ID[sentouNaninme]] = 0;
 							}
 
 							if (sentouNaninme >= partyNinzuDone) {
@@ -5625,9 +5619,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							
 								selecting_mainmenu = zenkaiBcKasol_2[partyNarabi_ID[sentouNaninme]] + 1;
 								mode_scene = MODE_BATTLE_MAGIC;
-								koudouKiroku[partyNarabi_ID[sentouNaninme]] = koudouMgk;
-								magicAtkFlag[partyNarabi_ID[sentouNaninme]] = 0;
-								
+								koudouKiroku[partyNarabi_ID[sentouNaninme]] = koudouMgk;								
 							}
 							// MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 						} // ターン開始 of 戦うコマンド
@@ -5688,7 +5680,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					// デバッグ文
 					if (debugFlag == 0) {
-						_stprintf_s(mojibuf, TEXT("gte %d"), sentoKoudoCount);
+						_stprintf_s(mojibuf, TEXT("SKC %d"), sentoKoudoCount);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 						_stprintf_s(mojibuf, TEXT("nmUP %d"), nyuuryokuMatiUp);
@@ -5701,15 +5693,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabi_ID[actionOrder[sentoKoudoCount]]);
+						_stprintf_s(mojibuf, TEXT("PaS並び %d"), partyNarabi_ID[actionOrder[sentoKoudoCount]]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
 						_stprintf_s(mojibuf, TEXT("partyNin %d"), partyNinzuDone);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
+						//[partyNarabi_ID[sentouNaninme]]
 
-						_stprintf_s(mojibuf, TEXT("sento %d"), sentouNaninme);
+						_stprintf_s(mojibuf, TEXT("pnID[sN] %d"), partyNarabi_ID[sentouNaninme]);
+						DrawFormatString(battleMassBaseX + 200 + 150, battleMassBaseY + 50 * 4 -20, GetColor(255, 255, 255), mojibuf); // 文字を描画する
+
+
+						_stprintf_s(mojibuf, TEXT("sentoN %d"), sentouNaninme);
 						DrawFormatString(battleMassBaseX + 200+150, battleMassBaseY + 50 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
@@ -5783,44 +5780,39 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							if (sentouNaninme < partyNinzuDone) {
 
-								// partyNarabi_ID[actionOrder[sentoKoudoCount]
+								// 先に記録してからsentoを増やす
 								magicKiroku[partyNarabi_ID[sentouNaninme]] = magicSel;
-								magicAtkFlag[partyNarabi_ID[sentouNaninme]] = 1;
+								koudouKiroku[partyNarabi_ID[sentouNaninme]] = koudouMgk;
 
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
 								sentouNaninme = sentouNaninme + 1;
+
+
 								selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] + 1;
 
 								keyHaijyo = 0;
 
 								TimeKasolCount = 0;
 								mode_scene = MODE_BATTLE_COMMAND2;
-
-								
 							}
 
 
-							
-							 if (sentouNaninme >= partyNinzuDone ) {
+							if (sentouNaninme >= partyNinzuDone) {
 								//MessageBox(NULL, TEXT("test。"), TEXT("場所テスト"), MB_OK);
-								//sentouNaninme = sentouNaninme + 1;
 
 								keyHaijyo = 1;
 
 								TimeKasolCount = 0;
 								mode_scene = MODE_BATTLE_NOW;
+
 								magicKiroku[partyNarabi_ID[sentouNaninme]] = magicSel;
-								magicAtkFlag[partyNarabi_ID[sentouNaninme]] = 1;
+								koudouKiroku[partyNarabi_ID[sentouNaninme]] = koudouMgk;								
+								//sentouNaninme = sentouNaninme + 1; // ここが相違なので、kirokuをまとめてはダメ
 
 								selecting_mainmenu = zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] + 1;
 							}
-
-
 						} // ターン開始 of 戦うコマンド
-
-
 					}
-
 
 
 					// キャンセル
@@ -5845,30 +5837,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 					int battleMassBaseX = 150; int battleMassBaseY = 410 - 180; // 410 は「windowTempA」
-
-					// デバッグ文
-					if (debugFlag == 0) {
-						_stprintf_s(mojibuf, TEXT("gte %d"), sentoKoudoCount);
-						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-						_stprintf_s(mojibuf, TEXT("nmUP %d"), nyuuryokuMatiUp);
-						DrawFormatString(battleMassBaseX + 200 + 80 * 1, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-						_stprintf_s(mojibuf, TEXT("keUP %d"), keyEnableUp);
-						DrawFormatString(battleMassBaseX + 200 + 80 * 2, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
-						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabi_ID[actionOrder[sentoKoudoCount]]);
-						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-
-						_stprintf_s(mojibuf, TEXT("partyNin %d"), partyNinzuDone);
-						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 4, GetColor(255, 255, 255), mojibuf); // 文字を描画する
-
-					} // ここまでデバ文
 
 					//MessageBox(NULL, TEXT("test。"), TEXT("magic end 場所テスト"), MB_OK);
 
@@ -5943,13 +5911,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					// デバッグ文
 					if (debugFlag == 0) {
-						_stprintf_s(mojibuf, TEXT("gte %d"), sentoKoudoCount);
+						_stprintf_s(mojibuf, TEXT("SKC %d"), sentoKoudoCount);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 						_stprintf_s(mojibuf, TEXT("AG %d"), actionOrder[sentoKoudoCount]);
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 2, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
-						_stprintf_s(mojibuf, TEXT("pag並び %d"), partyNarabi_ID[actionOrder[sentoKoudoCount]]);
+						_stprintf_s(mojibuf, TEXT("PaS並び %d"), partyNarabi_ID[actionOrder[sentoKoudoCount]]); // これはキャラIDに等しくなるはず
 						DrawFormatString(battleMassBaseX + 200, battleMassBaseY + 50 * 3, GetColor(255, 255, 255), mojibuf); // 文字を描画する
 
 
