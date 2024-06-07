@@ -5299,11 +5299,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				// ソートで実装
 
+				// loctempB 基準の開始位置 0から（基準なので常に0）
+				// loctenmpA 基準の次から 1から
 				for (int loctempB = 0; loctempB <= (partyNinzuDone - 1 + enemyNinzu - 1) + 1; ++loctempB)
 				{
-					for (int loctempA = loctempB; loctempA <= (partyNinzuDone - 1 + enemyNinzu - 1) + 1; ++loctempA)
+					for (int loctempA = loctempB + 1; loctempA <= (partyNinzuDone - 1 + enemyNinzu - 1) + 1; ++loctempA)
 					{
-						if (iremonoAgilityHairetu[loctempB] >= iremonoAgilityHairetu[loctempA + loctempB]) {
+						if (iremonoAgilityHairetu[loctempB] >= iremonoAgilityHairetu[loctempA ]) {
 
 							// 何もしていない
 						//	iremonoAgilityHairetu[loctempB] = iremonoAgilityHairetu[loctempB];
@@ -5312,24 +5314,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						}
 						// locAのほうが内側です。
-						if (iremonoAgilityHairetu[loctempB] < iremonoAgilityHairetu[loctempA + loctempB]) {
+						if (iremonoAgilityHairetu[loctempB] < iremonoAgilityHairetu[loctempA ]) {
 
 							int tempSwapA, tempSwapB;
 
 							tempSwapA = iremonoAgilityHairetu[loctempB];
-							tempSwapB = iremonoAgilityHairetu[loctempA + loctempB];
+							tempSwapB = iremonoAgilityHairetu[loctempA ];
 
 							iremonoAgilityHairetu[loctempB] = tempSwapB;
-							iremonoAgilityHairetu[loctempA + loctempB] = tempSwapA;
+							iremonoAgilityHairetu[loctempA ] = tempSwapA;
 
 
 							int tempOrderSwapA, tempOrderSwapB;
 
 							tempOrderSwapA = iremonoOrderHairetu[loctempB];
-							tempOrderSwapB = iremonoOrderHairetu[loctempA + loctempB];
+							tempOrderSwapB = iremonoOrderHairetu[loctempA ];
 
 							iremonoOrderHairetu[loctempB] = tempOrderSwapB;
-							iremonoOrderHairetu[loctempA + loctempB] = tempOrderSwapA;
+							iremonoOrderHairetu[loctempA ] = tempOrderSwapA;
 
 							// デバッグ文の「irem」では入れ物オーダー配列である。
 						}
