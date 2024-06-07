@@ -5591,7 +5591,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								sentouNaninme = sentouNaninme + 1;
 								TimeKasolCount = 0;
 
-								
+								// 最後の人じゃないので、下がある
 								selecting_mainmenu = zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] + 1;
 
 							} // ターン開始 of 戦うコマンド							
@@ -5788,7 +5788,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 								sentouNaninme = sentouNaninme + 1;
 
 
-								selecting_mainmenu = zenkaiBcKasol_1[sentouNaninme] + 1;
+								selecting_mainmenu = zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] + 1;
+
 
 								keyHaijyo = 0;
 
@@ -6053,7 +6054,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 							sentouNaninme = 0;
 
-							selecting_mainmenu = zenkaiBcKasol_1[0] +1;
+							// 検索用に sentouNanninme を下記コードに残す
+							selecting_mainmenu = zenkaiBcKasol_1[partyNarabi_ID[sentouNaninme]] + 1; // selecting_mainmenu = zenkaiBcKasol_1[0] +1;
 
 							mode_scene = MODE_BATTLE_COMMAND2;
 						}
